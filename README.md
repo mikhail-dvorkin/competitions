@@ -1,0 +1,2 @@
+# competitions
+Competitive programming code
