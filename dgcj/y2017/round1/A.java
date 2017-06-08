@@ -7,7 +7,6 @@ public class A {
 
 	public String run() {
 		int n = (int) pancakes.GetStackSize();
-//		int d = (int) pancakes.GetNumDiners();
 		int from = (int) (1L * n * ID / NODES);
 		int to = (int) (1L * n * (ID + 1) / NODES);
 		
