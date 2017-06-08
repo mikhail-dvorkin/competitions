@@ -15,6 +15,10 @@ go build
 mv parunner ../../executable/
 popd > /dev/null
 
+pushd libraries > /dev/null
+javac message*.java
+popd > /dev/null
+
 cat sample-configs/linux-config.json | sed 's/java-7-openjdk-amd64/java-default/' | sed 's/"\/usr\/lib\/jvm\/java-default\/include"/"\/usr\/lib\/jvm\/java-default\/include","\/usr\/lib\/jvm\/java-default\/include\/linux"/' > config.json
 popd > /dev/null
 
