@@ -86,7 +86,6 @@ public class D {
 
 	final int NODES = message.NumberOfNodes();
 	final int ID = message.MyNodeId();
-	final int P = ID ^ 1;
 
 	public static void main(String[] args) {
 		PROBLEM.equals(args); // Local testing framework invocation
