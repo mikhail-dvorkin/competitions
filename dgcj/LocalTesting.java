@@ -21,6 +21,7 @@ public class LocalTesting {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		new File("Main").delete();
 		try {
 			if (logFile.exists()) {
 				System.out.println(readToEnd(new FileReader(logFile)));
