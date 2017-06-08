@@ -11,12 +11,15 @@ public class TemplateDgcjMain {
 		return null;
 	}
 
-	final int NODES = message.NumberOfNodes();
-	final int ID = message.MyNodeId();
+	final static boolean SINGLE = false;
+	final int NODES = SINGLE ? 1 : message.NumberOfNodes();
+	final int ID = SINGLE ? 0 : message.MyNodeId();
 
 	// EXECUTE with non-empty args
 	public static void main(String[] args) {
-		PROBLEM.equals(args); // Local testing framework invocation
+		if (!SINGLE) {
+			PROBLEM.equals(args); // Local testing framework invocation
+		}
 		String ans = new TemplateDgcjMain().run();
 		if (ans != null) {
 			System.out.println(ans);
