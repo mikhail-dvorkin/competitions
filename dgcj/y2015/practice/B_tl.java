@@ -1,8 +1,7 @@
 package dgcj.y2015.practice;
 
-import java.util.*;
-
 import dgcj.message;
+import java.util.*;
 
 public class B_tl {
 	static final Object PROBLEM = new majority(); // PROBLEM NAME goes here
