@@ -1,9 +1,8 @@
 package dgcj.y2015.round1;
 
-
 @SuppressWarnings("static-access")
 public class almost_sorted extends dgcj.DgcjProblem {
-	static Test3 TESTED;
+	static Test1 TESTED;
 
 	public static long NumberOfFiles() {
 		return TESTED.NumberOfFiles();
