@@ -1,7 +1,7 @@
 package dgcj.y2017.round1;
 
-import java.util.*;
 import dgcj.message;
+import java.util.*;
 
 public class D {
 	static final Object PROBLEM = new query_of_death(); // PROBLEM NAME goes here
