@@ -1,4 +1,5 @@
 package dgcj.y2015.round1;
+
 @SuppressWarnings("static-access")
 public class johnny extends dgcj.DgcjProblem {
 	static Test1 TESTED;
