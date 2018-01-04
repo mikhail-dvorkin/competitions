@@ -10,6 +10,17 @@ def day2(s):
 		a, b, c = sorted(map(int, line.split('x')))
 		sum += 3 * a * b + 2 * c * (a + b)
 	yield sum
+
+def day3(s):
+	dir = {'^': (0, 1), 'v': (0, -1), '>': (1, 0), '<': (-1, 0)}
+	x, y = 0, 0
+	visited = {(x, y)}
+	for c in s:
+		dx, dy = dir[c]
+		x += dx
+		y += dy
+		visited.add((x, y))
+	yield len(visited)
 d = data.y2015
 for i in range(len(d) - 1, -1, -1):
 	day = 'day' + str(i + 1)
