@@ -1,5 +1,7 @@
 #!/usr/bin/python3 -B
 import data
+import hashlib
+import itertools
 
 def day1(s):
 	yield s.count('(') - s.count(')')
@@ -21,6 +23,10 @@ def day3(s):
 		y += dy
 		visited.add((x, y))
 	yield len(visited)
+
+def day4(s):
+	yield next(i for i in itertools.count() if hashlib.md5(bytes(s + str(i), 'utf8')).hexdigest().startswith('00000'))
+
 d = data.y2015
 for i in range(len(d) - 1, -1, -1):
 	day = 'day' + str(i + 1)
