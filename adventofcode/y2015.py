@@ -35,7 +35,19 @@ def day5(s):
 		return a >= 3 and b >= 1 and c == 0
 	yield len(list(filter(good, s.split())))
 
-def day6(s):
+def day6(s, n=1000):
+	function = {'on': lambda x: True, 'off': lambda x: False, 'toggle': lambda x: not x}
+	a = [[False] * n for _ in range(n)]
+	for line in s.split('\n'):
+		*_, action, start, _, end = line.split()
+		f = function[action]
+		x1, y1, x2, y2 = map(int, start.split(',') + end.split(','))
+		for x in range(x1, x2 + 1):
+			for y in range(y1, y2 + 1):
+				a[x][y] = f(a[x][y])
+	yield sum(sum(a, []))
+
+def day7(s):
 	yield 0
 
 d = data.y2015
