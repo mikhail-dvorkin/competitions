@@ -48,6 +48,21 @@ def day6(s, n=1000):
 	yield sum(sum(a, []))
 
 def day7(s):
+	operators = {'AND': '&', 'OR': '|', 'LSHIFT': '<<', 'RSHIFT': '>>', 'NOT': '~'}
+	for line in s.split('\n'):
+		*tokens, _, var = line.split()
+		code = '_' + var + '=lambda:'
+		for token in tokens:
+			if token in operators:
+				token = operators[token]
+			elif not token.isdigit():
+				token = '_' + token + '()'
+			code += token
+		print(code)
+		exec(code)
+	yield eval('_a()')
+
+def day8(s):
 	yield 0
 
 d = data.y2015
