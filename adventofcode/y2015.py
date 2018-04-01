@@ -49,18 +49,30 @@ def day6(s, n=1000):
 
 def day7(s):
 	operators = {'AND': '&', 'OR': '|', 'LSHIFT': '<<', 'RSHIFT': '>>', 'NOT': '~'}
+	scope = {}
+	exec('memo={}', scope)
+	cod = ''
 	for line in s.split('\n'):
 		*tokens, _, var = line.split()
-		code = '_' + var + '=lambda:'
+		code = '_' + var + '=lambda:memo["_' + var + '"] if _' + var + ' in memo else 65535&('
 		for token in tokens:
 			if token in operators:
 				token = operators[token]
 			elif not token.isdigit():
 				token = '_' + token + '()'
 			code += token
-		print(code)
-		exec(code)
-	yield eval('_a()')
+		code += ')'
+		#exec(code, scope)
+		#print(code)
+		cod += code + '\n'
+	#print(eval('_dj()', scope))
+	#print(eval('_a()', scope))
+	#yield eval('_a()', scope)
+	print(cod)
+	exec(cod, scope)
+	print(eval('_ej()', scope))
+	print('ok')
+	yield 7
 
 def day8(s):
 	yield 0
