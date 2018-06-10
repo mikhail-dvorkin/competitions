@@ -5,6 +5,7 @@ import java.io.*;
 public class LocalTesting {
 	public static final File logFile = new File("log~.txt");
 
+	@SuppressWarnings("resource")
 	public static void run(String problemName, int nodes) {
 		if ("TemplateDgcjProblem".equals(problemName)) {
 			throw new AssertionError("Change PROBLEM field in Main!");
