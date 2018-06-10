@@ -2,7 +2,7 @@ package dgcj.y2017.round2;
 
 import dgcj.message;
 
-public class A_worse {
+public class A {
 	static final Object PROBLEM = new flagpoles(); // PROBLEM NAME goes here
 
 	public String run() {
@@ -78,7 +78,7 @@ public class A_worse {
 		if (!SINGLE) {
 			PROBLEM.equals(args); // Local testing framework invocation
 		}
-		String ans = new A_worse().run();
+		String ans = new A().run();
 		if (ans != null) {
 			System.out.println(ans);
 		}
