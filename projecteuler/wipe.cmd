@@ -1,0 +1,1 @@
+del *.exe *.hi *.o *.manifest
