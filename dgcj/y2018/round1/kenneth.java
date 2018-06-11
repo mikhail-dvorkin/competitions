@@ -5,10 +5,10 @@ import dgcj.message;
 @SuppressWarnings("static-access")
 public class kenneth extends dgcj.DgcjProblem {
 	static Test1 TESTED;
-
+	
 	private static int from(long node_index) {
 		int length = TESTED.data.length();
-		int nodes = message.NumberOfNodes();
+		int nodes = single() ? 1 : message.NumberOfNodes();
 		return (int) (1L * length * node_index / nodes);
 	}
 
@@ -17,7 +17,7 @@ public class kenneth extends dgcj.DgcjProblem {
 	}
 
 	public static char GetSignalCharacter(long position) {
-		int id = message.MyNodeId();
+		int id = single() ? 0 : message.MyNodeId();
 		int from = from(id);
 		int to = from(id + 1);
 		if (position < from || position >= to) {

@@ -65,24 +65,25 @@ public class C {
 			}
 			toSend.add(h[q - from]);
 		}
-		message.PutInt(NODES - 1, toSend.size());
-		for (int x : toSend) {
-			message.PutInt(NODES - 1, x);
-		}
-		message.Send(NODES - 1);
 		
 		if (ID < NODES - 1) {
+			message.PutInt(NODES - 1, toSend.size());
+			for (int x : toSend) {
+				message.PutInt(NODES - 1, x);
+			}
+			message.Send(NODES - 1);
 			return null;
 		}
 		
 		ArrayList<Integer> got = new ArrayList<>();
-		for (int id = 0; id < NODES; id++) {
+		for (int id = 0; id < NODES - 1; id++) {
 			message.Receive(id);
 			int count = message.GetInt(id);
 			for (int i = 0; i < count; i++) {
 				got.add(message.GetInt(id));
 			}
 		}
+		got.addAll(toSend);
 		ArrayList<Integer> queriesList = new ArrayList<Integer>(queries);
 		TreeMap<Integer, Integer> map = new TreeMap<>();
 		for (int i = 0; i < got.size(); i++) {
@@ -113,15 +114,19 @@ public class C {
 		return (int) ((p & 1) == 0 ? v : (v * X) % M);
 	}
 	
-	final static boolean SINGLE = false;
-	final int NODES = SINGLE ? 1 : message.NumberOfNodes();
-	final int ID = SINGLE ? 0 : message.MyNodeId();
+	static int NODES;
+	static int ID;
 
-	// EXECUTE with non-empty args
+	/**
+	 * EXECUTE with args:
+	 * 0	= multi node run with infrastructure
+	 * 1	= single node run
+	 */
 	public static void main(String[] args) {
-		if (!SINGLE) {
-			PROBLEM.equals(args); // Local testing framework invocation
-		}
+		boolean single = args.length == 1 && args[0].equals("1");
+		NODES = single ? 1 : message.NumberOfNodes();
+		ID = single ? 0 : message.MyNodeId();
+		PROBLEM.equals(args); // Local testing framework invocation
 		String ans = new C().run();
 		if (ans != null) {
 			System.out.println(ans);

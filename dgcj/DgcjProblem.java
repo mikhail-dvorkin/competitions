@@ -1,6 +1,8 @@
 package dgcj;
 
-public abstract class DgcjProblem {
+public class DgcjProblem {
+	private static boolean single;
+	
 	public void testLocally() {
 		testLocally(1, 6, 1);
 	}
@@ -15,12 +17,20 @@ public abstract class DgcjProblem {
 		}
 	}
 	
+	public static boolean single() {
+		return single;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof String[]) {
-			if (((String[]) obj).length > 0) {
+			String[] args = (String[]) obj;
+			if (args.length == 1 && args[0].equals("0")) {
 				testLocally();
 				System.exit(0);
+			}
+			if (args.length == 1 && args[0].equals("1")) {
+				single = true;
 			}
 			return false;
 		}

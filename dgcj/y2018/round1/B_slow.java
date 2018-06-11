@@ -74,15 +74,19 @@ public class B_slow {
 		return null;
 	}
 	
-	final static boolean SINGLE = false;
-	final int NODES = SINGLE ? 1 : message.NumberOfNodes();
-	final int ID = SINGLE ? 0 : message.MyNodeId();
+	static int NODES;
+	static int ID;
 
-	// EXECUTE with non-empty args
+	/**
+	 * EXECUTE with args:
+	 * 0	= multi node run with infrastructure
+	 * 1	= single node run
+	 */
 	public static void main(String[] args) {
-		if (!SINGLE) {
-			PROBLEM.equals(args); // Local testing framework invocation
-		}
+		boolean single = args.length == 1 && args[0].equals("1");
+		NODES = single ? 1 : message.NumberOfNodes();
+		ID = single ? 0 : message.MyNodeId();
+		PROBLEM.equals(args); // Local testing framework invocation
 		String ans = new B_slow().run();
 		if (ans != null) {
 			System.out.println(ans);
