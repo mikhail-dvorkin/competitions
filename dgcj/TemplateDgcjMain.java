@@ -11,15 +11,20 @@ public class TemplateDgcjMain {
 		return null;
 	}
 
-	final static boolean SINGLE = false;
-	final int NODES = SINGLE ? 1 : message.NumberOfNodes();
-	final int ID = SINGLE ? 0 : message.MyNodeId();
+	static int NODES;
+	static int ID;
 
-	// EXECUTE with non-empty args
+	/**
+	 * Arguments:
+	 * ""	= as for submit
+	 * "0"	= run multi node infrastructure
+	 * "1"	= run single node
+	 */
 	public static void main(String[] args) {
-		if (!SINGLE) {
-			PROBLEM.equals(args); // Local testing framework invocation
-		}
+		PROBLEM.equals(args); // Local testing framework invocation
+		boolean single = args.length == 1 && args[0].equals("1");
+		NODES = single ? 1 : message.NumberOfNodes();
+		ID = single ? 0 : message.MyNodeId();
 		String ans = new TemplateDgcjMain().run();
 		if (ans != null) {
 			System.out.println(ans);
