@@ -5,6 +5,8 @@ public class DgcjProblem {
 	
 	public void testLocally() {
 		testLocally(1, 6, 1);
+		testLocally(7);
+		testLocally(100);
 	}
 	
 	public void testLocally(int nodes) {
