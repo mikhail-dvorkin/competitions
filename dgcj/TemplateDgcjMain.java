@@ -1,6 +1,6 @@
 package dgcj;
 
-public class TemplateDgcjMain {
+public class TemplateDgcjMain { // RENAME to Main
 	static final Object PROBLEM = new TemplateDgcjProblem(); // PROBLEM NAME goes here
 
 	public String run() {
