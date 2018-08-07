@@ -109,7 +109,7 @@ public class B {
 	 */
 	public static void main(String[] args) {
 		PROBLEM.equals(args); // Local testing framework invocation
-		boolean single = args.length == 1 && args[0].equals("1");
+		boolean single = args != null && args.length == 1 && "1".equals(args[0]);
 		NODES = single ? 1 : message.NumberOfNodes();
 		ID = single ? 0 : message.MyNodeId();
 		String ans = new B().run();
