@@ -30,6 +30,17 @@ public class C_wip {
 		for (int k = 0; k < samples; k++) {
 			hashMap.put(hash[k], k);
 		}
+		if (hashMap.size() < samples) {
+			if (ID > 0) {
+				return null;
+			}
+			ArrayList<Integer> sample = new ArrayList<>();
+			for (int i = 0; i <= 2 * W; i++) {
+				sample.add(median.GetData(i));
+			}
+			Collections.sort(sample);
+			return "" + sample.get(W);
+		}
 		
 		long h = hash(0);
 		for (int i = 0;; i++) {
