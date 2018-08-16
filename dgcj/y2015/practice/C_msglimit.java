@@ -92,12 +92,12 @@ public class C_msglimit {
 			message.Send(i);
 		}
 		if (ans * 2 < n) {
-			return ("RIGHT " + ans);
-		}  if (ans * 2 > n) {
-			return ("LEFT " + (n - ans));
-		} else {
-			return ("WHATEVER " + ans);
+			return "RIGHT " + ans;
 		}
+		if (ans * 2 > n) {
+			return "LEFT " + (n - ans);
+		}
+		return "WHATEVER " + ans;
 	}
 
 	final int NODES = message.NumberOfNodes();
