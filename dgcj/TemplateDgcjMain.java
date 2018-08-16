@@ -31,7 +31,7 @@ public class TemplateDgcjMain { // RENAME to Main
 		}
 	}
 
-	public void log(String msg) {
+	public static void log(String msg) {
 		PROBLEM.equals(ID + ": " + msg); // Local testing framework log
 	}
 }
