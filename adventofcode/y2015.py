@@ -36,16 +36,18 @@ def day5(s):
 	yield len(list(filter(good, s.split())))
 
 def day6(s, n=1000):
-	function = {'on': lambda x: True, 'off': lambda x: False, 'toggle': lambda x: not x}
-	a = [[False] * n for _ in range(n)]
-	for line in s.split('\n'):
-		*_, action, start, _, end = line.split()
-		f = function[action]
-		x1, y1, x2, y2 = map(int, start.split(',') + end.split(','))
-		for x in range(x1, x2 + 1):
-			for y in range(y1, y2 + 1):
-				a[x][y] = f(a[x][y])
-	yield sum(sum(a, []))
+	functions1 = {'on': lambda x: 1, 'off': lambda x: 0, 'toggle': lambda x: int(not x)}
+	functions2 = {'on': lambda x: x + 1, 'off': lambda x: max(x - 1, 0), 'toggle': lambda x: x + 2}
+	for functions in functions1, functions2:
+		a = [[0] * n for _ in range(n)]
+		for line in s.split('\n'):
+			*_, action, start, _, end = line.split()
+			f = functions[action]
+			x1, y1, x2, y2 = map(int, start.split(',') + end.split(','))
+			for x in range(x1, x2 + 1):
+				for y in range(y1, y2 + 1):
+					a[x][y] = f(a[x][y])
+		yield sum(sum(a, []))
 
 def day7(s):
 	operators = {'AND': '&', 'OR': '|', 'LSHIFT': '<<', 'RSHIFT': '>>', 'NOT': '~'}
