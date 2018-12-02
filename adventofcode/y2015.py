@@ -8,11 +8,11 @@ def day1(s):
 	yield s.count('(') - s.count(')')
 
 def day2(s):
-	sum = 0
-	for line in s.split():
-		a, b, c = sorted(map(int, line.split('x')))
-		sum += 3 * a * b + 2 * c * (a + b)
-	yield sum
+	s = s.split()
+	f1 = lambda a, b, c: 3 * a * b + 2 * c * (a + b)
+	f2 = lambda a, b, c: 2 * (a + b) + a * b * c
+	for f in f1, f2:
+		yield sum([f(*sorted(map(int, line.split('x')))) for line in s])
 
 def day3(s):
 	dir = {'^': (0, 1), 'v': (0, -1), '>': (1, 0), '<': (-1, 0)}
