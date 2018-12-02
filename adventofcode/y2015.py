@@ -5,7 +5,10 @@ import itertools
 import re
 
 def day1(s):
-	yield s.count('(') - s.count(')')
+	def balance(s):
+		return s.count('(') - s.count(')')
+	yield balance(s)
+	yield next(i for i in range(len(s) + 1) if balance(s[:i]) < 0)
 
 def day2(s):
 	s = s.split()
