@@ -29,11 +29,11 @@ def day4(s):
 	yield next(i for i in itertools.count() if hashlib.md5(bytes(s + str(i), 'utf8')).hexdigest().startswith('00000'))
 
 def day5(s):
-	res = '[aeiou]', '(.)\\1', 'ab|cd|pq|xy'
-	def good(line):
-		a, b, c = [len(re.findall(r, line)) for r in res]
-		return a >= 3 and b >= 1 and c == 0
-	yield len(list(filter(good, s.split())))
+	s = s.split()
+	res1 = '([aeiou].*){3}', '(.)\\1', '^(?!.*(ab|cd|pq|xy))'
+	res2 = '(..).*\\1', '(.).\\1'
+	for res in res1, res2:
+		yield sum([all([re.findall(r, line) for r in res]) for line in s])
 
 def day6(s, n=1000):
 	functions1 = {'on': lambda x: 1, 'off': lambda x: 0, 'toggle': lambda x: int(not x)}
