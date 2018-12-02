@@ -26,7 +26,8 @@ def day3(s):
 	yield len(visited)
 
 def day4(s):
-	yield next(i for i in itertools.count() if hashlib.md5(bytes(s + str(i), 'utf8')).hexdigest().startswith('00000'))
+	for zeroes in 5, 6:
+		yield next(i for i in itertools.count() if hashlib.md5(bytes(s + str(i), 'utf8')).hexdigest().startswith('0' * zeroes))
 
 def day5(s):
 	s = s.split()
