@@ -16,14 +16,17 @@ def day2(s):
 
 def day3(s):
 	dir = {'^': (0, 1), 'v': (0, -1), '>': (1, 0), '<': (-1, 0)}
-	x, y = 0, 0
-	visited = {(x, y)}
-	for c in s:
-		dx, dy = dir[c]
-		x += dx
-		y += dy
-		visited.add((x, y))
-	yield len(visited)
+	def visited(s):
+		x, y = 0, 0
+		v = {(x, y)}
+		for c in s:
+			dx, dy = dir[c]
+			x += dx
+			y += dy
+			v.add((x, y))
+		return v
+	yield len(visited(s))
+	yield len(visited(s[::2]).union(visited(s[1::2])))
 
 def day4(s):
 	for zeroes in 5, 6:
