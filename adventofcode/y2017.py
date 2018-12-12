@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-import data
-import sys
-import re
-import functools
-import operator
-import numpy as np
 import collections
+import functools
+import json
+import numpy as np
+import operator
+import re
+import requests
 import threading
 
 class AttrDict(dict):
@@ -538,7 +538,10 @@ def day25(s):
 		state = action[2]
 	yield len(tape)
 
-d = data.y2017
-for i in range(len(d) - 1, -1, -1):
-	day = 'day' + str(i + 1)
-	print(day, *eval(day)(d[i]))
+if __name__ == '__main__':
+	year = "2017"
+	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
+	#with open("data~.json", "r") as read_file: d = json.load(read_file)[year]
+	for i in range(len(d) - 1, -1, -1):
+		day = 'day' + str(i + 1)
+		print(day, *eval(day)(d[i]))
