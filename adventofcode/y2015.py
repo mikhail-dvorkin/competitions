@@ -3,6 +3,7 @@ import hashlib
 import itertools
 import json
 import re
+import requests
 
 def day1(s):
 	def balance(s):
@@ -79,8 +80,10 @@ def day7(s):
 def day8(s):
 	yield 0
 
-with open("data~.json", "r") as read_file:
-    d = json.load(read_file)["2015"]
-for i in range(len(d) - 1, -1, -1):
-	day = 'day' + str(i + 1)
-	print(day, *eval(day)(d[i]))
+if __name__ == '__main__':
+	year = "2015"
+	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
+	#with open("data~.json", "r") as read_file: d = json.load(read_file)[year]
+	for i in range(len(d) - 1, -1, -1):
+		day = 'day' + str(i + 1)
+		print(day, *eval(day)(d[i]))
