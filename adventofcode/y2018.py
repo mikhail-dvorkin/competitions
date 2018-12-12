@@ -145,6 +145,11 @@ def day8(s):
 	def sum_entries(v):
 		return sum(v[1]) + sum([sum_entries(u) for u in v[0]])
 	yield sum_entries(root)
+	def value(v):
+		if not v[0]:
+			return sum(v[1])
+		return sum([value(v[0][index - 1]) for index in v[1] if 0 <= index - 1 < len(v[0])])
+	yield value(root)
 
 if __name__ == '__main__':
 	year = "2018"
