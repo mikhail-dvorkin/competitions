@@ -151,6 +151,21 @@ def day8(s):
 		return sum([value(v[0][index - 1]) for index in v[1] if 0 <= index - 1 < len(v[0])])
 	yield value(root)
 
+def day9(s):
+	p, n = map(int, re.fullmatch(r'(\d+) players; last marble is worth (\d+) points', s).groups())
+	a = [0]
+	cur = 0
+	score = [0] * p
+	for i in range(1, n + 1):
+		if i % 23:
+			cur = (cur + 1) % len(a) + 1
+			a.insert(cur, i)
+			continue
+		cur = (cur - 7 + len(a)) % len(a)
+		score[(i - 1) % p] += i + a[cur]
+		del a[cur]
+	yield max(score)
+
 if __name__ == '__main__':
 	year = "2018"
 	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
