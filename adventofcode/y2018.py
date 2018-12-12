@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import data
 import collections
 import itertools
 import json
