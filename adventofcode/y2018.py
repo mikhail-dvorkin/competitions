@@ -128,6 +128,24 @@ def day7(s, workers=(1, 5), time_penalty=60):
 			free += 1
 		yield order if w == 1 else time
 
+def day8(s):
+	s = list(map(int, s.split()))
+	x = 0
+	def parse():
+		nonlocal x
+		kids_number = s[x]
+		x += 1
+		entries_number = s[x]
+		x += 1
+		kids = [parse() for _ in range(kids_number)]
+		entries = s[x:x + entries_number]
+		x += entries_number
+		return (kids, entries)
+	root = parse()
+	def sum_entries(v):
+		return sum(v[1]) + sum([sum_entries(u) for u in v[0]])
+	yield sum_entries(root)
+
 if __name__ == '__main__':
 	year = "2018"
 	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
