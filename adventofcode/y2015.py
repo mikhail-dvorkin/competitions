@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-import data
 import hashlib
 import itertools
+import json
 import re
 
 def day1(s):
@@ -79,7 +79,8 @@ def day7(s):
 def day8(s):
 	yield 0
 
-d = data.y2015
+with open("data~.json", "r") as read_file:
+    d = json.load(read_file)["2015"]
 for i in range(len(d) - 1, -1, -1):
 	day = 'day' + str(i + 1)
 	print(day, *eval(day)(d[i]))
