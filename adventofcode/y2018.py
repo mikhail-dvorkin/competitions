@@ -151,19 +151,18 @@ def day8(s):
 		return sum([value(v[0][index - 1]) for index in v[1] if 0 <= index - 1 < len(v[0])])
 	yield value(root)
 
-def day9(s, coef=100):
+def day9(s, coef=100, period=23, stepback=7):
 	p, n = map(int, re.fullmatch(r'(\d+) players; last marble is worth (\d+) points', s).groups())
-	a = [0]
-	cur = 0
+	a = collections.deque([0])
 	score = [0] * p
 	for i in range(1, coef * n + 1):
-		if i % 23:
-			cur = (cur + 1) % len(a) + 1
-			a.insert(cur, i)
+		if i % period:
+			a.extend([a.popleft(), i])
 		else:
-			cur = (cur - 7 + len(a)) % len(a)
-			score[(i - 1) % p] += i + a[cur]
-			del a[cur]
+			for _ in range(stepback):
+				a.appendleft(a.pop())
+			score[(i - 1) % p] += i + a.pop()
+			a.append(a.popleft())
 		if i in [n, coef * n]:
 			yield max(score)
 
