@@ -181,17 +181,25 @@ def day10(s):
 	yield '\n'.join([''] + [''.join(line) for line in a])
 	yield t
 
-def day11(n, m=300, size=3):
+def day11(n, m=300, simple=[3]):
 	def f(x, y):
 		r = x + 10
 		r = (r * y + n) * r
 		return r % 1000 // 100 - 5
-	best = (float("-inf"), None, None)
-	for x in range(1, m - size + 2):
-		for y in range(1, m - size + 2):
-			cur = sum([f(x + dx, y + dy) for dx in range(size) for dy in range(size)])
-			best = max(best, (cur, x, y))
-	yield ','.join(map(str, best[1:]))
+	a = [[f(x, y) for y in range(m)] for x in range(m)]
+	p = [[0 for y in range(m + 1)] for x in range(m + 1)]
+	for x in range(m):
+		for y in range(m):
+			p[x + 1][y + 1] = p[x + 1][y] + p[x][y + 1] - p[x][y] + a[x][y]
+	for sizes in [simple, range(1, m + 1)]:
+		best = (float("-inf"),)
+		for s in sizes:
+			for x in range(m - s + 1):
+				for y in range(m - s + 1):
+					cur = p[x + s][y + s] - p[x][y + s] - p[x + s][y] + p[x][y]
+					best = max(best, (cur, x, y, s))
+		best = best[1:3] if sizes == simple else best[1:]
+		yield ','.join(map(str, best))
 
 if __name__ == '__main__':
 	year = "2018"
