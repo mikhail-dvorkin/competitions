@@ -201,6 +201,23 @@ def day11(n, m=300, simple=[3]):
 		best = best[1:3] if sizes == simple else best[1:]
 		yield ','.join(map(str, best))
 
+def day12(s):
+	f, s = s.split('\n\n')
+	f = f.split()[-1]
+	rules = {}
+	for line in s.split('\n'):
+		local, result = line.split(' => ')
+		rules[local] = result
+	x = 0
+	for gen in range(20):
+		f = '....' + f + '....'
+		r = ''
+		for i in range(len(f) + 1 - 5):
+			r += rules[f[i:i + 5]]
+		x += 2
+		f = r	
+	yield sum([i - x for i in range(len(f)) if f[i] == '#'])
+
 if __name__ == '__main__':
 	year = "2018"
 	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
