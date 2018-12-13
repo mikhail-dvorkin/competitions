@@ -202,22 +202,14 @@ def day11(n, m=300, simple=[3]):
 		yield ','.join(map(str, best))
 
 def day12(s, simple=20, hard=50000000000, stable=128):
-	f, s = s.split('\n\n')
+	f, _, *s = s.split('\n')
 	f = f.split()[-1]
-	rules = {}
-	for line in s.split('\n'):
-		local, result = line.split(' => ')
-		rules[local] = result
-	x = 0
+	rules = dict([line.split(' => ') for line in s])
 	ans = [None]
 	for gen in range(2 * stable - 1):
 		f = '....' + f + '....'
-		r = ''
-		for i in range(len(f) + 1 - 5):
-			r += rules[f[i:i + 5]]
-		x += 2
-		f = r
-		ans.append(sum([i - x for i in range(len(f)) if f[i] == '#']))
+		f = ''.join([rules[f[i:i + 5]] for i in range(len(f) + 1 - 5)])
+		ans.append(sum([i - 2 * gen - 2 for i in range(len(f)) if f[i] == '#']))
 	yield ans[simple]
 	x = np.arange(stable, 2 * stable)
 	y = np.array(ans[-stable:])
