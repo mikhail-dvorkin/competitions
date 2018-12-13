@@ -211,8 +211,7 @@ def day12(s, simple=20, hard=50000000000, stable=128):
 		f = '....' + f + '....'
 		f = ''.join([rules[f[i:i + 5]] for i in range(len(f) + 1 - 5)])
 	yield ans[simple]
-	xs = np.arange(stable, 2 * stable)
-	ys = np.array(ans[-stable:])
+	xs, ys = range(stable, 2 * stable), ans[-stable:]
 	yield int(round(np.poly1d(np.polyfit(xs, ys, 1))(hard)))
 
 if __name__ == '__main__':
