@@ -205,11 +205,12 @@ def day12(s, simple=20, hard=50000000000, stable=128):
 	f, _, *s = s.split('\n')
 	f = f.split()[-1]
 	rules = dict([line.split(' => ') for line in s])
+	nei = len(next(iter(rules)))
 	ans = []
 	for gen in range(2 * stable):
-		ans.append(sum([i - 2 * gen for i in range(len(f)) if f[i] == '#']))
-		f = '....' + f + '....'
-		f = ''.join([rules[f[i:i + 5]] for i in range(len(f) + 1 - 5)])
+		ans.append(sum([i - (nei // 2) * gen for i in range(len(f)) if f[i] == '#']))
+		f = '.' * (nei - 1) + f + '.' * (nei - 1)
+		f = ''.join([rules[f[i:i + nei]] for i in range(len(f) + 1 - nei)])
 	yield ans[simple]
 	xs, ys = range(stable, 2 * stable), ans[-stable:]
 	yield int(round(np.poly1d(np.polyfit(xs, ys, 1))(hard)))
