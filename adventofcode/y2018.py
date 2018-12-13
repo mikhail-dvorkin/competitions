@@ -181,6 +181,18 @@ def day10(s):
 	yield '\n'.join([''] + [''.join(line) for line in a])
 	yield t
 
+def day11(n, m=300, size=3):
+	def f(x, y):
+		r = x + 10
+		r = (r * y + n) * r
+		return r % 1000 // 100 - 5
+	best = (float("-inf"), None, None)
+	for x in range(1, m - size + 2):
+		for y in range(1, m - size + 2):
+			cur = sum([f(x + dx, y + dy) for dx in range(size) for dy in range(size)])
+			best = max(best, (cur, x, y))
+	yield ','.join(map(str, best[1:]))
+
 if __name__ == '__main__':
 	year = "2018"
 	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
