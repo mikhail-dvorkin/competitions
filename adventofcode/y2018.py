@@ -205,15 +205,15 @@ def day12(s, simple=20, hard=50000000000, stable=128):
 	f, _, *s = s.split('\n')
 	f = f.split()[-1]
 	rules = dict([line.split(' => ') for line in s])
-	ans = [None]
-	for gen in range(2 * stable - 1):
+	ans = []
+	for gen in range(2 * stable):
+		ans.append(sum([i - 2 * gen for i in range(len(f)) if f[i] == '#']))
 		f = '....' + f + '....'
 		f = ''.join([rules[f[i:i + 5]] for i in range(len(f) + 1 - 5)])
-		ans.append(sum([i - 2 * gen - 2 for i in range(len(f)) if f[i] == '#']))
 	yield ans[simple]
-	x = np.arange(stable, 2 * stable)
-	y = np.array(ans[-stable:])
-	k, b = [int(round(v)) for v in np.polyfit(x, y, 1)]
+	xs = np.arange(stable, 2 * stable)
+	ys = np.array(ans[-stable:])
+	k, b = [int(round(v)) for v in np.polyfit(xs, ys, 1)]
 	yield k * hard + b
 
 if __name__ == '__main__':
