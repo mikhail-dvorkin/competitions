@@ -166,6 +166,21 @@ def day9(s, coef=100, period=23, stepback=7):
 		if i in [n, coef * n]:
 			yield max(score)
 
+def day10(s):
+	s = s.split('\n')
+	points = [tuple(map(int, re.fullmatch(r'position=<\s*(\S+),\s*(\S+)> velocity=<\s*(\S+),\s*(\S+)>', line).groups())) for line in s]
+	xa, ya, vxa, vya = tuple(map(np.average, zip(*points)))
+	sa = sum([(x - xa) * (vx - vxa) + (y - ya) * (vy - vya) for x, y, vx, vy in points])
+	sb = sum([(vx - vxa) ** 2 + (vy - vya) ** 2 for x, y, vx, vy in points])
+	t = int(round(-sa / sb))
+	pixels = [(x + t * vx, y + t * vy) for x, y, vx, vy in points]
+	minx, maxx, miny, maxy = [f(zs) for zs in zip(*pixels) for f in [min, max]]
+	a = [['.'] * (maxx + 1 - minx) for _ in range(maxy + 1 - miny)]
+	for x, y in pixels:
+		a[y - miny][x - minx] = '#'
+	yield '\n'.join([''] + [''.join(line) for line in a])
+	yield t
+
 if __name__ == '__main__':
 	year = "2018"
 	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
