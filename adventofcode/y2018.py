@@ -213,8 +213,7 @@ def day12(s, simple=20, hard=50000000000, stable=128):
 	yield ans[simple]
 	xs = np.arange(stable, 2 * stable)
 	ys = np.array(ans[-stable:])
-	k, b = [int(round(v)) for v in np.polyfit(xs, ys, 1)]
-	yield k * hard + b
+	yield int(round(np.poly1d(np.polyfit(xs, ys, 1))(hard)))
 
 if __name__ == '__main__':
 	year = "2018"
