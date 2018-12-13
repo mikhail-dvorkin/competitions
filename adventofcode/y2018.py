@@ -201,7 +201,7 @@ def day11(n, m=300, simple=[3]):
 		best = best[1:3] if sizes == simple else best[1:]
 		yield ','.join(map(str, best))
 
-def day12(s):
+def day12(s, simple=20, hard=50000000000, stable=128):
 	f, s = s.split('\n\n')
 	f = f.split()[-1]
 	rules = {}
@@ -209,14 +209,20 @@ def day12(s):
 		local, result = line.split(' => ')
 		rules[local] = result
 	x = 0
-	for gen in range(20):
+	ans = [None]
+	for gen in range(2 * stable - 1):
 		f = '....' + f + '....'
 		r = ''
 		for i in range(len(f) + 1 - 5):
 			r += rules[f[i:i + 5]]
 		x += 2
-		f = r	
-	yield sum([i - x for i in range(len(f)) if f[i] == '#'])
+		f = r
+		ans.append(sum([i - x for i in range(len(f)) if f[i] == '#']))
+	yield ans[simple]
+	x = np.arange(stable, 2 * stable)
+	y = np.array(ans[-stable:])
+	k, b = [int(round(v)) for v in np.polyfit(x, y, 1)]
+	yield k * hard + b
 
 if __name__ == '__main__':
 	year = "2018"
