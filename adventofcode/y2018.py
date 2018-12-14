@@ -6,6 +6,11 @@ import numpy as np
 import re
 import requests
 
+class AttrDict(dict):
+    def __init__(self, *args, **kwargs):
+        super(AttrDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
 def day1(s):
 	s = list(map(int, s.split()))
 	yield sum(s)
@@ -214,6 +219,48 @@ def day12(s, simple=20, hard=50000000000, stable=128):
 	yield ans[simple]
 	xs, ys = range(stable, 2 * stable), ans[-stable:]
 	yield int(round(np.poly1d(np.polyfit(xs, ys, 1))(hard)))
+
+def day13(s):
+	s = s.split('\n')
+	carts = []
+	for y in range(len(s)):
+		s[y] = list(s[y])
+		for x in range(len(s[y])):
+			for char, dy, dx in [('^', -1, 0), ('v', 1, 0), ('<', 0, -1), ('>', 0, 1)]:
+				if s[y][x] == char:
+					s[y][x] = '-' if dy == 0 else '|'
+					cart = AttrDict(y=y, x=x, dy=dy, dx=dx, c=0, alive=True)
+					carts.append(cart)
+	occupied = dict([((cart.y, cart.x), cart) for cart in carts])
+	firstcrash = None
+	while len(carts) > 1:
+		carts.sort(key=lambda cart: (cart.y, cart.x))
+		for cart in carts:
+			if not cart.alive:
+				continue
+			del occupied[(cart.y, cart.x)]
+			cart.y += cart.dy
+			cart.x += cart.dx
+			if (cart.y, cart.x) in occupied:
+				firstcrash = firstcrash or cart
+				that = occupied[(cart.y, cart.x)]
+				cart.alive = that.alive = False
+				del occupied[(cart.y, cart.x)]
+				continue
+			occupied[(cart.y, cart.x)] = cart
+			if s[cart.y][cart.x] == '/':
+				cart.dy, cart.dx = -cart.dx, -cart.dy
+			elif s[cart.y][cart.x] == '\\':
+				cart.dy, cart.dx = cart.dx, cart.dy
+			elif s[cart.y][cart.x] == '+':
+				if cart.c == 0:
+					cart.dy, cart.dx = -cart.dx, cart.dy
+				elif cart.c == 2:
+					cart.dy, cart.dx = cart.dx, -cart.dy
+				cart.c = (cart.c + 1) % 3
+		carts = [cart for cart in carts if cart.alive]
+	for cart in firstcrash, carts[0]:
+		yield "{},{}".format(cart.x, cart.y)
 
 if __name__ == '__main__':
 	year = "2018"
