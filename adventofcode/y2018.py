@@ -262,6 +262,21 @@ def day13(s):
 	for cart in firstcrash, carts[0]:
 		yield "{},{}".format(cart.x, cart.y)
 
+def day14(n):
+	a = [3, 7]
+	pos = [0, 1]
+	while True:
+		s = str(a[pos[0]] + a[pos[1]])
+		a.extend(map(int, s))
+		pos = [(x + 1 + a[x]) % len(a) for x in pos]
+		if len(a) >= n + 10:
+			yield ''.join(map(str, a[n:n + 10]))
+			return
+#print(*day14(9))
+#print(*day14(5))
+#print(*day14(18))
+#print(*day14(2018))
+
 if __name__ == '__main__':
 	year = "2018"
 	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
