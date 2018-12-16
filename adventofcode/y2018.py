@@ -277,6 +277,73 @@ def day14(n):
 #print(*day14(18))
 #print(*day14(2018))
 
+def day15(s, enemies='EG', empty='.'):
+	D = [(-1, 0), (0, -1), (0, 1), (1, 0)]
+	s = list(map(list, s.split('\n')))
+	hei, wid = len(s), len(s[0])
+	inf = hei * wid + 1
+
+	def not_empty(y, x):
+		return y < 0 or y >= hei or x < 0 or x >= wid or s[y][x] != empty
+
+	def bfs(y, x):
+		dist = [[inf] * wid for _ in range(hei)]
+		dist[y][x] = 0
+		queue = [(y, x)]
+		index = 0
+		while index < len(queue):
+			y, x = queue[index]
+			index += 1
+			for dy, dx in D:
+				yy, xx = y + dy, x + dx
+				if not_empty(yy, xx) or dist[yy][xx] != inf:
+					continue
+				dist[yy][xx] = dist[y][x] + 1
+				queue.append((yy, xx))
+		return dist
+
+	for move in itertools.count():
+		order = []
+		for y in range(hei):
+			for x in range(wid):
+				if s[y][x] in enemies:
+					order.append((y, x))
+		for yf, xf in order:
+			if s[yf][xf] not in enemies:
+				continue
+			dist = bfs(yf, xf)
+			target = (inf,)
+			for yt in range(hei):
+				for xt in range(wid):
+					if s[yt][xt] not in enemies or s[yt][xt] == s[yf][xf]:
+						continue
+					for dy, dx in D:
+						yn, xn = yt + dy, xt + dx
+						if (yn, xn) == (yf, xf):
+							target = (-1,)
+						if not_empty(yn, xn):
+							continue
+						target = min(target, (dist[yn][xn], yn, xn))
+			if target[0] in [-1, inf]:
+				continue
+			dist = bfs(*target[1:])
+			move = (inf,)
+			for dy, dx in D:
+				yn, xn = yf + dy, xf + dx
+				if not_empty(yn, xn):
+					continue
+				move = min(move, (dist[yn][xn], yn, xn))
+			yn, xn = move[1:]
+			s[yn][xn] = s[yf][xf]
+			s[yf][xf] = empty
+		print(*s, sep='\n')
+		input()
+	yield 0
+
+print(*day15("#########\n#G..G..G#\n#.......#\n#.......#\n#G..E..G#\n#.......#\n#.......#\n#G..G..G#\n#########"))
+exit()
+print(*day15("#########\n#G..G..G#\n#.......#\n#.......#\n#G..E..G#\n#.......#\n#.......#\n#G..G..G#\n#########"))
+
 if __name__ == '__main__':
 	year = "2018"
 	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
