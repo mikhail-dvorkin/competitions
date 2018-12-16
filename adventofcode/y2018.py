@@ -324,18 +324,17 @@ def day15(s, enemies='EG', empty='.'):
 						if not_empty(yn, xn):
 							continue
 						target = min(target, (dist[yn][xn], yn, xn))
-			if target[0] in [-1, inf]:
-				continue
-			dist = bfs(*target[1:])
-			move = (inf,)
-			for dy, dx in D:
-				yn, xn = yf + dy, xf + dx
-				if not_empty(yn, xn):
-					continue
-				move = min(move, (dist[yn][xn], yn, xn))
-			yn, xn = move[1:]
-			s[yn][xn] = s[yf][xf]
-			s[yf][xf] = empty
+			if target[0] not in [-1, inf]:
+				dist = bfs(*target[1:])
+				move = (inf,)
+				for dy, dx in D:
+					yn, xn = yf + dy, xf + dx
+					if not_empty(yn, xn):
+						continue
+					move = min(move, (dist[yn][xn], yn, xn))
+				yn, xn = move[1:]
+				s[yn][xn] = s[yf][xf]
+				s[yf][xf] = empty
 		print(*s, sep='\n')
 		input()
 	yield 0
