@@ -277,18 +277,18 @@ def day14(n):
 #print(*day14(18))
 #print(*day14(2018))
 
-def day15(s, enemies='EG', empty='.'):
+def day15(s, enemies='EG', empty='.', attack=3, health=200):
 	D = [(-1, 0), (0, -1), (0, 1), (1, 0)]
 	s = list(map(list, s.split('\n')))
 	hei, wid = len(s), len(s[0])
-	hp = [[(200 if c in enemies else 0) for c in s[i]] for i in range(hei)]
-	inf = max(200, hei * wid) + 1
+	inf = max(health, hei * wid) + 1
+	f = None
 
 	def outside(y, x):
 		return y < 0 or y >= hei or x < 0 or x >= wid
 
 	def not_empty(y, x):
-		return outside(y, x) or s[y][x] != empty
+		return outside(y, x) or f[y][x] != empty
 
 	def bfs(y, x):
 		dist = [[inf] * wid for _ in range(hei)]
@@ -306,72 +306,74 @@ def day15(s, enemies='EG', empty='.'):
 				queue.append((yy, xx))
 		return dist
 
-	for time in itertools.count():
-		order = []
-		dead = set()
-		for y in range(hei):
-			for x in range(wid):
-				if s[y][x] in enemies:
-					order.append((y, x))
-		for yf, xf in order:
-			if s[yf][xf] not in enemies or (yf, xf) in dead:
-				continue
-			dist = bfs(yf, xf)
-			target = (inf,)
-			gameover = True
-			for yt in range(hei):
-				for xt in range(wid):
-					if s[yt][xt] not in enemies or s[yt][xt] == s[yf][xf]:
-						continue
-					gameover = False
+	def run(attack_high=attack):
+		nonlocal f
+		f = [s[i][:] for i in range(hei)]
+		hp = [[(health if c in enemies else 0) for c in f[i]] for i in range(hei)]
+		weak = False
+		for time in itertools.count():
+			order = []
+			dead = set()
+			for y in range(hei):
+				for x in range(wid):
+					if f[y][x] in enemies:
+						order.append((y, x))
+			for yf, xf in order:
+				if f[yf][xf] not in enemies or (yf, xf) in dead:
+					continue
+				dist = bfs(yf, xf)
+				target = (inf,)
+				gameover = True
+				for yt in range(hei):
+					for xt in range(wid):
+						if f[yt][xt] not in enemies or f[yt][xt] == f[yf][xf]:
+							continue
+						gameover = False
+						for dy, dx in D:
+							yn, xn = yt + dy, xt + dx
+							if (yn, xn) == (yf, xf):
+								target = (-1,)
+							if not_empty(yn, xn):
+								continue
+							target = min(target, (dist[yn][xn], yn, xn))
+				if gameover:
+					break
+				if target[0] not in [-1, inf]:
+					dist = bfs(*target[1:])
+					move = (inf,)
 					for dy, dx in D:
-						yn, xn = yt + dy, xt + dx
-						if (yn, xn) == (yf, xf):
-							target = (-1,)
+						yn, xn = yf + dy, xf + dx
 						if not_empty(yn, xn):
 							continue
-						target = min(target, (dist[yn][xn], yn, xn))
-			if gameover:
-				break
-			if target[0] not in [-1, inf]:
-				dist = bfs(*target[1:])
-				move = (inf,)
+						move = min(move, (dist[yn][xn], yn, xn))
+					yn, xn = move[1:]
+					f[yn][xn], hp[yn][xn] = f[yf][xf], hp[yf][xf]
+					f[yf][xf], hp[yf][xf] = empty, 0
+					yf, xf = yn, xn
+				target = (inf,)
 				for dy, dx in D:
 					yn, xn = yf + dy, xf + dx
-					if not_empty(yn, xn):
+					if outside(yn, xn) or f[yn][xn] not in enemies or f[yn][xn] == f[yf][xf]:
 						continue
-					move = min(move, (dist[yn][xn], yn, xn))
-				yn, xn = move[1:]
-				s[yn][xn] = s[yf][xf]
-				hp[yn][xn] = hp[yf][xf]
-				s[yf][xf] = empty
-				hp[yf][xf] = 0
-				yf, xf = yn, xn
-			target = (inf,)
-			for dy, dx in D:
-				yn, xn = yf + dy, xf + dx
-				if outside(yn, xn) or s[yn][xn] not in enemies or s[yn][xn] == s[yf][xf]:
+					target = min(target, (hp[yn][xn], yn, xn))
+				if target[0] == inf:
 					continue
-				target = min(target, (hp[yn][xn], yn, xn))
-			if target[0] == inf:
-				continue
-			yt, xt = target[1:]
-			hp[yt][xt] -= 3
-			if hp[yt][xt] <= 0:
-				s[yt][xt] = empty
-				hp[yt][xt] = 0
-		print('After round', time + 1)
-		print(*zip(s, hp), sep='\n')
-		input()
-		if gameover:
-			break
-	yield time * sum(sum(hp, [])), time
-
-print(*day15("####\n##E#\n#GG#\n####"))	
-exit()
-print(*day15("#######\n#.G...#\n#...EG#\n#.#.#G#\n#..G#E#\n#.....#\n#######"))
-print(*day15("#########\n#G..G..G#\n#.......#\n#.......#\n#G..E..G#\n#.......#\n#.......#\n#G..G..G#\n#########"))
-exit()
+				yt, xt = target[1:]
+				hp[yt][xt] -= attack_high if f[yf][xf] == enemies[0] else attack
+				if hp[yt][xt] <= 0:
+					if f[yt][xt] == enemies[0]:
+						weak = True
+					f[yt][xt], hp[yt][xt] = empty, 0
+					dead.add((yt, xt))
+			if gameover:
+				break
+		return time * sum(sum(hp, [])), weak
+	yield run()[0]
+	for i in itertools.count(attack):
+		outcome, weak = run(i)
+		if not weak:
+			yield outcome
+			return
 
 if __name__ == '__main__':
 	year = "2018"
