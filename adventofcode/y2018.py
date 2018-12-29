@@ -281,10 +281,14 @@ def day15(s, enemies='EG', empty='.'):
 	D = [(-1, 0), (0, -1), (0, 1), (1, 0)]
 	s = list(map(list, s.split('\n')))
 	hei, wid = len(s), len(s[0])
-	inf = hei * wid + 1
+	hp = [[(200 if c in enemies else 0) for c in s[i]] for i in range(hei)]
+	inf = max(200, hei * wid) + 1
+
+	def outside(y, x):
+		return y < 0 or y >= hei or x < 0 or x >= wid
 
 	def not_empty(y, x):
-		return y < 0 or y >= hei or x < 0 or x >= wid or s[y][x] != empty
+		return outside(y, x) or s[y][x] != empty
 
 	def bfs(y, x):
 		dist = [[inf] * wid for _ in range(hei)]
@@ -308,6 +312,7 @@ def day15(s, enemies='EG', empty='.'):
 			for x in range(wid):
 				if s[y][x] in enemies:
 					order.append((y, x))
+		gameover = True
 		for yf, xf in order:
 			if s[yf][xf] not in enemies:
 				continue
@@ -317,6 +322,7 @@ def day15(s, enemies='EG', empty='.'):
 				for xt in range(wid):
 					if s[yt][xt] not in enemies or s[yt][xt] == s[yf][xf]:
 						continue
+					gameover = False
 					for dy, dx in D:
 						yn, xn = yt + dy, xt + dx
 						if (yn, xn) == (yf, xf):
@@ -334,14 +340,32 @@ def day15(s, enemies='EG', empty='.'):
 					move = min(move, (dist[yn][xn], yn, xn))
 				yn, xn = move[1:]
 				s[yn][xn] = s[yf][xf]
+				hp[yn][xn] = hp[yf][xf]
 				s[yf][xf] = empty
-		print(*s, sep='\n')
-		input()
-	yield 0
+				hp[yf][xf] = 0
+				yf, xf = yn, xn
+			target = (inf,)
+			for dy, dx in D:
+				yn, xn = yf + dy, xf + dx
+				if outside(yn, xn) or s[yn][xn] not in enemies or s[yn][xn] == s[yf][xf]:
+					continue
+				target = min(target, (hp[yn][xn], yn, xn))
+			if target[0] == inf:
+				continue
+			yt, xt = target[1:]
+			hp[yt][xt] -= 3
+			if hp[yt][xt] <= 0:
+				s[yt][xt] = empty
+				hp[yt][xt] = 0
+		print(*zip(s, hp), sep='\n')
+		if gameover:
+			break
+		#input()
+	yield move * sum(sum(hp, []))
 
+print(*day15("#######\n#.G...#\n#...EG#\n#.#.#G#\n#..G#E#\n#.....#\n#######"))
 print(*day15("#########\n#G..G..G#\n#.......#\n#.......#\n#G..E..G#\n#.......#\n#.......#\n#G..G..G#\n#########"))
 exit()
-print(*day15("#########\n#G..G..G#\n#.......#\n#.......#\n#G..E..G#\n#.......#\n#.......#\n#G..G..G#\n#########"))
 
 if __name__ == '__main__':
 	year = "2018"
