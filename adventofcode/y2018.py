@@ -308,12 +308,13 @@ def day15(s, enemies='EG', empty='.'):
 
 	for time in itertools.count():
 		order = []
+		dead = set()
 		for y in range(hei):
 			for x in range(wid):
 				if s[y][x] in enemies:
 					order.append((y, x))
 		for yf, xf in order:
-			if s[yf][xf] not in enemies:
+			if s[yf][xf] not in enemies or (yf, xf) in dead:
 				continue
 			dist = bfs(yf, xf)
 			target = (inf,)
