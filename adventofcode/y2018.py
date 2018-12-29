@@ -306,18 +306,18 @@ def day15(s, enemies='EG', empty='.'):
 				queue.append((yy, xx))
 		return dist
 
-	for move in itertools.count():
+	for time in itertools.count():
 		order = []
 		for y in range(hei):
 			for x in range(wid):
 				if s[y][x] in enemies:
 					order.append((y, x))
-		gameover = True
 		for yf, xf in order:
 			if s[yf][xf] not in enemies:
 				continue
 			dist = bfs(yf, xf)
 			target = (inf,)
+			gameover = True
 			for yt in range(hei):
 				for xt in range(wid):
 					if s[yt][xt] not in enemies or s[yt][xt] == s[yf][xf]:
@@ -330,6 +330,8 @@ def day15(s, enemies='EG', empty='.'):
 						if not_empty(yn, xn):
 							continue
 						target = min(target, (dist[yn][xn], yn, xn))
+			if gameover:
+				break
 			if target[0] not in [-1, inf]:
 				dist = bfs(*target[1:])
 				move = (inf,)
@@ -357,12 +359,15 @@ def day15(s, enemies='EG', empty='.'):
 			if hp[yt][xt] <= 0:
 				s[yt][xt] = empty
 				hp[yt][xt] = 0
+		print('After round', time + 1)
 		print(*zip(s, hp), sep='\n')
+		input()
 		if gameover:
 			break
-		#input()
-	yield move * sum(sum(hp, []))
+	yield time * sum(sum(hp, [])), time
 
+print(*day15("####\n##E#\n#GG#\n####"))	
+exit()
 print(*day15("#######\n#.G...#\n#...EG#\n#.#.#G#\n#..G#E#\n#.....#\n#######"))
 print(*day15("#########\n#G..G..G#\n#.......#\n#.......#\n#G..E..G#\n#.......#\n#.......#\n#G..G..G#\n#########"))
 exit()
