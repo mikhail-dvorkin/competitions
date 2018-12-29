@@ -2,7 +2,7 @@ package atcoder.agc030;
 import java.io.*;
 import java.util.*;
 
-public class B {
+public class B_small {
 	int m, n;
 	int[] a;
 	
@@ -39,7 +39,7 @@ public class B {
 
 	public static void main(String[] args) throws IOException {
 		boolean stdStreams = true;
-		String fileName = B.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
+		String fileName = B_small.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
 		
@@ -56,7 +56,7 @@ public class B {
 		int tests = 1;//in.nextInt();
 		for (int test = 0; test < tests; test++) {
 			//out.print("Case #" + (test + 1) + ": ");
-			new B().run();
+			new B_small().run();
 		}
 		br.close();
 		out.close();
