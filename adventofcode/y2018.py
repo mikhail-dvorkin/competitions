@@ -262,20 +262,19 @@ def day13(s):
 	for cart in firstcrash, carts[0]:
 		yield "{},{}".format(cart.x, cart.y)
 
-def day14(n):
-	a = [3, 7]
-	pos = [0, 1]
-	while True:
+def day14(n, a=[3, 7], pos=[0, 1], window=10):
+	searched = list(map(int, str(n)))
+	ans = [None] * 2
+	while not all(ans):
 		s = str(a[pos[0]] + a[pos[1]])
-		a.extend(map(int, s))
+		for d in map(int, s):
+			a.append(d)
+			if a[-len(searched):] == searched:
+				ans[1] = ans[1] or len(a) - len(searched)
 		pos = [(x + 1 + a[x]) % len(a) for x in pos]
-		if len(a) >= n + 10:
-			yield ''.join(map(str, a[n:n + 10]))
-			return
-#print(*day14(9))
-#print(*day14(5))
-#print(*day14(18))
-#print(*day14(2018))
+		if len(a) >= n + window:
+			ans[0] = ans[0] or ''.join(map(str, a[n:n + window]))
+	yield from ans
 
 def day15(s, enemies='EG', empty='.', attack=3, health=200):
 	D = [(-1, 0), (0, -1), (0, 1), (1, 0)]
