@@ -374,6 +374,43 @@ def day15(s, enemies='EG', empty='.', attack=3, health=200):
 			yield outcome
 			return
 
+def day16(s):
+	commands = {
+		'addr': lambda a, b: r[a] + r[b],
+		'addi': lambda a, b: r[a] + b,
+		'mulr': lambda a, b: r[a] * r[b],
+		'muli': lambda a, b: r[a] * b,
+		'banr': lambda a, b: r[a] & r[b],
+		'bani': lambda a, b: r[a] & b,
+		'borr': lambda a, b: r[a] | r[b],
+		'bori': lambda a, b: r[a] | b,
+		'setr': lambda a, b: r[a],
+		'seti': lambda a, b: a,
+		'gtir': lambda a, b: int(a > r[b]),
+		'gtri': lambda a, b: int(r[a] > b),
+		'gtrr': lambda a, b: int(r[a] > r[b]),
+		'eqir': lambda a, b: int(a == r[b]),
+		'eqri': lambda a, b: int(r[a] == b),
+		'eqrr': lambda a, b: int(r[a] == r[b])
+	}
+	def apply(command, a, b, c):
+		r[c] = commands[command](a, b)
+	samples, program = s.split('\n' * 4)
+	samples = samples.split('\n' * 2)
+	ans = 0
+	for sample in samples:
+		before, code, after = [list(map(int, re.findall(r'\d+', s))) for s in sample.split('\n')]
+		good = 0
+		for command in commands:
+			r = before[:]
+			apply(command, *code[1:])
+			if r == after:
+				good += 1
+		print(before, code, after, good)
+		if good >= 3:
+			ans += 1
+	yield ans
+
 if __name__ == '__main__':
 	year = "2018"
 	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
