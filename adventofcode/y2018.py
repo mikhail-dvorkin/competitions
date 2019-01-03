@@ -374,7 +374,7 @@ def day15(s, enemies='EG', empty='.', attack=3, health=200):
 			yield outcome
 			return
 
-def day16(s):
+def day16(s, ambig_threshold=3):
 	commands = {
 		'addr': lambda a, b: r[a] + r[b],
 		'addi': lambda a, b: r[a] + b,
@@ -397,7 +397,8 @@ def day16(s):
 		r[c] = commands[command](a, b)
 	samples, program = s.split('\n' * 4)
 	samples = samples.split('\n' * 2)
-	ans = 0
+	ambig = 0
+	possible = [set(commands) for _ in range(len(commands))]
 	for sample in samples:
 		before, code, after = [list(map(int, re.findall(r'\d+', s))) for s in sample.split('\n')]
 		good = 0
@@ -406,10 +407,26 @@ def day16(s):
 			apply(command, *code[1:])
 			if r == after:
 				good += 1
-		print(before, code, after, good)
-		if good >= 3:
-			ans += 1
-	yield ans
+			else:
+				possible[code[0]].discard(command)
+		if good >= ambig_threshold:
+			ambig += 1
+	yield ambig
+	for _ in range(len(commands)):
+		for i in range(len(commands)):
+			if len(possible[i]) > 1:
+				continue
+			know = next(iter(possible[i]))
+			for j in range(len(commands)):
+				if i == j:
+					continue
+				possible[j].discard(know)
+	program = program.split('\n')
+	r = [0] * len(r)
+	for code in program:
+		code = list(map(int, code.split()))
+		apply(next(iter(possible[code[0]])), *code[1:])
+	yield r[0]
 
 if __name__ == '__main__':
 	year = "2018"
