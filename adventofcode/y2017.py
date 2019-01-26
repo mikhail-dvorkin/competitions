@@ -482,13 +482,13 @@ def day22(s, iters=(10000, int(1e7)), rot=(2, 1)):
 			y += dy
 		yield count
 
-def day23(s):
+def day23(s, initialization=8, step=-2):
 	prog = s.split('\n')
 	env = exec_assembler([prog])[0]
 	yield env.counter['mul']
-	env = exec_assembler([['set a 1'] + prog[:8]])[0]
+	env = exec_assembler([['set a 1'] + prog[:initialization]])[0]
 	low, high = env.b, env.c
-	step = exec_assembler([prog[-2:-1]])[0].b
+	step = exec_assembler([[prog[step]]])[0].b
 	h = 0
 	for b in range(low, high + step, step):
 		for d in range(2, round(b ** 0.5)):
