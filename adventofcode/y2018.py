@@ -430,6 +430,42 @@ def day16(s, ambig_threshold=3):
 		apply(next(iter(possible[code[0]])), *code[1:])
 	yield r[0]
 
+def day17(s, x_source=500):
+	s = s.split('\n')
+	walls = set()
+	for line in s:
+		c1, v1, c2, v2from, v2to = re.fullmatch(r'([xy])=(\d+), ([xy])=(\d+)..(\d+)', line).groups()
+		v1, v2from, v2to = map(int, (v1, v2from, v2to))
+		ranges = {c1: range(v1, v1 + 1), c2: range(v2from, v2to + 1)}
+		for x in ranges['x']:
+			for y in ranges['y']:
+				walls.add((y, x))
+	y_min, y_max = [f(walls)[0] for f in (min, max)]
+	mark = set()
+	def dfs(x=x_source, y=y_min):
+		if y > y_max:
+			return False
+		if (y, x) in walls or (y, x) in mark:
+			return True
+		mark.add((y, x))
+		if not dfs(x, y + 1):
+			return False
+		return dfs(x - 1, y) & dfs(x + 1, y)
+	dfs()
+#	for y in range(15):
+#		for x in range(470, 530):
+#			c = ' '
+#			if (y, x) in walls:
+#				c = '#'
+#			if (y, x) in mark:
+#				c = '~'
+#			print(c, end='')
+#		print()
+	yield len(mark)
+
+#print(*day17("x=495, y=2..7\ny=7, x=495..501\nx=501, y=3..7\nx=498, y=2..4\nx=506, y=1..2\nx=498, y=10..13\nx=504, y=10..13\ny=13, x=498..504"))
+#exit()
+
 if __name__ == '__main__':
 	sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
 	year = "2018"
