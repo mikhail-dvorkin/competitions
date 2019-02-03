@@ -3,8 +3,10 @@ import collections
 import itertools
 import json
 import numpy as np
+import os
 import re
 import requests
+import sys
 
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
@@ -429,9 +431,14 @@ def day16(s, ambig_threshold=3):
 	yield r[0]
 
 if __name__ == '__main__':
+	sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
 	year = "2018"
-	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
-	#with open("data~.json", "r") as read_file: d = json.load(read_file)[year]
+	filename = "data~.json"
+	if os.path.isfile(filename):
+		with open("data~.json", "r") as read_file: d = json.load(read_file)
+	else:
+		d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()
+	d = d[year]
 	for i in range(len(d) - 1, -1, -1):
 		day = 'day' + str(i + 1)
 		print(day, *eval(day)(d[i]))
