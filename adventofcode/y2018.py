@@ -13,6 +13,28 @@ class AttrDict(dict):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
+assembler_commands = {
+	'addr': lambda r, a, b: r[a] + r[b],
+	'addi': lambda r, a, b: r[a] + b,
+	'mulr': lambda r, a, b: r[a] * r[b],
+	'muli': lambda r, a, b: r[a] * b,
+	'banr': lambda r, a, b: r[a] & r[b],
+	'bani': lambda r, a, b: r[a] & b,
+	'borr': lambda r, a, b: r[a] | r[b],
+	'bori': lambda r, a, b: r[a] | b,
+	'setr': lambda r, a, b: r[a],
+	'seti': lambda r, a, b: a,
+	'gtir': lambda r, a, b: int(a > r[b]),
+	'gtri': lambda r, a, b: int(r[a] > b),
+	'gtrr': lambda r, a, b: int(r[a] > r[b]),
+	'eqir': lambda r, a, b: int(a == r[b]),
+	'eqri': lambda r, a, b: int(r[a] == b),
+	'eqrr': lambda r, a, b: int(r[a] == r[b])
+}
+
+def assembler_command(r, command, a, b, c):
+	r[c] = assembler_commands[command](r, a, b)
+
 def day1(s):
 	s = list(map(int, s.split()))
 	yield sum(s)
@@ -377,36 +399,16 @@ def day15(s, enemies='EG', empty='.', attack=3, health=200):
 			return
 
 def day16(s, ambig_threshold=3):
-	commands = {
-		'addr': lambda a, b: r[a] + r[b],
-		'addi': lambda a, b: r[a] + b,
-		'mulr': lambda a, b: r[a] * r[b],
-		'muli': lambda a, b: r[a] * b,
-		'banr': lambda a, b: r[a] & r[b],
-		'bani': lambda a, b: r[a] & b,
-		'borr': lambda a, b: r[a] | r[b],
-		'bori': lambda a, b: r[a] | b,
-		'setr': lambda a, b: r[a],
-		'seti': lambda a, b: a,
-		'gtir': lambda a, b: int(a > r[b]),
-		'gtri': lambda a, b: int(r[a] > b),
-		'gtrr': lambda a, b: int(r[a] > r[b]),
-		'eqir': lambda a, b: int(a == r[b]),
-		'eqri': lambda a, b: int(r[a] == b),
-		'eqrr': lambda a, b: int(r[a] == r[b])
-	}
-	def apply(command, a, b, c):
-		r[c] = commands[command](a, b)
 	samples, program = s.split('\n' * 4)
 	samples = samples.split('\n' * 2)
 	ambig = 0
-	possible = [set(commands) for _ in range(len(commands))]
+	possible = [set(assembler_commands) for _ in range(len(assembler_commands))]
 	for sample in samples:
 		before, code, after = [list(map(int, re.findall(r'\d+', s))) for s in sample.split('\n')]
 		good = 0
-		for command in commands:
+		for command in assembler_commands:
 			r = before[:]
-			apply(command, *code[1:])
+			assembler_command(r, command, *code[1:])
 			if r == after:
 				good += 1
 			else:
@@ -414,12 +416,12 @@ def day16(s, ambig_threshold=3):
 		if good >= ambig_threshold:
 			ambig += 1
 	yield ambig
-	for _ in range(len(commands)):
-		for i in range(len(commands)):
+	for _ in range(len(assembler_commands)):
+		for i in range(len(assembler_commands)):
 			if len(possible[i]) > 1:
 				continue
 			know = next(iter(possible[i]))
-			for j in range(len(commands)):
+			for j in range(len(assembler_commands)):
 				if i == j:
 					continue
 				possible[j].discard(know)
@@ -427,7 +429,7 @@ def day16(s, ambig_threshold=3):
 	r = [0] * len(r)
 	for code in program:
 		code = list(map(int, code.split()))
-		apply(next(iter(possible[code[0]])), *code[1:])
+		assembler_command(r, next(iter(possible[code[0]])), *code[1:])
 	yield r[0]
 
 def day17(s, x_source=500):
