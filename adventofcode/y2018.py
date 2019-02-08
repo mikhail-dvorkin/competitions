@@ -498,6 +498,26 @@ def day18(s, steps=10):
 #print(*day18('.#.#...|#.\n.....#|##|\n.|..|...#.\n..|#.....#\n#.#|||#|#|\n...#.||...\n.|....|...\n||...#|.#|\n|.||||..|.\n...#.|..|.'))
 #exit()
 
+def day19(s):
+	s = s.split('\n')
+	ip_register = int(s[0][4:])
+	s = s[1:]
+	r = [0] * 6
+	ip = 0
+	while 0 <= ip < len(s):
+		r[ip_register] = ip
+		instruction, *parameters = s[ip].split()
+		parameters = list(map(int, parameters))
+		#print(r, instruction, parameters)
+		if instruction == '#ip':
+			ip_register = int(parameters[0])
+		else:
+			assembler_instruction(r, instruction, *parameters)
+		ip = r[ip_register] + 1
+	yield r[0]
+
+#print(*day19('#ip 0\nseti 5 0 1\nseti 6 0 2\naddi 0 1 0\naddr 1 2 3\nsetr 1 0 0\nseti 8 0 4\nseti 9 0 5'))
+
 if __name__ == '__main__':
 	sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
 	year = "2018"
