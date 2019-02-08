@@ -466,6 +466,36 @@ def day17(s, x_source=500):
 #print(*day17("x=495, y=2..7\ny=7, x=495..501\nx=501, y=3..7\nx=498, y=2..4\nx=506, y=1..2\nx=498, y=10..13\nx=504, y=10..13\ny=13, x=498..504"))
 #exit()
 
+def day18(s, steps=10):
+	s = s.split()
+	hei = len(s)
+	wid = len(s[0])
+	for _ in range(steps):
+		t = [[] for _ in range(hei)]
+		for i in range(hei):
+			for j in range(wid):
+				nei = []
+				for di in range(-1, 2):
+					for dj in range(-1, 2):
+						ii, jj = i + di, j + dj
+						if di == dj == 0 or not (0 <= ii < hei and 0 <= jj < wid):
+							continue
+						nei.append(s[ii][jj])
+				c = s[i][j]
+				if c == '.' and nei.count('|') >= 3:
+					c = '|'
+				elif c == '|' and nei.count('#') >= 3:
+					c = '#'
+				elif c == '#' and (nei.count('#') == 0 or nei.count('|') == 0):
+					c = '.'
+				t[i].append(c)
+		s = t
+	s = sum(s, [])
+	yield s.count('|') * s.count('#')
+
+#print(*day18('.#.#...|#.\n.....#|##|\n.|..|...#.\n..|#.....#\n#.#|||#|#|\n...#.||...\n.|....|...\n||...#|.#|\n|.||||..|.\n...#.|..|.'))
+#exit()
+
 if __name__ == '__main__':
 	sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
 	year = "2018"
