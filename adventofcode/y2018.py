@@ -13,7 +13,7 @@ class AttrDict(dict):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
-assembler_commands = {
+assembler_instructions = {
 	'addr': lambda r, a, b: r[a] + r[b],
 	'addi': lambda r, a, b: r[a] + b,
 	'mulr': lambda r, a, b: r[a] * r[b],
@@ -32,8 +32,8 @@ assembler_commands = {
 	'eqrr': lambda r, a, b: int(r[a] == r[b])
 }
 
-def assembler_command(r, command, a, b, c):
-	r[c] = assembler_commands[command](r, a, b)
+def assembler_instruction(r, instruction, a, b, c):
+	r[c] = assembler_instructions[instruction](r, a, b)
 
 def day1(s):
 	s = list(map(int, s.split()))
@@ -402,26 +402,26 @@ def day16(s, ambig_threshold=3):
 	samples, program = s.split('\n' * 4)
 	samples = samples.split('\n' * 2)
 	ambig = 0
-	possible = [set(assembler_commands) for _ in range(len(assembler_commands))]
+	possible = [set(assembler_instructions) for _ in range(len(assembler_instructions))]
 	for sample in samples:
 		before, code, after = [list(map(int, re.findall(r'\d+', s))) for s in sample.split('\n')]
 		good = 0
-		for command in assembler_commands:
+		for instruction in assembler_instructions:
 			r = before[:]
-			assembler_command(r, command, *code[1:])
+			assembler_instruction(r, instruction, *code[1:])
 			if r == after:
 				good += 1
 			else:
-				possible[code[0]].discard(command)
+				possible[code[0]].discard(instruction)
 		if good >= ambig_threshold:
 			ambig += 1
 	yield ambig
-	for _ in range(len(assembler_commands)):
-		for i in range(len(assembler_commands)):
+	for _ in range(len(assembler_instructions)):
+		for i in range(len(assembler_instructions)):
 			if len(possible[i]) > 1:
 				continue
 			know = next(iter(possible[i]))
-			for j in range(len(assembler_commands)):
+			for j in range(len(assembler_instructions)):
 				if i == j:
 					continue
 				possible[j].discard(know)
@@ -429,7 +429,7 @@ def day16(s, ambig_threshold=3):
 	r = [0] * len(r)
 	for code in program:
 		code = list(map(int, code.split()))
-		assembler_command(r, next(iter(possible[code[0]])), *code[1:])
+		assembler_instruction(r, next(iter(possible[code[0]])), *code[1:])
 	yield r[0]
 
 def day17(s, x_source=500):
