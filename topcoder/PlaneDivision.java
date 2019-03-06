@@ -189,7 +189,7 @@ public class PlaneDivision {
 	
 	private void addEdge(Point p1, Point p2) {
 		if (nei.containsKey(p1.id)) {
-			nei.get(p1).add(p2.id);
+			nei.get(p1.id).add(p2.id);
 		} else {
 			ArrayList<Integer> list = new ArrayList<Integer>();
 			list.add(p2.id);
