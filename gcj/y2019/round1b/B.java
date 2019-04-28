@@ -3,8 +3,8 @@ import java.util.*;
 
 public class B {
 	public void run() {
-		// 	200	100	66	50	40	33
-		//  42	21	14	10	8	7
+		//	200	100	66	50	40	33
+		//	42	21	14	10	8	7
 		long v200 = ask(200), v42 = ask(42);
 
 		int[] r = new int[6];
