@@ -1,3 +1,5 @@
+package codeforces.kotlinheroes1
+
 fun main() {
     readInt()
     var max = intArrayOf(0, 0)

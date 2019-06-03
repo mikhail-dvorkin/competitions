@@ -1,3 +1,5 @@
+package codeforces.kotlinheroes1
+
 fun main() {
     readInt()
     val a = readInts()

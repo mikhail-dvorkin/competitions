@@ -1,3 +1,5 @@
+package codeforces.kotlinheroes1
+
 fun main() {
     val (n, m) = readInts()
     val doors = readInts()

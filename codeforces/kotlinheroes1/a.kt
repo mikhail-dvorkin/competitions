@@ -1,3 +1,5 @@
+package codeforces.kotlinheroes1
+
 fun solve() {
     val (p, q) = readInts().sorted()
     val a = p - 1
