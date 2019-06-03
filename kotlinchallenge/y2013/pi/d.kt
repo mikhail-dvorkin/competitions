@@ -24,9 +24,10 @@ fun main(args: Array<String>) {
 }
 
 class SegmentsTreeMax(size: Int) {
-    val two: Int;
-    val a: Array<Int>;
-    {
+    val two: Int
+    val a: Array<Int>
+
+    init {
         var t = 1
         while (t < size) {
             t *= 2

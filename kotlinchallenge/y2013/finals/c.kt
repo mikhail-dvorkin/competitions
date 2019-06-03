@@ -3,8 +3,8 @@ package kotlinchallenge.y2013.finals.c
 import java.io.*
 import java.util.*
 
-val dx = array(1, 0, -1, 0)
-val dy = array(0, 1, 0, -1)
+val dx = arrayOf(1, 0, -1, 0)
+val dy = arrayOf(0, 1, 0, -1)
 
 fun main(args: Array<String>) {
     val sc = MyScanner(BufferedReader(InputStreamReader(System.`in`)))

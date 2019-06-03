@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
     for (test in 1..tests) {
         val n = sc.nextInt()
         val s = sc.next()
-        val b = Array<Boolean>(n, {i -> s.charAt(i) == '1'})
+        val b = Array<Boolean>(n, {i -> s[i] == '1'})
         val jury = check(sc, b)
         val cont = check(sc, b)
         println(when {
@@ -36,7 +36,7 @@ fun check(sc: Scanner, b: Array<Boolean>): Int {
         sc.next()
         return n
     }
-    val ors = Array<Boolean>(n - 1, {i -> sc.next().equals("or")})
+    val ors = Array<Boolean>(n - 1, { sc.next().equals("or") })
     val orNum = ors.filter{i -> i}.size
     var cur = true
     var value = false
