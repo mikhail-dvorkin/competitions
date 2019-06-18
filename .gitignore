@@ -2,6 +2,7 @@
 
 # Compiled class file
 *.class
+bin
 
 # Log file
 *.log
@@ -25,3 +26,6 @@ hs_err_pid*
 
 # Python cache
 __pycache__
+
+# Idea settings
+.idea
