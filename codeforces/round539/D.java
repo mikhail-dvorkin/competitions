@@ -15,7 +15,8 @@ public class D {
 				f = div(f, p);
 			}
 			int t = mul(f, pow(m, n - p - 2));
-			t = mul(t, mul(p + 2, pow(n, n - p - 3)));
+			t = mul(t, pow(n, n - p - 3));
+			t = mul(t, p + 2);
 			ans = add(ans, t);
 		}
 		return ans;
