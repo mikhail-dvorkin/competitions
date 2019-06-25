@@ -2,9 +2,9 @@ package facebook.y2019.qual
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory
 
-private fun solve(s: String): Int {
-	val v = List(2) { eval(s.replace('x', '0' + it).replace('X', '0' + 1 - it)) }
-	return if (v[0] == v[1]) 0 else 1
+private fun solve(s: String): String {
+	val formulas = List(2) { s.replace('x', '0' + it).replace('X', '0' + 1 - it) }
+	return eval(formulas.joinToString("^"))
 }
 
 private fun eval(code: String) = NashornScriptEngineFactory().scriptEngine.eval(code).toString()
