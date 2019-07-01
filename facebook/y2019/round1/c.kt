@@ -2,20 +2,15 @@ package facebook.y2019.round1
 
 private fun solve(): Int {
 	val (n, hei) = readInts()
-	val ladders = List(n) {	val (x, yFrom, yTo) = readInts(); Ladder(x, yFrom, yTo) }
+	val ladders = List(n) {	val (x, yFrom, yTo) = readInts(); Ladder(it, x, yFrom, yTo) }
 
 	val e = Array(n + 2) { IntArray(n + 2) }
-	val ys = ladders.flatMap { listOf(it.yFrom, it.yTo) }.toSet().plus(0).plus(hei).sorted()
+	val ys = ladders.flatMap { listOf(it.yFrom, it.yTo) }.toSet().sorted()
 	for ((y, yNext) in ys.zipWithNext()) {
-		val pairs = sortedMapOf<Int, Int>()
-		for ((j, ladder) in ladders.withIndex()) {
-			if ((ladder.yFrom <= y) and (y < ladder.yTo)) {
-				pairs[ladder.x] = j
-			}
-		}
-		for ((j1, j2) in pairs.values.zipWithNext()) {
-			e[j1][j2] += yNext - y
-			e[j2][j1] += yNext - y
+		val idsOrdered = ladders.filter { (it.yFrom <= y) and (y < it.yTo) }.sortedBy { it.x }.map { it.id }
+		for ((i, j) in idsOrdered.zipWithNext()) {
+			e[i][j] += yNext - y
+			e[j][i] += yNext - y
 		}
 	}
 	val inf = n * hei
@@ -70,7 +65,7 @@ fun edmonsKarp(c: Array<IntArray>, s: Int, t: Int): Int {
 	return res
 }
 
-private data class Ladder(val x: Int, val yFrom: Int, val yTo: Int)
+private data class Ladder(val id: Int, val x: Int, val yFrom: Int, val yTo: Int)
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
