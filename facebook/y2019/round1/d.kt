@@ -2,58 +2,42 @@ package facebook.y2019.round1
 
 private fun solve(): Int {
 	val (n, h, v) = readInts()
-	val (x1, x2, ax, bx, cx, dx) = readInts()
-	val (y1, y2, ay, by, cy, dy) = readInts()
-	if (v + h < n) { return -1 }
-	val x = IntArray(n)
-	val y = IntArray(n)
-	x[0] = x1
-	x[1] = x2
-	y[0] = y1
-	y[1] = y2
-	for (i in 2 until n) {
-		x[i] = ((ax * 1L * x[i - 2] + bx * 1L * x[i - 1] + cx) % dx + 1).toInt()
-		y[i] = ((ay * 1L * y[i - 2] + by * 1L * y[i - 1] + cy) % dy + 1).toInt()
+	val (x, y) = List(2) {
+		val (x1, x2, ax, bx, cx, dx) = readInts()
+		val x = IntArray(n)
+		x[0] = x1
+		x[1] = x2
+		for (i in 2 until n) {
+			x[i] = ((ax * 1L * x[i - 2] + bx * 1L * x[i - 1] + cx) % dx + 1).toInt()
+		}
+		x
 	}
-
-	var ans = x.max()!! + y.max()!!
-	if (h >= n) ans = ans.coerceAtMost(x.max()!!)
-	if (v >= n) ans = ans.coerceAtMost(y.max()!!)
-	ans = ans.coerceAtMost(solveVertical(x, y, h, v))
-	ans = ans.coerceAtMost(solveVertical(y, x, v, h))
-	return ans
+	return if (v + h < n) -1 else minOf(solveVertical(x, y, v), solveVertical(y, x, h))
 }
 
-fun solveVertical(x: IntArray, y: IntArray, h: Int, v: Int): Int {
+fun solveVertical(x: IntArray, y: IntArray, v: Int): Int {
 	val n = x.size
-	var ans = x.max()!! + y.max()!!
-	val xSorted = x.sorted()
-	val yToPs = y.zip(x).groupBy { it.first }.toSortedMap()
-	var xAboveMax = 0
+	val h = maxOf(n - v, 0)
+	var ans = y.max()!! + if (v < n) x.max()!! else 0
+	val rows = y.zip(x).groupBy({ it.first }, { it.second }).asSequence().sortedByDescending { it.key }
+	val xAffordable = if (h == 0) 0 else x.sorted()[h - 1]
+	var xMaxAbove = 0
 	var countAbove = 0
-	val hh = maxOf(n - v, 0)
-	for (yMax in yToPs.keys.reversed()) {
-		val ps = yToPs[yMax]!!
-		val xs = ps.map { it.second }.sorted()
-		if (xAboveMax <= xs.last()) {
-			if (countAbove <= hh) {
-				val xNumberHH1 = if (hh == 0) 0 else xSorted[hh - 1]
-				if (xNumberHH1 >= xAboveMax) {
-					ans = ans.coerceAtMost(yMax + xNumberHH1)
-				} else {
-					ans = ans.coerceAtMost(yMax + xAboveMax)
-				}
-			}
+	for ((yMax, xs) in rows) {
+		val xMax = xs.max()!!
+		if (xMaxAbove <= xMax) {
+			ans = minOf(ans, yMax + maxOf(xAffordable, xMaxAbove))
+			xMaxAbove = xMax
 		}
-		xAboveMax = xAboveMax.coerceAtLeast(xs.last())
 		countAbove += xs.size
+		if (countAbove > h) { break }
 	}
 	return ans
 }
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
-private inline operator fun <T> List<T>.component6(): T { return get(5) }
+private operator fun <T> List<T>.component6(): T { return get(5) }
 
 private val isOnlineJudge = System.getenv("ONLINE_JUDGE") == "true"
 @Suppress("unused")
