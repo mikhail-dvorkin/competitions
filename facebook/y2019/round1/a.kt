@@ -17,7 +17,7 @@ private fun solve(): String {
 		for (i in 0 until n) {
 			for (j in 0 until n) {
 				e[i][j] = minOf(e[i][j], e[i][k] + e[k][j])
-				if ((e[i][j] < graph[i][j]) and (graph[i][j] < INF)) { return "Impossible" }
+				if ((e[i][j] < graph[i][j]) && (graph[i][j] < INF)) { return "Impossible" }
 			}
 		}
 	}

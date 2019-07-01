@@ -8,7 +8,7 @@ private fun solve(): Int {
 	val e = Array(n + 2) { IntArray(n + 2) }
 	val ys = ladders.flatMap { listOf(it.yFrom, it.yTo) }.toSet().sorted()
 	for ((y, yNext) in ys.zipWithNext()) {
-		val idsOrdered = ladders.filter { (it.yFrom <= y) and (y < it.yTo) }.sortedBy { it.x }.map { it.id }
+		val idsOrdered = ladders.filter { (it.yFrom <= y) && (y < it.yTo) }.sortedBy { it.x }.map { it.id }
 		for ((i, j) in idsOrdered.zipWithNext()) {
 			e[i][j] += yNext - y
 			e[j][i] += yNext - y
