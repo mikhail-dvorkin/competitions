@@ -2,6 +2,7 @@ package facebook.y2019.round1
 
 private fun solve(): Int {
 	val (n, hei) = readInts()
+	data class Ladder(val id: Int, val x: Int, val yFrom: Int, val yTo: Int)
 	val ladders = List(n) {	val (x, yFrom, yTo) = readInts(); Ladder(it, x, yFrom, yTo) }
 
 	val e = Array(n + 2) { IntArray(n + 2) }
@@ -14,9 +15,9 @@ private fun solve(): Int {
 		}
 	}
 	val inf = n * hei
-	for ((i, ladder) in ladders.withIndex()) {
-		if (ladder.yFrom == 0) { e[n][i] = inf }
-		if (ladder.yTo == hei) { e[i][n + 1] = inf }
+	ladders.forEach {
+		if (it.yFrom == 0) { e[n][it.id] = inf }
+		if (it.yTo == hei) { e[it.id][n + 1] = inf }
 	}
 	return edmonsKarp(e, n, n + 1).takeIf { it < inf } ?: -1
 }
@@ -64,8 +65,6 @@ fun edmonsKarp(c: Array<IntArray>, s: Int, t: Int): Int {
 	}
 	return res
 }
-
-private data class Ladder(val id: Int, val x: Int, val yFrom: Int, val yTo: Int)
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
