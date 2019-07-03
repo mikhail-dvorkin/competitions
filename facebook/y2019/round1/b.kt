@@ -21,7 +21,7 @@ private fun solve(M: Int = 1_000_000_007): Int {
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
-private val isOnlineJudge = System.getenv("ONLINE_JUDGE") == "true"
+private val isOnlineJudge = System.getProperty("ONLINE_JUDGE") == "true"
 @Suppress("unused")
 private val stdStreams = (false to false).apply { if (!isOnlineJudge) {
 	if (!first) System.setIn(java.io.File("input.txt").inputStream())
