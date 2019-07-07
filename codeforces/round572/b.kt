@@ -1,20 +1,12 @@
 package codeforces.round572
 
 private fun solve() {
-	val (n, p, k) = readInts()
-	val a = readInts()
-	val count = mutableMapOf<Int, Int>()
-	for (x in a) {
+	val (_, p, k) = readInts()
+	val groups = readInts().groupBy { x ->
 		val x2 = 1L * x * x % p
-		val x4 = 1L * x2 * x2 % p
-		val h = (((x4 - k * 1L * x) % p + p) % p).toInt()
-		count[h] = count.getOrDefault(h, 0) + 1
+		(1L * x * k - x2 * x2 % p + p) % p
 	}
-	var ans = 0L
-	for (v in count.values) {
-		ans += v * 1L * (v - 1) / 2
-	}
-	println(ans)
+	println(groups.map { it.value.size }.map { it * (it - 1L) / 2 }.sum())
 }
 
 fun main() {

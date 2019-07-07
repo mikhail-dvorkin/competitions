@@ -10,42 +10,38 @@ private fun solve() {
 		nei[a].add(Edge(a, b, value))
 		nei[b].add(Edge(b, a, value))
 	}
-	if (nei.find { it.size == 2 } != null) {
+	if (nei.any { it.size == 2 }) {
 		println("NO")
 		return
 	}
 	println("YES")
-	val ans = mutableListOf<Edge>()
-	for (v in nei.indices) {
-		for (edge in nei[v]) {
-			val u = edge.to
-			if (u < v) continue
-			val a = dfs(u, v, false, nei)
-			val b = dfs(u, v, true, nei)
-			val c = dfs(v, u, false, nei)
-			val d = dfs(v, u, true, nei)
-			val value2 = edge.value / 2
-			ans.add(Edge(a, c, value2))
-			ans.add(Edge(b, d, value2))
-			ans.add(Edge(a, b, -value2))
-			ans.add(Edge(c, d, -value2))
-		}
+	val ans = nei.flatten().filter { it.from < it.to }.flatMap { edge ->
+		val a = dfs(edge.from, edge.to, false, nei)
+		val b = dfs(edge.from, edge.to, true, nei)
+		val c = dfs(edge.to, edge.from, false, nei)
+		val d = dfs(edge.to, edge.from, true, nei)
+		val halfValue = edge.value / 2
+		listOf(
+				Edge(a, c, halfValue),
+				Edge(b, d, halfValue),
+				Edge(a, b, -halfValue),
+				Edge(c, d, -halfValue)
+		).filter { it.from != it.to }
 	}
-	ans.removeAll { it.from == it.to }
 	println(ans.size)
 	for (edge in ans) {
 		println("${edge.from + 1} ${edge.to + 1} ${edge.value}")
 	}
 }
 
-data class Edge(val from: Int, val to: Int, val value: Int)
+private data class Edge(val from: Int, val to: Int, val value: Int)
 
-private fun dfs(v: Int, p: Int, b: Boolean, nei: List<MutableList<Edge>>): Int {
+private fun dfs(v: Int, p: Int, order: Boolean, nei: List<List<Edge>>): Int {
 	if (nei[v].size == 1) return v
-	for (edge in (if (b) nei[v] else nei[v].reversed())) {
+	for (edge in (if (order) nei[v] else nei[v].reversed())) {
 		val u = edge.to
 		if (u == p) continue
-		return dfs(u, v, b, nei)
+		return dfs(u, v, order, nei)
 	}
 	error("")
 }
