@@ -14,23 +14,17 @@ fun main() {
 		for (i2 in i1 + 1..n) {
 			for (j1 in n - 1 downTo 0) {
 				for (j2 in j1 + 1..n) {
-					val ones = sum(cum, i1, j1, i2, j2)
-					if (ones == 0) continue
-					val hei = i2 - i1
-					val wid = j2 - j1
-					dp[i1][j1][i2][j2] = maxOf(hei, wid)
+					if (sum(cum, i1, j1, i2, j2) == 0) continue
+					var res = maxOf(i2 - i1, j2 - j1)
 					for (i in i1 until i2) {
 						if (sum(cum, i, j1, i + 1, j2) != 0) continue
-						dp[i1][j1][i2][j2] = minOf(dp[i1][j1][i2][j2],
-								dp[i1][j1][i][j2] + dp[i + 1][j1][i2][j2]
-								)
+						res = minOf(res, dp[i1][j1][i][j2] + dp[i + 1][j1][i2][j2])
 					}
 					for (j in j1 until j2) {
 						if (sum(cum, i1, j, i2, j + 1) != 0) continue
-						dp[i1][j1][i2][j2] = minOf(dp[i1][j1][i2][j2],
-								dp[i1][j1][i2][j] + dp[i1][j + 1][i2][j2]
-								)
+						res = minOf(res, dp[i1][j1][i2][j] + dp[i1][j + 1][i2][j2])
 					}
+					dp[i1][j1][i2][j2] = res
 				}
 			}
 		}
@@ -43,5 +37,3 @@ private fun sum(cum: Array<IntArray>, i1: Int, j1: Int, i2: Int, j2: Int) =
 
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
-private fun readStrings() = readLn().split(" ")
-private fun readInts() = readStrings().map { it.toInt() }

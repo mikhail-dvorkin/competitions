@@ -1,40 +1,22 @@
 package codeforces.round576
 
 fun main() {
-	val (n, sizeBytes) = readInts()
-	val a = readInts().toIntArray()
-	a.sort()
-	val count = mutableListOf<Int>()
-	var start = 0
-	for (i in a.indices) {
-		if ((i == a.size - 1) || (a[i] != a[i + 1])) {
-			count.add(i + 1 - start)
-			start = i + 1
-		}
+	val (n, sizeInBytes) = readInts()
+	val sortedMap = sortedMapOf<Int, Int>()
+	for (x in readInts()) {
+		sortedMap[x] = sortedMap.getOrDefault(x, 0) + 1
 	}
-	val size = sizeBytes * 8
-	val bitsPerPoint = minOf(size / n, 30)
-	val options = 1 shl bitsPerPoint
-//	val keys = a.toSet().toList().sorted()
-//	val grouping = a.groupBy { it }
-//	val count = IntArray(keys.size) { grouping[keys[it]]!!.size }
-	var saved = 0
-	for (i in 0 until minOf(options, n)) {
-		saved += count[i]
-	}
+	val count = sortedMap.values.toList()
+	val options = minOf(1 shl minOf(sizeInBytes * 8 / n, 30), count.size)
+	var saved = count.take(options).sum()
 	var ans = saved
-	for (i in 1 until n) {
-		if (i + options - 1 >= count.size) {
-			break
-		}
-		saved -= count[i - 1]
-		saved += count[i + options - 1]
+	for (i in 0 until count.size - options) {
+		saved += count[i + options] - count[i]
 		ans = maxOf(ans, saved)
 	}
 	println(n - ans)
 }
 
 private fun readLn() = readLine()!!
-private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
 private fun readInts() = readStrings().map { it.toInt() }

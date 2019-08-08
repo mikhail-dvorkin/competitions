@@ -6,7 +6,7 @@ private fun solve() {
 	val matching = mutableListOf<Int>()
 	for (i in 0 until m) {
 		val (a, b) = readInts().map { it - 1 }
-		if (taken[a] or taken[b]) { continue }
+		if (taken[a] || taken[b]) continue
 		taken[a] = true
 		taken[b] = true
 		matching.add(i)
@@ -16,12 +16,15 @@ private fun solve() {
 	} else {
 		Pair("IndSet", taken.indices.filter { !taken[it] })
 	}
-	println(ans.first)
-	println(ans.second.take(n).map { it + 1 }.joinToString(" "))
+	out.println(ans.first)
+	out.println(ans.second.take(n).map { it + 1 }.joinToString(" "))
 }
+
+private val out = java.io.PrintWriter(System.out)
 
 fun main() {
 	repeat(readInt()) { solve() }
+	out.close()
 }
 
 private fun readLn() = readLine()!!
