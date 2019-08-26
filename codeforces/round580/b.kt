@@ -1,49 +1,37 @@
 package codeforces.round580
 
 fun main() {
-	val n = readInt()
-	val a = readLongs()
-	val perBit = List(Long.SIZE_BITS) { mutableListOf<Long>() }
-	for (x in a) {
-		for (i in perBit.indices) {
-			if ((x shr i) and 1 == 0L) continue
-			perBit[i].add(x)
-		}
-	}
-	if (perBit.map { it.size }.max()!! >= 3) {
+	readLine()
+	val a = readLine()!!.split(" ").map { it.toLong() }
+	val perBit = List(Long.SIZE_BITS) { i -> a.filter { (it shr i) and 1 != 0L } }
+	if (perBit.any { it.size >= 3 }) {
 		println(3)
 		return
 	}
-	val v = perBit.flatten().toSet().sorted()
-	val inf = v.size + 1
-	val edges = List(v.size) { IntArray(v.size) { inf } }
-	for (group in perBit) {
-		if (group.size != 2) continue
-		val (a, b) = group.map { v.indexOf(it) }
-		edges[a][b] = 1
-		edges[b][a] = 1
+	val vertices = perBit.flatten().toSet()
+	val edges = perBit.filter { it.size == 2 }.map { pair -> pair.map { vertices.indexOf(it) } }
+	val inf = vertices.size + 1
+	val eOriginal = List(vertices.size) { IntArray(vertices.size) { inf } }
+	for ((u, v) in edges) {
+		eOriginal[u][v] = 1
+		eOriginal[v][u] = 1
 	}
-	var ans = inf
-	for (a in v.indices) {
-		for (b in v.indices) {
-			if (edges[a][b] != 1) continue
-			val e = List(v.size) { edges[it].clone() }
-			e[a][b] = inf
-			e[b][a] = inf
-			for (k in v.indices) {
-				for (i in v.indices) {
-					for (j in v.indices) {
-						e[i][j] = minOf(e[i][j], e[i][k] + e[k][j])
-					}
-				}
-			}
-			ans = minOf(ans, e[a][b] + 1)
-		}
-	}
+	val ans = edges.map { (u, v) ->
+		val e = eOriginal.map { it.clone() }
+		e[u][v] = inf
+		e[v][u] = inf
+		floyd(e)
+		e[u][v] + 1
+	}.min() ?: inf
 	println(if (ans < inf) ans else -1)
 }
 
-private fun readLn() = readLine()!!
-private fun readInt() = readLn().toInt()
-private fun readStrings() = readLn().split(" ")
-private fun readLongs() = readStrings().map { it.toLong() }
+private fun floyd(e: List<IntArray>) {
+	for (k in e.indices) {
+		for (i in e.indices) {
+			for (j in e.indices) {
+				e[i][j] = minOf(e[i][j], e[i][k] + e[k][j])
+			}
+		}
+	}
+}

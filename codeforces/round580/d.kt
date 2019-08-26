@@ -8,31 +8,23 @@ fun main() {
 		nei[a].add(b)
 		nei[b].add(a)
 	}
-	for (v in nei.indices) {
-		val pairs = nei[v].map { Pair(dfsSize(it, v, nei) + 1, it) }.sortedBy { it.first }
-		for (i in pairs.indices) {
-			val size = pairs.subList(0, i).sumBy { it.first }
-			val res = (size + 1) * (n - size) - 1
-			if (res < 2 * n * n / 9) continue
-			dfsPaint(v, pairs.subList(i, pairs.size).map { it.second }, 1, nei)
-			dfsPaint(v, pairs.subList(0, i).map { it.second }, size + 1, nei)
-			return
+	nei.indices.flatMap { v ->
+		val (sizes, vertices) = nei[v].map { Pair(dfs(it, setOf(v), 0, nei), it) }.sortedBy { it.first }.unzip()
+		sizes.indices.map { i ->
+			val size = sizes.take(i).sum()
+			Pair((size + 1) * (n - size), {	dfs(v, vertices.drop(i), 1, nei); dfs(v, vertices.take(i), size + 1, nei) })
 		}
-	}
+	}.maxBy { it.first }?.second?.invoke()
 }
 
-private fun dfsSize(v: Int, p: Int, nei: List<List<Int>>): Int = nei[v].minus(p).map { 1 + dfsSize(it, v, nei) }.sum()
-
-private fun dfsPaint(v: Int, p: Collection<Int>, k: Int, nei: List<List<Int>>) {
-	var sum = 0
+private fun dfs(v: Int, p: Collection<Int>, k: Int, nei: List<List<Int>>): Int {
+	var sum = 1
 	for (u in nei[v].minus(p)) {
-		setValue(v, u, k * (sum + 1))
-		dfsPaint(u, setOf(v), k, nei)
-		sum += dfsSize(u, v, nei) + 1
+		if (k > 0) println("${u + 1} ${v + 1} ${k * sum}")
+		sum += dfs(u, setOf(v), k, nei)
 	}
+	return sum
 }
-
-private fun setValue(u: Int, v: Int, value: Int) = println("${v + 1} ${u + 1} $value")
 
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
