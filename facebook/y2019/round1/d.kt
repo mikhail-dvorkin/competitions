@@ -12,25 +12,30 @@ private fun solve(): Int {
 		}
 		x
 	}
-	return if (v + h < n) -1 else minOf(solveVertical(x, y, v), solveVertical(y, x, h))
+	val sorted = listOf(x to y, y to x).map { (x, y) ->
+		val longs = List(n) { (x[it].toLong() shl 32) + y[it].toLong() }.sorted()
+		longs.map { (it shr 32).toInt() } to longs.map { it.toInt() }
+	}
+	return if (h + v < n) -1 else List(2) { t ->
+		solveVertical(sorted[t].second, sorted[t].first, sorted[1 - t].first, listOf(h, v)[t])
+	}.min()!!
 }
 
-fun solveVertical(x: IntArray, y: IntArray, v: Int): Int {
+fun solveVertical(x: List<Int>, y: List<Int>, xSorted: List<Int>, v: Int): Int {
 	val n = x.size
-	val h = maxOf(n - v, 0)
-	var ans = y.max()!! + if (v < n) x.max()!! else 0
-	val rows = y.zip(x).groupBy({ it.first }, { it.second }).asSequence().sortedByDescending { it.key }
-	val xAffordable = if (h == 0) 0 else x.sorted()[h - 1]
+	var ans = y.last() + if (v < n) xSorted.last() else 0
+	val xAffordable = xSorted.getOrElse(n - v - 1) { 0 }
 	var xMaxAbove = 0
-	var countAbove = 0
-	for ((yMax, xs) in rows) {
-		val xMax = xs.max()!!
+	var xMax = 0
+	for (i in n - 1 downTo 0) {
+		xMax = maxOf(xMax, x[i])
+		if (i > 0 && y[i] == y[i - 1]) continue
 		if (xMaxAbove <= xMax) {
-			ans = minOf(ans, yMax + maxOf(xAffordable, xMaxAbove))
+			ans = minOf(ans, y[i] + maxOf(xAffordable, xMaxAbove))
 			xMaxAbove = xMax
 		}
-		countAbove += xs.size
-		if (countAbove > h) { break }
+		if (i < v) break
+		xMax = 0
 	}
 	return ans
 }
