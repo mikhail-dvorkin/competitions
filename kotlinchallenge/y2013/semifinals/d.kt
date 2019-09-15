@@ -6,7 +6,7 @@ import java.math.BigInteger
 
 // TIME LIMIT EXCEEDED
 
-fun solve(n: Int, s: String) {
+private fun solve(n: Int, s: String) {
     val fact = Array<BigInteger>(n + 1, {_ -> BigInteger.ONE})
     for (i in 1..n) {
         fact[i] = fact[i - 1].multiply(BigInteger.valueOf(i.toLong()))

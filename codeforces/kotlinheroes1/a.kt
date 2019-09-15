@@ -1,6 +1,6 @@
 package codeforces.kotlinheroes1
 
-fun solve() {
+private fun solve() {
     val (p, q) = readInts().sorted()
     val a = p - 1
     val b = p - a

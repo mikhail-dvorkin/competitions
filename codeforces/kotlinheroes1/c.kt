@@ -1,6 +1,6 @@
 package codeforces.kotlinheroes1
 
-fun solve(s: String, t: String) = Regex(t.replace("+", "(\\+|--)")).matches(s)
+private fun solve(s: String, t: String) = Regex(t.replace("+", "(\\+|--)")).matches(s)
 
 fun main() {
     val tests = readInt()

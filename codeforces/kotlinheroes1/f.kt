@@ -27,7 +27,7 @@ fun main() {
     println(ans)
 }
 
-fun List<Int>.binarySearch(value: Int, from: Int, length: Int): Int {
+private fun List<Int>.binarySearch(value: Int, from: Int, length: Int): Int {
     val binarySearch = this.binarySearch(value, from, from + length)
     return if (binarySearch >= 0) binarySearch else -1 - binarySearch
 }
