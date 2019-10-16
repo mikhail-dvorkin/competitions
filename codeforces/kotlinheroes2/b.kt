@@ -1,3 +1,5 @@
+package codeforces.kotlinheroes2
+
 fun main() {
 	readLine()
 	val a = readInts()
@@ -5,6 +7,5 @@ fun main() {
 }
 
 private fun readLn() = readLine()!!
-private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
 private fun readInts() = readStrings().map { it.toInt() }

@@ -1,22 +1,21 @@
+package codeforces.kotlinheroes2
+
 private fun solve() {
 	val n = readInt()
 	val flag = readInts()
 	val want = readInts()
-	val changed = flag.zip(want).map { it.first != it.second }
+	val changed = flag.zip(want) { a, b -> a != b }
 	val nei = List(n) { mutableListOf<Int>() }
 	repeat(n - 1) {
 		val (a, b) = readInts().map { it - 1 }
 		nei[a].add(b)
 		nei[b].add(a)
 	}
-	if (changed.all { !it }) {
-		println("Yes\n0")
-		return
-	}
 	val w = changed.indexOfFirst { it }
+	if (w == -1) return println("Yes\n0")
 	val p = MutableList(n) { 0 }
-	val u = furthest(nei, p, changed, w)
-	val v = furthest(nei, p, changed, u)
+	val u = dfs(nei, p, changed, w, -1).second
+	val v = dfs(nei, p, changed, u, -1).second
 	val path = mutableListOf(v)
 	while (path.last() != u) path.add(p[path.last()])
 	println(check(flag, want, path) ?: check(flag, want, path.reversed()) ?: "No")
@@ -29,21 +28,13 @@ private fun check(flag: List<Int>, want: List<Int>, path: List<Int>): String? {
 		f[a] = f[b]
 	}
 	f[path.last()] = save
-	if (f != want) return null
-	return "Yes\n" + path.size.toString() + "\n" + path.joinToString(" ") { (it + 1).toString() }
+	return "Yes\n${path.size}\n${path.map { it + 1 }.joinToString(" ")}".takeIf { f == want }
 }
 
-private fun furthest(nei: List<MutableList<Int>>, p: MutableList<Int>, cool: List<Boolean>, v: Int): Int {
-	p.fill(-1)
-	val t = dfs(nei, p, cool, v, -1)
-	return t.second
-}
-
-private fun dfs(nei: List<MutableList<Int>>, p: MutableList<Int>, cool: List<Boolean>, v: Int, parent: Int): Pair<Int, Int> {
+private fun dfs(nei: List<List<Int>>, p: MutableList<Int>, cool: List<Boolean>, v: Int, parent: Int): Pair<Int, Int> {
 	var best = if (cool[v]) 0 to v else -nei.size to -1
 	p[v] = parent
-	for (u in nei[v]) {
-		if (u == parent) continue
+	for (u in nei[v].minus(parent)) {
 		val (dist, vertex) = dfs(nei, p, cool, u, v)
 		if (dist + 1 > best.first) best = dist + 1 to vertex
 	}
