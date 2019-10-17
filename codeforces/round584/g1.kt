@@ -1,11 +1,11 @@
 package codeforces.round584
 
 fun main() {
-	val (n, _) = readInts()
+	readLn()
 	val a = readInts()
 	data class Entry(val left: Int, val right: Int, val count: Int)
 	val e = a.indices.groupBy { a[it] }.values.map { Entry(it.min()!!, it.max()!!, it.size) }.sortedBy { it.left }
-	var ans = 0
+	var ans = a.size
 	var i = 0
 	while (i < e.size) {
 		var maxRight = e[i].right
@@ -14,13 +14,12 @@ fun main() {
 			j++
 			maxRight = maxOf(maxRight, e[j].right)
 		}
-		ans += e.subList(i, j + 1).map { it.count }.max()!!
+		ans -= e.subList(i, j + 1).map { it.count }.max()!!
 		i = j + 1
 	}
-	println(n - ans)
+	println(ans)
 }
 
 private fun readLn() = readLine()!!
-private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
 private fun readInts() = readStrings().map { it.toInt() }

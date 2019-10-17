@@ -1,15 +1,7 @@
 package codeforces.round584
 
 fun main() {
-	readLn()
-	var a = readInts().sorted()
-	var ans = 0
-	while (a.isNotEmpty()) {
-		var x = a.first()
-		a = a.filter { it % x != 0 }
-		ans++
-	}
-	println(ans)
+	(0..readInt()).fold(readInts(), { a, i -> val x = a.min() ?: return println(i); a.filter { it % x != 0 } })
 }
 
 private fun readLn() = readLine()!!

@@ -1,25 +1,17 @@
 package codeforces.round584
 
 fun main() {
-	val n = readInt()
+	val steps = 125
+	readLn()
 	val init = readLn()
-	val steps = 0..130
-	val on = List(n) {
+	val on = init.map { c ->
 		val (a, b) = readInts()
-		var x = (init[it] == '1')
-		val data = mutableListOf<Boolean>()
-		for (i in steps) {
-			if (i >= b && (i - b) % a == 0) {
-				x = !x
-			}
-			data.add(x)
-		}
-		data
+		var x = (c == '1')
+		List(steps) { if (it >= b && (it - b) % a == 0) x = !x; x }
 	}
-	println(steps.map { i -> on.map { it[i] }.count { it } }.max())
+	println(List(steps) { i -> on.count { it[i] } }.max())
 }
 
 private fun readLn() = readLine()!!
-private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
 private fun readInts() = readStrings().map { it.toInt() }
