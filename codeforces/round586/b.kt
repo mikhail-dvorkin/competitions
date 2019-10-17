@@ -1,16 +1,15 @@
 package codeforces.round586
 
-import kotlin.math.sqrt
+import kotlin.math.*
 
 fun main() {
 	val n = readInt()
 	val a = List(n) { readInts() }
-	val b = List(n) { i ->
+	println(List(n) { i ->
 		val j = (i + 1) % n
 		val k = (i + 2) % n
-		sqrt(a[i][j].toLong() * a[i][k] / a[j][k] * 1.0).toInt()
-	}
-	println(b.joinToString(" "))
+		sqrt(1.0 * a[i][j] * a[i][k] / a[j][k]).roundToInt()
+	}.joinToString(" "))
 }
 
 private fun readLn() = readLine()!!
