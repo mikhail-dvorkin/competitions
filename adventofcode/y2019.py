@@ -14,18 +14,18 @@ def exec_assembler(s, input=[], output=[]):
 		if op == 99:
 			break
 		if op == 1:
-			op, nargs = (lambda x, y: x + y), 2
+			op = lambda x, y: x + y
 		elif op == 2:
-			op, nargs = (lambda x, y: x * y), 2
+			op = lambda x, y: x * y
 		elif op == 3:
 			val, input = input[0], input[1:]
-			op, nargs = (lambda: val), 0
+			op = lambda: val
 		elif op == 4:
-			op, nargs = (lambda x: output.append(x)), 1
+			op = lambda x: output.append(x)
 		i += 1
-		args = s[i:i + nargs]
-		i += nargs
-		for j in range(nargs):
+		args = s[i:i + op.__code__.co_argcount]
+		i += len(args)
+		for j in range(len(args)):
 			if mode % 10 == 0:
 				args[j] = s[args[j]]
 			mode //= 10
