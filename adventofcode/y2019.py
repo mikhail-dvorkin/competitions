@@ -10,7 +10,8 @@ DIR = {'R': (1, 0), 'U': (0, 1), 'L': (-1, 0), 'D': (0, -1)}
 def exec_assembler(s, input=[], output=[]):
 	i = 0
 	while i < len(s):
-		mode, op = s[i] // 100, s[i] % 100
+		mode, op, jump_to = s[i] // 100, s[i] % 100, []
+		i += 1
 		if op == 99:
 			break
 		if op == 1:
@@ -22,7 +23,14 @@ def exec_assembler(s, input=[], output=[]):
 			op = lambda: val
 		elif op == 4:
 			op = lambda x: output.append(x)
-		i += 1
+		elif op == 5:
+			op = lambda x, y: jump_to.append(y) if x else None
+		elif op == 6:
+			op = lambda x, y: jump_to.append(y) if not x else None
+		elif op == 7:
+			op = lambda x, y: 1 if x < y else 0
+		elif op == 8:
+			op = lambda x, y: 1 if x == y else 0
 		args = s[i:i + op.__code__.co_argcount]
 		i += len(args)
 		for j in range(len(args)):
@@ -33,6 +41,8 @@ def exec_assembler(s, input=[], output=[]):
 		if res != None:
 			s[s[i]] = res
 			i += 1
+		if jump_to:
+			i = jump_to[0]
 
 def day1(s):
 	f1 = lambda n: max(n // 3 - 2, 0)
@@ -73,11 +83,12 @@ def day4(s):
 	for f in f1, f2:
 		yield len(list(filter(f, map(str, range(low, high)))))
 
-def day5(s):
+def day5(s, args=(1, 5)):
 	s = list(map(int, s.split(',')))
-	output = []
-	exec_assembler(s, [1], output)
-	yield output[-1]
+	for arg in args:
+		output = []
+		exec_assembler(s[:], [arg], output)
+		yield output[-1]
 
 if __name__ == '__main__':
 	sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
