@@ -1,15 +1,9 @@
 package codeforces.globalround5
 
-private fun solve(n: Int): Int {
-	if (n < 3) return 1
-	var m = 4
-	var mode = 0
-	while (m <= n) {
-		if (m == n || m + 1 == n) return 1
-		m = 2 * m + 1 + mode
-		mode = 1 - mode
-	}
-	return 0
+private fun solve(n: Int, m: Int = 1): Int {
+	if (m == n || m + 1 == n) return 1
+	if (m > n) return 0
+	return solve(n, 2 * m + 1 + m % 2)
 }
 
 fun main() = println(solve(readInt()))

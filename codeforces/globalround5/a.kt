@@ -1,7 +1,5 @@
 package codeforces.globalround5
 
-import kotlin.math.floor
-
 fun main() {
 	var mode = 0
 	repeat(readInt()) {
@@ -9,7 +7,7 @@ fun main() {
 		if (x % 2 == 0) {
 			println(x / 2)
 		} else {
-			println(floor(x / 2.0).toInt() + mode)
+			println((x - 1) / 2 + mode)
 			mode = 1 - mode
 		}
 	}
