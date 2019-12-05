@@ -7,6 +7,33 @@ import sys
 
 DIR = {'R': (1, 0), 'U': (0, 1), 'L': (-1, 0), 'D': (0, -1)}
 
+def exec_assembler(s, input=[], output=[]):
+	i = 0
+	while i < len(s):
+		mode, op = s[i] // 100, s[i] % 100
+		if op == 99:
+			break
+		if op == 1:
+			op, nargs = (lambda x, y: x + y), 2
+		elif op == 2:
+			op, nargs = (lambda x, y: x * y), 2
+		elif op == 3:
+			val, input = input[0], input[1:]
+			op, nargs = (lambda: val), 0
+		elif op == 4:
+			op, nargs = (lambda x: output.append(x)), 1
+		i += 1
+		args = s[i:i + nargs]
+		i += nargs
+		for j in range(nargs):
+			if mode % 10 == 0:
+				args[j] = s[args[j]]
+			mode //= 10
+		res = op(*args)
+		if res != None:
+			s[s[i]] = res
+			i += 1
+
 def day1(s):
 	f1 = lambda n: max(n // 3 - 2, 0)
 	f2 = lambda n: f1(n) + f2(f1(n)) if n else 0
@@ -18,11 +45,7 @@ def day2(s, arg=(12, 2), desired=19690720, maxarg=100):
 	def run(arg):
 		s = program[:]
 		s[1:3] = arg
-		for i in range(0, len(s), 4):
-			if s[i] == 99:
-				break
-			op = (lambda x, y: x + y) if s[i] == 1 else (lambda x, y: x * y)
-			s[s[i + 3]] = op(s[s[i + 1]], s[s[i + 2]])
+		exec_assembler(s)
 		return s[0]
 	yield run(arg)
 	yield [maxarg * x + y for x in range(maxarg) for y in range(maxarg) if run((x, y)) == desired][0]
@@ -49,7 +72,13 @@ def day4(s):
 	f2 = lambda s: f1(s) and 2 in [len(list(group)) for _, group in itertools.groupby(s)]
 	for f in f1, f2:
 		yield len(list(filter(f, map(str, range(low, high)))))
-	
+
+def day5(s):
+	s = list(map(int, s.split(',')))
+	output = []
+	exec_assembler(s, [1], output)
+	yield output[-1]
+
 if __name__ == '__main__':
 	sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
 	year = "2019"
