@@ -6,18 +6,16 @@ import sys
 
 sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
 
-def run(year=None):
+def run(year=None, filename = 'data~.json', url='https://pastebin.com/raw/xGvU9SZY'):
 	if not year:
 		import __main__
 		year = os.path.basename(__main__.__file__)[1:5]
 	year = str(year)
 	year_module = __import__('y' + year)
-	filename = "data~.json"
-	if os.path.isfile(filename):
-		with open("data~.json", "r") as read_file: data = json.load(read_file)
-	else:
-		data = requests.get('https://pastebin.com/raw/xGvU9SZY').json()
-	data = data[year]
+	if not os.path.isfile(filename):
+		with open(filename, 'w') as f:
+			f.write(requests.get(url).text)
+	data = json.load(open(filename, 'r'))[year]
 	for i in range(len(data) - 1, -1, -1):
 		day = 'day' + str(i + 1)
 		f = getattr(year_module, day)
