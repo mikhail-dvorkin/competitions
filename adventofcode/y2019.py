@@ -87,5 +87,16 @@ def day5(s, args=(1, 5)):
 		exec_assembler(s[:], [arg], output)
 		yield output[-1]
 
+def day6(s, st=('YOU', 'SAN')):
+	parent = {}
+	for edge in s.split('\n'):
+		u, v = edge.split(')')
+		parent[v] = u
+	def to_root(v):
+		return to_root(parent[v]) + [v] if v in parent else []
+	yield sum(map(len, map(to_root, parent)))
+	a, b = map(set, map(to_root, st))
+	yield len(a ^ b) - 2
+
 if __name__ == '__main__':
 	adventofcode.run()
