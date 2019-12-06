@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import adventofcode
 import collections
 import itertools
 import json
@@ -519,14 +520,4 @@ def day19(s):
 #print(*day19('#ip 0\nseti 5 0 1\nseti 6 0 2\naddi 0 1 0\naddr 1 2 3\nsetr 1 0 0\nseti 8 0 4\nseti 9 0 5'))
 
 if __name__ == '__main__':
-	sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
-	year = "2018"
-	filename = "data~.json"
-	if os.path.isfile(filename):
-		with open("data~.json", "r") as read_file: d = json.load(read_file)
-	else:
-		d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()
-	d = d[year]
-	for i in range(len(d) - 1, -1, -1):
-		day = 'day' + str(i + 1)
-		print(day, *eval(day)(d[i]))
+	adventofcode.run()

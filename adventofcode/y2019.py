@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
+import adventofcode
 import itertools
-import json
-import os
-import requests
-import sys
 
 DIR = {'R': (1, 0), 'U': (0, 1), 'L': (-1, 0), 'D': (0, -1)}
 
@@ -91,14 +88,4 @@ def day5(s, args=(1, 5)):
 		yield output[-1]
 
 if __name__ == '__main__':
-	sys.setrecursionlimit(max(10 ** 6, sys.getrecursionlimit()))
-	year = "2019"
-	filename = "data~.json"
-	if os.path.isfile(filename):
-		with open("data~.json", "r") as read_file: d = json.load(read_file)
-	else:
-		d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()
-	d = d[year]
-	for i in range(len(d) - 1, -1, -1):
-		day = 'day' + str(i + 1)
-		print(day, *eval(day)(d[i]))
+	adventofcode.run()

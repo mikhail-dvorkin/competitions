@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import adventofcode
 import collections
 import functools
 import json
@@ -539,9 +540,4 @@ def day25(s):
 	yield len(tape)
 
 if __name__ == '__main__':
-	year = "2017"
-	d = requests.get('https://pastebin.com/raw/xGvU9SZY').json()[year]
-	#with open("data~.json", "r") as read_file: d = json.load(read_file)[year]
-	for i in range(len(d) - 1, -1, -1):
-		day = 'day' + str(i + 1)
-		print(day, *eval(day)(d[i]))
+	adventofcode.run()
