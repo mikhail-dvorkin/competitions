@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 import adventofcode
+import collections
 import itertools
+import threading
 
 DIR = {'R': (1, 0), 'U': (0, 1), 'L': (-1, 0), 'D': (0, -1)}
 
 def exec_assembler(s, input=[], output=[]):
+	if not isinstance(input, collections.deque):
+		input = collections.deque(input)
+	def read():
+		while not input:
+			pass
+		return input.popleft()
 	i = 0
 	while i < len(s):
 		mode, op, jump_to = s[i] // 100, s[i] % 100, []
@@ -16,8 +24,7 @@ def exec_assembler(s, input=[], output=[]):
 		elif op == 2:
 			op = lambda x, y: x * y
 		elif op == 3:
-			val, input = input[0], input[1:]
-			op = lambda: val
+			op = read
 		elif op == 4:
 			op = lambda x: output.append(x)
 		elif op == 5:
@@ -101,11 +108,14 @@ def day6(s, st=('YOU', 'SAN')):
 def day7(s, n=5):
 	s = list(map(int, s.split(',')))
 	def check(p):
-		data = [0]
-		for x in p:
-			exec_assembler(s[:], [x] + data[-1:], data)
-		return data[-1]
-	yield max(map(check, itertools.permutations(range(n))))
+		pipe = [collections.deque([x]) for x in p]
+		pipe[0].append(0)
+		threads = [threading.Thread(target=exec_assembler, args=[s[:], pipe[i], pipe[(i + 1) % n]]) for i in range(n)]
+		[t.start() for t in threads]
+		[t.join() for t in threads]
+		return pipe[0][-1]
+	for r in range(n), range(n, 2 * n):
+		yield max(map(check, itertools.permutations(r)))
 
 if __name__ == '__main__':
 	adventofcode.run()
