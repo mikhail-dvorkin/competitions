@@ -98,5 +98,14 @@ def day6(s, st=('YOU', 'SAN')):
 	a, b = map(set, map(to_root, st))
 	yield len(a ^ b) - 2
 
+def day7(s, n=5):
+	s = list(map(int, s.split(',')))
+	def check(p):
+		data = [0]
+		for x in p:
+			exec_assembler(s[:], [x] + data[-1:], data)
+		return data[-1]
+	yield max(map(check, itertools.permutations(range(n))))
+
 if __name__ == '__main__':
 	adventofcode.run()
