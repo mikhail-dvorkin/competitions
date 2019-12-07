@@ -13,28 +13,21 @@ def exec_assembler(s, input=[], output=[]):
 		while not input:
 			pass
 		return input.popleft()
+	operations = {
+		1: lambda x, y: x + y,
+		2: lambda x, y: x * y,
+		3: read,
+		4: lambda x: output.append(x),
+		5: lambda x, y: jump_to.append(y) if x else None,
+		6: lambda x, y: jump_to.append(y) if not x else None,
+		7: lambda x, y: 1 if x < y else 0,
+		8: lambda x, y: 1 if x == y else 0,
+		99: lambda: jump_to.append(len(s))
+	}
 	i = 0
 	while i < len(s):
-		mode, op, jump_to = s[i] // 100, s[i] % 100, []
+		mode, op, jump_to = s[i] // 100, operations[s[i] % 100], []
 		i += 1
-		if op == 99:
-			break
-		if op == 1:
-			op = lambda x, y: x + y
-		elif op == 2:
-			op = lambda x, y: x * y
-		elif op == 3:
-			op = read
-		elif op == 4:
-			op = lambda x: output.append(x)
-		elif op == 5:
-			op = lambda x, y: jump_to.append(y) if x else None
-		elif op == 6:
-			op = lambda x, y: jump_to.append(y) if not x else None
-		elif op == 7:
-			op = lambda x, y: 1 if x < y else 0
-		elif op == 8:
-			op = lambda x, y: 1 if x == y else 0
 		args = s[i:i + op.__code__.co_argcount]
 		i += len(args)
 		for j in range(len(args)):
