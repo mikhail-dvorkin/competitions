@@ -110,5 +110,11 @@ def day7(s, n=5):
 	for r in range(n), range(n, 2 * n):
 		yield max(map(check, itertools.permutations(r)))
 
+def day8(s, w=25, h=6):
+	layers = [s[i * w * h:(i + 1) * w * h] for i in range(len(s) // w // h)]
+	zeroes = [layer.count('0') for layer in layers]
+	layer = layers[zeroes.index(min(zeroes))]
+	yield layer.count('1') * layer.count('2')
+	
 if __name__ == '__main__':
 	adventofcode.run()
