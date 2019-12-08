@@ -115,6 +115,8 @@ def day8(s, w=25, h=6):
 	zeroes = [layer.count('0') for layer in layers]
 	layer = layers[zeroes.index(min(zeroes))]
 	yield layer.count('1') * layer.count('2')
+	image = [[layer[i] for layer in layers if layer[i] < '2'][0] for i in range(w * h)]
+	yield '\n'.join([''] + [''.join(image[i * w:(i + 1) * w]).replace('0', ' ') for i in range(h)])
 	
 if __name__ == '__main__':
 	adventofcode.run()
