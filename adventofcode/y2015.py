@@ -20,12 +20,11 @@ def day2(s):
 		yield sum([f(*sorted(map(int, line.split('x')))) for line in s])
 
 def day3(s):
-	dir = {'^': (0, 1), 'v': (0, -1), '>': (1, 0), '<': (-1, 0)}
 	def visited(s):
 		x, y = 0, 0
 		v = {(x, y)}
 		for c in s:
-			dx, dy = dir[c]
+			dx, dy = adventofcode.DIR[c]
 			x += dx
 			y += dy
 			v.add((x, y))

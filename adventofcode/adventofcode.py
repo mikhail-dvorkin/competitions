@@ -27,6 +27,14 @@ def load_data(filename='data~.json', url='https://pastebin.com/raw/xGvU9SZY'):
 			f.write(requests.get(url).text)
 	return json.load(open(filename, 'r'))
 
+DIR = {'R': (1, 0), 'U': (0, 1), 'L': (-1, 0), 'D': (0, -1),
+	   '>': (1, 0), '^': (0, 1), '<': (-1, 0), 'v': (0, -1)}
+
+class AttrDict(dict):
+    def __init__(self, *args, **kwargs):
+        super(AttrDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
 if __name__ == '__main__':
 	for year in load_data():
 		print(year)

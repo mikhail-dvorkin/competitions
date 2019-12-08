@@ -4,8 +4,6 @@ import collections
 import itertools
 import threading
 
-DIR = {'R': (1, 0), 'U': (0, 1), 'L': (-1, 0), 'D': (0, -1)}
-
 def exec_assembler(s, input=[], output=[]):
 	if not isinstance(input, collections.deque):
 		input = collections.deque(input)
@@ -62,7 +60,7 @@ def day3(s):
 		res = {}
 		x, y, step = 0, 0, 0
 		for token in s.split(','):
-			dx, dy = DIR[token[0]]
+			dx, dy = adventofcode.DIR[token[0]]
 			for _ in range(int(token[1:])):
 				x += dx; y += dy; step += 1
 				res[(x, y)] = step

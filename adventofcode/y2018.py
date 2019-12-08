@@ -9,11 +9,6 @@ import re
 import requests
 import sys
 
-class AttrDict(dict):
-    def __init__(self, *args, **kwargs):
-        super(AttrDict, self).__init__(*args, **kwargs)
-        self.__dict__ = self
-
 assembler_instructions = {
 	'addr': lambda r, a, b: r[a] + r[b],
 	'addi': lambda r, a, b: r[a] + b,
@@ -254,7 +249,7 @@ def day13(s):
 			for char, dy, dx in [('^', -1, 0), ('v', 1, 0), ('<', 0, -1), ('>', 0, 1)]:
 				if s[y][x] == char:
 					s[y][x] = '-' if dy == 0 else '|'
-					cart = AttrDict(y=y, x=x, dy=dy, dx=dx, c=0, alive=True)
+					cart = adventofcode.AttrDict(y=y, x=x, dy=dy, dx=dx, c=0, alive=True)
 					carts.append(cart)
 	occupied = dict([((cart.y, cart.x), cart) for cart in carts])
 	firstcrash = None

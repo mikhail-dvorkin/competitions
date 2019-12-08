@@ -9,11 +9,6 @@ import re
 import requests
 import threading
 
-class AttrDict(dict):
-    def __init__(self, *args, **kwargs):
-        super(AttrDict, self).__init__(*args, **kwargs)
-        self.__dict__ = self
-
 def assembler(_prog, _env, _p, _regs=26):
 	_env[_p].code = 0
 	_env[_p].counter = collections.defaultdict(lambda: 0)
@@ -48,7 +43,7 @@ def assembler(_prog, _env, _p, _regs=26):
 		_env[_p][_i] = eval(_i)
 
 def exec_assembler(progs):
-	env = [AttrDict(output=collections.deque(), wait=False) for p in range(len(progs))]
+	env = [adventofcode.AttrDict(output=collections.deque(), wait=False) for p in range(len(progs))]
 	threads = [threading.Thread(target=assembler, args=[progs[p], env, p]) for p in range(len(progs))]
 	[t.start() for t in threads]
 	[t.join() for t in threads]
@@ -135,7 +130,7 @@ def day7(s):
 	for line in s.split('\n'):
 		name, weight, kidlist = re.fullmatch(r'(\S+)\s\((\d+)\)(?:\s->\s(.*))?', line).groups()
 		kids = kidlist.split(', ') if kidlist else []
-		nodes[name] = AttrDict(name=name, kids=kids, weight=int(weight), parent=None)
+		nodes[name] = adventofcode.AttrDict(name=name, kids=kids, weight=int(weight), parent=None)
 	for node in nodes.values():
 		for kid in node.kids:
 			nodes[kid].parent = node.name
@@ -382,7 +377,7 @@ def day19(s):
 def day20(s, dim=3):
 	ps = []
 	for num, line in enumerate(s.split('\n')):
-		line = 'AttrDict(' + line.replace('<', '(').replace('>', ')') + ')'
+		line = 'adventofcode.AttrDict(' + line.replace('<', '(').replace('>', ')') + ')'
 		p = eval(line)
 		p.key = [0, 0, 0]
 		p.id = num
