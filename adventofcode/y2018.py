@@ -200,7 +200,7 @@ def day10(s):
 	t = int(round(-sa / sb))
 	pixels = [(x + t * vx, y + t * vy) for x, y, vx, vy in points]
 	minx, maxx, miny, maxy = [f(zs) for zs in zip(*pixels) for f in [min, max]]
-	a = [['.'] * (maxx + 1 - minx) for _ in range(maxy + 1 - miny)]
+	a = [[' '] * (maxx + 1 - minx) for _ in range(maxy + 1 - miny)]
 	for x, y in pixels:
 		a[y - miny][x - minx] = '#'
 	yield '\n'.join([''] + [''.join(line) for line in a])
