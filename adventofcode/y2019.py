@@ -23,6 +23,11 @@ def exec_assembler(s, input=[], output=[]):
 		9: lambda x: rel_base_inc.append(x),
 		99: lambda: jump_to.append(len(s))
 	}
+	def ensure_address(address, mode):
+		if mode == 2:
+			address += rel_base
+		s.extend([0] * max(address + 1 - len(s), 0))
+		return address
 	i, rel_base = 0, 0
 	while i < len(s):
 		mode, op, jump_to, rel_base_inc = s[i] // 100, operations[s[i] % 100], [], [0]
@@ -31,19 +36,11 @@ def exec_assembler(s, input=[], output=[]):
 		i += len(args)
 		for j in range(len(args)):
 			if mode % 10 in {0, 2}:
-				address = args[j]
-				if mode % 10 == 2:
-					address += rel_base
-				s.extend([0] * max(address + 1 - len(s), 0))
-				args[j] = s[address]
+				args[j] = s[ensure_address(args[j], mode % 10)]
 			mode //= 10
 		res = op(*args)
 		if res != None:
-			address = s[i]
-			if mode == 2:
-				address += rel_base
-			s.extend([0] * max(address + 1 - len(s), 0))
-			s[address] = res
+			s[ensure_address(s[i], mode)] = res
 			i += 1
 		if jump_to:
 			i = jump_to[0]
