@@ -24,7 +24,7 @@ def run(year=None):
 def load_data(filename='data~.json', url='https://pastebin.com/raw/xGvU9SZY'):
 	if not os.path.isfile(filename):
 		with open(filename, 'w') as f:
-			f.write(requests.get(url).text)
+			f.write(json.dumps(requests.get(url).json(), indent=1))
 	return json.load(open(filename, 'r'))
 
 DIR = {'R': (1, 0), 'U': (0, 1), 'L': (-1, 0), 'D': (0, -1),
