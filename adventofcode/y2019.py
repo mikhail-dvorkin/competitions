@@ -45,6 +45,7 @@ def exec_assembler(s, input=[], output=[]):
 		if jump_to:
 			i = jump_to[0]
 		rel_base += rel_base_inc[-1]
+	return output
 
 def day1(s):
 	f1 = lambda n: max(n // 3 - 2, 0)
@@ -88,9 +89,7 @@ def day4(s):
 def day5(s, args=(1, 5)):
 	s = list(map(int, s.split(',')))
 	for arg in args:
-		output = []
-		exec_assembler(s[:], [arg], output)
-		yield output[-1]
+		yield exec_assembler(s[:], [arg])[-1]
 
 def day6(s, st=('YOU', 'SAN')):
 	parent = {}
