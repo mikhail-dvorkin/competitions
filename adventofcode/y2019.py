@@ -20,24 +20,34 @@ def exec_assembler(s, input=[], output=[]):
 		6: lambda x, y: jump_to.append(y) if not x else None,
 		7: lambda x, y: 1 if x < y else 0,
 		8: lambda x, y: 1 if x == y else 0,
+		9: lambda x: rel_base_inc.append(x),
 		99: lambda: jump_to.append(len(s))
 	}
-	i = 0
+	i, rel_base = 0, 0
 	while i < len(s):
-		mode, op, jump_to = s[i] // 100, operations[s[i] % 100], []
+		mode, op, jump_to, rel_base_inc = s[i] // 100, operations[s[i] % 100], [], [0]
 		i += 1
 		args = s[i:i + op.__code__.co_argcount]
 		i += len(args)
 		for j in range(len(args)):
-			if mode % 10 == 0:
-				args[j] = s[args[j]]
+			if mode % 10 in {0, 2}:
+				address = args[j]
+				if mode % 10 == 2:
+					address += rel_base
+				s.extend([0] * max(address + 1 - len(s), 0))
+				args[j] = s[address]
 			mode //= 10
 		res = op(*args)
 		if res != None:
-			s[s[i]] = res
+			address = s[i]
+			if mode == 2:
+				address += rel_base
+			s.extend([0] * max(address + 1 - len(s), 0))
+			s[address] = res
 			i += 1
 		if jump_to:
 			i = jump_to[0]
+		rel_base += rel_base_inc[-1]
 
 def day1(s):
 	f1 = lambda n: max(n // 3 - 2, 0)
@@ -115,6 +125,9 @@ def day8(s, w=25, h=6):
 	yield layer.count('1') * layer.count('2')
 	image = [[layer[i] for layer in layers if layer[i] < '2'][0] for i in range(w * h)]
 	yield '\n'.join([''] + [''.join(image[i * w:(i + 1) * w]).replace('0', ' ') for i in range(h)])
-	
+
+def day9(s):
+	yield from day5(s, (1, 2))
+
 if __name__ == '__main__':
 	adventofcode.run()
