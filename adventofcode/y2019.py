@@ -126,20 +126,27 @@ def day8(s, w=25, h=6):
 def day9(s):
 	yield from day5(s, (1, 2))
 
-def day10(s):
+def day10(s, n=200):
 	s = s.split('\n')
 	s = [(x, y) for y in range(len(s)) for x in range(len(s[y])) if s[y][x] == '#']
-	def quality(x0, y0):
-		dirs = set()
+	def process(x0, y0):
+		dirs = {}
 		for x, y in s:
-			x -= x0; y -= y0
-			if (x, y) == (0, 0):
+			dx = x - x0; dy = y - y0
+			if (dx, dy) == (0, 0):
 				continue
-			gcd = math.gcd(x, y)
-			x //= gcd; y //= gcd
-			dirs.add((x, y))
-		return len(dirs)
-	yield max([quality(x, y) for x, y in s])
+			gcd = math.gcd(dx, dy)
+			dx //= gcd; dy //= gcd
+			dirs.setdefault((dx, dy), []).append((x, y))
+		return len(dirs), x0, y0, dirs
+	best, x0, y0, dirs = max([process(x, y) for x, y in s])
+	yield best
+	s = []
+	for v, ray in dirs.items():
+		ray.sort(key=lambda xy: abs(xy[0] - x0) + abs(xy[1] - y0))
+		s.extend([(7 * i - math.atan2(*v), *ray[i]) for i in range(len(ray))])
+	item = sorted(s)[n - 1]
+	yield item[1] * 100 + item[2]
 
 if __name__ == '__main__':
 	adventofcode.run()
