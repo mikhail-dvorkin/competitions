@@ -2,6 +2,7 @@
 import adventofcode
 import collections
 import itertools
+import math
 import threading
 
 def exec_assembler(s, input=[], output=[]):
@@ -124,6 +125,21 @@ def day8(s, w=25, h=6):
 
 def day9(s):
 	yield from day5(s, (1, 2))
+
+def day10(s):
+	s = s.split('\n')
+	s = [(x, y) for y in range(len(s)) for x in range(len(s[y])) if s[y][x] == '#']
+	def quality(x0, y0):
+		dirs = set()
+		for x, y in s:
+			x -= x0; y -= y0
+			if (x, y) == (0, 0):
+				continue
+			gcd = math.gcd(x, y)
+			x //= gcd; y //= gcd
+			dirs.add((x, y))
+		return len(dirs)
+	yield max([quality(x, y) for x, y in s])
 
 if __name__ == '__main__':
 	adventofcode.run()
