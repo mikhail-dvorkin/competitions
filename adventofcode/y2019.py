@@ -121,7 +121,7 @@ def day8(s, w=25, h=6):
 	layer = layers[zeroes.index(min(zeroes))]
 	yield layer.count('1') * layer.count('2')
 	image = [[layer[i] for layer in layers if layer[i] < '2'][0] for i in range(w * h)]
-	yield '\n'.join([''] + [''.join(image[i * w:(i + 1) * w]).replace('0', ' ') for i in range(h)])
+	yield adventofcode.show_pixels([(i % w, i // w) for i in range(w * h) if image[i] == '1'])
 
 def day9(s):
 	yield from day5(s, (1, 2))

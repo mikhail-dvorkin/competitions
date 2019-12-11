@@ -35,6 +35,12 @@ class AttrDict(dict):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
+def show_pixels(pixels):
+	pixels = set(pixels)
+	minx, maxx, miny, maxy = [f(zs) for zs in zip(*pixels) for f in (min, max)]
+	pixels = [[((x, y) in pixels) for x in range(minx, maxx + 1)] for y in range(miny, maxy + 1)]
+	return '\n'.join([''] + [''.join([('#' if pixel else ' ') for pixel in row]) for row in pixels])
+
 if __name__ == '__main__':
 	for year in load_data():
 		print(year)
