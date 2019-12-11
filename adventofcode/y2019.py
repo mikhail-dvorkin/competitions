@@ -6,7 +6,7 @@ import math
 import threading
 
 def exec_assembler(s, input=[], output=[]):
-	if not isinstance(input, collections.deque):
+	if not hasattr(input, 'popleft'):
 		input = collections.deque(input)
 	def read():
 		while not input:
@@ -147,6 +147,26 @@ def day10(s, n=200):
 		s.extend([(7 * i - math.atan2(*v), *ray[i]) for i in range(len(ray))])
 	item = sorted(s)[n - 1]
 	yield item[1] * 100 + item[2]
+
+def day11(s):
+	s = list(map(int, s.split(',')))
+	board, memo, x, y, dx, dy, mode = set(), set(), 0, 0, 0, 1, 0
+	def current_color():
+		return 1 if (x, y) in board else 0
+	def process_output(bit):
+		nonlocal mode, x, y, dx, dy
+		if mode == 0:
+			if bit:
+				board.add((x, y))
+				memo.add((x, y))
+			else:
+				board.remove((x, y))
+		else:
+			dx, dy = (dy, -dx) if bit else (-dy, dx)
+			x += dx; y += dy
+		mode ^= 1
+	exec_assembler(s, adventofcode.AttrDict(popleft=current_color), adventofcode.AttrDict(append=process_output))
+	yield len(memo)
 
 if __name__ == '__main__':
 	adventofcode.run()
