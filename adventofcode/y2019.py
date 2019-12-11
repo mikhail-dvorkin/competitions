@@ -166,8 +166,8 @@ def day11(s):
 		env.mode ^= 1
 	def run(init):
 		nonlocal env
-		env = adventofcode.AttrDict(board=set(init), memo=set(init), x=0, y=0, dx=0, dy=-1, mode=0)
-		exec_assembler(s[:], adventofcode.AttrDict(popleft=current_color), adventofcode.AttrDict(append=process_output))
+		env = adventofcode.AttrDict(board=set(init), memo=set(init), x=0, y=0, dx=0, dy=-1, mode=0, popleft=current_color, append=process_output)
+		exec_assembler(s[:], env, env)
 		return env
 	yield len(run([]).memo)
 	yield adventofcode.show_pixels(run([(0, 0)]).board)
