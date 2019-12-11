@@ -150,23 +150,27 @@ def day10(s, n=200):
 
 def day11(s):
 	s = list(map(int, s.split(',')))
-	board, memo, x, y, dx, dy, mode = set(), set(), 0, 0, 0, 1, 0
+	env = None
 	def current_color():
-		return 1 if (x, y) in board else 0
+		return 1 if (env.x, env.y) in env.board else 0
 	def process_output(bit):
-		nonlocal mode, x, y, dx, dy
-		if mode == 0:
+		if env.mode == 0:
 			if bit:
-				board.add((x, y))
-				memo.add((x, y))
+				env.board.add((env.x, env.y))
+				env.memo.add((env.x, env.y))
 			else:
-				board.remove((x, y))
+				env.board.discard((env.x, env.y))
 		else:
-			dx, dy = (dy, -dx) if bit else (-dy, dx)
-			x += dx; y += dy
-		mode ^= 1
-	exec_assembler(s, adventofcode.AttrDict(popleft=current_color), adventofcode.AttrDict(append=process_output))
-	yield len(memo)
+			env.dx, env.dy = (-env.dy, env.dx) if bit else (env.dy, -env.dx)
+			env.x += env.dx; env.y += env.dy
+		env.mode ^= 1
+	def run(init):
+		nonlocal env
+		env = adventofcode.AttrDict(board=set(init), memo=set(init), x=0, y=0, dx=0, dy=-1, mode=0)
+		exec_assembler(s[:], adventofcode.AttrDict(popleft=current_color), adventofcode.AttrDict(append=process_output))
+		return env
+	yield len(run([]).memo)
+	yield adventofcode.show_pixels(run([(0, 0)]).board)
 
 if __name__ == '__main__':
 	adventofcode.run()
