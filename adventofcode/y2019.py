@@ -177,23 +177,18 @@ def day11(s):
 def day12(s, t=1000):
 	r = [list(map(int, re.fullmatch('<x=(-?\\d+), y=(-?\\d+), z=(-?\\d+)>', line).groups())) for line in s.split('\n')]
 	v = [[0, 0, 0] for _ in r]
-	seen_states = [{} for _ in range(3)]
-	periods = [0] * 3
+	seen_states, periods = [{} for _ in range(3)], [0] * 3
 	for step in itertools.count():
 		for c in range(3):
-			if periods[c]:
-				continue
-			state = tuple([a[c] for a in r + v])
-			if state in seen_states[c]:
-				assert seen_states[c][state] == 0
-				periods[c] = step
-			seen_states[c][state] = step
-		for i in range(len(r)):
-			for other in r:
-				for c in range(3):
-					v[i][c] += adventofcode.signum(other[c] - r[i][c])
-		for i in range(len(r)):
-			for c in range(3):
+			if not periods[c]:
+				state = tuple([a[c] for a in r + v])
+				if state in seen_states[c]:
+					assert seen_states[c][state] == 0
+					periods[c] = step
+				seen_states[c][state] = step
+			for i in range(len(r)):
+				v[i][c] += sum([adventofcode.signum(other[c] - r[i][c]) for other in r])
+			for i in range(len(r)):
 				r[i][c] += v[i][c]
 		if step == t - 1:
 			yield sum([sum(map(abs, r[i])) * sum(map(abs, v[i])) for i in range(len(r))])
