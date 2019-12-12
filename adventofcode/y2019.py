@@ -3,6 +3,7 @@ import adventofcode
 import collections
 import itertools
 import math
+import re
 import threading
 
 def exec_assembler(s, input=[], output=[]):
@@ -171,6 +172,19 @@ def day11(s):
 		return env
 	yield len(run([]).memo)
 	yield adventofcode.show_pixels(run([(0, 0)]).board)
+
+def day12(s, steps=1000):
+	r = [list(map(int, re.fullmatch('<x=(-?\\d+), y=(-?\\d+), z=(-?\\d+)>', line).groups())) for line in s.split('\n')]
+	v = [[0, 0, 0] for _ in r]
+	for _ in range(steps):
+		for i in range(len(r)):
+			for other in r:
+				for c in range(3):
+					v[i][c] += adventofcode.signum(other[c] - r[i][c])
+		for i in range(len(r)):
+			for c in range(3):
+				r[i][c] += v[i][c]
+	yield sum([sum(map(abs, r[i])) * sum(map(abs, v[i])) for i in range(len(r))])
 
 if __name__ == '__main__':
 	adventofcode.run()

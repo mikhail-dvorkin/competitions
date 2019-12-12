@@ -41,6 +41,9 @@ def show_pixels(pixels):
 	pixels = [[((x, y) in pixels) for x in range(minx, maxx + 1)] for y in range(miny, maxy + 1)]
 	return '\n'.join([''] + [''.join([('#' if pixel else ' ') for pixel in row]) for row in pixels])
 
+def signum(x):
+	return 1 if x > 0 else -1 if x < 0 else 0
+
 if __name__ == '__main__':
 	for year in load_data():
 		print(year)
