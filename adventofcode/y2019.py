@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import adventofcode
 import collections
+import functools
 import itertools
 import math
 import re
@@ -173,10 +174,20 @@ def day11(s):
 	yield len(run([]).memo)
 	yield adventofcode.show_pixels(run([(0, 0)]).board)
 
-def day12(s, steps=1000):
+def day12(s, t=1000):
 	r = [list(map(int, re.fullmatch('<x=(-?\\d+), y=(-?\\d+), z=(-?\\d+)>', line).groups())) for line in s.split('\n')]
 	v = [[0, 0, 0] for _ in r]
-	for _ in range(steps):
+	seen_states = [{} for _ in range(3)]
+	periods = [0] * 3
+	for step in itertools.count():
+		for c in range(3):
+			if periods[c]:
+				continue
+			state = tuple([a[c] for a in r + v])
+			if state in seen_states[c]:
+				assert seen_states[c][state] == 0
+				periods[c] = step
+			seen_states[c][state] = step
 		for i in range(len(r)):
 			for other in r:
 				for c in range(3):
@@ -184,7 +195,11 @@ def day12(s, steps=1000):
 		for i in range(len(r)):
 			for c in range(3):
 				r[i][c] += v[i][c]
-	yield sum([sum(map(abs, r[i])) * sum(map(abs, v[i])) for i in range(len(r))])
+		if step == t - 1:
+			yield sum([sum(map(abs, r[i])) * sum(map(abs, v[i])) for i in range(len(r))])
+		if all(periods):
+			yield functools.reduce(lambda x, y: x * y // math.gcd(x, y), periods)
+			break
 
 if __name__ == '__main__':
 	adventofcode.run()
