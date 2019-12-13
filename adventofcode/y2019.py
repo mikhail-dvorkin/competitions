@@ -197,9 +197,19 @@ def day12(s, t=1000):
 			break
 
 def day13(s):
-	field = exec_assembler(list(map(int, s.split(','))))
-	field = dict(zip(zip(field[::3], field[1::3]), field[2::3]))
-	yield list(field.values()).count(2)
+	def play():
+		env.blocks.append(list(env.field.values()).count(2))
+		xball, xpaddle = [[x for x, v in env.field.items() if v == item][0][0] for item in (4, 3)]
+		return adventofcode.signum(xball - xpaddle)
+	def get(x):
+		env.buffer.append(x)
+		if len(env.buffer) == 3:
+			env.field[tuple(env.buffer[:2])] = env.buffer[2]
+			env.buffer = []
+	env = adventofcode.AttrDict(popleft=play, append=get, buffer=[], field={}, blocks=[])
+	exec_assembler([2] + list(map(int, s.split(',')))[1:], env, env)
+	yield env.blocks[0]
+	yield env.field[(-1, 0)]
 
 if __name__ == '__main__':
 	adventofcode.run()
