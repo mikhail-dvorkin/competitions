@@ -196,5 +196,10 @@ def day12(s, t=1000):
 			yield functools.reduce(lambda x, y: x * y // math.gcd(x, y), periods)
 			break
 
+def day13(s):
+	field = exec_assembler(list(map(int, s.split(','))))
+	field = dict(zip(zip(field[::3], field[1::3]), field[2::3]))
+	yield list(field.values()).count(2)
+
 if __name__ == '__main__':
 	adventofcode.run()

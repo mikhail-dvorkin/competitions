@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import itertools
 import json
 import os
 import requests
@@ -36,10 +37,10 @@ class AttrDict(dict):
         self.__dict__ = self
 
 def show_pixels(pixels):
-	pixels = set(pixels)
+	if not isinstance(pixels, dict):
+		pixels = dict(zip(pixels, itertools.repeat('#')))
 	minx, maxx, miny, maxy = [f(zs) for zs in zip(*pixels) for f in (min, max)]
-	pixels = [[((x, y) in pixels) for x in range(minx, maxx + 1)] for y in range(miny, maxy + 1)]
-	return '\n'.join([''] + [''.join([('#' if pixel else ' ') for pixel in row]) for row in pixels])
+	return '\n'.join([''] + [''.join([str(pixels.get((x, y), ' ')) for x in range(minx, maxx + 1)]) for y in range(miny, maxy + 1)])
 
 def signum(x):
 	return 1 if x > 0 else -1 if x < 0 else 0
