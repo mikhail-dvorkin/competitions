@@ -211,5 +211,42 @@ def day13(s):
 	yield env.blocks[0]
 	yield env.field[(-1, 0)]
 
+def day14(s, start='ORE', end='FUEL', desired=10**12):
+	def parse(s):
+		amount, chemical = s.split()
+		return (chemical, int(amount))
+	howto = {}
+	for line in s.split('\n'):
+		ingredients, result = line.split(' => ')
+		chemical, amount = parse(result)
+		howto[chemical] = (amount, list(map(parse, ingredients.split(', '))))
+	def dfs(chemical=end, mark=set(), order=[]):
+		mark.add(chemical)
+		if chemical != start:
+			for other, amount in howto[chemical][1]:
+				if other not in mark:
+					dfs(other, mark, order)
+		order.append(chemical)
+		return order
+	order = dfs()
+	def takes(x):
+		need = [0] * (len(order) - 1) + [x]
+		for i in range(len(order) - 1, 0, -1):
+			get, ingredients = howto[order[i]]
+			times = (need[i] + get - 1) // get
+			for other, amount in ingredients:
+				need[order.index(other)] += amount * times
+		return need[0]
+	yield takes(1)
+	low = 0
+	high = desired + 1
+	while low + 1 < high:
+		mid = (low + high) // 2
+		if takes(mid) <= desired:
+			low = mid
+		else:
+			high = mid
+	yield low
+
 if __name__ == '__main__':
 	adventofcode.run()
