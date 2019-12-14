@@ -82,7 +82,7 @@ def day3(s):
 	yield min([sets[0][(x, y)] + sets[1][(x, y)] for (x, y) in common])
 
 def day4(s):
-	low, high = map(int, s.split('-'))
+	low, high = s
 	high += 1
 	f1 = lambda s: min([ord(y) - ord(x) for x, y in zip(s, s[1:])]) == 0
 	f2 = lambda s: f1(s) and 2 in [len(list(group)) for _, group in itertools.groupby(s)]
