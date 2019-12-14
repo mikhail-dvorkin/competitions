@@ -445,15 +445,7 @@ def day17(s, x_source=500):
 			return False
 		return dfs(x - 1, y) & dfs(x + 1, y)
 	dfs()
-#	for y in range(15):
-#		for x in range(470, 530):
-#			c = ' '
-#			if (y, x) in walls:
-#				c = '#'
-#			if (y, x) in mark:
-#				c = '~'
-#			print(c, end='')
-#		print()
+	print(adventofcode.show_pixels(dict(list(zip(walls, itertools.repeat('#'))) + list(zip(mark, itertools.repeat('~'))))))
 	yield len(mark)
 
 #print(*day17("x=495, y=2..7\ny=7, x=495..501\nx=501, y=3..7\nx=498, y=2..4\nx=506, y=1..2\nx=498, y=10..13\nx=504, y=10..13\ny=13, x=498..504"))
