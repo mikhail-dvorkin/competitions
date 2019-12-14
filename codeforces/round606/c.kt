@@ -1,57 +1,27 @@
 package codeforces.round606
 
-import kotlin.math.*
+import kotlin.math.sqrt
 
 fun main() {
-	val n = readInt()
-	val a = readInts().sorted()
-	val groupBy = a.groupBy { it }.toList().sortedByDescending { it.second.size }
-	val b = groupBy.map { it.second.size }
-	val m = floor(sqrt(n.toDouble())).toInt()
-	var bestArea = 0
-	var bestI = 0
+	readLn()
+	val a = readInts()
+	val groups = a.groupBy { it }.toList().sortedByDescending { it.second.size }
+	val b = groups.map { it.second.size }
 	var bSelf = b.size
 	var bSum = 0
-	for (i in 1..m) {
-		while (bSelf > 0 && b[bSelf - 1] <= i) {
-			bSelf--
-			bSum += b[bSelf]
-		}
-		var area = bSelf * i + bSum
-		if (area < i * i) continue
-		area -= area % i
-		if (area > bestArea) {
-			bestArea = area
-			bestI = i
-		}
-	}
-	val h = bestI
-	val w = bestArea / h
-	println("$bestArea\n$h $w")
+	val (h, w) = (1..sqrt(a.size.toDouble()).toInt()).map { h ->
+		while (bSelf > 0 && b[bSelf - 1] <= h) bSum += b[--bSelf]
+		h to ((bSelf + bSum / h).takeIf { it >= h } ?: 0)
+	}.maxBy { it.first * it.second }!!
+	println("${h * w}\n$h $w")
 	val f = List(h) { IntArray(w) }
 	var x = 0
-	var y = 0
-	for (group in groupBy) {
-		repeat(minOf(group.second.size, h)) {
-			f[y][x % w] = group.first
-			x++; y++
-			if (y == h) {
-				y = 0
-				x -= h - 1
-			}
-			if (y == 0 && x == w) {
-				val sb = StringBuilder()
-				for (i in 0 until h) {
-					sb.append(f[i].joinToString(" "))
-					sb.append("\n")
-				}
-				return print(sb)
-			}
-		}
+	for (group in groups) repeat(minOf(group.second.size, h)) {
+		f[x % h][(x % h + x / h) % w] = group.first
+		if (++x == h * w) return f.forEach { println(it.joinToString(" ")) }
 	}
 }
 
 private fun readLn() = readLine()!!
-private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
 private fun readInts() = readStrings().map { it.toInt() }

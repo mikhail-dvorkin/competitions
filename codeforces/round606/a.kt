@@ -2,25 +2,16 @@ package codeforces.round606
 
 fun main() = repeat(readInt()) {
 	val s = readLn()
-	val ans = mutableSetOf<Int>()
+	val ans = mutableListOf<Int>()
 	var i = 0
 	while (i < s.length) {
-		if (i + 5 <= s.length && s.substring(i, i + 5) == "twone") {
-			ans.add(i + 2)
-			i += 5
+		val t = listOf("twone", "one", "two").firstOrNull { s.startsWith(it, i) }
+		if (t == null) {
+			i++
 			continue
 		}
-		if (i + 3 <= s.length && s.substring(i, i + 3) == "one") {
-			ans.add(i + 1)
-			i += 3
-			continue
-		}
-		if (i + 3 <= s.length && s.substring(i, i + 3) == "two") {
-			ans.add(i + 1)
-			i += 3
-			continue
-		}
-		i++
+		ans.add(i + t.length / 2)
+		i += t.length
 	}
 	println(ans.size)
 	println(ans.map { it + 1 }.joinToString(" "))
@@ -28,5 +19,3 @@ fun main() = repeat(readInt()) {
 
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
-private fun readStrings() = readLn().split(" ")
-private fun readInts() = readStrings().map { it.toInt() }

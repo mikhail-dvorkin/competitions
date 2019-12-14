@@ -2,41 +2,25 @@ package codeforces.round606
 
 fun main() = repeat(readInt()) {
 	val data = readInts()
-	val n = data[0]
-	val m = data[1]
-	val a = data[2] - 1
-	val b = data[3] - 1
+	val (n, m) = data.take(2)
+	val ab = data.drop(2).map { it - 1 }
 	val nei = List(n) { mutableListOf<Int>() }
 	repeat(m) {
 		val (u, v) = readInts().map { it - 1 }
-		nei[u].add(v)
-		nei[v].add(u)
+		nei[u].add(v); nei[v].add(u)
 	}
-	val mark = IntArray(n) { -1 }
-	val compTouch = IntArray(n) { 0 }
-	var comp = 0
-	fun dfs(v: Int) {
+	val mark = IntArray(n) { if (it in ab) it else -1 }
+	val compTouches = IntArray(n) { 0 }
+	fun dfs(v: Int, comp: Int) {
+		if (mark[v] != -1) return
 		mark[v] = comp
 		for (u in nei[v]) {
-			if (u == a) {
-				compTouch[comp] = compTouch[comp] or 1
-				continue
-			}
-			if (u == b) {
-				compTouch[comp] = compTouch[comp] or 2
-				continue
-			}
-			if (mark[u] == -1) dfs(u)
+			dfs(u, comp)
+			if (u in ab) compTouches[comp] = compTouches[comp] or (1 shl ab.indexOf(u))
 		}
 	}
-	for (i in 0 until n) {
-		if (mark[i] == -1 && i != a && i != b) {
-			dfs(i)
-			comp++
-		}
-	}
-	val (aCount, bCount) = listOf(1, 2).map { mask -> (0 until n).filter { mark[it] >= 0 && compTouch[mark[it]] == mask }.size }
-	println(aCount.toLong() * bCount)
+	for (i in 0 until n) dfs(i, i)
+	println(List(2) { i -> mark.count { compTouches[it] == 1 shl i }.toLong() }.reduce(Long::times))
 }
 
 private fun readLn() = readLine()!!
