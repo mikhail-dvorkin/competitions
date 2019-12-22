@@ -261,7 +261,7 @@ def day15(s, dirs='NSWE'):
 		while not output:
 			pass
 		return output.popleft()
-	found = []
+	queue = collections.deque()
 	def dfs(x=0, y=0):
 		mark.add((x, y))
 		for d in range(len(dirs)):
@@ -274,14 +274,13 @@ def day15(s, dirs='NSWE'):
 				walls.add((xx, yy))
 				continue
 			if outcome == 2:
-				found.append((xx, yy))
+				queue.append((xx, yy))
 			dfs(xx, yy)
 			make_move(d ^ 1)
 	dfs()
 	input.append(exit)
 	thread.join()
-	dist = {(0, 0): 0}
-	queue = collections.deque([(0, 0)])
+	dist = {queue[0]: 0}
 	while queue:
 		x, y = queue.popleft()
 		for d in dirs:
@@ -291,7 +290,8 @@ def day15(s, dirs='NSWE'):
 				continue
 			queue.append((xx, yy))
 			dist[(xx, yy)] = dist[(x, y)] + 1
-	yield dist[found[0]]
+	yield dist[(0, 0)]
+	yield max(dist.values())
 
 if __name__ == '__main__':
 	adventofcode.run()
