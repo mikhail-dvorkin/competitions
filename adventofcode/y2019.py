@@ -293,5 +293,11 @@ def day15(s, dirs='NSWE'):
 	yield dist[(0, 0)]
 	yield max(dist.values())
 
+def day16(s, phases=100, coef=(0, 1, 0, -1)):
+	s = list(map(int, s))
+	for _ in range(phases):
+		s = [abs(sum([coef[(j + 1) // (i + 1) % 4] * s[j] for j in range(len(s))])) % 10 for i in range(len(s))]
+	yield ''.join(map(str, s[:8]))
+
 if __name__ == '__main__':
 	adventofcode.run()
