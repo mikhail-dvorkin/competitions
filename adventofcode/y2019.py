@@ -24,7 +24,7 @@ def exec_assembler(s, input=[], output=[]):
 		7: lambda x, y: 1 if x < y else 0,
 		8: lambda x, y: 1 if x == y else 0,
 		9: lambda x: rel_base_inc.append(x),
-		99: lambda: jump_to.append(len(s))
+		99: lambda: exit
 	}
 	def ensure_address(address, mode):
 		if mode == 2:
@@ -42,7 +42,9 @@ def exec_assembler(s, input=[], output=[]):
 				args[j] = s[ensure_address(args[j], mode % 10)]
 			mode //= 10
 		res = op(*args)
-		if res != None:
+		if res is exit:
+			break
+		if res is not None:
 			s[ensure_address(s[i], mode)] = res
 			i += 1
 		if jump_to:
@@ -247,6 +249,49 @@ def day14(s, start='ORE', end='FUEL', desired=10**12):
 		else:
 			high = mid
 	yield low
+
+def day15(s, dirs='NSWE'):
+	s = list(map(int, s.split(',')))
+	input, output = [collections.deque() for _ in range(2)]
+	thread = threading.Thread(target=exec_assembler, args=[s[:], input, output])
+	thread.start()
+	mark, walls = set(), set()
+	def make_move(move):
+		input.append(move + 1)
+		while not output:
+			pass
+		return output.popleft()
+	found = []
+	def dfs(x=0, y=0):
+		mark.add((x, y))
+		for d in range(len(dirs)):
+			dx, dy = adventofcode.DIR[dirs[d]]
+			xx, yy = x + dx, y + dy
+			if (xx, yy) in mark or (xx, yy) in walls:
+				continue
+			outcome = make_move(d)
+			if not outcome:
+				walls.add((xx, yy))
+				continue
+			if outcome == 2:
+				found.append((xx, yy))
+			dfs(xx, yy)
+			make_move(d ^ 1)
+	dfs()
+	input.append(exit)
+	thread.join()
+	dist = {(0, 0): 0}
+	queue = collections.deque([(0, 0)])
+	while queue:
+		x, y = queue.popleft()
+		for d in dirs:
+			dx, dy = adventofcode.DIR[d]
+			xx, yy = x + dx, y + dy
+			if (xx, yy) not in mark or (xx, yy) in dist:
+				continue
+			queue.append((xx, yy))
+			dist[(xx, yy)] = dist[(x, y)] + 1
+	yield dist[found[0]]
 
 if __name__ == '__main__':
 	adventofcode.run()
