@@ -317,5 +317,21 @@ def day16(s, phases=100, modes=(1, 10000), size=8, offset_size=7):
 		a = functools.reduce(process, range(phases), list(map(int, s)) * mode)
 		yield ''.join(map(str, a[offset:offset + size]))
 
+def day17(s, dirs='^v<>'):
+	s = list(map(int, s.split(',')))
+	field = ''.join(map(chr, exec_assembler(s))).split('\n')
+	res = 0
+	for i in range(len(field)):
+		for j in range(len(field[i])):
+			intersection = field[i][j] == '#'
+			for d in dirs:
+				di, dj = adventofcode.DIR[d]
+				ii, jj = i + di, j + dj
+				if ii < 0 or ii >= len(field) or jj < 0 or jj >= len(field[ii]) or field[ii][jj] != '#':
+					intersection = False
+			if intersection:
+				res += i * j
+	yield res
+
 if __name__ == '__main__':
 	adventofcode.run()
