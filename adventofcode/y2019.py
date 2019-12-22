@@ -319,7 +319,7 @@ def day16(s, phases=100, modes=(1, 10000), size=8, offset_size=7):
 
 def day17(s, dirs='^v<>'):
 	s = list(map(int, s.split(',')))
-	field = ''.join(map(chr, exec_assembler(s))).split('\n')
+	field = ''.join(map(chr, exec_assembler(s))).split(chr(10))
 	res = 0
 	for i in range(len(field)):
 		for j in range(len(field[i])):
