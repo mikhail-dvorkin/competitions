@@ -293,11 +293,29 @@ def day15(s, dirs='NSWE'):
 	yield dist[(0, 0)]
 	yield max(dist.values())
 
-def day16(s, phases=100, coef=(0, 1, 0, -1)):
-	s = list(map(int, s))
-	for _ in range(phases):
-		s = [abs(sum([coef[(j + 1) // (i + 1) % 4] * s[j] for j in range(len(s))])) % 10 for i in range(len(s))]
-	yield ''.join(map(str, s[:8]))
+def day16(s, phases=100, modes=(1, 10000), size=8, offset_size=7):
+	def process(a, _):
+		cum = [0]
+		for x in a:
+			cum.append(cum[-1] + x)
+		t = []
+		for i in range(len(a)):
+			if 2 * offset >= len(a) and i < offset:
+				t.append(0)
+				continue
+			res = 0
+			for j in range(len(a)):
+				low = (i + 1) * (2 * j + 1) - 1
+				if low >= len(a):
+					break
+				high = min((i + 1) * (2 * j + 2) - 1, len(a))
+				res += (cum[high] - cum[low]) * (-1 if j % 2 else 1)
+			t.append(abs(res) % 10)
+		return t
+	for mode in modes:
+		offset = 0 if mode == 1 else int(s[:offset_size])
+		a = functools.reduce(process, range(phases), list(map(int, s)) * mode)
+		yield ''.join(map(str, a[offset:offset + size]))
 
 if __name__ == '__main__':
 	adventofcode.run()
