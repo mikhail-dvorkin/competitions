@@ -317,21 +317,60 @@ def day16(s, phases=100, modes=(1, 10000), size=8, offset_size=7):
 		a = functools.reduce(process, range(phases), list(map(int, s)) * mode)
 		yield ''.join(map(str, a[offset:offset + size]))
 
-def day17(s, dirs='^v<>'):
+def day17(s, dirs='^v<>', parts=3, maxlen=20):
 	s = list(map(int, s.split(',')))
-	field = ''.join(map(chr, exec_assembler(s))).split(chr(10))
+	field = ''.join(map(chr, exec_assembler(s[:]))).split(chr(10))
 	res = 0
+	def valid(x, y):
+		return 0 <= x < len(field) and 0 <= y < len(field[x]) and field[x][y] == '#'
 	for i in range(len(field)):
 		for j in range(len(field[i])):
 			intersection = field[i][j] == '#'
 			for d in dirs:
 				di, dj = adventofcode.DIR[d]
 				ii, jj = i + di, j + dj
-				if ii < 0 or ii >= len(field) or jj < 0 or jj >= len(field[ii]) or field[ii][jj] != '#':
+				if not valid(ii, jj):
 					intersection = False
 			if intersection:
 				res += i * j
+			if field[i][j] in dirs:
+				x, y = i, j
 	yield res
+	dy, dx = adventofcode.DIR[field[x][y]];	dx *= -1
+	route = []
+	while True:
+		if valid(x + dy, y - dx):
+			dx, dy = dy, -dx
+			route.append("R")
+		elif valid(x - dy, y + dx):
+			dx, dy = -dy, dx
+			route.append("L")
+		else:
+			break
+		t = 0
+		while valid(x + dx, y + dy):
+			t += 1; x += dx; y += dy
+		route.append(t)
+	def search(a, ps=[], way=[]):
+		if not a:
+			return ps, way
+		goodp = []
+		for p in ps:
+			if len(p) <= len(a) and a[:len(p)] == p:
+				goodp.append(p)
+		if len(goodp) == 1:
+			return search(a[len(goodp[0]):], ps, way + [ps.index(goodp[0])])
+		if len(goodp) > 1 or len(ps) == parts:
+			return None
+		for i in range(1, len(a) + 1):
+			if len(','.join(map(str, a[:i]))) > maxlen:
+				break
+			outcome = search(a[i:], ps + [a[:i]], way + [len(ps)])
+			if outcome:
+				return outcome
+	ps, way = search(route)
+	instr = [','.join([chr(ord('A') + x) for x in way])] + [','.join(map(str, a)) for a in ps] + ['n', '']
+	yield exec_assembler([2] + s[1:], map(ord, chr(10).join(instr)))[-1]
 
 if __name__ == '__main__':
 	adventofcode.run()
