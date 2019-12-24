@@ -372,5 +372,27 @@ def day17(s, dirs='^v<>', parts=3, maxlen=20):
 	instr = [','.join([chr(ord('A') + x) for x in way])] + [','.join(map(str, a)) for a in ps] + ['n', '']
 	yield exec_assembler([2] + s[1:], map(ord, chr(10).join(instr)))[-1]
 
+def day18(s):
+	s = s.split('\n')
+	print(*s, sep='\n')
+	for i in range(len(s)):
+		for j in range(len(s[i])):
+			if s[i][j] in '.#':
+				continue
+			dist = {(i, j): 0}
+			queue = collections.deque([(i, j)])
+			while queue:
+				x, y = queue.popleft()
+				if (x, y) != (i, j) and s[x][y] != '.':
+					print(s[i][j], s[x][y], dist[(x, y)])
+					continue
+				for dx, dy in adventofcode.DIRS[:4]:
+					xx, yy = x + dx, y + dy
+					if xx < 0 or xx >= len(s) or yy < 0 or yy >= len(s[xx]) or s[xx][yy] == '#' or (xx, yy) in dist:
+						continue
+					dist[(xx, yy)] = dist[(x, y)] + 1
+					queue.append((xx, yy))
+	yield None
+
 if __name__ == '__main__':
 	adventofcode.run()
