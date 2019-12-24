@@ -31,6 +31,7 @@ def load_data(filename='data~.json', url='https://pastebin.com/raw/xGvU9SZY'):
 DIR = {'R': (1, 0), 'U': (0, 1), 'L': (-1, 0), 'D': (0, -1),
 	   'E': (1, 0), 'N': (0, 1), 'W': (-1, 0), 'S': (0, -1),
 	   '>': (1, 0), '^': (0, 1), '<': (-1, 0), 'v': (0, -1)}
+DIRS = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
