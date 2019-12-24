@@ -372,19 +372,20 @@ def day17(s, dirs='^v<>', parts=3, maxlen=20):
 	instr = [','.join([chr(ord('A') + x) for x in way])] + [','.join(map(str, a)) for a in ps] + ['n', '']
 	yield exec_assembler([2] + s[1:], map(ord, chr(10).join(instr)))[-1]
 
-def day18(s):
+def day18(s, V=ord('z') - ord('a') + 1):
 	s = s.split('\n')
-	print(*s, sep='\n')
+	nei = {}
 	for i in range(len(s)):
 		for j in range(len(s[i])):
 			if s[i][j] in '.#':
 				continue
+			nei[s[i][j]] = []
 			dist = {(i, j): 0}
 			queue = collections.deque([(i, j)])
 			while queue:
 				x, y = queue.popleft()
 				if (x, y) != (i, j) and s[x][y] != '.':
-					print(s[i][j], s[x][y], dist[(x, y)])
+					nei[s[i][j]].append((s[x][y], dist[(x, y)]))
 					continue
 				for dx, dy in adventofcode.DIRS[:4]:
 					xx, yy = x + dx, y + dy
@@ -392,7 +393,33 @@ def day18(s):
 						continue
 					dist[(xx, yy)] = dist[(x, y)] + 1
 					queue.append((xx, yy))
-	yield None
+	def num(v):
+		return ord(v) - ord('a') if 'a' <= v <= 'z' else 2 * V if v == '@' else ord(v) - ord('A') + V
+	free = {v: 1 << num(v) for v in nei}
+	free['@'] = 0
+	solved = sum([free[v] for v in nei if 'a' <= v <= 'z'])
+	queue = [[('@', free['@'])]]
+	dist = {queue[0][0]: 0}
+	d = 0
+	while d < len(queue):
+		for v, mask in queue[d]:
+			if mask | solved == mask:
+				yield d
+				return
+			if dist[(v, mask)] != d:
+				continue
+			for u, edge in nei[v]:
+				uu = num(u)
+				if V <= uu < 2 * V and ((mask >> (uu - V)) & 1 == 0):
+					continue
+				u = (u, mask | free[u])
+				d_new = d + edge
+				if d_new < dist.get(u, d_new + 1):
+					dist[u] = d_new
+					while d_new >= len(queue):
+						queue.append([])
+					queue[d_new].append(u)
+		d += 1
 
 if __name__ == '__main__':
 	adventofcode.run()
