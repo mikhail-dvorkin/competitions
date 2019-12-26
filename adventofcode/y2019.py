@@ -372,54 +372,63 @@ def day17(s, dirs='^v<>', parts=3, maxlen=20):
 	instr = [','.join([chr(ord('A') + x) for x in way])] + [','.join(map(str, a)) for a in ps] + ['n', '']
 	yield exec_assembler([2] + s[1:], map(ord, chr(10).join(instr)))[-1]
 
-def day18(s, V=ord('z') - ord('a') + 1):
+def day18(s):
 	s = s.split('\n')
-	nei = {}
-	for i in range(len(s)):
-		for j in range(len(s[i])):
-			if s[i][j] in '.#':
-				continue
-			nei[s[i][j]] = []
-			dist = {(i, j): 0}
-			queue = collections.deque([(i, j)])
-			while queue:
-				x, y = queue.popleft()
-				if (x, y) != (i, j) and s[x][y] != '.':
-					nei[s[i][j]].append((s[x][y], dist[(x, y)]))
+	def graph():
+		nei = {}
+		for i in range(len(s)):
+			for j in range(len(s[i])):
+				if s[i][j] in '.#':
 					continue
-				for dx, dy in adventofcode.DIRS[:4]:
-					xx, yy = x + dx, y + dy
-					if xx < 0 or xx >= len(s) or yy < 0 or yy >= len(s[xx]) or s[xx][yy] == '#' or (xx, yy) in dist:
+				nei[s[i][j]] = []
+				dist = {(i, j): 0}
+				queue = collections.deque([(i, j)])
+				while queue:
+					x, y = queue.popleft()
+					if (x, y) != (i, j) and s[x][y] != '.':
+						nei[s[i][j]].append((s[x][y], dist[(x, y)]))
 						continue
-					dist[(xx, yy)] = dist[(x, y)] + 1
-					queue.append((xx, yy))
-	def num(v):
-		return ord(v) - ord('a') if 'a' <= v <= 'z' else 2 * V if v == '@' else ord(v) - ord('A') + V
-	free = {v: 1 << num(v) for v in nei}
-	free['@'] = 0
-	solved = sum([free[v] for v in nei if 'a' <= v <= 'z'])
-	queue = [[('@', free['@'])]]
-	dist = {queue[0][0]: 0}
-	d = 0
-	while d < len(queue):
-		for v, mask in queue[d]:
-			if mask | solved == mask:
-				yield d
-				return
-			if dist[(v, mask)] != d:
-				continue
-			for u, edge in nei[v]:
-				uu = num(u)
-				if V <= uu < 2 * V and ((mask >> (uu - V)) & 1 == 0):
+					for dx, dy in adventofcode.DIRS[:4]:
+						xx, yy = x + dx, y + dy
+						if xx < 0 or xx >= len(s) or yy < 0 or yy >= len(s[xx]) or s[xx][yy] == '#' or (xx, yy) in dist:
+							continue
+						dist[(xx, yy)] = dist[(x, y)] + 1
+						queue.append((xx, yy))
+		return nei
+	def solve(nei):
+		solved = sum([1 << (ord(v) - ord('a')) for v in nei if 'a' <= v <= 'z'])
+		queue = [[('@', 0)]]
+		dist = {queue[0][0]: 0}
+		d = 0
+		while True:
+			for v, mask in queue[d]:
+				if mask == solved:
+					return d
+				if dist[(v, mask)] != d:
 					continue
-				u = (u, mask | free[u])
-				d_new = d + edge
-				if d_new < dist.get(u, d_new + 1):
-					dist[u] = d_new
-					while d_new >= len(queue):
-						queue.append([])
-					queue[d_new].append(u)
-		d += 1
+				for u, edge in nei[v]:
+					if 'A' <= u <= 'Z' and mask >> (ord(u) - ord('A')) & 1 == 0:
+						continue
+					u = (u, mask | (1 << (ord(u) - ord('a')) if 'a' <= u <= 'z' else 0))
+					d_new = d + edge
+					if d_new < dist.get(u, d_new + 1):
+						dist[u] = d_new
+						while d_new >= len(queue):
+							queue.append([])
+						queue[d_new].append(u)
+			d += 1
+	yield solve(graph())
+	sx = ['@' in row for row in s].index(True)
+	sy = s[sx].index('@')
+	for i in range(3):
+		ins = ('0#1', '###', '2#3')[i]
+		s[sx + i - 1] = s[sx + i - 1][:sy - 1] + ins + s[sx + i - 1][sy + 2:]
+	nei = graph()
+	for v in nei:
+		for u, _ in nei[v]:
+			if u < v:
+				#print(u, v)
+				pass
 
 if __name__ == '__main__':
 	adventofcode.run()
