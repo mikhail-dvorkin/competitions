@@ -395,40 +395,36 @@ def day18(s):
 						dist[(xx, yy)] = dist[(x, y)] + 1
 						queue.append((xx, yy))
 		return nei
-	def solve(nei):
+	def solve(init):
+		nei = graph()
 		solved = sum([1 << (ord(v) - ord('a')) for v in nei if 'a' <= v <= 'z'])
-		queue = [[('@', 0)]]
-		dist = {queue[0][0]: 0}
-		d = 0
-		while True:
-			for v, mask in queue[d]:
+		queue, dist = {}, {}
+		def mark(mask, pos, d, shifts):
+			u = (mask, *pos)
+			if d < dist.get(u, d + 1):
+				dist[u] = d
+				queue.setdefault(d, []).append(u)
+			if shifts > 1:
+				mark(mask, pos[1:] + pos[:1], d, shifts - 1)
+		mark(0, init, 0, len(init))
+		for d in itertools.count():
+			for mask, *pos in queue.get(d, []):
 				if mask == solved:
 					return d
-				if dist[(v, mask)] != d:
+				if dist[(mask, *pos)] != d:
 					continue
-				for u, edge in nei[v]:
+				for u, edge in nei[pos[0]]:
 					if 'A' <= u <= 'Z' and mask >> (ord(u) - ord('A')) & 1 == 0:
 						continue
-					u = (u, mask | (1 << (ord(u) - ord('a')) if 'a' <= u <= 'z' else 0))
-					d_new = d + edge
-					if d_new < dist.get(u, d_new + 1):
-						dist[u] = d_new
-						while d_new >= len(queue):
-							queue.append([])
-						queue[d_new].append(u)
-			d += 1
-	yield solve(graph())
+					new_mask = mask | (1 << (ord(u) - ord('a')) if 'a' <= u <= 'z' else 0)
+					mark(new_mask, (u, *pos[1:]), d + edge, 1 if new_mask == mask else len(pos))
+	yield solve('@')
 	sx = ['@' in row for row in s].index(True)
 	sy = s[sx].index('@')
+	ins = ('0#1', '###', '2#3')
 	for i in range(3):
-		ins = ('0#1', '###', '2#3')[i]
-		s[sx + i - 1] = s[sx + i - 1][:sy - 1] + ins + s[sx + i - 1][sy + 2:]
-	nei = graph()
-	for v in nei:
-		for u, _ in nei[v]:
-			if u < v:
-				#print(u, v)
-				pass
+		s[sx + i - 1] = s[sx + i - 1][:sy - 1] + ins[i] + s[sx + i - 1][sy + 2:]
+	yield solve('0123')
 
 if __name__ == '__main__':
 	adventofcode.run()
