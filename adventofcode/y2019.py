@@ -7,9 +7,11 @@ import math
 import re
 import threading
 
-def exec_assembler(s, input=[], output=[]):
+def exec_assembler(s, input=(), output=()):
 	if not hasattr(input, 'popleft'):
 		input = collections.deque(input)
+	if not hasattr(output, 'append'):
+		output = list(output)
 	def read():
 		while not input:
 			pass
@@ -425,6 +427,12 @@ def day18(s):
 	for i in range(3):
 		s[sx + i - 1] = s[sx + i - 1][:sy - 1] + ins[i] + s[sx + i - 1][sy + 2:]
 	yield solve('0123')
+
+def day19(s):
+	s = list(map(int, s.split(',')))
+	def check(x, y):
+		return exec_assembler(s[:], [x, y])[0]
+	yield sum([check(x, y) for x in range(50) for y in range(50)])
 
 if __name__ == '__main__':
 	adventofcode.run()
