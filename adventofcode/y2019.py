@@ -426,10 +426,17 @@ def day18(s):
 		s[sx + i - 1] = s[sx + i - 1][:sy - 1] + ins[i] + s[sx + i - 1][sy + 2:]
 	yield solve('0123')
 
-def day19(s):
+def day19(s, sizes=(50, 100)):
 	def check(x, y):
 		return exec_assembler(s, [x, y])[0]
-	yield sum([check(x, y) for x in range(50) for y in range(50)])
+	yield sum([check(x, y) for x in range(sizes[0]) for y in range(sizes[0])])
+	y = 0
+	for x in itertools.count():
+		while not check(x + sizes[1] - 1, y):
+			y += 1
+		if check(x, y + sizes[1] - 1):
+			yield x * sizes[1] ** 2 + y
+			break
 
 if __name__ == '__main__':
 	adventofcode.run()
