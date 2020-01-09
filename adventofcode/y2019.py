@@ -12,6 +12,8 @@ def exec_assembler(s, input=(), output=()):
 		input = collections.deque(input)
 	if not hasattr(output, 'append'):
 		output = list(output)
+	if isinstance(s, str):
+		s = list(map(int, s.split(',')))
 	def read():
 		while not input:
 			pass
@@ -94,9 +96,8 @@ def day4(s):
 		yield len(list(filter(f, map(str, range(low, high)))))
 
 def day5(s, args=(1, 5)):
-	s = list(map(int, s.split(',')))
 	for arg in args:
-		yield exec_assembler(s[:], [arg])[-1]
+		yield exec_assembler(s, [arg])[-1]
 
 def day6(s, st=('YOU', 'SAN')):
 	parent = {}
@@ -110,11 +111,10 @@ def day6(s, st=('YOU', 'SAN')):
 	yield len(a ^ b) - 2
 
 def day7(s, n=5):
-	s = list(map(int, s.split(',')))
 	def check(p):
 		pipe = [collections.deque([x]) for x in p]
 		pipe[0].append(0)
-		threads = [threading.Thread(target=exec_assembler, args=[s[:], pipe[i], pipe[(i + 1) % n]]) for i in range(n)]
+		threads = [threading.Thread(target=exec_assembler, args=[s, pipe[i], pipe[(i + 1) % n]]) for i in range(n)]
 		[t.start() for t in threads]
 		[t.join() for t in threads]
 		return pipe[0][-1]
@@ -155,7 +155,6 @@ def day10(s, n=200):
 	yield item[1] * 100 + item[2]
 
 def day11(s):
-	s = list(map(int, s.split(',')))
 	env = None
 	def current_color():
 		return 1 if (env.x, env.y) in env.board else 0
@@ -173,7 +172,7 @@ def day11(s):
 	def run(init):
 		nonlocal env
 		env = adventofcode.AttrDict(board=set(init), memo=set(init), x=0, y=0, dx=0, dy=-1, mode=0, popleft=current_color, append=process_output)
-		exec_assembler(s[:], env, env)
+		exec_assembler(s, env, env)
 		return env
 	yield len(run([]).memo)
 	yield adventofcode.show_pixels(run([(0, 0)]).board)
@@ -253,9 +252,8 @@ def day14(s, start='ORE', end='FUEL', desired=10**12):
 	yield low
 
 def day15(s, dirs='NSWE'):
-	s = list(map(int, s.split(',')))
 	input, output = [collections.deque() for _ in range(2)]
-	thread = threading.Thread(target=exec_assembler, args=[s[:], input, output])
+	thread = threading.Thread(target=exec_assembler, args=[s, input, output])
 	thread.start()
 	mark, walls = set(), set()
 	def make_move(move):
@@ -429,9 +427,8 @@ def day18(s):
 	yield solve('0123')
 
 def day19(s):
-	s = list(map(int, s.split(',')))
 	def check(x, y):
-		return exec_assembler(s[:], [x, y])[0]
+		return exec_assembler(s, [x, y])[0]
 	yield sum([check(x, y) for x in range(50) for y in range(50)])
 
 if __name__ == '__main__':
