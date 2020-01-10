@@ -438,7 +438,7 @@ def day19(s, sizes=(50, 100)):
 			yield x * sizes[1] ** 2 + y
 			break
 
-def day20(s):
+def day20(s, start_end=('AA', 'ZZ')):
 	s = s.split('\n')
 	labels = {}
 	for x in range(len(s)):
@@ -447,24 +447,25 @@ def day20(s):
 				continue
 			for dx, dy in adventofcode.DIRS[:4]:
 				label = s[x + dx][y + dy] + s[x + 2 * dx][y + 2 * dy]
-				if not label.isalpha():
-					continue
-				labels.setdefault(''.join(sorted(label)), []).append((x, y))
+				if label.isalpha():
+					labels.setdefault(''.join(sorted(label)), []).append((x, y))
 	teleport = {}
-	for pair in labels.values():
-		teleport[pair[0]] = pair[-1]
-		teleport[pair[-1]] = pair[0]
-	queue = collections.deque(labels['AA'])
-	dist = {queue[0]: 0}
-	while queue:
-		x, y = queue.popleft()
-		nei = [(x + dx, y + dy) for dx, dy in adventofcode.DIRS[:4]] + [teleport.get((x, y), (x, y))]
-		for xx, yy in nei:
-			if s[xx][yy] != '.' or (xx, yy) in dist:
-				continue
-			queue.append((xx, yy))
-			dist[(xx, yy)] = dist[(x, y)] + 1
-	yield dist[labels['ZZ'][0]]
+	for u, v in filter(lambda pair: len(pair) == 2, labels.values()):
+		outer = adventofcode.signum(min(v[0], v[1], len(s) - 1 - v[0], len(s[v[0]]) - 1 - v[1]) - 3)
+		teleport[v], teleport[u] = (*u, outer), (*v, -outer)
+	start, end = [(*labels[label][0], 0) for label in start_end]
+	for mode in 0, 1:
+		queue, dist = collections.deque([start]), {start: 0}
+		while end not in dist:
+			x, y, z = queue.popleft()
+			nei = [(x + dx, y + dy, 0) for dx, dy in adventofcode.DIRS[:4]] + [teleport.get((x, y), (x, y, 0))]
+			for xx, yy, dz in nei:
+				dz *= mode
+				if s[xx][yy] != '.' or (xx, yy, z + dz) in dist or z + dz < 0:
+					continue
+				queue.append((xx, yy, z + dz))
+				dist[(xx, yy, z + dz)] = dist[(x, y, z)] + 1
+		yield dist[end]
 
 if __name__ == '__main__':
 	adventofcode.run()
