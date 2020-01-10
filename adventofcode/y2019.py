@@ -438,5 +438,33 @@ def day19(s, sizes=(50, 100)):
 			yield x * sizes[1] ** 2 + y
 			break
 
+def day20(s):
+	s = s.split('\n')
+	labels = {}
+	for x in range(len(s)):
+		for y in range(len(s[x])):
+			if s[x][y] != '.':
+				continue
+			for dx, dy in adventofcode.DIRS[:4]:
+				label = s[x + dx][y + dy] + s[x + 2 * dx][y + 2 * dy]
+				if not label.isalpha():
+					continue
+				labels.setdefault(''.join(sorted(label)), []).append((x, y))
+	teleport = {}
+	for pair in labels.values():
+		teleport[pair[0]] = pair[-1]
+		teleport[pair[-1]] = pair[0]
+	queue = collections.deque(labels['AA'])
+	dist = {queue[0]: 0}
+	while queue:
+		x, y = queue.popleft()
+		nei = [(x + dx, y + dy) for dx, dy in adventofcode.DIRS[:4]] + [teleport.get((x, y), (x, y))]
+		for xx, yy in nei:
+			if s[xx][yy] != '.' or (xx, yy) in dist:
+				continue
+			queue.append((xx, yy))
+			dist[(xx, yy)] = dist[(x, y)] + 1
+	yield dist[labels['ZZ'][0]]
+
 if __name__ == '__main__':
 	adventofcode.run()
