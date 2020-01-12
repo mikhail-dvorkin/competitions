@@ -468,7 +468,7 @@ def day20(s, start_end=('AA', 'ZZ')):
 		yield dist[end]
 
 def day21(s):
-	program = 'NOT C J;NOT B T;OR T J;NOT A T;OR T J;AND D J;WALK;'
+	program = 'NOT C J;NOT A T;OR T J;AND D J;WALK;'
 	yield exec_assembler(s, map(ord, program.replace(';', chr(10))))[-1]
 
 if __name__ == '__main__':
