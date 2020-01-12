@@ -468,8 +468,11 @@ def day20(s, start_end=('AA', 'ZZ')):
 		yield dist[end]
 
 def day21(s):
-	program = 'NOT C J;NOT A T;OR T J;AND D J;WALK;'
-	yield exec_assembler(s, map(ord, program.replace(';', chr(10))))[-1]
+	# d & (!a | !c)		d & (!a | !b | !c) & (e | h)
+	p1 = 'NOT A J;NOT C T;OR T J;AND D J;WALK;'
+	p2 = 'NOT A J;NOT B T;OR T J;NOT C T;OR T J;AND D J;NOT J T;OR E T;OR H T;AND T J;RUN;'
+	for program in p1, p2:
+		yield exec_assembler(s, map(ord, program.replace(';', chr(10))))[-1]
 
 if __name__ == '__main__':
 	adventofcode.run()
