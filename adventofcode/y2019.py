@@ -474,5 +474,22 @@ def day21(s):
 	for program in p1, p2:
 		yield exec_assembler(s, map(ord, program.replace(';', chr(10))))[-1]
 
+def day22(s, size=10007, x=2019):
+	def deal_into_new(deck, _):
+		return deck[::-1]
+	def cut(deck, n):
+		return deck[n:] + deck[:n]
+	def deal_with_increment(deck, n):
+		a = deck[:]
+		for i in range(len(deck)):
+			a[n * i % len(deck)] = deck[i]
+		return a
+	deck = list(range(size))
+	for s in s.split('\n'):
+		*command, arg = s.split()
+		arg = int(arg) if arg != 'stack' else 0
+		deck = eval('_'.join(command))(deck, arg)
+	yield deck.index(x)
+
 if __name__ == '__main__':
 	adventofcode.run()
