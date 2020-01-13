@@ -4,6 +4,7 @@ import collections
 import functools
 import itertools
 import math
+import numpy
 import re
 import threading
 
@@ -474,22 +475,25 @@ def day21(s):
 	for program in p1, p2:
 		yield exec_assembler(s, map(ord, program.replace(';', chr(10))))[-1]
 
-def day22(s, size=10007, x=2019):
-	def deal_into_new(deck, _):
-		return deck[::-1]
-	def cut(deck, n):
-		return deck[n:] + deck[:n]
-	def deal_with_increment(deck, n):
-		a = deck[:]
-		for i in range(len(deck)):
-			a[n * i % len(deck)] = deck[i]
-		return a
-	deck = list(range(size))
-	for s in s.split('\n'):
-		*command, arg = s.split()
-		arg = int(arg) if arg != 'stack' else 0
-		deck = eval('_'.join(command))(deck, arg)
-	yield deck.index(x)
+def day22(s, size1=10007, x1=2019, size2=119315717514047, times2=101741582076661, y2=2020):
+	operations = {
+		'deal_into_new': lambda a, b, _: (-a, -1 - b),
+		'cut': lambda a, b, n: (a, b - n),
+		'deal_with_increment': lambda a, b, n: (a * n, b * n)
+	}
+	def apply(ab, line):
+		*command, arg = line.split()
+		arg = int(arg) if not arg.isalpha() else 0
+		return operations['_'.join(command)](*ab, arg)
+	a, b = functools.reduce(apply, s.split('\n'), (1, 0))
+	yield (a * x1 + b) % size1
+	m = numpy.array([[a % size2, b % size2], [0, 1]])
+	def power(n):
+		if n % 2:
+			return power(n - 1) @ m % size2 if n > 1 else m
+		t = power(n // 2)
+		return t @ t % size2
+	a, b = power(times2)[0]
 
 if __name__ == '__main__':
 	adventofcode.run()
