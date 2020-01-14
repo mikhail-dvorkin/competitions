@@ -4,7 +4,6 @@ import collections
 import functools
 import itertools
 import math
-import numpy
 import re
 import threading
 
@@ -487,13 +486,15 @@ def day22(s, size1=10007, x1=2019, size2=119315717514047, times2=101741582076661
 		return operations['_'.join(command)](*ab, arg)
 	a, b = functools.reduce(apply, s.split('\n'), (1, 0))
 	yield (a * x1 + b) % size1
-	m = numpy.array([[a % size2, b % size2], [0, 1]])
+	def mutiply(a, b, c, d):
+		return (a * c % size2, b * c + d)
 	def power(n):
 		if n % 2:
-			return power(n - 1) @ m % size2 if n > 1 else m
+			return mutiply(*power(n - 1), a, b) if n > 1 else (a, b)
 		t = power(n // 2)
-		return t @ t % size2
-	a, b = power(times2)[0]
+		return mutiply(*t, *t)
+	a, b = power(times2)
+	yield (y2 - b) * pow(a, size2 - 2, size2) % size2
 
 if __name__ == '__main__':
 	adventofcode.run()
