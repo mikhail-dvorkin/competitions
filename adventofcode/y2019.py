@@ -496,5 +496,31 @@ def day22(s, size1=10007, x1=2019, size2=119315717514047, times2=101741582076661
 	a, b = power(times2)
 	yield (y2 - b) * pow(a, size2 - 2, size2) % size2
 
+def day23(s, n=50):
+	inputs = [collections.deque([i]) for i in range(n)]
+	outputs = [collections.deque([i]) for i in range(n)]
+	def append(id, value):
+		outputs[id].append(value)
+		if len(outputs[id]) >= 3:
+			to_id, x, y = [outputs[id].popleft() for _ in range(3)]
+			if to_id < n:
+				inputs[to_id].extend([x, y])
+			elif to_id == 255:
+				print(("ANS", x, y))
+	def popleft(id):
+		return inputs[id].popleft() if inputs[id] else -1
+	def env(id):
+		return adventofcode.AttrDict(append=lambda value, id=id: append(id, value), popleft=lambda id=id: popleft(id))
+	threads = [threading.Thread(target=exec_assembler, args=[s, env(i), env(i)]) for i in range(n)]
+	[t.start() for t in threads]
+	[t.join() for t in threads]
+	yield 0
+
+def day24(s):
+	yield 0
+
+def day25(s):
+	yield 0
+
 if __name__ == '__main__':
 	adventofcode.run()
