@@ -499,6 +499,7 @@ def day22(s, size1=10007, x1=2019, size2=119315717514047, times2=101741582076661
 def day23(s, n=50):
 	inputs = [collections.deque([i]) for i in range(n)]
 	outputs = [collections.deque([i]) for i in range(n)]
+	ans = []
 	def append(id, value):
 		outputs[id].append(value)
 		if len(outputs[id]) >= 3:
@@ -506,7 +507,8 @@ def day23(s, n=50):
 			if to_id < n:
 				inputs[to_id].extend([x, y])
 			elif to_id == 255:
-				print(("ANS", x, y))
+				ans.append(y)
+				[input.append(exit) for input in inputs]
 	def popleft(id):
 		return inputs[id].popleft() if inputs[id] else -1
 	def env(id):
@@ -514,7 +516,7 @@ def day23(s, n=50):
 	threads = [threading.Thread(target=exec_assembler, args=[s, env(i), env(i)]) for i in range(n)]
 	[t.start() for t in threads]
 	[t.join() for t in threads]
-	yield 0
+	yield ans[0]
 
 def day24(s):
 	yield 0
