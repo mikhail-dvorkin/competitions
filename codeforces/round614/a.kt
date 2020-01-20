@@ -7,8 +7,8 @@ fun main() {
 	repeat(m) {
 		val (r, c) = readInts().map { it - 1 }
 		a[r][c] = !a[r][c]
-		for (d in (c - 1..c + 1).intersect(0 until n)) {
-			if (a[r xor 1][d]) {
+		for (d in c - 1..c + 1) {
+			if (a[r xor 1].getOrElse(d) { false }) {
 				obstacles += if (a[r][c]) 1 else -1
 			}
 		}
