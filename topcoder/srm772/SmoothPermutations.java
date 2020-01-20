@@ -1,18 +1,20 @@
+package topcoder.srm772;
+
 public class SmoothPermutations {
-	private int solve(int n, int k, int x, int M) {
-		if (x < k) return 0;
-		return (int) (st.get(0, n - k) * (long) st.get(x - k, x) % M);
+	int M;
+	SegmentsTreeSimple st;
+
+	int solve(int n, int k, int x) {
+		return (x < k) ? 0 : (int) (st.get(0, n - k) * (long) st.get(x - k, x) % M);
 	}
 
 	class SegmentsTreeSimple {
 		int n;
-		int M;
 		int[] a;
 		int size;
 
-		SegmentsTreeSimple(int n, int M) {
+		SegmentsTreeSimple(int n) {
 			this.n = n;
-			this.M = M;
 			size = 1;
 			while (size <= n) {
 				size *= 2;
@@ -46,38 +48,22 @@ public class SmoothPermutations {
 		}
 	}
 
-	SegmentsTreeSimple st;
-
-	public long countPermutations(int T, int M, int MX, int seed, int[] prefN, int[] prefK, int[] prefX) {
-		st = new SegmentsTreeSimple(MX, M);
-		int[] a = new int[3 * T];
+	public long countPermutations(int t, int m, int mx, int seed, int[] prefN, int[] prefK, int[] prefX) {
+		this.M = m;
+		st = new SegmentsTreeSimple(mx);
+		int[] a = new int[3 * t];
 		a[0] = seed;
 		for (int i = 1; i < a.length; i++) {
 			a[i] = (int) ((a[i - 1] * 1103515245L + 12345) % 2147483648L);
 		}
-		int[] n = new int[T];
-		int[] k = new int[T];
-		int[] x = new int[T];
-		for (int i = 0; i < prefN.length; i++) {
-			n[i] = prefN[i];
-			k[i] = prefK[i];
-			x[i] = prefX[i];
-		}
-		for (int i = prefN.length; i < T; i++) {
-			n[i] = (a[i] % MX) + 1;
-			k[i] = (a[T+i] % n[i]) + 1;
-			x[i] = (a[2*T+i] % n[i]) + 1;
-		}
 		long ans = 0;
-		for (int t = 0; t < T; t++) {
-			ans += solve(n[t], k[t], x[t], M);
+		for (int i = 0; i < prefN.length; i++) {
+			ans += solve(prefN[i], prefK[i], prefX[i]);
+		}
+		for (int i = prefN.length; i < t; i++) {
+			int n = a[i] % mx + 1;
+			ans += solve(n, a[t + i] % n + 1, a[2 * t + i] % n + 1);
 		}
 		return ans;
-	}
-
-	public static void main(String[] args) {
-//		long x = new SmoothPermutations().countPermutations(3, 100, 5, 4, new int[]{5,4}, new int[]{3,2}, new int[]{5,2});
-		long x = new SmoothPermutations().countPermutations(100, 999999937 , 123456, 47, new int[]{}, new int[]{}, new int[]{});
-		System.out.println(x);
 	}
 }
