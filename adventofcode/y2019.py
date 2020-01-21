@@ -499,24 +499,38 @@ def day22(s, size1=10007, x1=2019, size2=119315717514047, times2=101741582076661
 def day23(s, n=50):
 	inputs = [collections.deque([i]) for i in range(n)]
 	outputs = [collections.deque() for i in range(n)]
-	ans = []
+	to_nat, waiting = [], set()
 	def append(id, value):
 		outputs[id].append(value)
 		if len(outputs[id]) >= 3:
 			to_id, x, y = [outputs[id].popleft() for _ in range(3)]
 			if to_id < n:
 				inputs[to_id].extend([x, y])
+				waiting.clear()
 			elif to_id == 255:
-				ans.append(y)
-				[input.append(exit) for input in inputs]
+				to_nat.extend([x, y])
 	def popleft(id):
-		return inputs[id].popleft() if inputs[id] else -1
+		if inputs[id]:
+			return inputs[id].popleft()
+		waiting.add(id)
+		return -1
 	def env(id):
 		return adventofcode.AttrDict(append=lambda value, id=id: append(id, value), popleft=lambda id=id: popleft(id))
+	def nat():
+		prev = None
+		while True:
+			if len(waiting) == n and all([not input for input in inputs]):
+				inputs[0].extend(to_nat[-2:])
+				if to_nat[-1] == prev:
+					break
+				prev = to_nat[-1]
+		[input.append(exit) for input in inputs]
 	threads = [threading.Thread(target=exec_assembler, args=[s, env(i), env(i)]) for i in range(n)]
+	threads.append(threading.Thread(target=nat))
 	[t.start() for t in threads]
 	[t.join() for t in threads]
-	yield ans[0]
+	yield to_nat[1]
+	yield to_nat[-1]
 
 def day24(s):
 	yield 0
