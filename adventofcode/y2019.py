@@ -533,7 +533,26 @@ def day23(s, n=50):
 	yield to_nat[-1]
 
 def day24(s):
-	yield 0
+	n = len(s.split("\n"))
+	s = s.replace("\n", "")
+	field = sum([1 << i for i in range(n * n) if s[i] == '#'])
+	seen = {field}
+	while True:
+		new_field = 0
+		for x in range(n):
+			for y in range(n):
+				bug, bugs = (field >> (n * x + y)) & 1, 0
+				for dx, dy in adventofcode.DIRS[:4]:
+					xx, yy = x + dx, y + dy
+					if 0 <= xx < n and 0 <= yy < n and (field >> (n * xx + yy)) & 1:
+						bugs += 1
+				if bugs == 1 or not bug and bugs == 2:
+					new_field += 1 << (n * x + y)
+		field = new_field
+		if field in seen:
+			break
+		seen.add(field)
+	yield field
 
 def day25(s):
 	yield 0
