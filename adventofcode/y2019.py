@@ -498,7 +498,7 @@ def day22(s, size1=10007, x1=2019, size2=119315717514047, times2=101741582076661
 
 def day23(s, n=50):
 	inputs = [collections.deque([i]) for i in range(n)]
-	outputs = [collections.deque([i]) for i in range(n)]
+	outputs = [collections.deque() for i in range(n)]
 	ans = []
 	def append(id, value):
 		outputs[id].append(value)
