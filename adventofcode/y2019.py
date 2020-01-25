@@ -532,27 +532,50 @@ def day23(s, n=50):
 	yield to_nat[1]
 	yield to_nat[-1]
 
-def day24(s):
+def day24(s, steps=200):
 	n = len(s.split("\n"))
 	s = s.replace("\n", "")
 	field = sum([1 << i for i in range(n * n) if s[i] == '#'])
+	def new_bug(bug, bugs):
+		return 1 if bugs == 1 or not bug and bugs == 2 else 0
 	seen = {field}
 	while True:
 		new_field = 0
 		for x in range(n):
 			for y in range(n):
-				bug, bugs = (field >> (n * x + y)) & 1, 0
+				bugs = 0
 				for dx, dy in adventofcode.DIRS[:4]:
 					xx, yy = x + dx, y + dy
 					if 0 <= xx < n and 0 <= yy < n and (field >> (n * xx + yy)) & 1:
 						bugs += 1
-				if bugs == 1 or not bug and bugs == 2:
-					new_field += 1 << (n * x + y)
+				new_field += new_bug((field >> (n * x + y)) & 1, bugs) << (n * x + y)
 		field = new_field
 		if field in seen:
 			break
 		seen.add(field)
 	yield field
+	def are_nei(xi, yi, xo, yo):
+		return {(xi, xo, yo), (yi, yo, xo)} & {(0, n // 2 - 1, n // 2), (n - 1, n // 2 + 1, n // 2)}
+	field = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(2 * steps + 3)]
+	for i in range(n):
+		for j in range(n):
+			if s[n * i + j] == '#':
+				field[steps + 1][i][j] = 1
+	for step in range(steps):
+		new_field = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(2 * steps + 3)]
+		for z in range(1, len(field) - 1):
+			for x in range(n):
+				for y in range(n):
+					if x == y == n // 2:
+						continue
+					bugs = 0
+					for xx in range(n):
+						for yy in range(n):
+							good = [are_nei(xx, yy, x, y), abs(x - xx) + abs(y - yy) == 1, are_nei(x, y, xx, yy)]
+							bugs += sum([1 for dz in range(-1, 2) if field[z + dz][xx][yy] and good[1 + dz]])
+					new_field[z][x][y] = new_bug(field[z][x][y], bugs)
+		field = new_field
+	yield sum(sum(sum(field, []), []))
 
 def day25(s):
 	yield 0
