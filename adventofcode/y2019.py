@@ -557,24 +557,18 @@ def day24(s, steps=200):
 	def are_nei(xi, yi, xo, yo):
 		return {(xi, xo, yo), (yi, yo, xo)} & {(0, n // 2 - 1, n // 2), (n - 1, n // 2 + 1, n // 2)}
 	field = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(2 * steps + 3)]
-	for i in range(n):
-		for j in range(n):
-			if s[n * i + j] == '#':
-				field[steps + 1][i][j] = 1
+	field[steps + 1] = [[1 if s[n * i + j] == '#' else 0 for j in range(n)] for i in range(n)]
+	def next_field(x, y, z):
+		if x == y == n // 2 or z in {0, 2 * steps + 2}:
+			return 0
+		bugs = 0
+		for xx in range(n):
+			for yy in range(n):
+				good = [are_nei(xx, yy, x, y), abs(x - xx) + abs(y - yy) == 1, are_nei(x, y, xx, yy)]
+				bugs += sum([1 for dz in range(-1, 2) if field[z + dz][xx][yy] and good[1 + dz]])
+		return new_bug(field[z][x][y], bugs)
 	for step in range(steps):
-		new_field = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(2 * steps + 3)]
-		for z in range(1, len(field) - 1):
-			for x in range(n):
-				for y in range(n):
-					if x == y == n // 2:
-						continue
-					bugs = 0
-					for xx in range(n):
-						for yy in range(n):
-							good = [are_nei(xx, yy, x, y), abs(x - xx) + abs(y - yy) == 1, are_nei(x, y, xx, yy)]
-							bugs += sum([1 for dz in range(-1, 2) if field[z + dz][xx][yy] and good[1 + dz]])
-					new_field[z][x][y] = new_bug(field[z][x][y], bugs)
-		field = new_field
+		field = [[[next_field(x, y, z) for x in range(n)] for y in range(n)] for z in range(2 * steps + 3)]
 	yield sum(sum(sum(field, []), []))
 
 def day25(s):
