@@ -47,7 +47,7 @@ public class FinishingDice_slow {
 			}
 			if (bLen < n && x >= die2[bLen]) {
 				b[bLen] = x;
-				if (search(a, b, aLen, bLen + 1, x, x)) return true;
+				return search(a, b, aLen, bLen + 1, x, x);
 			}
 			return false;
 		}
