@@ -572,7 +572,26 @@ def day24(s, steps=200):
 	yield sum(sum(sum(field, []), []))
 
 def day25(s):
-	yield 0
+	p = 'north;take easter eggA;east;take astrolabeB;south;take space law space brochureC;'
+	p += 'north;north;north;take fuel cellD;south;south;west;north;take manifoldE;'
+	p += 'north;north;take hologramF;north;take weather machineG;north;take antennaH;west;south;'
+	p = p.replace(';', chr(10))
+	def append(v):
+		output.append(chr(v))
+		if ''.join(output[-5:]) == 'eject':
+			input.extend([exit, 0])
+	env = adventofcode.AttrDict(append=append)
+	n = len(list(filter(str.isupper, p)))
+	for mask in range(1 << n):
+		program = p
+		for i in range(n):
+			if (mask >> i) & 1:
+				program = program.replace(chr(ord('A') + i), '')
+		input, output = collections.deque(map(ord, program)), []
+		exec_assembler(s, input, env)
+		if not input:
+			break
+	yield ''.join(filter(str.isdigit, output))
 
 if __name__ == '__main__':
 	adventofcode.run()
