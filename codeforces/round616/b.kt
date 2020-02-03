@@ -13,7 +13,7 @@ fun main() {
 }
 
 private fun Iterable<Boolean>.prefixSum(): List<Int> {
-	return mutableListOf(0).also { a -> this.forEach { a.add(a.last() + if (it) 1 else 0 ) } }
+	return mutableListOf(0).also { a -> this.forEach { a.add(a.last() + if (it) 1 else 0) } }
 }
 
 private fun readLn() = readLine()!!
