@@ -4,10 +4,7 @@ fun main() {
 	val n = readInt()
 	val a = readInts()
 	val b = a.plus(a).plus(a)
-	val st = SegmentsTreeSimple(b.size)
-	for (i in b.indices) {
-		st.set(i, b[i])
-	}
+	val st = SegmentsTreeSimple(b)
 	val r = IntArray(b.size)
 	val ans = IntArray(b.size)
 	for (i in b.indices.reversed()) {
@@ -32,48 +29,34 @@ fun main() {
 	print(ans.take(n).joinToString(" "))
 }
 
-class SegmentsTreeSimple(internal var n: Int) {
-	internal var min: IntArray
-	internal var size: Int = 0
+class SegmentsTreeSimple(data: List<Int>) {
+	internal val min: IntArray
+	internal var size: Int = 1
 
 	init {
-		size = 1
-		while (size <= n) {
-			size *= 2
-		}
+		while (size <= data.size) size *= 2
 		min = IntArray(2 * size)
-	}
-
-	internal operator fun set(index: Int, value: Int) {
-		var i = size + index
-		min[i] = value
-		while (i > 1) {
-			i /= 2
-			min[i] = Math.min(min[2 * i], min[2 * i + 1])
+		System.arraycopy(data.toIntArray(), 0, min, size, data.size)
+		for (i in size - 1 downTo 1) {
+			min[i] = minOf(min[2 * i], min[2 * i + 1])
 		}
-	}
-
-	internal operator fun get(index: Int): Int {
-		return min[size + index]
 	}
 
 	internal fun getMin(from: Int, to: Int): Int {
-		var from = from
-		var to = to
-		from += size
-		to += size
+		var f = from + size
+		var t = to + size
 		var res = Integer.MAX_VALUE
-		while (from < to) {
-			if (from % 2 == 1) {
-				res = Math.min(res, min[from])
-				from++
+		while (f < t) {
+			if (f % 2 == 1) {
+				res = minOf(res, min[f])
+				f++
 			}
-			if (to % 2 == 1) {
-				to--
-				res = Math.min(res, min[to])
+			if (t % 2 == 1) {
+				t--
+				res = minOf(res, min[t])
 			}
-			from /= 2
-			to /= 2
+			f /= 2
+			t /= 2
 		}
 		return res
 	}
