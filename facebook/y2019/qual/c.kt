@@ -1,3 +1,4 @@
+@file:Suppress("DEPRECATION")
 package facebook.y2019.qual
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory
@@ -13,5 +14,3 @@ fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve(readLn())}") 
 
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
-private fun readStrings() = readLn().split(" ")
-private fun readInts() = readStrings().map { it.toInt() }
