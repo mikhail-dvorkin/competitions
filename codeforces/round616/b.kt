@@ -1,29 +1,19 @@
 package codeforces.round616
 
-import java.lang.StringBuilder
-
 fun main() {
 	val s = readLn()
-	val p = List(26) { i ->
-		val c = 'a' + i
-		val a = mutableListOf(0)
-		for (j in s) {
-			a.add(a.last() + (if (j == c) 1 else 0))
-		}
-		a
-	}
-	val sb = StringBuilder()
-	repeat(readInt()) {
+	val pref = ('a'..s.max()!!).map { c -> s.map { it == c }.prefixSum() }
+	val ans = List(readInt()) {
 		val (lowIn, high) = readInts()
 		val low = lowIn - 1
-		val count = p.indices.count { i -> p[i][low] != p[i][high] }
-		if (count >= 3 || count == 2 && s[low] != s[high - 1] || high - low == 1) {
-			sb.append("Yes\n")
-		} else {
-			sb.append("No\n")
-		}
+		val count = pref.indices.count { c -> pref[c][low] != pref[c][high] }
+		count >= 3 || count == 2 && s[low] != s[high - 1] || high - low == 1
 	}
-	print(sb)
+	println(ans.joinToString("\n") { if (it) "Yes" else "No" })
+}
+
+private fun Iterable<Boolean>.prefixSum(): List<Int> {
+	return mutableListOf(0).also { a -> this.forEach { a.add(a.last() + if (it) 1 else 0 ) } }
 }
 
 private fun readLn() = readLine()!!

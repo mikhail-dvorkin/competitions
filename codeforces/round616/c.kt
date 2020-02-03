@@ -2,22 +2,7 @@ package codeforces.round616
 
 import kotlin.random.Random
 
-fun main() {
-	stress()
-	val (_, k) = readInts()
-	val init = readLn().map { it == '1' }
-	val where = List(init.size) { mutableListOf<Int>() }
-	repeat(k) { j ->
-		readLn()
-		val set = readInts().map { it - 1 }
-		for (i in set) {
-			where[i].add(j)
-		}
-	}
-	println(solve(k, init, where).joinToString("\n"))
-}
-
-private fun solve(k: Int, init: List<Boolean>, where: List<MutableList<Int>>): List<Int> {
+fun solve(k: Int, toSwitch: List<Int>, where: List<List<Int>>): List<Int> {
 	val p = MutableList(k) { it }
 	val odd = MutableList(k) { 0 }
 	val d0 = MutableList(k) { 0 }
@@ -39,22 +24,21 @@ private fun solve(k: Int, init: List<Boolean>, where: List<MutableList<Int>>): L
 //		odd[x] = odd[x] xor odd[par]
 //		return p[x]
 	}
-	val inf = 300 * (init.size + k)
 	val rnd = Random(566)
-	for (x in init.indices) {
-		if (where[x].size == 0) {
+	for (x in toSwitch.indices) {
+		if (where[x].isEmpty()) {
 			ans.add(ans.last())
 			continue
 		}
 		if (where[x].size == 1) {
 			val (c) = where[x]
 			val cc = get(c)
-			val xor = odd[c] xor (if (init[x]) 0 else 1)
+			val xor = odd[c] xor toSwitch[x]
 			val old = minOf(d0[cc], d1[cc])
 			if (xor == 1) {
-				d0[cc] = inf
+				d0[cc] = k + 1
 			} else {
-				d1[cc] = inf
+				d1[cc] = k + 1
 			}
 			val new = minOf(d0[cc], d1[cc])
 			ans.add(ans.last() - old + new)
@@ -67,7 +51,7 @@ private fun solve(k: Int, init: List<Boolean>, where: List<MutableList<Int>>): L
 			ans.add(ans.last())
 			continue
 		}
-		val xor = odd[c] xor odd[d] xor (if (init[x]) 0 else 1)
+		val xor = odd[c] xor odd[d] xor toSwitch[x]
 		p[cc] = dd
 		odd[cc] = xor
 		val old = minOf(d0[cc], d1[cc]) + minOf(d0[dd], d1[dd])
@@ -78,65 +62,23 @@ private fun solve(k: Int, init: List<Boolean>, where: List<MutableList<Int>>): L
 			d0[dd] = d0[dd] + d0[cc]
 			d1[dd] = d1[dd] + d1[cc]
 		}
-		d0[dd] = minOf(d0[dd], inf)
-		d1[dd] = minOf(d1[dd], inf)
+		d0[dd] = minOf(d0[dd], k + 1)
+		d1[dd] = minOf(d1[dd], k + 1)
 		val new = minOf(d0[dd], d1[dd])
 		ans.add(ans.last() - old + new)
 	}
 	return ans.drop(1)
 }
 
-private fun solveDumb(k: Int, init: List<Boolean>, where: List<MutableList<Int>>): List<Int> {
-	val inf = 300 * (init.size + k)
-	val ans = mutableListOf<Int>()
-	for (x in init.indices) {
-		var best = inf
-		for (m in 0 until (1 shl k)) {
-			var good = true
-			for (i in 0..x) {
-				var v = if (init[i]) 1 else 0
-				for (s in where[i]) {
-					if (((m shr s) and 1) == 1) {
-						v = v xor 1
-					}
-				}
-				if (v != 1) { good = false; break }
-			}
-			if (good) best = best.coerceAtMost(Integer.bitCount(m))
-		}
-		ans.add(best)
+fun main() {
+	val (_, k) = readInts()
+	val toSwitch = readLn().map { '1' - it }
+	val where = List(toSwitch.size) { mutableListOf<Int>() }
+	repeat(k) { i ->
+		readLn()
+		readInts().forEach { where[it - 1].add(i) }
 	}
-	return ans
-}
-
-private fun stress() {
-	val rnd = Random(566)
-	while (true) {
-		val n = rnd.nextInt(32)
-		val k = rnd.nextInt(12)
-		val init = List(n) { rnd.nextBoolean() }
-		val inf = 300 * (init.size + k)
-		val where = List(n) {
-			val len = rnd.nextInt(minOf(3, k + 1))
-			val set = mutableSetOf<Int>()
-			while (set.size < len) {
-				set.add(rnd.nextInt(k))
-			}
-			set.toMutableList()
-		}
-		val b = solveDumb(k, init, where)
-		if (b.any { it >= inf }) continue
-		val a = solve(k, init, where)
-		print(a)
-		println(b)
-		if (a != b) {
-			println(n)
-			println(k)
-			println(init)
-			println(where)
-			return
-		}
-	}
+	println(solve(k, toSwitch, where).joinToString("\n"))
 }
 
 private fun readLn() = readLine()!!

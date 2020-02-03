@@ -1,22 +1,15 @@
 package codeforces.round616
 
-private fun solve() {
+private fun solve(): Int {
 	val (n, mIn, kIn) = readInts()
 	val m = mIn - 1
 	val k = minOf(kIn, m)
 	val a = readInts()
-	val b = mutableListOf<Int>()
-	for (i in 0..m) {
-		b.add(maxOf(a[i], a[i + n - 1 - m]))
-	}
-	var ans = a.min()!!
-	for (i in 0..k) {
-		ans = maxOf(ans, b.subList(i, b.size - k + i).min()!!)
-	}
-	println(ans)
+	val b = List(m + 1) { maxOf(a[it], a[it + n - 1 - m]) }
+	return List(k + 1) { b.drop(it).take(m + 1 - k).min()!! }.max()!!
 }
 
-fun main() = repeat(readInt()) { solve() }
+fun main() = repeat(readInt()) { println(solve()) }
 
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
