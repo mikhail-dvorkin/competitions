@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.pi.d
+package kotlinchallenge.y2013.pi
 
 import java.util.*
 import java.io.*
@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
     sc.close()
 }
 
-class SegmentsTreeMax(size: Int) {
+private class SegmentsTreeMax(size: Int) {
     val two: Int
     val a: Array<Int>
 

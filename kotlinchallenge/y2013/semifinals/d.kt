@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.semifinals.d
+package kotlinchallenge.y2013.semifinals
 
 import java.io.*
 import java.util.*
@@ -71,32 +71,5 @@ fun main(args: Array<String>) {
     val t = sc.nextInt()
     for (i in 0..t-1) {
         solve(sc.nextInt(), sc.next())
-    }
-}
-
-class MyScanner(val br: BufferedReader) {
-    var st: StringTokenizer? = null
-
-    fun findToken() {
-        while (st == null || !st!!.hasMoreTokens()) {
-            st = StringTokenizer(br.readLine()!!);
-        }
-    }
-
-    fun next(): String {
-        findToken();
-        return st!!.nextToken();
-    }
-
-    fun nextInt(): Int {
-        return next().toInt()
-    }
-
-    fun nextLong(): Long {
-        return next().toLong()
-    }
-
-    fun nextDouble(): Double {
-        return next().toDouble()
     }
 }

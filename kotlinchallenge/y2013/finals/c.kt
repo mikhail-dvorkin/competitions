@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.finals.c
+package kotlinchallenge.y2013.finals
 
 import java.io.*
 import java.util.*
@@ -70,31 +70,4 @@ fun main(args: Array<String>) {
     }
     val ans = Math.min(maxEven, maxOdd)
     println(if (ans == Integer.MAX_VALUE) "Impossible" else ans.toString())
-}
-
-class MyScanner(val br: BufferedReader) {
-    var st: StringTokenizer? = null
-
-    fun findToken() {
-        while (st == null || !st!!.hasMoreTokens()) {
-            st = StringTokenizer(br.readLine()!!);
-        }
-    }
-
-    fun next(): String {
-        findToken();
-        return st!!.nextToken();
-    }
-
-    fun nextInt(): Int {
-        return next().toInt()
-    }
-
-    fun nextLong(): Long {
-        return next().toLong()
-    }
-
-    fun nextDouble(): Double {
-        return next().toDouble()
-    }
 }

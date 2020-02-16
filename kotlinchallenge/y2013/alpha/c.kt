@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.alpha.c
+package kotlinchallenge.y2013.alpha
 
 import java.util.*
 import java.io.*

@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.pi.e
+package kotlinchallenge.y2013.pi
 
 import java.util.*
 import java.io.*
@@ -54,11 +54,11 @@ fun main(args: Array<String>) {
     sc.close()
 }
 
-fun solve(xa1: Double, xa2: Double, xb1: Double, xb2: Double, ymin: Int, ymax: Int, rx: Int): Double {
+private fun solve(xa1: Double, xa2: Double, xb1: Double, xb2: Double, ymin: Int, ymax: Int, rx: Int): Double {
     return solve(xa2, xb2, ymin, ymax, rx) - solve(xa1, xb1, ymin, ymax, rx)
 }
 
-fun solve(x1: Double, x2: Double, ymin: Int, ymax: Int, rx: Int): Double {
+private fun solve(x1: Double, x2: Double, ymin: Int, ymax: Int, rx: Int): Double {
     val xmin = Math.min(x1, x2)
     val xmax = Math.max(x1, x2)
     val h = ymax - ymin

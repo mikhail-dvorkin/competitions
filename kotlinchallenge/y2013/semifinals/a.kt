@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.semifinals.a
+package kotlinchallenge.y2013.semifinals
 
 import java.io.*
 import java.util.*

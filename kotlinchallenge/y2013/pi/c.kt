@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.pi.c
+package kotlinchallenge.y2013.pi
 
 import java.util.*
 import java.io.*
@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
     sc.close()
 }
 
-fun check(sc: Scanner, b: Array<Boolean>): Int {
+private fun check(sc: Scanner, b: Array<Boolean>): Int {
     val n = b.size
     if (sc.hasNext("Impossible")) {
         sc.next()

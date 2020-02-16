@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.finals.e
+package kotlinchallenge.y2013.finals
 
 import java.io.*
 import java.util.*
@@ -33,7 +33,7 @@ fun main(args: Array<String>) {
     println("Yes")
 }
 
-fun dfs(v: Int, kids: Array<ArrayList<Int>>, a: Array<Array<Int>>) {
+private fun dfs(v: Int, kids: Array<ArrayList<Int>>, a: Array<Array<Int>>) {
     var deg = 0
     for (u in kids[v]) {
         dfs(u, kids, a)
@@ -69,33 +69,6 @@ fun dfs(v: Int, kids: Array<ArrayList<Int>>, a: Array<Array<Int>>) {
     println(a[v].toList())
 }
 
-fun norm(x: Int): Int {
+private fun norm(x: Int): Int {
     return Math.max(-inf, Math.min(inf, x))
-}
-
-class MyScanner(val br: BufferedReader) {
-    var st: StringTokenizer? = null
-
-    fun findToken() {
-        while (st == null || !st!!.hasMoreTokens()) {
-            st = StringTokenizer(br.readLine()!!);
-        }
-    }
-
-    fun next(): String {
-        findToken();
-        return st!!.nextToken();
-    }
-
-    fun nextInt(): Int {
-        return next().toInt()
-    }
-
-    fun nextLong(): Long {
-        return next().toLong()
-    }
-
-    fun nextDouble(): Double {
-        return next().toDouble()
-    }
 }

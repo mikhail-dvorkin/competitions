@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.semifinals.c
+package kotlinchallenge.y2013.semifinals
 
 import java.io.*
 import java.util.*
@@ -30,31 +30,4 @@ fun main(args: Array<String>) {
 //    println(perimeter)
 //    println(area)
     println(area / 2 + 1 - perimeter / 2)
-}
-
-class MyScanner(val br: BufferedReader) {
-    var st: StringTokenizer? = null
-
-    fun findToken() {
-        while (st == null || !st!!.hasMoreTokens()) {
-            st = StringTokenizer(br.readLine()!!);
-        }
-    }
-
-    fun next(): String {
-        findToken();
-        return st!!.nextToken();
-    }
-
-    fun nextInt(): Int {
-        return next().toInt()
-    }
-
-    fun nextLong(): Long {
-        return next().toLong()
-    }
-
-    fun nextDouble(): Double {
-        return next().toDouble()
-    }
 }

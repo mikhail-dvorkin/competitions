@@ -1,4 +1,4 @@
-package kotlinchallenge.y2013.pi.a
+package kotlinchallenge.y2013.pi
 
 import java.util.*
 import java.io.*
