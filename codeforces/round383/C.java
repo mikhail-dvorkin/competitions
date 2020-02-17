@@ -61,7 +61,7 @@ public class C {
 	}
 
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {

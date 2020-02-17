@@ -3,8 +3,8 @@ import java.util.*;
 
 public class A {
 	private static Scanner in;
-	
-	String[] res = new String[]{"First", "Second", "Draw"};
+
+	final String[] res = new String[]{"First", "Second", "Draw"};
 
 	public void run() {
 		int n = in.nextInt();

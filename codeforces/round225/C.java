@@ -61,10 +61,10 @@ public class C {
 		tOut[v] = time++;
 	}
 
-	static boolean stdStreams = true;
-	static String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
-	static String inputFileName = fileName + ".in";
-	static String outputFileName = fileName + ".out";
+	static final boolean stdStreams = true;
+	static final String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
+	static final String inputFileName = fileName + ".in";
+	static final String outputFileName = fileName + ".out";
 	static MyScanner in;
 	static PrintWriter out;
 
@@ -85,8 +85,8 @@ public class C {
 	}
 
 	static class FenwickTree {
-		int[] t;
-		int n;
+		final int[] t;
+		final int n;
 
 		public FenwickTree(int n) {
 			this.n = n;
@@ -109,7 +109,7 @@ public class C {
 	}
 
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {

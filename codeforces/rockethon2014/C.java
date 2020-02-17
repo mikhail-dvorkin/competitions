@@ -89,11 +89,11 @@ public class C {
 //		}
 		System.out.println(ans == inf ? -1 : ans);
 	}
-	
+
 //	class Participant implements Comparable<Participant> {
 //		int points;
 //		int effort;
-//		
+//
 //		public Participant(int points, int effort) {
 //			this.points = points;
 //			this.effort = effort;
@@ -105,10 +105,10 @@ public class C {
 //		}
 //	}
 
-	static boolean stdStreams = true;
-	static String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
-	static String inputFileName = fileName + ".in";
-	static String outputFileName = fileName + ".out";
+	static final boolean stdStreams = true;
+	static final String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
+	static final String inputFileName = fileName + ".in";
+	static final String outputFileName = fileName + ".out";
 	static MyScanner in;
 	static PrintWriter out;
 
@@ -127,15 +127,15 @@ public class C {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -145,20 +145,20 @@ public class C {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

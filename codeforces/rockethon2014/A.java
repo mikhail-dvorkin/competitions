@@ -25,10 +25,10 @@ public class A {
 		System.out.println(ans);
 	}
 
-	static boolean stdStreams = true;
-	static String fileName = A.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
-	static String inputFileName = fileName + ".in";
-	static String outputFileName = fileName + ".out";
+	static final boolean stdStreams = true;
+	static final String fileName = A.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
+	static final String inputFileName = fileName + ".in";
+	static final String outputFileName = fileName + ".out";
 	static MyScanner in;
 	static PrintWriter out;
 
@@ -47,15 +47,15 @@ public class A {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -65,20 +65,20 @@ public class A {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

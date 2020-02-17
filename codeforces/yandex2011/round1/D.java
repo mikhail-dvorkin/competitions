@@ -4,10 +4,10 @@ import java.util.*;
 public class D {
 	private static Scanner in;
 
-	int m = 1 << 17;
-	int f = 5;
-	long[][] a = new long[2 * m][f];
-	int[] b = new int[2 * m];
+	final int m = 1 << 17;
+	final int f = 5;
+	final long[][] a = new long[2 * m][f];
+	final int[] b = new int[2 * m];
 
 	public void run() {
 		int ops = in.nextInt();

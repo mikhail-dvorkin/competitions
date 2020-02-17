@@ -18,7 +18,9 @@ public class C {
 	}
 
 	static class Node {
-		int low, high, mid;
+		final int low;
+		final int high;
+		int mid;
 		Node left, right;
 		int val, up, down;
 
@@ -103,7 +105,7 @@ public class C {
 	}
 
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {

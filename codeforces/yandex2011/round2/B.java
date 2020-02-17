@@ -3,15 +3,15 @@ import java.util.*;
 
 public class B {
 	private static Scanner in;
-	
-	int[] di = new int[]{1, 0, -1, 0};
-	int[] dj = new int[]{0, 1, 0, -1};
+
+	final int[] di = new int[]{1, 0, -1, 0};
+	final int[] dj = new int[]{0, 1, 0, -1};
 
 	int hei;
 	int wid;
 	boolean[][] a;
 	int[][] b;
-	
+
 	public void run() {
 		hei = in.nextInt();
 		wid = in.nextInt();

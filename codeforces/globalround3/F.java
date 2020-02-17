@@ -3,9 +3,9 @@ import java.io.*;
 import java.util.*;
 
 public class F {
-	int M = 62;
+	final int M = 62;
 	Random rnd = new Random(566);
-	
+
 	void run() {
 		int n = in.nextInt();
 		int[] val = new int[n];
@@ -50,7 +50,7 @@ public class F {
 		String fileName = F.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -69,15 +69,15 @@ public class F {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -87,20 +87,20 @@ public class F {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

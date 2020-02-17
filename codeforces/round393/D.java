@@ -3,9 +3,9 @@ import java.io.*;
 import java.util.*;
 
 public class D {
-	int A = 26;
-	int P = 1_000_000_007;
-	
+	final int A = 26;
+	final int P = 1_000_000_007;
+
 	void run() {
 		int n = in.nextInt();
 		String s = in.next();
@@ -25,7 +25,7 @@ public class D {
 				cnk[i][j] = (cnk[i - 1][j - 1] + cnk[i - 1][j]) % P;
 			}
 		}
-			
+
 		int ans = 0;
 		for (int j = 1; j <= n; j++) {
 			ans = (int) ((ans + (long) sum[j] * cnk[n - 1][n - j]) % P);
@@ -41,7 +41,7 @@ public class D {
 		String fileName = D.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -59,15 +59,15 @@ public class D {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -77,20 +77,20 @@ public class D {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

@@ -38,7 +38,8 @@ public class C {
 	}
 
 	static class QueueMin {
-		StackMin a, b;
+		final StackMin a;
+		final StackMin b;
 
 		public QueueMin(int n) {
 			a = new StackMin(n);
@@ -64,8 +65,8 @@ public class C {
 	}
 
 	static class StackMin {
-		int[] a;
-		int[] min;
+		final int[] a;
+		final int[] min;
 		int size;
 
 		public StackMin(int n) {

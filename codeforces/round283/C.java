@@ -68,9 +68,12 @@ public class C {
 	}
 
 	static class Event implements Comparable<Event> {
-		int x;
-		boolean type;
-		int a, b, k, id;
+		final int x;
+		final boolean type;
+		final int a;
+		final int b;
+		int k;
+		final int id;
 
 		public Event(int a, int b, int id) {
 			this.x = 2 * a + 1;
@@ -97,10 +100,10 @@ public class C {
 		}
 	}
 
-	static boolean stdStreams = true;
-	static String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
-	static String inputFileName = fileName + ".in";
-	static String outputFileName = fileName + ".out";
+	static final boolean stdStreams = true;
+	static final String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
+	static final String inputFileName = fileName + ".in";
+	static final String outputFileName = fileName + ".out";
 	static MyScanner in;
 	static PrintWriter out;
 
@@ -124,7 +127,7 @@ public class C {
 	}
 
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {

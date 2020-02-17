@@ -5,7 +5,7 @@ import java.util.*;
 public class D {
 	static final long MAX = (long) 1e18;
 	static final int T = 2 * (Long.SIZE - Long.numberOfLeadingZeros(MAX));
-	
+
 	void run() {
 		int n = in.nextInt();
 		int m = in.nextInt();
@@ -64,7 +64,7 @@ public class D {
 		String fileName = D.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -82,15 +82,15 @@ public class D {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -100,20 +100,20 @@ public class D {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

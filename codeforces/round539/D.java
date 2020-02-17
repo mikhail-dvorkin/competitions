@@ -4,7 +4,7 @@ import java.util.*;
 
 public class D {
 	static final int M = 1_000_000_007;
-	
+
 	static int solve(int n, int m) {
 		int ans = 0;
 		int f = 1; // c(n-2, p) * c(m-1, p) * p!
@@ -21,7 +21,7 @@ public class D {
 		}
 		return ans;
 	}
-	
+
 	void run() {
 		int n = in.nextInt();
 		int m = in.nextInt();
@@ -31,7 +31,7 @@ public class D {
 	static int add(int a, int b) {
 		return (a + b) % M;
 	}
-	
+
 	static int mul(int a, int b) {
 		return (int) ((a * (long) b) % M);
 	}
@@ -39,7 +39,7 @@ public class D {
 	static int div(int a, int b) {
 		return mul(a, modInverse(b));
 	}
-	
+
 	static int pow(int base, int p) {
 		if (p < 0) {
 			return pow(modInverse(base), -p);
@@ -51,7 +51,7 @@ public class D {
 		v = mul(v, v);
 		return (p & 1) == 0 ? v : mul(v, base);
 	}
-	
+
 	static int gcdExtended(int a, int b, int[] xy) {
 		if (a == 0) {
 			xy[0] = 0;
@@ -64,7 +64,7 @@ public class D {
 		xy[1] = t;
 		return d;
 	}
-	
+
 	static int modInverse(int x) {
 		int[] xy = new int[2];
 		int gcd = gcdExtended(x, M, xy);
@@ -86,7 +86,7 @@ public class D {
 		String fileName = D.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -105,15 +105,15 @@ public class D {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -123,20 +123,20 @@ public class D {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

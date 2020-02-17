@@ -8,7 +8,7 @@ public class C {
 	int[] p;
 	Set<Integer>[] nei;
 	TreeSet<Integer>[] city;
-	Map<Integer, Integer> from = new TreeMap<>();
+	final Map<Integer, Integer> from = new TreeMap<>();
 	int[] level;
 	int[] parent;
 	int[] list;

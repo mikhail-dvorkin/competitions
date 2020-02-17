@@ -3,7 +3,7 @@ import java.util.*;
 
 public class E {
 	private static Scanner in;
-	double infty = 1e10;
+	final double infty = 1e10;
 
 	public void run() {
 		int n = in.nextInt();
@@ -49,7 +49,7 @@ public class E {
 		for (int i = 1; i <= n; i++) {
 			p[0] = i;
 			int j0 = 0;
-			double[] minv = new double[2 * n + 1]; 
+			double[] minv = new double[2 * n + 1];
 			Arrays.fill(minv, infty);
 			boolean[] used = new boolean[2 * n + 1];
 			do {

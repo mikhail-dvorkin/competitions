@@ -2,7 +2,7 @@ package codeforces.croc2013.round1;
 import java.util.*;
 
 public class B {
-	String[] NAMES = new String[]{
+	final String[] NAMES = new String[]{
 			"bus topology",
 			"ring topology",
 			"star topology",
@@ -10,7 +10,7 @@ public class B {
 	};
 
 	private static Scanner in;
-	
+
 	public void run() {
 		int n = in.nextInt();
 		int m = in.nextInt();

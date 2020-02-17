@@ -4,8 +4,8 @@ import java.util.*;
 public class B {
 	private static Scanner in;
 
-	String no = "NO";
-	String yes = "FHTAGN!";
+	final String no = "NO";
+	final String yes = "FHTAGN!";
 
 	int n;
 	ArrayList<Integer>[] nei;

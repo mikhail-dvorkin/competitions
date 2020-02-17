@@ -49,7 +49,10 @@ public class A {
 	}
 
 	static class Tour implements Comparable<Tour> {
-		int from, to, win, id;
+		final int from;
+		final int to;
+		final int win;
+		final int id;
 
 		public Tour(int from, int to, int win, int id) {
 			this.from = from;

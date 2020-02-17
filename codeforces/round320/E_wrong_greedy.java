@@ -102,7 +102,7 @@ public class E_wrong_greedy {
 	}
 
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {

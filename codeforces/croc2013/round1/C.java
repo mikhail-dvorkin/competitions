@@ -26,9 +26,9 @@ public class C {
 		}
 	}
 
-	int[] p = new int[12];
+	final int[] p = new int[12];
 	int m;
-	List<String> ans = new ArrayList<>();
+	final List<String> ans = new ArrayList<>();
 
 	void search(int v, int len) {
 		boolean okSet = true;
@@ -62,7 +62,7 @@ public class C {
 		}
 	}
 
-	int[] ip = new int[4];
+	final int[] ip = new int[4];
 
 	void ipSearch(int i, int t) {
 		if (t < 0) {

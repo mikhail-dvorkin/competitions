@@ -7,7 +7,7 @@ import java.util.*;
 
 public class B {
 	private static BufferedReader in;
-	private static PrintWriter out = new PrintWriter(System.out);
+	private static final PrintWriter out = new PrintWriter(System.out);
 
 	public void run() throws IOException {
 		StringTokenizer st = new StringTokenizer(in.readLine());

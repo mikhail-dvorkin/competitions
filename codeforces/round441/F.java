@@ -4,7 +4,7 @@ import java.util.*;
 
 public class F {
 	static final int MAX_W = 10000;
-	
+
 	void run() {
 		int n = in.nextInt();
 		int m = in.nextInt();
@@ -24,7 +24,7 @@ public class F {
 			a[w].add(x);
 			b[w].add(y);
 		}
-		
+
 		p = new int[n];
 		boolean[] full = new boolean[n];
 		for (int i = 0; i < p.length; i++) {
@@ -58,7 +58,7 @@ public class F {
 		}
 		out.println(ans);
 	}
-	
+
 	int[] p;
 
 	int get(int v) {
@@ -77,7 +77,7 @@ public class F {
 		String fileName = F.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -95,15 +95,15 @@ public class F {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -113,20 +113,20 @@ public class F {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

@@ -3,7 +3,7 @@ import java.util.*;
 
 public class A {
 	private static Scanner in;
-	String[] names = {"Sheldon", "Leonard", "Penny", "Rajesh", "Howard"};
+	final String[] names = {"Sheldon", "Leonard", "Penny", "Rajesh", "Howard"};
 
 	public void run() {
 		long n = in.nextLong();

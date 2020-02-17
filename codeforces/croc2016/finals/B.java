@@ -8,10 +8,11 @@ public class B {
 	int color;
 	boolean[][] mark;
 	boolean[][] inv;
-	boolean[] possible = new boolean[2];
-	ArrayList<Integer> yes = new ArrayList<>();
-	ArrayList<Integer> no = new ArrayList<>();
+	final boolean[] possible = new boolean[2];
+	final ArrayList<Integer> yes = new ArrayList<>();
+	final ArrayList<Integer> no = new ArrayList<>();
 	@SuppressWarnings("unchecked")
+	final
 	ArrayList<Integer>[] ans = new ArrayList[2];
 
 	@SuppressWarnings("unchecked")
@@ -121,7 +122,7 @@ public class B {
 	}
 
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {

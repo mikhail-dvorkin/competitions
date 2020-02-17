@@ -42,11 +42,11 @@ public class D {
 		}
 		out.println(ans);
 	}
-	
+
 	public static class SparseTable {
-		int[][] or;
-		int[][] max;
-		
+		final int[][] or;
+		final int[][] max;
+
 		public SparseTable(int[] a) {
 			int n = a.length;
 			int t = 1;
@@ -64,7 +64,7 @@ public class D {
 				}
 			}
 		}
-		
+
 		public int or(int from, int to) {
 			if (from >= to) {
 				return 0;
@@ -72,7 +72,7 @@ public class D {
 			int j = Integer.SIZE - 1 - Integer.numberOfLeadingZeros(to - from);
 			return or[j][from] | or[j][to - (1 << j)];
 		}
-		
+
 		public int max(int from, int to) {
 			if (from >= to) {
 				return -1;
@@ -91,7 +91,7 @@ public class D {
 		String fileName = D.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -109,15 +109,15 @@ public class D {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -127,20 +127,20 @@ public class D {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

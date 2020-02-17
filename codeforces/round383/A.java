@@ -32,7 +32,7 @@ public class A {
 		}
 		out.println(lcm);
 	}
-	
+
 	public static long gcd(long a, long b) {
 		while (a > 0) {
 			long t = b % a;
@@ -41,7 +41,7 @@ public class A {
 		}
 		return b;
 	}
-	
+
 	public static long lcm(long a, long b) {
 		return (a / gcd(a, b)) * b;
 	}
@@ -54,7 +54,7 @@ public class A {
 		String fileName = A.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -72,15 +72,15 @@ public class A {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -90,20 +90,20 @@ public class A {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

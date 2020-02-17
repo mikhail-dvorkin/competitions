@@ -3,8 +3,8 @@ import java.util.*;
 
 public class E {
 	private static Scanner in;
-	
-	int M = 1000000000;
+
+	final int M = 1000000000;
 
 	public void run() {
 		int n = in.nextInt();

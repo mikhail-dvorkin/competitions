@@ -26,8 +26,8 @@ public class A {
 	}
 
 	static class DisjointSetUnion {
-		int[] p;
-		Random r = new Random(1);
+		final int[] p;
+		final Random r = new Random(1);
 
 		public DisjointSetUnion(int n) {
 			p = new int[n];
@@ -87,7 +87,7 @@ public class A {
 	}
 
 	static class MyScanner {
-		BufferedReader br;
+		final BufferedReader br;
 		StringTokenizer st;
 
 		MyScanner(BufferedReader br) {

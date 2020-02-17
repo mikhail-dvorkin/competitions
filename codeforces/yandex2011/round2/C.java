@@ -5,8 +5,8 @@ public class C {
 	private static Scanner in;
 
 	class State {
-		String s;
-		int c;
+		final String s;
+		final int c;
 
 		public State(String s, int c) {
 			this.s = s;
@@ -65,10 +65,10 @@ public class C {
 	}
 
 	String[] dna;
-	HashMap<State, Integer> map = new HashMap<>();
-	int[][] nxt = new int[2000][4];
-	boolean[] trm = new boolean[2000];
-	char[] ns = new char[]{'A', 'C', 'G', 'T'};
+	final HashMap<State, Integer> map = new HashMap<>();
+	final int[][] nxt = new int[2000][4];
+	final boolean[] trm = new boolean[2000];
+	final char[] ns = new char[]{'A', 'C', 'G', 'T'};
 
 	public void run() {
 		int n = in.nextInt();

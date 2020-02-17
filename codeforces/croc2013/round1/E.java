@@ -3,10 +3,10 @@ import java.util.*;
 
 public class E {
 	private static Scanner in;
-	
+
 	final static int none = Integer.MAX_VALUE;
 	final static int empty = Integer.MIN_VALUE;
-	
+
 	public void run() {
 		int n = in.nextInt();
 		int m = in.nextInt();
@@ -44,14 +44,14 @@ public class E {
 		update(1, M + from, M + to - 1, value, H - 1);
 	}
 
-	static int H = 18;
-	static int M = 1 << (H - 1);
-	static int[] s = new int[2 * M];
+	static final int H = 18;
+	static final int M = 1 << (H - 1);
+	static final int[] s = new int[2 * M];
 	static {
 		Arrays.fill(s, empty);
 		s[1] = none;
 	}
-	
+
 	static int get(int x) {
 		for (int h = H - 1; h >= 0; h--) {
 			int y = x >> h;
@@ -61,7 +61,7 @@ public class E {
 		}
 		throw new RuntimeException();
 	}
-	
+
 	static void update(int v, int from, int to, int value, int h) {
 		int v1 = v << h;
 		int v2 = ((v + 1) << h) - 1;
