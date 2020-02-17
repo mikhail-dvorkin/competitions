@@ -8,7 +8,7 @@ public class C {
 	boolean[] need;
 	int[] list;
 	int[] take;
-	
+
 	public void run() {
 		n = in.nextInt();
 		need = new boolean[10];
@@ -25,11 +25,11 @@ public class C {
 			System.out.println(s);
 		}
 	}
-	
+
 	int[] p = new int[12];
 	int m;
-	List<String> ans = new ArrayList<String>();
-	
+	List<String> ans = new ArrayList<>();
+
 	void search(int v, int len) {
 		boolean okSet = true;
 		for (int d = 0; d < 10; d++) {
@@ -63,7 +63,7 @@ public class C {
 	}
 
 	int[] ip = new int[4];
-			
+
 	void ipSearch(int i, int t) {
 		if (t < 0) {
 			return;

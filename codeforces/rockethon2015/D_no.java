@@ -7,7 +7,7 @@ public class D_no {
 	int[] lMin, lMax, rMin, rMax;
 	int[] ans;
 	int ansPos;
-	
+
 	void run() {
 		n = in.nextInt();
 		int c = in.nextInt();
@@ -41,7 +41,7 @@ public class D_no {
 			out.print(ans[i] + 1 + " ");
 		}
 	}
-	
+
 	int solve(int v, @SuppressWarnings("unused") int p, int taken, boolean right) {
 		int taken2 = taken;
 		if (rMin[v] != n) {
@@ -72,8 +72,7 @@ public class D_no {
 			if (taken == v + 1) {
 				return v;
 			} else {
-				int w = solve(v + 1, v, taken, right);
-				return w;
+				return solve(v + 1, v, taken, right);
 			}
 		} else {
 			int u = solve(v + 1, v, taken2, false);
@@ -81,17 +80,16 @@ public class D_no {
 			if (taken == u + 1) {
 				return u;
 			} else {
-				int w = solve(u + 1, v, taken, true);
-				return w;
+				return solve(u + 1, v, taken, true);
 			}
 		}
 	}
-	
+
 	void add(int v) {
 		ans[ansPos] = v;
 		ansPos++;
 	}
-	
+
 	void imp() {
 		out.println("IMPOSSIBLE");
 		throw new TestSolvedException();
@@ -119,17 +117,17 @@ public class D_no {
 		for (int test = 0; test < tests; test++) {
 			try {
 				new D_no().run();
-			} catch (TestSolvedException e) {
+			} catch (TestSolvedException ignored) {
 			}
 		}
 		br.close();
 		out.close();
 	}
-	
+
 	@SuppressWarnings("serial")
 	static class TestSolvedException extends RuntimeException {
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -137,7 +135,7 @@ public class D_no {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -147,20 +145,20 @@ public class D_no {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

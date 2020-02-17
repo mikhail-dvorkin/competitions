@@ -26,7 +26,6 @@ public class C {
 			if (i == n - 1) {
 				return false;
 			}
-			n--;
 			x--;
 		}
 		if (x == 0) {

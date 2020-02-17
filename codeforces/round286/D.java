@@ -13,7 +13,7 @@ public class D {
 		int[] c = new int[m];
 		ArrayList<Integer>[] byColor = new ArrayList[m];
 		for (int i = 0; i < m; i++) {
-			byColor[i] = new ArrayList<Integer>();
+			byColor[i] = new ArrayList<>();
 		}
 		for (int i = 0; i < m; i++) {
 			a[i] = in.nextInt() - 1;
@@ -25,7 +25,7 @@ public class D {
 		int popular = 0;
 		nei = new ArrayList[n];
 		for (int i = 0; i < n; i++) {
-			nei[i] = new ArrayList<Integer>();
+			nei[i] = new ArrayList<>();
 		}
 		comp = new int[n];
 		Arrays.fill(comp, -1);
@@ -35,10 +35,10 @@ public class D {
 			}
 		}
 		int[][] popColor = new int[n][popular];
-		Map<Long, Integer> count = new TreeMap<Long, Integer>();
+		Map<Long, Integer> count = new TreeMap<>();
 		for (int k = 0, p = 0; k < m; k++) {
 			if (byColor[k].size() < T) {
-				TreeSet<Integer> actual = new TreeSet<Integer>(); 
+				TreeSet<Integer> actual = new TreeSet<>();
 				for (int i : byColor[k]) {
 					nei[a[i]].add(b[i]);
 					nei[b[i]].add(a[i]);
@@ -61,7 +61,7 @@ public class D {
 						long enc = encode(i, j);
 						count.put(enc, count.getOrDefault(enc, 0) + 1);
 					}
-				}				
+				}
 				for (int i : actual) {
 					nei[i].clear();
 					comp[i] = -1;
@@ -107,11 +107,11 @@ public class D {
 			out.println(res);
 		}
 	}
-	
+
 	long encode(int a, int b) {
 		return b | ((long) a << 32);
 	}
-	
+
 	ArrayList<Integer>[] nei;
 	int[] comp;
 	int comps;
@@ -125,7 +125,7 @@ public class D {
 			dfs(u);
 		}
 	}
-	
+
 	static boolean stdStreams = true;
 	static String fileName = D.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 	static String inputFileName = fileName + ".in";
@@ -151,7 +151,7 @@ public class D {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -159,7 +159,7 @@ public class D {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -169,20 +169,20 @@ public class D {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

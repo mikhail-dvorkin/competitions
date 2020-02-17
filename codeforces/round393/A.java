@@ -24,16 +24,16 @@ public class A {
 		}
 		out.println(ansP + ansB);
 	}
-	
-	class DisjointSetUnion {
+
+	static class DisjointSetUnion {
 		int[] p;
 		Random r = new Random(1);
-		
+
 		public DisjointSetUnion(int n) {
 			p = new int[n];
 			clear();
 		}
-		
+
 		void clear() {
 			for (int i = 0; i < p.length; i++) {
 				p[i] = i;
@@ -47,7 +47,7 @@ public class A {
 			p[v] = get(p[v]);
 			return p[v];
 		}
-		
+
 		void unite(int v, int u) {
 			v = get(v);
 			u = get(u);
@@ -67,7 +67,7 @@ public class A {
 		String fileName = A.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -85,7 +85,7 @@ public class A {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -93,7 +93,7 @@ public class A {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -103,20 +103,20 @@ public class A {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

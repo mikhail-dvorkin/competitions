@@ -8,10 +8,10 @@ public class A {
 	public void run() {
 		long n = in.nextLong();
 		for (long m = 1;; m *= 2) {
-			for (int i = 0; i < names.length; i++) {
+			for (String name : names) {
 				n -= m;
 				if (n <= 0) {
-					System.out.println(names[i]);
+					System.out.println(name);
 					return;
 				}
 			}

@@ -42,9 +42,9 @@ public class B {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < i; j++) {
 				for (int k = 0; k < j; k++) {
-					long area = x[i] * 1L * y[j] - x[j] * 1L * y[i] +
-							x[j] * 1L * y[k] - x[k] * 1L * y[j] +
-							x[k] * 1L * y[i] - x[i] * 1L * y[k];
+					long area = (long) x[i] * y[j] - (long) x[j] * y[i] +
+							(long) x[j] * y[k] - (long) x[k] * y[j] +
+							(long) x[k] * y[i] - (long) x[i] * y[k];
 					if (area == 0) {
 						throw new RuntimeException("m=" + m);
 					}

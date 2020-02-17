@@ -16,7 +16,7 @@ public class C_tl {
 				a[i][j] = (byte) (s.charAt(j) - '0');
 			}
 		}
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Integer> list = new ArrayList<>();
 		for (int i = 0; i < m; i++) {
 			int v = 0;
 			for (int j = 0; j < n; j++) {
@@ -71,7 +71,7 @@ public class C_tl {
 		String fileName = C_tl.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -89,7 +89,7 @@ public class C_tl {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -97,7 +97,7 @@ public class C_tl {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -107,20 +107,20 @@ public class C_tl {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

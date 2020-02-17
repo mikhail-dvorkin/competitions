@@ -5,21 +5,21 @@ import java.util.*;
 public class A {
 	void run() {
 		int n = in.nextInt();
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			list.add(in.nextInt());
 		}
 		Collections.sort(list);
-		List<List<Integer>> stacks = new ArrayList<List<Integer>>();
-		aloop:
+		List<List<Integer>> stacks = new ArrayList<>();
+		aLoop:
 		for (int a : list) {
-			for (int i = 0; i < stacks.size(); i++) {
-				if (a >= stacks.get(i).size()) {
-					stacks.get(i).add(a);
-					continue aloop;
+			for (List<Integer> stack : stacks) {
+				if (a >= stack.size()) {
+					stack.add(a);
+					continue aLoop;
 				}
 			}
-			stacks.add(new ArrayList<>(Arrays.asList(a)));
+			stacks.add(new ArrayList<>(Collections.singletonList(a)));
 		}
 		out.println(stacks.size());
 	}
@@ -46,7 +46,7 @@ public class A {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -54,7 +54,7 @@ public class A {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -64,20 +64,20 @@ public class A {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

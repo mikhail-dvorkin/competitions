@@ -10,7 +10,7 @@ public class B {
 	boolean[] mark;
 	int[] size;
 	int time;
-	
+
 	@SuppressWarnings("unchecked")
 	void run() {
 		int n = in.nextInt();
@@ -24,8 +24,8 @@ public class B {
 		mark = new boolean[n];
 		size = new int[n];
 		for (int i = 0; i < n; i++) {
-			from[i] = new ArrayList<Integer>();
-			to[i] = new ArrayList<Integer>();
+			from[i] = new ArrayList<>();
+			to[i] = new ArrayList<>();
 		}
 		for (int i = 0; i < pairs; i++) {
 			a[i] = in.nextInt() - 1;
@@ -58,7 +58,7 @@ public class B {
 		}
 		out.println(ans);
 	}
-	
+
 	void dfs1(int v, int comp) {
 		if (color[v] == comp) {
 			return;
@@ -72,7 +72,7 @@ public class B {
 			dfs1(u, comp);
 		}
 	}
-	
+
 	void dfs2(int v) {
 		if (mark[v]) {
 			return;
@@ -110,7 +110,7 @@ public class B {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -118,7 +118,7 @@ public class B {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -128,20 +128,20 @@ public class B {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

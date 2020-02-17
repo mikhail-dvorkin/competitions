@@ -6,7 +6,7 @@ import java.util.*;
 
 public class D {
 	private static BufferedReader in;
-	
+
 	static final int M = 1000000007;
 
 	public void run() throws IOException {
@@ -46,8 +46,8 @@ public class D {
 					continue;
 				}
 				for (int k = 0; k <= jj; k++) {
-					long c = (c1[jj][k] * 1L * a[i - k - 1][j - 1]) % M;
-					long d = (c2[jj][k] * 1L * a[i - k - 2][j - 2]) % M;
+					long c = ((long) c1[jj][k] * a[i - k - 1][j - 1]) % M;
+					long d = ((long) c2[jj][k] * a[i - k - 2][j - 2]) % M;
 					a[i][j] = (int) ((a[i][j] + c + d * (j - 1)) % M);
 				}
 			}

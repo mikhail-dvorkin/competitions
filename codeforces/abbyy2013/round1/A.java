@@ -9,7 +9,7 @@ public class A {
 
 	public void run() throws IOException {
 		String s = in.readLine().trim();
-		Set<Character> letters = new TreeSet<Character>();
+		Set<Character> letters = new TreeSet<>();
 		int tens = 0;
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);

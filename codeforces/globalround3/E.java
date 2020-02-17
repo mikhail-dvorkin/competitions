@@ -69,12 +69,12 @@ public class E {
 			out.println(s);
 		}
 	}
-	
-	class Stone implements Comparable<Stone> {
+
+	static class Stone implements Comparable<Stone> {
 		int id;
 		int x;
 		int dest;
-		
+
 		@Override
 		public int compareTo(Stone that) {
 			return x - that.x;
@@ -89,7 +89,7 @@ public class E {
 		String fileName = E.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -108,7 +108,7 @@ public class E {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -116,7 +116,7 @@ public class E {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -126,20 +126,20 @@ public class E {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

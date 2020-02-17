@@ -16,8 +16,8 @@ public class C {
 			out.println(root.top());
 		}
 	}
-	
-	class Node {
+
+	static class Node {
 		int low, high, mid;
 		Node left, right;
 		int val, up, down;
@@ -55,7 +55,7 @@ public class C {
 				up = right.up;
 			}
 		}
-		
+
 		int top(int pops) {
 			if (left == null) {
 				if (up > pops) {
@@ -69,7 +69,7 @@ public class C {
 			pops += right.down - right.up;
 			return left.top(pops);
 		}
-		
+
 		int top() {
 			return top(0);
 		}
@@ -83,7 +83,7 @@ public class C {
 		String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -101,7 +101,7 @@ public class C {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -109,7 +109,7 @@ public class C {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -119,20 +119,20 @@ public class C {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

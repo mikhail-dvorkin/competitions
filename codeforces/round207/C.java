@@ -51,13 +51,13 @@ public class C {
 			cur += Math.abs(x[f + 2] - 4);
 			f += 3;
 			cur -= Math.abs(x[r - 1] - 3);
-			cur += Math.abs(x[r - 1] - 0);
+			cur += Math.abs(x[r - 1]);
 			r--;
 			ans = Math.min(ans, cur);
 		}
 		System.out.println(ans / 2);
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 		Locale.setDefault(Locale.US);
 		in = new BufferedReader(new InputStreamReader(System.in));

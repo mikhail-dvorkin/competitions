@@ -19,7 +19,7 @@ public class D {
 		@SuppressWarnings("unchecked")
 		HashMap<Integer, Long>[] ans = new HashMap[x];
 		for (int j = 1; j < x; j++) {
-			ans[j] = new HashMap<Integer, Long>();
+			ans[j] = new HashMap<>();
 		}
 		for (int i = 0; i < p; i++) {
 			st = new StringTokenizer(in.readLine());
@@ -56,7 +56,7 @@ public class D {
 			}
 			System.out.println(res);
 		}
-		
+
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -9,11 +9,11 @@ public class B {
 	boolean[][] mark;
 	boolean[][] inv;
 	boolean[] possible = new boolean[2];
-	ArrayList<Integer> yes = new ArrayList<Integer>();
-	ArrayList<Integer> no = new ArrayList<Integer>();
+	ArrayList<Integer> yes = new ArrayList<>();
+	ArrayList<Integer> no = new ArrayList<>();
 	@SuppressWarnings("unchecked")
 	ArrayList<Integer>[] ans = new ArrayList[2];
-	
+
 	@SuppressWarnings("unchecked")
 	void init(int n) {
 		nei = new ArrayList[n];
@@ -27,8 +27,8 @@ public class B {
 		mark = new boolean[2][n];
 		inv = new boolean[2][n];
 		for (int i = 0; i < n; i++) {
-			nei[i] = new ArrayList<Integer>();
-			col[i] = new ArrayList<Boolean>();
+			nei[i] = new ArrayList<>();
+			col[i] = new ArrayList<>();
 		}
 		for (int i = 0; i < m; i++) {
 			int a = in.nextInt() - 1;
@@ -40,8 +40,8 @@ public class B {
 			col[b].add(red);
 		}
 		Arrays.fill(possible, true);
-		ans[0] = new ArrayList<Integer>();
-		ans[1] = new ArrayList<Integer>();
+		ans[0] = new ArrayList<>();
+		ans[1] = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			if (mark[0][i]) {
 				continue;
@@ -101,7 +101,7 @@ public class B {
 		String fileName = B.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -119,7 +119,7 @@ public class B {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -127,7 +127,7 @@ public class B {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -137,20 +137,20 @@ public class B {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

@@ -6,7 +6,7 @@ public class B {
 	int n;
 	int[] a;
 	int[] c;
-	
+
 	int playFrom(int i, int t) {
 		int low = i;
 		int high = n + 1;
@@ -22,7 +22,7 @@ public class B {
 		}
 		return high;
 	}
-	
+
 	void run() {
 		n = in.nextInt();
 		a = new int[n];
@@ -56,8 +56,8 @@ public class B {
 			out.println(p);
 		}
 	}
-	
-	class Pair implements Comparable<Pair> {
+
+	static class Pair implements Comparable<Pair> {
 		int s, t;
 
 		public Pair(int s, int t) {
@@ -72,7 +72,7 @@ public class B {
 			}
 			return Integer.compare(t, o.t);
 		}
-		
+
 		@Override
 		public String toString() {
 			return s + " " + t;
@@ -104,7 +104,7 @@ public class B {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -112,7 +112,7 @@ public class B {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -122,20 +122,20 @@ public class B {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

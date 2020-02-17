@@ -6,15 +6,14 @@ public class A {
 
 	public void run() {
 		int n = in.nextInt();
-		TreeMap<Integer, Integer> count = new TreeMap<Integer, Integer>();
+		TreeMap<Integer, Integer> count = new TreeMap<>();
 		int ans = 0;
 		for (int i = 0; i < n; i++) {
 			int key = in.nextInt();
 			if (key == 0) {
 				continue;
 			}
-			int value = count.containsKey(key) ? count.get(key) : 0;
-			value++;
+			int value = count.getOrDefault(key, 0) + 1;
 			count.put(key, value);
 			if (value == 3) {
 				System.out.println(-1);

@@ -17,7 +17,7 @@ public class C {
 			ans += in.nextInt();
 			int tCur = in.nextInt();
 			int t = tCur - tPrev;
-			int delta = (int) Math.min(n, t * 1L * d);
+			int delta = (int) Math.min(n, (long) t * d);
 			QueueMin q = new QueueMin(n);
 			for (int i = 0, i1 = 0, i2 = 0; i < n; i++) {
 				while (i2 < n && i2 <= i + delta) {
@@ -36,10 +36,10 @@ public class C {
 		Arrays.sort(a);
 		System.out.println(ans - a[0]);
 	}
-	
-	class QueueMin {
+
+	static class QueueMin {
 		StackMin a, b;
-		
+
 		public QueueMin(int n) {
 			a = new StackMin(n);
 			b = new StackMin(n);
@@ -53,18 +53,17 @@ public class C {
 			return Math.min(a.min(), b.min());
 		}
 
-		public int pop() {
+		public void pop() {
 			if (b.size() == 0) {
 				while (a.size() > 0) {
 					b.push(a.pop());
 				}
 			}
-			return b.pop();
+			b.pop();
 		}
-		
 	}
 
-	class StackMin {
+	static class StackMin {
 		int[] a;
 		int[] min;
 		int size;
@@ -100,7 +99,7 @@ public class C {
 			}
 			return min[size - 1];
 		}
-		
+
 	}
 
 	public static void main(String[] args) {

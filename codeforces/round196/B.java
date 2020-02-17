@@ -3,7 +3,7 @@ import java.util.*;
 
 public class B {
 	private static Scanner in;
-	
+
 	int n, d;
 	boolean[] special;
 	ArrayList<Integer>[] nei;
@@ -17,7 +17,7 @@ public class B {
 		d = in.nextInt();
 		nei = new ArrayList[n];
 		for (int i = 0; i < n; i++) {
-			nei[i] = new ArrayList<Integer>();
+			nei[i] = new ArrayList<>();
 		}
 		special = new boolean[n];
 		for (int i = 0; i < m; i++) {

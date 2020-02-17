@@ -3,7 +3,7 @@ import java.util.*;
 
 public class C {
 	private static Scanner in;
-	
+
 	int n;
 	int[] key;
 	int[] parent;
@@ -57,7 +57,7 @@ public class C {
 		dfs2(root, a, 0, m);
 		int am = 0;
 		long s = 0;
-		HashMap<Integer, Double> answer = new HashMap<Integer, Double>();
+		HashMap<Integer, Double> answer = new HashMap<>();
 		for (int i = 0; i < m; i++) {
 			am += amount[i];
 			s += sum[i];
@@ -80,7 +80,7 @@ public class C {
 		dfs2(left[v], a, x, y);
 		dfs2(right[v], a, y, z);
 	}
-	
+
 	int[] amount;
 	long[] sum;
 

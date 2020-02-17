@@ -3,11 +3,11 @@ import java.io.*;
 import java.util.*;
 
 public class B {
-	class Segment implements Comparable<Segment> {
+	static class Segment implements Comparable<Segment> {
 		int diag;
 		int from, to, len;
 		boolean left, right;
-		
+
 		public Segment(int diag, int from, int to) {
 			this.diag = diag;
 			this.from = from;
@@ -21,7 +21,7 @@ public class B {
 		public int compareTo(Segment that) {
 			return from - that.from;
 		}
-		
+
 		boolean update(int newDiag) {
 			int delta = newDiag - diag;
 			if (!left) {
@@ -32,17 +32,17 @@ public class B {
 			}
 			len = to - from;
 			diag = newDiag;
-			return len > 0;
+			return len <= 0;
 		}
-		
+
 		@Override
 		public String toString() {
 			return diag + " " + from + "-" + to;
 		}
 	}
-	
+
 	int n;
-	
+
 	void run() {
 		n = in.nextInt();
 		int m = in.nextInt();
@@ -52,22 +52,13 @@ public class B {
 			int y = in.nextInt() - 1;
 			segments[i] = new Segment(x + y, x, x + 1);
 		}
-		Arrays.sort(segments, new Comparator<Segment>() {
-			@Override
-			public int compare(Segment a, Segment b) {
-				int res = a.diag - b.diag;
-				if (res != 0) {
-					return res;
-				}
-				return a.from - b.from;
-			}
-		});
-		TreeSet<Segment> set = new TreeSet<Segment>();
+		Arrays.sort(segments, Comparator.comparingInt((Segment a) -> a.diag).thenComparingInt(a -> a.from));
+		TreeSet<Segment> set = new TreeSet<>();
 		for (Segment segment : segments) {
 			int diag = segment.diag;
 			Segment prev = set.floor(segment);
 			if(prev != null) {
-				if (!prev.update(diag)) {
+				if (prev.update(diag)) {
 					set.remove(prev);
 					prev = null;
 				}
@@ -79,16 +70,12 @@ public class B {
 				if (segment.from == prev.to) {
 					set.remove(prev);
 					segment = new Segment(diag, prev.from, segment.to);
-					set.add(segment);
-				} else {
-					set.add(segment);
 				}
-			} else {
-				set.add(segment);
 			}
+			set.add(segment);
 			Segment next = set.higher(segment);
 			if(next != null) {
-				if (!next.update(diag)) {
+				if (next.update(diag)) {
 					set.remove(next);
 					next = null;
 				}
@@ -105,7 +92,7 @@ public class B {
 		Segment finish = new Segment(2 * n - 2, n - 1, n);
 		Segment prev = set.floor(finish);
 		if(prev != null) {
-			if (!prev.update(finish.diag)) {
+			if (prev.update(finish.diag)) {
 				set.remove(prev);
 				prev = null;
 			}
@@ -141,7 +128,7 @@ public class B {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -149,7 +136,7 @@ public class B {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -159,20 +146,20 @@ public class B {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

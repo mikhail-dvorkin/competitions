@@ -3,10 +3,10 @@ import java.util.*;
 
 public class B {
 	private static Scanner in;
-	
+
 	String no = "NO";
 	String yes = "FHTAGN!";
-	
+
 	int n;
 	ArrayList<Integer>[] nei;
 	boolean[] mark;
@@ -21,7 +21,7 @@ public class B {
 		nei = new ArrayList[n];
 		mark = new boolean[n];
 		for (int i = 0; i < n; i++) {
-			nei[i] = new ArrayList<Integer>();
+			nei[i] = new ArrayList<>();
 		}
 		for (int i = 0; i < n; i++) {
 			int a = in.nextInt() - 1;

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class B {
 	private static BufferedReader in;
-	
+
 	int best;
 	String ans;
 	int n;
@@ -45,7 +45,7 @@ public class B {
 		}
 		return res;
 	}
-	
+
 	private void solve(int[][] b) {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
@@ -80,6 +80,7 @@ public class B {
 			for (int j = 0; j < n; j++) {
 				if (a[i][j] == 0) {
 					ii = i;
+					break;
 				}
 			}
 		}

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class D {
 	static final int START = 1989;
-	
+
 	void run() {
 		String s = in.next().substring(4);
 		System.out.println(solve(s));
@@ -26,9 +26,9 @@ public class D {
 		}
 		return y;
 	}
-	
+
 	static void stress() {
-		Set<String> set = new TreeSet<String>();
+		Set<String> set = new TreeSet<>();
 		for (int y = START;; y++) {
 			String s = "" + y;
 			for (int i = 1; i <= s.length(); i++) {
@@ -44,7 +44,7 @@ public class D {
 				}
 				break;
 			}
-		}		
+		}
 	}
 
 	static MyScanner in;
@@ -56,7 +56,7 @@ public class D {
 		String fileName = D.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -74,7 +74,7 @@ public class D {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -82,7 +82,7 @@ public class D {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -92,20 +92,20 @@ public class D {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

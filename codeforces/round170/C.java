@@ -12,9 +12,9 @@ public class C {
 		StringTokenizer st = new StringTokenizer(in.readLine());
 		int xm = Integer.parseInt(st.nextToken());
 		int ym = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());		
-		Map<Integer, ArrayList<Integer>> hor = new TreeMap<Integer, ArrayList<Integer>>();
-		Map<Integer, ArrayList<Integer>> ver = new TreeMap<Integer, ArrayList<Integer>>();
+		int k = Integer.parseInt(st.nextToken());
+		Map<Integer, ArrayList<Integer>> hor = new TreeMap<>();
+		Map<Integer, ArrayList<Integer>> ver = new TreeMap<>();
 		for (int i = 0; i < k; i++) {
 			st = new StringTokenizer(in.readLine());
 			int x1 = Integer.parseInt(st.nextToken());
@@ -124,7 +124,7 @@ public class C {
 
 	private void addSegment(Map<Integer, ArrayList<Integer>> ver, int x1, int y1, int y2) {
 		if (!ver.containsKey(x1)) {
-			ver.put(x1, new ArrayList<Integer>());
+			ver.put(x1, new ArrayList<>());
 		}
 		if (y1 > y2) {
 			int t = y1; y1 = y2; y2 = t;

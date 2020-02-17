@@ -6,7 +6,7 @@ public class B {
 	int n;
 	int len;
 	int[] a;
-	
+
 	void run() {
 		n = in.nextInt();
 		len = in.nextInt();
@@ -33,10 +33,10 @@ public class B {
 			return;
 		}
 		for (int i = 0, j = 0; i < n; i++) {
-			while (j < n - 1 && a[j] < a[i] + 0L + x + y) {
+			while (j < n - 1 && a[j] < (long) a[i] + x + y) {
 				j++;
 			}
-			if (a[j] == a[i] + 0L + x + y) {
+			if (a[j] == (long) a[i] + x + y) {
 				System.out.println(1);
 				System.out.println(a[i] + x);
 				return;
@@ -64,12 +64,12 @@ public class B {
 		System.out.println(x + " " + y);
 	}
 
-	boolean check(int x) {
+	boolean check(int z) {
 		for (int i = 0, j = 0; i < n; i++) {
-			while (j < n - 1 && a[j] < a[i] + x) {
+			while (j < n - 1 && a[j] < a[i] + z) {
 				j++;
 			}
-			if (a[j] == a[i] + x) {
+			if (a[j] == a[i] + z) {
 				return true;
 			}
 		}
@@ -101,7 +101,7 @@ public class B {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -109,7 +109,7 @@ public class B {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -119,20 +119,20 @@ public class B {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

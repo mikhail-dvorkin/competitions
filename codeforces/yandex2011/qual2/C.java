@@ -8,12 +8,12 @@ public class C {
 	int[] p;
 	Set<Integer>[] nei;
 	TreeSet<Integer>[] city;
-	Map<Integer, Integer> from = new TreeMap<Integer, Integer>();
+	Map<Integer, Integer> from = new TreeMap<>();
 	int[] level;
 	int[] parent;
 	int[] list;
 	int len;
-	
+
 	@SuppressWarnings("unchecked")
 	public void run() {
 		n = in.nextInt();
@@ -24,8 +24,8 @@ public class C {
 		city = new TreeSet[n];
 		for (int i = 0; i < n; i++) {
 			p[i] = in.nextInt();
-			nei[i] = new HashSet<Integer>();
-			city[i] = new TreeSet<Integer>();
+			nei[i] = new HashSet<>();
+			city[i] = new TreeSet<>();
 			city[i].add(p[i]);
 			from.put(p[i], i);
 		}
@@ -76,7 +76,7 @@ public class C {
 			System.out.print(ans[i]);
 			if (i < n - 1) {
 				System.out.print(" ");
-			} else 
+			} else
 				System.out.println();
 		}
 	}

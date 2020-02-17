@@ -18,7 +18,7 @@ public class B {
 			}
 		}
 		int p = -1;
-		ArrayList<Integer> chains = new ArrayList<Integer>();
+		ArrayList<Integer> chains = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			if (mark[i]) {
 				continue;

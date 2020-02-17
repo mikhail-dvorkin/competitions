@@ -7,7 +7,7 @@ public class C {
 	int[] tIn, tOut;
 	boolean[] odd;
 	int time;
-	
+
 	@SuppressWarnings("unchecked")
 	void run() {
 		int n = in.nextInt();
@@ -16,7 +16,7 @@ public class C {
 		tOut = new int[n];
 		odd = new boolean[n];
 		for (int i = 0; i < n; i++) {
-			nei[i] = new ArrayList<Integer>();
+			nei[i] = new ArrayList<>();
 		}
 		int m = in.nextInt();
 		int[] a = new int[n];
@@ -83,7 +83,7 @@ public class C {
 		br.close();
 		out.close();
 	}
-	
+
 	static class FenwickTree {
 		int[] t;
 		int n;
@@ -107,7 +107,7 @@ public class C {
 			return res;
 		}
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -115,7 +115,7 @@ public class C {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -125,20 +125,20 @@ public class C {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

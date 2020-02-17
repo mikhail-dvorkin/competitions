@@ -19,7 +19,7 @@ public class G {
 			left[i] = Integer.parseInt(st.nextToken());
 			right[i] = Integer.parseInt(st.nextToken());
 		}
-		Set<String> nice = new HashSet<String>();
+		Set<String> nice = new HashSet<>();
 		for (int i = 0; i < original.length(); i++) {
 			for (int j = i + 1; j <= original.length(); j++) {
 				String t = original.substring(i, j);
@@ -44,7 +44,7 @@ public class G {
 		}
 		System.out.println(nice.size());
 	}
-	
+
 	public static int[] kmp(String s) {
 		int n = s.length();
 		int[] p = new int[n + 1];

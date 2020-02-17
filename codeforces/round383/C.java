@@ -21,15 +21,12 @@ public class C {
 				continue;
 			}
 			int i = s;
-			for (;;) {
+			do {
 				c[i] = 0;
 				i = p[i];
 				c[i] = 1;
 				i ^= 1;
-				if (c[i] == 0) {
-					break;
-				}
-			}
+			} while (c[i] != 0);
 		}
 		for (int i = 0; i < n; i++) {
 			out.println((c[a[i]] + 1) + " " + (c[b[i]] + 1));
@@ -44,7 +41,7 @@ public class C {
 		String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -62,7 +59,7 @@ public class C {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -70,7 +67,7 @@ public class C {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -80,20 +77,20 @@ public class C {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

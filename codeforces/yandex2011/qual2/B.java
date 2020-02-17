@@ -35,7 +35,7 @@ public class B {
 			if (count[i] == 0) {
 				continue;
 			}
-			Set<Integer> ans = new HashSet<Integer>();
+			Set<Integer> ans = new HashSet<>();
 			ans.add(i);
 			for (int j = i + 1; j < max; j++) {
 				if (together[i][j] == count[i]) {

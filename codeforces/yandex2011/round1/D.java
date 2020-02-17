@@ -3,7 +3,7 @@ import java.util.*;
 
 public class D {
 	private static Scanner in;
-	
+
 	int m = 1 << 17;
 	int f = 5;
 	long[][] a = new long[2 * m][f];
@@ -12,7 +12,7 @@ public class D {
 	public void run() {
 		int ops = in.nextInt();
 		int[] op = new int[ops];
-		List<Integer> allList = new ArrayList<Integer>();
+		List<Integer> allList = new ArrayList<>();
 		for (int o = 0; o < ops; o++) {
 			String s = in.next();
 			switch (s.charAt(0)) {
@@ -26,13 +26,11 @@ public class D {
 			}
 		}
 		Collections.sort(allList);
-		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-		int[] all = new int[m];
+		Map<Integer, Integer> map = new HashMap<>();
 		for (int v : allList) {
 			if (!map.containsKey(v)) {
 				int sz = map.size();
 				map.put(v, sz);
-				all[sz] = v;
 			}
 		}
 		for (int o = 0; o < ops; o++) {

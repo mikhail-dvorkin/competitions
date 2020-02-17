@@ -20,8 +20,8 @@ public class C {
 		}
 		int maxGain = n * (n - 1) / 2;
 		int[][] a = new int[1 << n][maxGain + 1];
-		for (int i = 0; i < a.length; i++) {
-			Arrays.fill(a[i], -1);
+		for (int[] row : a) {
+			Arrays.fill(row, -1);
 		}
 		a[0][0] = 0;
 		int ans = Integer.MAX_VALUE;
@@ -58,7 +58,7 @@ public class C {
 		String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -76,7 +76,7 @@ public class C {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -84,7 +84,7 @@ public class C {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -94,20 +94,20 @@ public class C {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

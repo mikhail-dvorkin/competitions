@@ -31,7 +31,7 @@ public class C {
 				prev = j;
 			}
 			if (diff == k) {
-				m = ~((1 << m) - 1);
+				m = -(1 << m);
 				for (int j = 3; j >= 0; j--) {
 					System.out.print((m >> (8 * j)) & 255);
 					if (j > 0) {

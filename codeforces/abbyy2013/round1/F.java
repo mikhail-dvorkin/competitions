@@ -4,7 +4,7 @@ import java.util.*;
 
 public class F {
 	private static BufferedReader in;
-	
+
 	public static final int[] dx = new int[]{1, 0, -1, 0};
 	public static final int[] dy = new int[]{0, 1, 0, -1};
 
@@ -54,7 +54,7 @@ public class F {
 				}
 			}
 		}
-		ArrayList<Integer> rays = new ArrayList<Integer>();
+		ArrayList<Integer> rays = new ArrayList<>();
 		for (int i = 0; i < hei; i++) {
 			for (int j = 0; j < wid; j++) {
 				if (!a[i][j] || mark[i][j]) {
@@ -74,7 +74,7 @@ public class F {
 	}
 
 	int ray;
-	
+
 	private void dfs1(int i, int j) {
 		mark[i][j] = true;
 		if (!b[i][j] && !mark2[i][j]) {
@@ -91,7 +91,7 @@ public class F {
 	}
 
 	final int s = 1;
-	
+
 	private void dfs2(int i, int j) {
 		mark2[i][j] = true;
 		for (int d = 0; d < 4; d++) {

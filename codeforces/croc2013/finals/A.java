@@ -6,7 +6,7 @@ public class A {
 	private static BufferedReader in;
 
 	int n, len, t;
-	
+
 	public void run() throws IOException {
 		StringTokenizer st = new StringTokenizer(in.readLine());
 		n = Integer.parseInt(st.nextToken());
@@ -36,7 +36,8 @@ public class A {
 			}
 			int x = j - i;
 			int y = n - 1 - x;
-			res += x * ((2 * t - b) / len + 1) + y * ((2 * t - b) / len);
+			int k = (2 * t - b) / len;
+			res += x * (k + 1) + y * k;
 		}
 		return res;
 	}

@@ -5,7 +5,7 @@ import java.util.*;
 public class C {
 	int k;
 	int[] s, a, b;
-	
+
 	void run() {
 		k = in.nextInt();
 		s = read();
@@ -13,7 +13,7 @@ public class C {
 		b = read();
 		solve();
 	}
-	
+
 	boolean solve() {
 		int[] p = new int[k];
 		Arrays.fill(p, -1);
@@ -91,7 +91,7 @@ public class C {
 						happyB = true;
 					}
 				}
-				continue main;
+				continue;
 			}
 			if (happyA) {
 				for (int i = 0; i < b[x]; i++) {
@@ -108,7 +108,7 @@ public class C {
 				}
 				p[s[x]] = b[x];
 				q[b[x]] = s[x];
-				continue main;
+				continue;
 			}
 			if (happyB) {
 				for (int i = a[x] + 1; i < k; i++) {
@@ -125,7 +125,7 @@ public class C {
 				}
 				p[s[x]] = a[x];
 				q[a[x]] = s[x];
-				continue main;
+				continue;
 			}
 			if (a[x] > b[x]) {
 				return null;
@@ -145,7 +145,7 @@ public class C {
 				}
 				p[s[x]] = a[x];
 				q[a[x]] = s[x];
-				continue main;
+				continue;
 			}
 			if (q[a[x]] == -1) {
 				int[] pp = p.clone();
@@ -162,15 +162,12 @@ public class C {
 				int[] qq = q.clone();
 				pp[s[x]] = b[x];
 				qq[b[x]] = s[x];
-				int[] res = solve(pp, qq, x + 1, true, false);
-				if (res != null) {
-					return res;
-				}
+				return solve(pp, qq, x + 1, true, false);
 			}
 			return null;
 		}
 	}
-	
+
 	int[] read() {
 		String line = in.next();
 		int[] array = new int[line.length()];
@@ -179,7 +176,7 @@ public class C {
 		}
 		return array;
 	}
-	
+
 	boolean solveSlow() {
 		int[] p = new int[k];
 		Arrays.fill(p, -1);
@@ -187,7 +184,7 @@ public class C {
 		Arrays.fill(q, -1);
 		return search(p, q, 0);
 	}
-	
+
 	boolean search(int[] p, int[] q, int x) {
 		if (x == k) {
 			int[] t = new int[s.length];
@@ -234,6 +231,7 @@ public class C {
 
 	void stress() {
 		Random r = new Random(566);
+		//noinspection InfiniteLoopStatement
 		for (;;) {
 			k = 4;
 			int n = 12;
@@ -264,7 +262,7 @@ public class C {
 		String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -284,7 +282,7 @@ public class C {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -292,7 +290,7 @@ public class C {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -302,20 +300,20 @@ public class C {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

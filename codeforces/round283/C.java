@@ -24,14 +24,14 @@ public class C {
 			events.add(new Event(c[i], d[i], k[i], i));
 		}
 		Collections.sort(events);
-		TreeMap<Integer, List<Integer>> open = new TreeMap<Integer, List<Integer>>();
+		TreeMap<Integer, List<Integer>> open = new TreeMap<>();
 		boolean ans = true;
 		int[] who = new int[n];
 		main:
 		for (Event event : events) {
 			if (event.type) {
 				if (!open.containsKey(event.b)) {
-					open.put(event.b, new ArrayList<Integer>());
+					open.put(event.b, new ArrayList<>());
 				}
 				open.get(event.b).add(event.id);
 				continue;
@@ -66,12 +66,12 @@ public class C {
 			out.print(who[i] + 1 + " ");
 		}
 	}
-	
-	class Event implements Comparable<Event> {
+
+	static class Event implements Comparable<Event> {
 		int x;
 		boolean type;
 		int a, b, k, id;
-		
+
 		public Event(int a, int b, int id) {
 			this.x = 2 * a + 1;
 			this.type = false;
@@ -88,14 +88,14 @@ public class C {
 			this.k = k;
 			this.id = id;
 		}
-		
+
 
 
 		@Override
 		public int compareTo(Event o) {
 			return Integer.compare(x, o.x);
 		}
-	}		
+	}
 
 	static boolean stdStreams = true;
 	static String fileName = C.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
@@ -122,7 +122,7 @@ public class C {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -130,7 +130,7 @@ public class C {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -140,20 +140,20 @@ public class C {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

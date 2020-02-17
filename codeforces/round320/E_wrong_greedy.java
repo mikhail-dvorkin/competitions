@@ -21,12 +21,12 @@ public class E_wrong_greedy {
 			int step = 0;
 			int back = 0;
 			int[] seq = new int[n];
-			ArrayList<LinkedList<Integer>> groups = new ArrayList<LinkedList<Integer>>();
+			ArrayList<LinkedList<Integer>> groups = new ArrayList<>();
 			int[] color = new int[n];
 			int last = -1;
 			for (int i = 0; i < n; i++) {
 				if (i == n - 1 || a[i] != a[i + 1]) {
-					LinkedList<Integer> ll = new LinkedList<Integer>();
+					LinkedList<Integer> ll = new LinkedList<>();
 					for (int j = last + 1; j <= i; j++) {
 						ll.add(j);
 					}
@@ -36,10 +36,7 @@ public class E_wrong_greedy {
 				}
 			}
 			int current = first;
-			for (;;) {
-				if (groups.isEmpty()) {
-					break;
-				}
+			while (!groups.isEmpty()) {
 				if (step > 0) {
 					back++;
 				}
@@ -51,7 +48,7 @@ public class E_wrong_greedy {
 					seq[step++] = x;
 					current ^= 1;
 				}
-				ArrayList<LinkedList<Integer>> groupsNew = new ArrayList<LinkedList<Integer>>();
+				ArrayList<LinkedList<Integer>> groupsNew = new ArrayList<>();
 				int[] colorNew = new int[groups.size()];
 				for (int i = 0; i < groups.size(); i++) {
 					if (!groups.get(i).isEmpty()) {
@@ -85,7 +82,7 @@ public class E_wrong_greedy {
 		String fileName = E_wrong_greedy.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -103,7 +100,7 @@ public class E_wrong_greedy {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -111,7 +108,7 @@ public class E_wrong_greedy {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -121,20 +118,20 @@ public class E_wrong_greedy {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}

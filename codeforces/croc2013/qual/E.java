@@ -4,7 +4,7 @@ import java.util.*;
 
 public class E {
 	private static BufferedReader in;
-	
+
 	int[] parent;
 	List<Integer>[] kids;
 	String[] string;
@@ -19,7 +19,7 @@ public class E {
 		parent = new int[n];
 		kids = new ArrayList[n];
 		for (int i = 0; i < n; i++) {
-			kids[i] = new ArrayList<Integer>();
+			kids[i] = new ArrayList<>();
 		}
 		string = new String[n];
 		parent[0] = -1;
@@ -42,7 +42,7 @@ public class E {
 		dfs(0, tLength + 1);
 		System.out.println(ans);
 	}
-	
+
 	void dfs(int v, int pos) {
 		append(pos, string[v]);
 		pos += string[v].length();
@@ -65,7 +65,7 @@ public class E {
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 		Locale.setDefault(Locale.US);
 		in = new BufferedReader(new InputStreamReader(System.in));

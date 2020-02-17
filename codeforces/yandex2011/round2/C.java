@@ -3,11 +3,11 @@ import java.util.*;
 
 public class C {
 	private static Scanner in;
-	
+
 	class State {
 		String s;
 		int c;
-		
+
 		public State(String s, int c) {
 			this.s = s;
 			this.c = c;
@@ -17,17 +17,19 @@ public class C {
 		public int hashCode() {
 			return 13 * s.hashCode() + c;
 		}
-		
+
 		@Override
-		public boolean equals(Object obj) {
-			State that = (State) obj;
-			return s.equals(that.s) && c == that.c;
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			State that = (State) o;
+			return c == that.c && Objects.equals(s, that.s);
 		}
-		
+
 		boolean isTerminal() {
 			return s.length() == c;
 		}
-		
+
 		State step(char n) {
 			int c1 = c;
 			String ss = s + n;
@@ -63,11 +65,11 @@ public class C {
 	}
 
 	String[] dna;
-	HashMap<State, Integer> map = new HashMap<State, Integer>();
+	HashMap<State, Integer> map = new HashMap<>();
 	int[][] nxt = new int[2000][4];
 	boolean[] trm = new boolean[2000];
 	char[] ns = new char[]{'A', 'C', 'G', 'T'};
-	
+
 	public void run() {
 		int n = in.nextInt();
 		int m = in.nextInt();
@@ -105,9 +107,9 @@ public class C {
 	}
 
 	final int MOD = 1000000009;
-	
-	private int add(int x, int y) {
-		x += y;
+
+	private int add(int x, int value) {
+		x += value;
 		if (x >= MOD) {
 			x -= MOD;
 		}

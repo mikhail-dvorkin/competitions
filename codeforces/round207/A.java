@@ -19,18 +19,8 @@ public class A {
 		}
 		Tour[] byFrom = tours.clone();
 		Tour[] byTo = tours.clone();
-		Arrays.sort(byFrom, new Comparator<Tour>() {
-			@Override
-			public int compare(Tour a, Tour b) {
-				return a.from - b.from;
-			}
-		});
-		Arrays.sort(byTo, new Comparator<Tour>() {
-			@Override
-			public int compare(Tour a, Tour b) {
-				return a.to - b.to;
-			}
-		});
+		Arrays.sort(byFrom, Comparator.comparingInt(a -> a.from));
+		Arrays.sort(byTo, Comparator.comparingInt(a -> a.to));
 		TreeSet<Tour> set = new TreeSet<>();
 		int i1 = 0;
 		int i2 = 0;
@@ -57,8 +47,8 @@ public class A {
 			}
 		}
 	}
-	
-	class Tour implements Comparable<Tour> {
+
+	static class Tour implements Comparable<Tour> {
 		int from, to, win, id;
 
 		public Tour(int from, int to, int win, int id) {
