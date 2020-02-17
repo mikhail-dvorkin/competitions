@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm504dot5;
 import java.util.Arrays;
 
 
 public class TheJackpotDivOne {
-	long sum; 
+	long sum;
 	int s1, n;
-	
+
 	void add(long v) {
 		s1 += v % n;
 		sum += v / n;
@@ -14,11 +14,11 @@ public class TheJackpotDivOne {
 			sum++;
 		}
 	}
-	
+
 	long avg() {
 		return sum + 1;
 	}
-	
+
 	public long[] find(long[] money, long jackpot) {
 		n = money.length;
 		sum = 0;

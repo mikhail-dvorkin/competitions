@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm504dot5;
 
 public class TheNumbersWithLuckyLastDigit {
 	public int find(int n) {
