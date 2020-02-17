@@ -5,13 +5,13 @@ public class TemplateDgcjMain { // RENAME to Main
 
 	public String run() {
 //		long n = ;
-//		long from = 1L * n * ID / NODES;
-//		long to = 1L * n * (ID + 1) / NODES;
+//		long from = (long) n * ID / NODES;
+//		long to = (long) n * (ID + 1) / NODES;
 
 		return null;
 	}
 
-	static int NODES;
+	static int NODES = 1;
 	static int ID;
 
 	/**
@@ -21,10 +21,12 @@ public class TemplateDgcjMain { // RENAME to Main
 	 * "1"	= run single node
 	 */
 	public static void main(String[] args) {
+		//noinspection ResultOfMethodCallIgnored
 		PROBLEM.equals(args); // Local testing framework invocation
-		boolean single = args != null && args.length == 1 && "1".equals(args[0]);
-		NODES = single ? 1 : message.NumberOfNodes();
-		ID = single ? 0 : message.MyNodeId();
+		if (args == null || args.length != 1 || !"1".equals(args[0])) {
+			NODES = message.NumberOfNodes();
+			ID = message.MyNodeId();
+		}
 		String ans = new TemplateDgcjMain().run();
 		if (ans != null) {
 			System.out.println(ans);
@@ -32,6 +34,7 @@ public class TemplateDgcjMain { // RENAME to Main
 	}
 
 	public static void log(String msg) {
+		//noinspection ResultOfMethodCallIgnored
 		PROBLEM.equals(ID + ": " + msg); // Local testing framework log
 	}
 }

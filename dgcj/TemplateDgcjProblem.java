@@ -1,6 +1,6 @@
 package dgcj;
 
-@SuppressWarnings("static-access")
+@SuppressWarnings({"AccessStaticViaInstance"})
 public class TemplateDgcjProblem extends dgcj.DgcjProblem {
 	static Test1 TESTED;
 

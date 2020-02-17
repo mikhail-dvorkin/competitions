@@ -5,7 +5,7 @@ import java.io.*;
 public class LocalTesting {
 	public static final File logFile = new File("log~.txt");
 
-	@SuppressWarnings("resource")
+	@SuppressWarnings({"resource", "ResultOfMethodCallIgnored"})
 	public static void run(String problemName, int nodes) {
 		if ("TemplateDgcjProblem".equals(problemName)) {
 			throw new AssertionError("Change PROBLEM field in Main!");
@@ -60,7 +60,7 @@ public class LocalTesting {
 		}
 		return readToEnd(p.getInputStream());
 	}
-	
+
 	public static void log(String message) {
 		try {
 			PrintWriter pw = new PrintWriter(new FileOutputStream(logFile, true));
