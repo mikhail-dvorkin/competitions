@@ -1,2 +1,1 @@
-# competitions
-Competitive programming code
+Archived. Merged into https://github.com/mikhail-dvorkin/competitions
