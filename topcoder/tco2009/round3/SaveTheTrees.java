@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round3;
 import java.util.*;
 
 public class SaveTheTrees {
@@ -56,7 +56,7 @@ public class SaveTheTrees {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		int[] b = new int[40];
 		int[] c = new int[40];

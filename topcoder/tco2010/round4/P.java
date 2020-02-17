@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2010.round4;
 public class P {
 	public long get(int[] p) {
 		int n = p.length;
@@ -74,7 +74,7 @@ public class P {
 		}
 		throw new RuntimeException("2");
 	}
-	
+
 	public long minWith(int p) {
 		int len = len(p);
 		long ans = 0;
@@ -92,7 +92,7 @@ public class P {
 		}
 		return ans;
 	}
-	
+
 	public int len(int p) {
 		if (p == 1) {
 			return 0;
@@ -126,7 +126,7 @@ public class P {
 		}
 		throw new RuntimeException("1");
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new P().get(new int[]{1,2}));
 	}

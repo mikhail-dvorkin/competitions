@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round3;
 import java.util.*;
 
 public class LazyCat {

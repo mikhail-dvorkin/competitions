@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm605;
 import java.util.*;
 
 public class AlienAndHamburgers {

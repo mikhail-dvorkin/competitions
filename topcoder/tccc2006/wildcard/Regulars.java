@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2006.wildcard;
 import java.util.*;
 
 public class Regulars {
@@ -13,7 +13,7 @@ public class Regulars {
 		}
     	return ans;
     }
-    
+
 	final static int OP_LETTER = 1;
 	final static int OP_EMPTY_SET = 2;
 	final static int OP_EPS = 3;
@@ -26,7 +26,7 @@ public class Regulars {
 		int type;
 		RegualarExpression x, y;
 		int value;
-		
+
 		RegualarExpression(int value) {
 			this.type = OP_LETTER;
 			this.x = null;
@@ -39,7 +39,7 @@ public class Regulars {
 			this.x = x;
 			this.y = y;
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		EpsNFA toEpsNFA() {
 			EpsNFA a = new EpsNFA();
@@ -153,7 +153,7 @@ public class Regulars {
 			return a;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	static EpsNFA makeEpsNFAfromDFA(DFA b) {
 		EpsNFA a = new EpsNFA();
@@ -179,7 +179,7 @@ public class Regulars {
 		a.sigma[0][a.alphabet].add(b.init + 1);
 		return a;
 	}
-	
+
 	public static RegualarExpression stupidParse(String s) {
 		int len = s.length();
 		RegualarExpression[][] re = new RegualarExpression[len][len + 1];
@@ -228,17 +228,17 @@ public class Regulars {
 		}
 		return re[0][len];
 	}
-	
+
 	static class EpsNFA {
 		int alphabet;
 		int n;
 		boolean[] terminal;
 		int init;
 		ArrayList<Integer>[][] sigma;
-		
+
 		int[][] eps;
 		boolean[] mark;
-		
+
 		public EpsNFA() {
 		}
 
@@ -274,7 +274,7 @@ public class Regulars {
 			}
 			return false;
 		}
-		
+
 		private void epsClosure() {
 			eps = new int[n][];
 			for (int i = 0; i < n; i++) {
@@ -304,11 +304,11 @@ public class Regulars {
 				dfs(u);
 			}
 		}
-		
+
 		public DFA determinize() {
 			epsClosure();
 			DFA a = new DFA();
-			
+
 			BitSet m0 = new BitSet();
 			for (int x : eps[init])
 				m0.set(x);
@@ -351,7 +351,7 @@ public class Regulars {
 					sig.get(k)[c] = masks.get(nxt);
 				}
 			}
-			
+
 			a.alphabet = alphabet;
 			a.n = masks.size();
 			a.init = 0;
@@ -365,17 +365,17 @@ public class Regulars {
 			return a.minimize();
 		}
 	}
-	
+
 	static class DFA {
 		int alphabet;
 		int n;
 		boolean[] terminal;
 		int init;
 		int[][] sigma;
-		
+
 		public DFA() {
 		}
-		
+
 		public DFA(Scanner in) {
 			alphabet = in.next().length();
 			n = in.nextInt();
@@ -391,7 +391,7 @@ public class Regulars {
 				}
 			}
 		}
-		
+
 		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
@@ -519,7 +519,7 @@ public class Regulars {
 			}
 			return a;
 		}
-		
+
 		public long[][] perStateStringCount(int maxLength) {
 			long[][] count = new long[maxLength + 1][n];
 			count[0][init] = 1;
@@ -532,7 +532,7 @@ public class Regulars {
 			}
 			return count;
 		}
-		
+
 		public long[] acceptedStringCount(int maxLength) {
 			long[][] count = perStateStringCount(maxLength);
 			long[] res = new long[maxLength + 1];
@@ -545,7 +545,7 @@ public class Regulars {
 			}
 			return res;
 		}
-		
+
 		private void dfs(int v) {
 			if (needed[v])
 				return;

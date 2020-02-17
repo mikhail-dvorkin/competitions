@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm511;
 public class FiveHundredEleven {
 	public String theWinner(int[] cards) {
 		int n = cards.length;
@@ -38,6 +38,6 @@ public class FiveHundredEleven {
 		}
 		return "Toastman";
 	}
-	
+
 
 }

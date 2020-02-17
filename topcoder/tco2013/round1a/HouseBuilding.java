@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2013.round1a;
 public class HouseBuilding {
 	public int getMinimum(String[] area) {
 		int best = Integer.MAX_VALUE;

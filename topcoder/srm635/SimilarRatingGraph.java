@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm635;
 public class SimilarRatingGraph {
     public double maxLength(int[] date, int[] rating) {
     	int n = date.length;

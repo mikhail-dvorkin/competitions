@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm512;
 import java.util.*;
 
 public class PickAndDelete {
 	static final int MOD = 1000000007;
-	
+
 	public int count(String[] input) {
 		StringBuilder sb = new StringBuilder();
 		for (String s : input) {

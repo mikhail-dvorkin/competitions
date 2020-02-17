@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm605;
 public class AlienAndPermutation {
 	final static int M = 1000000007;
-	
+
     public int getNumber(int[] p, int operations) {
     	int n = p.length;
     	int[] pos = new int[n];
@@ -9,7 +9,7 @@ public class AlienAndPermutation {
     		p[i]--;
     		pos[p[i]] = i;
     	}
-    	int[][] max = new int[n][n + 1];   	
+    	int[][] max = new int[n][n + 1];
     	for (int len = 1; len <= n; len++) {
     		for (int from = 0; from + len <= n; from++) {
     			int to = from + len;

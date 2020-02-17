@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2011.round1;
 import java.util.*;
 
 public class IPv444 {

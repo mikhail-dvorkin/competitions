@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm694;
 public class SRMDiv0Easy_wip {
     public int get(int n, int[] from, int[] to, int[] x, int[] y) {
     	int q = from.length;

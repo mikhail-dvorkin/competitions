@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm685;
 public class MultiplicationTable2 {
     public int minimalGoodSet(int[] table) {
     	int n = (int) Math.round(Math.sqrt(table.length));
@@ -6,7 +6,7 @@ public class MultiplicationTable2 {
     	for (int i = 0; i < n; i++) {
     		for (int j = 0; j < n; j++) {
     			a[i][j] = table[i * n + j];
-    		}    		
+    		}
     	}
     	int ans = n;
     	for (int s = 0; s < n; s++) {

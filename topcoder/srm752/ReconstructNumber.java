@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm752;
 import java.util.*;
 
 public class ReconstructNumber {
 	static final int T = 10;
-	
+
 	public String smallest(String comparisons) {
 		int n = comparisons.length() + 1;
 		boolean[][] p = new boolean[n][T];

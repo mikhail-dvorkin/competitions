@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.tco2011.round3;
 import java.math.BigInteger;
 import java.util.*;
 
 public class PrefixFreeSuperset {
 	String[] ss;
 	ArrayList<Integer> holes = new ArrayList<Integer>();
-	
+
 	public long minSumLength(String[] cur, long k) {
 		ss = cur;
 		k -= cur.length;
@@ -41,7 +41,7 @@ public class PrefixFreeSuperset {
 				} else if (n + nn >= k) {
 					m = n;
 					mm = k - m;
-				} else { 
+				} else {
 					m = 2 * n + nn - k;
 					mm = k - m;
 				}

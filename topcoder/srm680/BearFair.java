@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm680;
 import java.util.*;
 
 public class BearFair {
 	String fair = "fair";
 	String unfair = "unfair";
-	
+
     public String isFair(int n, int max, int[] upTo, int[] quantity) {
     	int[] count = new int[max + 1];
     	Arrays.fill(count, -1);

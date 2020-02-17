@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2014.round2b;
 public class SumAndProductPuzzle {
     public long getSum(int from, int to) {
     	boolean[] isPrime = isPrimeArray(to);
@@ -23,7 +23,7 @@ public class SumAndProductPuzzle {
     	}
     	return ans;
     }
-    
+
 	public static boolean[] isPrimeArray(int n) {
 		boolean[] isPrime = new boolean[n + 1];
 		for (int i = 2; i <= n; i++)

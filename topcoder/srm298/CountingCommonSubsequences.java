@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm298;
 public class CountingCommonSubsequences {
     public long countCommonSubsequences(String a, String b, String c) {
     	int an = a.length();

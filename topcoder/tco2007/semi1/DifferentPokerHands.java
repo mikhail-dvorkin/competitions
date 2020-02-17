@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.semi1;
 import java.util.*;
 
 public class DifferentPokerHands {
@@ -6,30 +6,30 @@ public class DifferentPokerHands {
 		int[] a;
 		int type = -1;
 		boolean flush, straight, s2;
-		
+
 		public Five(int[] array) {
 			a = array;
 			Arrays.sort(a);
-			
+
 			flush = true;
 			for (int i = 1; i < 5; i++) {
 				if (a[i] % 4 != a[0] % 4)
 					flush = false;
 			}
-			
+
 			straight = true;
 			for (int i = 0; i < 4; i++) {
 				if (a[i] / 4 + 1 != a[i + 1] / 4)
 					straight = false;
 			}
-			
+
 			s2 = true;
 			for (int i = 0; i < 3; i++) {
 				if (a[i] / 4 + 1 != a[i + 1] / 4)
 					s2 = false;
 			}
 			s2 &= (a[0] < 4) && (a[4] >= 48);
-			
+
 			if (s2) {
 				type = 4;
 				if (flush)
@@ -37,31 +37,31 @@ public class DifferentPokerHands {
 				a[4] = -566;
 				return;
 			}
-			
+
 			if (straight && flush) {
 				if (a[4] >= 48)
 					type = 9;
 				type = 8;
 				return;
 			}
-			
+
 			if (straight) {
 				type = 4;
 				return;
 			}
-			
+
 			if (flush) {
 				type = 5;
 				return;
 			}
-			
+
 			int[] am = new int[13];
 			for (int i = 0; i < 5; i++) {
 				am[a[i] / 4]++;
 			}
 			int[] sort = am.clone();
 			Arrays.sort(sort);
-			
+
 			if (sort[12] == 4) {
 				type = 7;
 			} else if (sort[12] == 3 && sort[11] == 2) {
@@ -99,7 +99,7 @@ public class DifferentPokerHands {
 			return 0;
 		}
 	}
-	
+
 	public int noDifferentHands(String[] communityCards) {
 		int[] s = new int[7];
 		for (int i = 0; i < 5; i++) {
@@ -145,7 +145,7 @@ public class DifferentPokerHands {
 		int suit = "HDCS".indexOf(s.charAt(1));
 		return rank * 4 + suit;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new DifferentPokerHands().noDifferentHands(new String[]
 //{"5S", "6S", "7S", "8S", "9S"}

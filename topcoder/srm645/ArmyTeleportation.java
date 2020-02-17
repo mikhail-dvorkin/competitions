@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm645;
 public class ArmyTeleportation {
 	int n;
-	
+
 	public String ifPossible(int[] x1, int[] y1, int[] x2, int[] y2, int[] xt, int[] yt) {
 		n = x1.length;
 		boolean p1 = possibleEven(x1, y1, x2, y2, xt, yt);
@@ -66,7 +66,7 @@ public class ArmyTeleportation {
 		}
 		return b;
 	}
-	
+
 	int min(int[] x) {
 		int res = Integer.MAX_VALUE;
 		for (int i : x) {

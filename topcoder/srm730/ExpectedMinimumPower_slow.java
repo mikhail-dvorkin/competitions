@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm730;
 public class ExpectedMinimumPower_slow {
 	static final int MOD = 1_000_000_007;
-	
+
 	public int findExp(int n, int x) {
 		int inv2 = (MOD + 1) / 2;
 		int t = 1;
@@ -17,7 +17,7 @@ public class ExpectedMinimumPower_slow {
 		}
 		return ans;
 	}
-	
+
 	public static int gcdExtended(int a, int b, int[] xy) {
 		if (a == 0) {
 			xy[0] = 0;
@@ -30,7 +30,7 @@ public class ExpectedMinimumPower_slow {
 		xy[1] = t;
 		return d;
 	}
-	
+
 	public static int modInverse(int x) {
 		int[] xy = new int[2];
 		int gcd = gcdExtended(x, MOD, xy);

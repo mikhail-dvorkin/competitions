@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm366;
 import java.util.*;
 
 public class LateForConcert {
 	int[] dx = new int[]{1, 0, -1, 0};
 	int[] dy = new int[]{0, 1, 0, -1};
-	
+
 	public double bestRoute(String[] cityMap, int timeLeft, double speedingTicket, double redLight) {
 		int hei = cityMap.length;
 		int wid = cityMap[0].length();
@@ -64,7 +64,7 @@ public class LateForConcert {
 			return -1;
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		double a = new LateForConcert().bestRoute(new String[]{"YT", "XC"}, 3, 8.888291761074557, 611.5452325396611);
 		System.out.println(a);

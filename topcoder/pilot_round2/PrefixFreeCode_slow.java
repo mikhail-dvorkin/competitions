@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.pilot_round2;
 import java.util.*;
 
 public class PrefixFreeCode_slow {

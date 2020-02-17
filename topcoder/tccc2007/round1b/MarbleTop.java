@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round1b;
 public class MarbleTop {
 	public int minCuts(int k, int[] stock, int[] orders) {
 		int[] have = new int[50];
@@ -45,7 +45,7 @@ public class MarbleTop {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new MarbleTop().minCuts(5, new int[]{31, 36, 37, 32, 39, 34, 9, 11, 15, 19, 20}, new int[]{21, 26, 22, 27, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5});
 		System.out.println(a);

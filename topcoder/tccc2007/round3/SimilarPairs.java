@@ -1,8 +1,8 @@
-package topcoder;
+package topcoder.tccc2007.round3;
 public class SimilarPairs {
 	int n;
 	int[][][] dif;
-	
+
 	public int howManyElements(String[] text, int K) {
 		StringBuilder sb = new StringBuilder();
 		for (String s : text)
@@ -87,7 +87,7 @@ public class SimilarPairs {
 		}
 		return res;
 	}
-	
+
 	public static void main(String[] args) {
 		int a =new SimilarPairs().howManyElements(new String[]{"aaaaaa"}, 1);
 		System.out.println(a);

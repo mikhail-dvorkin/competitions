@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm426;
 public class CatchTheMice {
 	private static final double eps = 1e-8;
 
@@ -6,7 +6,7 @@ public class CatchTheMice {
 		int n = xp.length;
 		double t = 0;
 		double ans = 1e100;
-		
+
 		while (true) {
 			double tnext = 1e100;
 			int x1 = 0;
@@ -76,7 +76,7 @@ public class CatchTheMice {
 				break;
 			t = tnext;
 		}
-		
+
 		for (double tt : new double[]{}) {
 			double xmin = 1e100;
 			double xmax = -1e100;
@@ -95,7 +95,7 @@ public class CatchTheMice {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		double a = new CatchTheMice().largestCage(
 				new int[]{50,10,30,15},

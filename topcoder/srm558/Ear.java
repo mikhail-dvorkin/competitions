@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm558;
 import java.util.Arrays;
 
 public class Ear {
@@ -14,7 +14,7 @@ public class Ear {
 		}
 		return a;
 	}
-	
+
 	public long getCount(String[] redX, String[] blueX, String[] blueY) {
 		long ans = 0;
 		int[] rx = toInt(redX);

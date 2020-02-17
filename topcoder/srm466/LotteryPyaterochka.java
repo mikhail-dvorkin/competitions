@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm466;
 public class LotteryPyaterochka {
 	public double chanceToWin(int n) {
 		double[][] c = new double[5 * n + 1][5 * n + 1];

@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm550;
 import java.util.*;
 
 public class CheckerExpansion {
 	char[][] r;
 	long x0, y0, x1, y1, t;
-	
+
 	public String[] resultAfter(long tt, long xx0, long yy0, int w, int h) {
 		this.t = tt;
 		this.x0 = xx0;

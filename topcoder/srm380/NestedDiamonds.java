@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm380;
 import java.util.*;
 
 public class NestedDiamonds {
@@ -35,7 +35,7 @@ public class NestedDiamonds {
 		}
 		return -1;
 	}
-	
+
 	public static void main(String[] args) {
 		new NestedDiamonds().minHeight(new int[]{4, 5, 68, 69});
 	}

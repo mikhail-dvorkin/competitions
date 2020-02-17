@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round2;
 import java.util.*;
 
 public class Defects {
@@ -24,7 +24,7 @@ public class Defects {
 		}
 		return ans;
 	}
-	
+
 	private void check(double[] x, double t) {
 		if (t >= p)
 			t -= p;

@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm669;
 import java.util.*;
 
 public class LineMST {
 	final static int M = 1000000007;
-	
+
     public int count(int n, int max) {
     	int[][] a = new int[n + 1][max + 1];
     	int[][] pow = new int[max + 1][n * n];

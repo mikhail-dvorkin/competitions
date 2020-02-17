@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm691;
 public class Moneymanager_wrong {
 	public int getbest(int[] a, int[] b, int x) {
 		int n = a.length;
@@ -18,7 +18,7 @@ public class Moneymanager_wrong {
 				break;
 			}
 		}
-		
+
 		int ans = 0;
 		int exp = 0;
 		for (int i = 0; i < n; i++) {

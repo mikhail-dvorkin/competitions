@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round4;
 import java.util.*;
 
 public class SausagesProductionScheduler {

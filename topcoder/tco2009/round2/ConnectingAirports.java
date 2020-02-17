@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round2;
 import java.util.*;
 
 public class ConnectingAirports {
@@ -11,7 +11,7 @@ public class ConnectingAirports {
 	int[] ca;
 	int[] cb;
 	boolean[] mark;
-	
+
 	public String[] getSchedule(int[] a, int[] b) {
 		oa = a;
 		ob = b;

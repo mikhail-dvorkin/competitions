@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm359;
 public class DriveFailures {
 	public double[] failureChances(double[] failureProb) {
 		int n = failureProb.length;

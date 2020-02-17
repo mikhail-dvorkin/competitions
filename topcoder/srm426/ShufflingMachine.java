@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm426;
 import java.util.Arrays;
 
 
@@ -26,7 +26,7 @@ public class ShufflingMachine {
 		}
 		return ans * 1d / maxShuffles;
 	}
-	
+
 	public static void main(String[] args) {
 		new ShufflingMachine().stackDeck(new int[]{1,0}, 3, new int[]{0}, 1);
 	}

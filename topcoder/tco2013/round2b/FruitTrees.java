@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2013.round2b;
 import java.util.*;
 
 public class FruitTrees {
@@ -23,7 +23,7 @@ public class FruitTrees {
 		s %= g;
 		return Math.min(s, g - s);
 	}
-	
+
 	int gcd(int a, int b) {
 		while (a > 0) {
 			int t = b % a;

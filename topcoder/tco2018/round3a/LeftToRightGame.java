@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2018.round3a;
 import java.util.Arrays;
 
 public class LeftToRightGame {

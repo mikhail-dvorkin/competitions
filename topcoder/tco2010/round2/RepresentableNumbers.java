@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2010.round2;
 import java.util.*;
 
 public class RepresentableNumbers {
 	List<Integer> list = new ArrayList<Integer>();
 	List<Integer> cur = new ArrayList<Integer>();
-	
+
 	public int getNext(int x) {
 		cur.add(0);
 		for (int i = 1; i <= 8; i++) {
@@ -32,5 +32,5 @@ public class RepresentableNumbers {
 		}
 		return ans;
 	}
-	
+
 }

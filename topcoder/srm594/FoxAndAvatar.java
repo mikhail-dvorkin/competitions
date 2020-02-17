@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm594;
 import java.util.*;
 
 public class FoxAndAvatar {

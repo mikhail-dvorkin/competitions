@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm436;
 import java.util.*;
 
 public class DoNotTurn {
 	final int[] dx = new int[]{1, 0, -1, 0};
 	final int[] dy = new int[]{0, 1, 0, -1};
-	
+
 	public int minimumTurns(int n, int X0, int A, int B, int Y0, int C, int D, int P, int M) {
 		long[] X = new long[M];
 		long[] Y = new long[M];
@@ -50,7 +50,7 @@ public class DoNotTurn {
 				int xx = x + dx[dd];
 				int yy = y + dy[dd];
 				if (xx < 0 || yy < 0 || xx >= n || yy >= n || wall[xx][yy]) {
-					
+
 				} else {
 					int ss = (xx * n + yy) * 4 + dd;
 					if (dist[ss] > dist[s]) {

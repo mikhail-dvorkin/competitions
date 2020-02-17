@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm380;
 public class CompilingDecksWithJokers {
 	public int maxCompleteDecks(int[] cards, int jokers) {
 		long le = 0;
@@ -17,7 +17,7 @@ public class CompilingDecksWithJokers {
 		}
 		return (int) le;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new CompilingDecksWithJokers().maxCompleteDecks(new int[]{400000000, 400000000, 400000000, 400000000, 400000000}, 400000000);
 		System.out.println(a);

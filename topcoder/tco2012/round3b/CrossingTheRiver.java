@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2012.round3b;
 import java.util.*;
 
 public class CrossingTheRiver {
@@ -44,7 +44,7 @@ public class CrossingTheRiver {
 					if (aa[i] == 0) {
 						continue jloop;
 					}
-					aa[i]--;					
+					aa[i]--;
 				}
 				int n2 = landWidth - (y - (x - depth));
 				if (n2 < 0) {

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2011.round1;
 public class TripleStrings {
 	public int getMinimumOperations(String init, String goal) {
 		int n = init.length();

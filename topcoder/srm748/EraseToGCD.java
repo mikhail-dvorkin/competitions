@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm748;
 import java.util.*;
 
 public class EraseToGCD {
@@ -17,7 +17,7 @@ public class EraseToGCD {
 		}
 		return a[goal];
 	}
-	
+
 	public static int gcd(int a, int b) {
 		while (a > 0) {
 			int t = b % a;

@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2008.round2;
 public class OneWayStreets {
 	boolean[][] e;
 	boolean[] mark, gray;
 	int n;
 	boolean cycle = false;
-	
+
 	public String canChange(String[] roads) {
 		n = roads.length;
 		e = new boolean[n][n];

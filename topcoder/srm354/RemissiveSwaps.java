@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm354;
 public class RemissiveSwaps {
 	boolean[] w = new boolean[1000000];
 	public int findMaximum(int N) {
@@ -7,11 +7,11 @@ public class RemissiveSwaps {
 		dfs(N);
 		return ans;
 	}
-	
+
 	int ans = -1;
 	StringBuilder sb = new StringBuilder();
 	int[] ten = new int[]{1, 10, 100, 1000, 10000, 100000};
-	
+
 	private void dfs(int n) {
 		ans = Math.max(ans, n);
 		w[n] = true;

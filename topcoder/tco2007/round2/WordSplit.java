@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round2;
 import java.util.*;
 
 public class WordSplit {
@@ -36,7 +36,7 @@ public class WordSplit {
 		}
 		return a[l][0];
 	}
-	
+
 	private boolean better(String[] a, String[] b) {
 		if (b == null)
 			return true;

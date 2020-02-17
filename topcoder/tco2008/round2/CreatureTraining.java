@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2008.round2;
 import java.util.*;
 
 public class CreatureTraining {

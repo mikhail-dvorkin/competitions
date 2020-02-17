@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm479;
 import java.util.*;
 
 public class TheAirTripDivOne {
 	class Edge {
 		int a, b, f, t, p;
-		
+
 		public Edge(String s) {
 			this(
 					Integer.parseInt(s.split(",")[0]),
@@ -23,7 +23,7 @@ public class TheAirTripDivOne {
 			this.p = p;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public int find(int n, String[] flights, int time) {
 		ArrayList<Edge>[] edges = new ArrayList[n];
@@ -38,7 +38,7 @@ public class TheAirTripDivOne {
 			Edge e = new Edge(s);
 			edges[e.a].add(e);
 		}
-		
+
 		int[] dist = new int[n];
 		boolean[] mark = new boolean[n];
 		int le = 0;
@@ -65,7 +65,7 @@ public class TheAirTripDivOne {
 					int ip = Math.max(d - e.f, 0);
 					int mod = ip % e.p;
 					if (mod != 0) {
-						ip += e.p - mod; 
+						ip += e.p - mod;
 					}
 					long cand = (long) e.f + ip + e.t + wait;
 					dist[e.b] = (int) Math.min(dist[e.b], cand);

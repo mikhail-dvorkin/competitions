@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm353;
 import java.util.*;
 
 public class Glossary {
@@ -8,9 +8,9 @@ public class Glossary {
 			return o1.toLowerCase().compareTo(o2.toLowerCase());
 		}
 	}
-	
+
 	SC comp = new SC();
-	
+
 	public String[] buildGlossary(String[] items) {
 		ArrayList<String> a = new ArrayList<String>();
 		ArrayList<String> b = new ArrayList<String>();

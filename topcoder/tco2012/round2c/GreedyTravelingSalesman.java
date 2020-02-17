@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2012.round2c;
 import java.util.*;
 
 public class GreedyTravelingSalesman {

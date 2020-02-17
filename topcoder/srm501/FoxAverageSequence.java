@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm501;
 import java.util.Arrays;
 
 public class FoxAverageSequence {

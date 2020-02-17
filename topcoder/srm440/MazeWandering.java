@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm440;
 public class MazeWandering {
 	char[][] f;
 	boolean[][] mark;
@@ -9,7 +9,7 @@ public class MazeWandering {
 	int cells = 0;
 	int[] dx = new int[]{1, 0, -1, 0};
 	int[] dy = new int[]{0, 1, 0, -1};
-	
+
 	public double expectedTime(String[] maze) {
 		hei = maze.length;
 		wid = maze[0].length();
@@ -56,7 +56,7 @@ public class MazeWandering {
 		if (f[i][j] == '*')
 			exp[i][j] = 0;
 	}
-	
+
 	private void dfs2(int i, int j, double e) {
 		mark2[i][j] = true;
 		cells++;

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm345;
 import java.util.*;
 
 public class ByteLand {
@@ -8,7 +8,7 @@ public class ByteLand {
 	int k;
 	int n;
 	int d;
-	
+
 	public int buildCastles(int[] road_, int[] distance_, int[] cast, int k_) {
 		this.road = road_;
 		this.distance = distance_;
@@ -37,7 +37,7 @@ public class ByteLand {
 	int[] tail;
 	ArrayList<Integer> path;
 	ArrayList<Integer> cycle;
-	
+
 	private boolean poss() {
 		were = new boolean[n];
 		were2 = new boolean[n];
@@ -59,7 +59,7 @@ public class ByteLand {
 		}
 		return false;
 	}
-	
+
 	private void dfs1(int v) {
 		were2[v] = true;
 		ArrayList<Integer> tls = new ArrayList<Integer>();

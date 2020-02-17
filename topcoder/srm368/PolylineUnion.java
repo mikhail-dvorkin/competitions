@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm368;
 import java.awt.Point;
 import java.util.*;
 
@@ -13,10 +13,10 @@ public class PolylineUnion {
 			return -1;
 		return 0;
 	}
-	
+
 	class Polyline {
 		ArrayList<Point> al = new ArrayList<Point>();
-		
+
 		public Polyline(String s) {
 			String[] ss = s.split("-");
 			Point pt = null;
@@ -81,24 +81,24 @@ public class PolylineUnion {
 			return false;
 		}
 	}
-	
+
 	private class DSU {
 		int[] a;
 		int[] r;
-		
+
 		public DSU(int size) {
 			a = new int[size];
 			r = new int[size];
 			for (int i = 0; i < size; i++)
 				a[i] = i;
 		}
-		
+
 		public int get(int v) {
 			if (a[v] == v)
 				return v;
 			return a[v] = get(a[v]);
 		}
-		
+
 		public boolean union(int u, int v) {
 			u = get(u);
 			v = get(v);
@@ -112,12 +112,12 @@ public class PolylineUnion {
 				a[u] = v;
 			return true;
 		}
-		
+
 		public boolean same(int u, int v) {
 			return get(u) == get(v);
 		}
 	}
-	
+
 	public int countComponents(String[] polylines) {
 		StringBuilder sb = new StringBuilder();
 		for (String s : polylines)
@@ -142,7 +142,7 @@ public class PolylineUnion {
 		}
 		return pics;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new PolylineUnion().countComponents(new String[]{"0,0-4181,6765 2584,4181-2584,4181"});
 		System.out.println(a);

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2010.round2;
 import java.util.*;
 
 public class BreakingChocolate {
@@ -42,7 +42,7 @@ public class BreakingChocolate {
 				b[i + 1][j + 1] = b[i][j + 1] + b[i + 1][j] - b[i][j] + (a[i][j] ? 1 : 0);
 			}
 		}
-		
+
 		byte[][][][] ans = new byte[hei][hei + 1][wid][wid + 1];
 		for (int ilen = 1; ilen <= hei; ilen++) {
 			for (int i1 = 0; i1 < hei; i1++) {

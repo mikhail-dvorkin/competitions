@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm649;
 public class Decipherability {
 	public String check(String s, int k) {
 		int n = s.length();

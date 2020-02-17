@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round3;
 public class CampaignTrail {
 	public double probWin(int[] electors, int[] winCurrent, int[] winIfVisited, int visits) {
 		int n = electors.length;

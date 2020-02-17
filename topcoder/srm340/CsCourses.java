@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm340;
 public class CsCourses {
 	public int[] getOrder(int[] theoreticalValue, int[] practicalValue, int[] expire, int skillBound) {
 		int n = theoreticalValue.length;
@@ -55,7 +55,7 @@ public class CsCourses {
 		}
 		return a;
 	}
-	
+
 	public static void main(String[] args) {
 		int[] a = new CsCourses().getOrder(new int[]{4, 2, 3, 1, 3, 5, 3, 5}, new int[]{0, 0, 0, 0, 1, 1, 2, 2}, new int[]{50, 50, 50, 50, 2, 50, 3, 50}, 2);
 		for (int x : a)

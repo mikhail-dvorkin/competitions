@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2017.round1b;
 public class WaterAndOxygen {
     public double maxDays(int remainH20, int remainO2, int costH2O, int costO2) {
     	double x = costO2 * 1.0 * remainH20 - costH2O * 1.0 * remainO2;

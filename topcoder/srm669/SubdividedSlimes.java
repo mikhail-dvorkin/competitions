@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm669;
 public class SubdividedSlimes {
     public int needCut(int s, int m) {
     	for (int t = 1; t <= s; t++) {

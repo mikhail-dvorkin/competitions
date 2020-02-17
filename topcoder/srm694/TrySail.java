@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm694;
 public class TrySail {
 	static final int MAX = 256;
-	
+
     public int get(int[] values) {
     	boolean[][][] a = new boolean[MAX][MAX][8];
     	a[0][0][0] = true;

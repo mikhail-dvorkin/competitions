@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2010.round4;
 public class BankLottery {
 	public double expectedAmount(int[] accountBalance, int weeklyJackpot, int weekCount) {
 		double sum = 0;

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round2;
 import java.math.BigInteger;
 
 public class Neaten {
@@ -35,7 +35,7 @@ public class Neaten {
 		}
 		return ans;
 	}
-	
+
 	private void ttry(BigInteger t, int p) {
 		if (t.signum() < 0)
 			return;
@@ -49,23 +49,23 @@ public class Neaten {
 
 	int ans = 1000;
 	BigInteger ss, err, lo, hi;
-	
+
 	boolean check(BigInteger t) {
 		return t.compareTo(lo) > 0 && t.compareTo(hi) < 0;
 	}
-	
+
 //	boolean check(String t) {
 //		return check(big(t));
 //	}
-	
+
 	private String div10(String s) {
 		int i = s.indexOf('.');
 		s = s.substring(0, i - 1) + "." + s.substring(i - 1, i) + s.substring(i + 1);
 		return norm(s);
 	}
-	
+
 	int n = 100;
-	
+
 	private BigInteger big(String s) {
 		s = norm(s);
 		int x = s.length() - s.indexOf('.');
@@ -77,7 +77,7 @@ public class Neaten {
 			s = s.substring(1);
 		return new BigInteger(s);
 	}
-	
+
 	private String small(BigInteger b) {
 		String s = b.toString();
 		while (s.length() < n + 5)

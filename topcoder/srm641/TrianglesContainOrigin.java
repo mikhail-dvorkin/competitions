@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm641;
 import java.util.*;
 
 public class TrianglesContainOrigin {
@@ -17,11 +17,11 @@ public class TrianglesContainOrigin {
 			return Double.compare(atan2, o.atan2);
 		}
 	}
-	
+
 	int orient(Point a, Point b) {
 		return Integer.signum(a.x * b.y - a.y * b.x);
 	}
-	
+
     public long count(int[] x, int[] y) {
     	int n = x.length;
     	Point[] points = new Point[n];

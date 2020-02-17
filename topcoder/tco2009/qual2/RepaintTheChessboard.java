@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.qual2;
 public class RepaintTheChessboard {
 	public int minimumChanges(String[] board) {
 		int hei = board.length;

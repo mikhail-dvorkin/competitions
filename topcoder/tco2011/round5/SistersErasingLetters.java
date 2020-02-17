@@ -1,8 +1,8 @@
-package topcoder;
+package topcoder.tco2011.round5;
 public class SistersErasingLetters {
 	String FIRST = "Camomile";
 	String SECOND = "Romashka";
-	
+
 	public String whoWins(String s) {
 		int n = s.length();
 		boolean[][] a = new boolean[n + 1][n + 1];

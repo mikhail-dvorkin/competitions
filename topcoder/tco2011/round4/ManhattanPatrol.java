@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2011.round4;
 public class ManhattanPatrol {
 	public long countIntersections(int n, int AX, int BX, int MX, int AY, int BY, int MY) {
 		int[] x = new int[n];

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2008.round1;
 public class Chomp {
 	public int moves(int N) {
 		int[][][] a = new int[N + 1][N + 1][N + 1];
@@ -55,7 +55,7 @@ public class Chomp {
 		}
 		return a[N][N][N];
 	}
-	
+
 	public static void main(String[] args) {
 		for (int i = 1; i <= 100; i++) {
 			System.out.println(i + " " + new Chomp().moves(i));

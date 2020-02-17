@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm560;
 import java.util.*;
 
 public class TomekPhone {

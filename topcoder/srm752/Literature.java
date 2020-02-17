@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm752;
 import java.util.*;
 
 public class Literature {

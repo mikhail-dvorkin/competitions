@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm388;
 public class SmoothNumbers {
 	public int countSmoothNumbers(int n, int k) {
 		boolean[] isPrime = new boolean[n + 1];

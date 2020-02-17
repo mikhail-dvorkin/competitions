@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm440;
 public class IncredibleMachine {
 	public double gravitationalAcceleration(int[] x, int[] y, int T) {
 		int n = x.length;

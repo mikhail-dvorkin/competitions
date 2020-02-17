@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm685;
 public class FoxAirline2 {
     public String isPossible(int n, int[] a, int[] b) {
     	int[][] e = new int[n][n];

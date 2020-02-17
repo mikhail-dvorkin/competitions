@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm381;
 import java.util.*;
 
 public class TheHomework {
@@ -68,7 +68,7 @@ public class TheHomework {
 		}
 		return -1;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new TheHomework().transform(new int[]{1, 2, 3, 4, 5, 9, 9, 9, 9, 9, 9, 9}, new int[]{1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6});
 		System.out.println(a);

@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.tco2009.qual2;
 public class DigitalCounter {
 	static final int[] lit = new int[]{6, 2, 5, 5, 4, 5, 6, 3, 7, 5};
-	
+
 	public long nextEvent(String current) {
 		int len = current.length();
 		int[] a = new int[len];
@@ -69,7 +69,7 @@ public class DigitalCounter {
 		}
 		return -1;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new DigitalCounter().nextEvent("654371"));
 		long ten = 1;

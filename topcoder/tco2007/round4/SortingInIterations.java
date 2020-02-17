@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round4;
 import java.util.*;
 
 public class SortingInIterations {
@@ -44,7 +44,7 @@ public class SortingInIterations {
 			return -1;
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new SortingInIterations().sum(399999, 398765, 387654, 400000, 400000, 1, 10));
 	}

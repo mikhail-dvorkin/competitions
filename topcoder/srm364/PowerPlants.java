@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm364;
 import java.util.*;
 
 public class PowerPlants {

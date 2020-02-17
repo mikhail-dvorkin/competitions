@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm354;
 public class RooksPlacement {
 	final long mod = 1000001;
-	
+
 	public int countPlacements(int A, int B, int num) {
 		long[][][] r = new long[A + 1][B + 1][num + 1];
 		for (int a = 0; a <= A; a++) {

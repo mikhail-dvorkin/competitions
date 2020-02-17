@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2010.round3;
 public class TheChroniclesOfAmber {
 	public double minimumTime(int[] princeX, int[] princeY, int[] destinationX, int[] destinationY) {
 		int n = princeX.length;

@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm621;
 import java.util.*;
 
 public class RadioRange {
 	class Event implements Comparable<Event> {
 		double x;
 		int inc;
-		
+
 		public Event(double x, int inc) {
 			this.x = x;
 			this.inc = inc;
@@ -16,7 +16,7 @@ public class RadioRange {
 			return Double.compare(x, o.x);
 		}
 	}
-	
+
     public double RadiusProbability(int[] x, int[] y, int[] r, int maxR) {
     	int n = x.length;
     	List<Event> events = new ArrayList<>();

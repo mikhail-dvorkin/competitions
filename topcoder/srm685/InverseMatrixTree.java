@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm685;
 import java.util.*;
 
 public class InverseMatrixTree {
 	static final int M = 1_000_000_007;
 	static final int N = 300;
-	
+
 	static Map<Integer, int[]> precalc() {
     	Random random = new Random(566);
     	Map<Integer, int[]> map = new HashMap<>();
@@ -36,7 +36,7 @@ public class InverseMatrixTree {
     	}
 		return map;
 	}
-	
+
     public int[] constructGraph(int r) {
     	if (r == 0) {
     		return new int[]{2};
@@ -64,7 +64,7 @@ public class InverseMatrixTree {
     	System.out.println("NO " + r);
     	return new int[1];
     }
-    
+
 	public static int modInverse(int x, int p) {
 		int[] xy = new int[2];
 		int gcd = gcdExtended(x, p, xy);
@@ -90,5 +90,5 @@ public class InverseMatrixTree {
 		xy[1] = t;
 		return d;
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2014.round2a;
 import java.util.*;
 import java.util.Map.Entry;
 

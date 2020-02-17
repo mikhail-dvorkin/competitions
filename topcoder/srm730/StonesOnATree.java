@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm730;
 import java.util.*;
 
 public class StonesOnATree {

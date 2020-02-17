@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.member_beta;
 import java.util.*;
 
 public class CantorDust {

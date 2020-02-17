@@ -1,8 +1,8 @@
-package topcoder;
+package topcoder.srm575;
 public class TheNumberGameDivOne {
 	String first = "John";
 	String second = "Brus";
-	
+
 	public String find(long n) {
 		long m = n;
 		while (m % 4 == 0) {

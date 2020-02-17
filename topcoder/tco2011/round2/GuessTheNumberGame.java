@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2011.round2;
 public class GuessTheNumberGame {
 	public int possibleClues(int n) {
 		boolean[] isPrime = new boolean[n + 1];

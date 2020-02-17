@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2010.round2;
 public class SnowPlow {
 	int n;
 	boolean[] were;
 	int[] s;
 	int[][] e;
-	
+
 	public int solve(String[] roads) {
 		n = roads.length;
 		e = new int[n][n];

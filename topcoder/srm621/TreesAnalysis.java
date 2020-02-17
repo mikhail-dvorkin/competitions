@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm621;
 import java.util.*;
 
 public class TreesAnalysis {
 	int n;
 	ArrayList<Integer>[] nei1, nei2;
 	long ans = 0;
-	
+
 	@SuppressWarnings("unchecked")
 	public long treeSimilarity(int[] tree1, int[] tree2) {
     	n = tree1.length + 1;
@@ -33,7 +33,7 @@ public class TreesAnalysis {
     	}
     	return ans;
     }
-	
+
 	BitSet[] labelsList;
 
     void dfs1(int v, int p) {
@@ -48,7 +48,7 @@ public class TreesAnalysis {
 		}
 		labelsList[v] = res;
 	}
-    
+
     BitSet labels;
     int card;
     int[] size;

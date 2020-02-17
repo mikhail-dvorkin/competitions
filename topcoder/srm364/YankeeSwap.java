@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm364;
 public class YankeeSwap {
 	public String sequenceOfSwaps(String[] p) {
 		int n = p.length;
 		boolean[] taken = new boolean['Z'];
-		char[] takes = new char[n]; 
+		char[] takes = new char[n];
 		iloop:
 		for (int i = n - 1; i >= 0; i--) {
 			for (int j = 0; j < n; j++) {
@@ -39,7 +39,7 @@ public class YankeeSwap {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		String a = new YankeeSwap().sequenceOfSwaps(new String[]{"BAC",
 				 "ACB",

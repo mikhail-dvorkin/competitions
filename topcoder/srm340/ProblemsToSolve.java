@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm340;
 public class ProblemsToSolve {
 	public int minNumber(int[] pleasantness, int variety) {
 		int[] a = pleasantness;

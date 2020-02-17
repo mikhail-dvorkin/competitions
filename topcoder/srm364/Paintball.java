@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm364;
 import java.util.*;
 
 public class Paintball {
 	HashMap<String, Integer> teamscore = new HashMap<String, Integer>();
 	HashMap<String, Integer> score = new HashMap<String, Integer>();
 	ArrayList<String> guys = new ArrayList<String>();
-	
+
 	public String[] getLeaderboard(String[] players, String[] messages) {
 		HashMap<String, String> p2t = new HashMap<String, String>();
 		HashSet<String> teams = new HashSet<String>();

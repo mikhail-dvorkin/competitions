@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm538;
 public class EvenRoute {
 	public String isItPossible(int[] x, int[] y, int wantedParity) {
 		int n = x.length;

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm575;
 import java.util.*;
 
 public class TheTilesDivOne {
@@ -50,10 +50,10 @@ public class TheTilesDivOne {
 				}
 			}
 		}
-		
+
 		return fordFulkerson();
 	}
-	
+
 	void add(Vertex v, Vertex u) {
 		Edge vu = new Edge(v, u, (byte) 1);
 		Edge uv = new Edge(u, v, (byte) 0);
@@ -65,12 +65,12 @@ public class TheTilesDivOne {
 
 	Vertex s = new Vertex(), t = new Vertex();
 	int curTime;
-	
+
 	static class Vertex {
 		List<Edge> adj = new ArrayList<Edge>();
 		int time;
 	}
-	
+
 	static class Edge {
 		Vertex from, to;
 		byte c, f;
@@ -82,7 +82,7 @@ public class TheTilesDivOne {
 			this.c = c;
 		}
 	}
-	
+
 	public int fordFulkerson() {
 		for (int ans = 0;;) {
 			curTime++;
@@ -93,7 +93,7 @@ public class TheTilesDivOne {
 			return ans;
 		}
 	}
-	
+
 	public boolean dfsFordFulkerson(Vertex v) {
 		if (v == t) {
 			return true;
@@ -112,5 +112,5 @@ public class TheTilesDivOne {
 		}
 		return false;
 	}
-	
+
 }

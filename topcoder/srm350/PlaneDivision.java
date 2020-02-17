@@ -1,32 +1,32 @@
-package topcoder;
+package topcoder.srm350;
 import java.math.BigInteger;
 import java.util.*;
 
 public class PlaneDivision {
 	class Pair {
 		int x, y;
-		
+
 		public Pair(int a, int b) {
 			x = a;
 			y = b;
 		}
-		
+
 		@Override
 		public int hashCode() {
 			return 29 * x ^ y;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			Pair t = (Pair) obj;
 			return x == t.x && y == t.y;
 		}
 	}
-	
+
 	class Rat implements Comparable<Rat> {
 		long num, den;
 		double val;
-		
+
 		public Rat(long a, long b) {
 			if (b < 0) {
 				a = -a;
@@ -37,12 +37,12 @@ public class PlaneDivision {
 			den = b / d;
 			val = num * 1d / den;
 		}
-		
+
 		@Override
 		public int hashCode() {
 			return (int) (num * 29 ^ den);
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			Rat that = (Rat) obj;
@@ -54,14 +54,14 @@ public class PlaneDivision {
 			return Long.signum(num * o.den - o.num * den);
 		}
 	}
-	
+
 	HashMap<Point, Integer> all = new HashMap<Point, Integer>();
 	ArrayList<Point> al = new ArrayList<Point>();
-	
+
 	class Point implements Comparable<Point> {
 		Rat x, y;
 		int id;
-		
+
 		public Point(Rat a, Rat b) {
 			x = a;
 			y = b;
@@ -72,12 +72,12 @@ public class PlaneDivision {
 				al.add(this);
 			}
 		}
-		
+
 		@Override
 		public int hashCode() {
 			return x.hashCode() * 29 ^ y.hashCode();
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			Point that = (Point) obj;
@@ -91,13 +91,13 @@ public class PlaneDivision {
 			return y.compareTo(o.y);
 		}
 	}
-	
+
 	boolean compx;
-	
+
 	class Line {
 		int x1, y1, x2, y2;
 		long a, b, c;
-		
+
 		public Line(int x1, int y1, int x2, int y2) {
 			this.x1 = x1;
 			this.y1 = y1;
@@ -117,9 +117,9 @@ public class PlaneDivision {
 			return new Point(x, y);
 		}
 	}
-	
-	HashMap<Integer, ArrayList<Integer>> nei = new HashMap<Integer, ArrayList<Integer>>(); 
-	
+
+	HashMap<Integer, ArrayList<Integer>> nei = new HashMap<Integer, ArrayList<Integer>>();
+
 	public int howManyFiniteParts(int[] x1, int[] y1, int[] x2, int[] y2) {
 		int n = x1.length;
 		Line[] line = new Line[n];
@@ -156,7 +156,7 @@ public class PlaneDivision {
 		}
 		return ans;
 	}
-	
+
 	private void dfs(int id, int tid) {
 		were.add(new Pair(id, tid));
 		ArrayList<Integer> c = nei.get(tid);
@@ -186,7 +186,7 @@ public class PlaneDivision {
 	}
 
 	HashSet<Pair> were = new HashSet<Pair>();
-	
+
 	private void addEdge(Point p1, Point p2) {
 		if (nei.containsKey(p1.id)) {
 			nei.get(p1.id).add(p2.id);
@@ -196,13 +196,13 @@ public class PlaneDivision {
 			nei.put(p1.id, list);
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new PlaneDivision().howManyFiniteParts(
-				new int[]{0, 1, 2},		
-				new int[]{0, 1, -1},		
-				new int[]{1, 2, 0},		
-				new int[]{0, -1, 2}	
+				new int[]{0, 1, 2},
+				new int[]{0, 1, -1},
+				new int[]{1, 2, 0},
+				new int[]{0, -1, 2}
 		);
 		System.out.println(a);
 	}

@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.tco2013.round2b;
 public class ScotlandYard {
 	int n;
 	int[][] e;
 	boolean[] cont;
-	
+
 	public int maxMoves(String[] taxi, String[] bus, String[] metro) {
 		n = taxi.length;
 		int t = 1;
@@ -40,12 +40,12 @@ public class ScotlandYard {
 		}
 		return maxDist;
 	}
-	
+
 	int[] mark;
 	int[] dist;
 	boolean cycle;
 	int maxDist;
-	
+
 	void dfs(int v) {
 		mark[v] = 1;
 		int i = v / n;

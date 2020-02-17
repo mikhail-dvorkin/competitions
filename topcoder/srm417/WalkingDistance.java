@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm417;
 public class WalkingDistance {
 	public double getLongestShortest(int[] x, int[] y, String[] streets) {
 		int n = x.length;
@@ -9,7 +9,7 @@ public class WalkingDistance {
 			for (int j = 0; j < n; j++) {
 				if (streets[i].charAt(j) == 'Y') {
 					e[i][j] = Math.hypot(x[i] - x[j], y[i] - y[j]);
-					ans = Math.max(ans, e[i][j]); 
+					ans = Math.max(ans, e[i][j]);
 				} else {
 					e[i][j] = inf;
 				}
@@ -62,7 +62,7 @@ public class WalkingDistance {
 		}
 		return ans;
 	}
-	
+
 	double a, b, c, d, M, N;
 	final double eps = .3e-9;
 	int[] aa = new int[]{1, 1, 1, 1, 1, 1, 0, 0};

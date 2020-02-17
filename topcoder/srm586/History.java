@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm586;
 public class History {
     public String verifyClaims(String[] dynasties, String[] battles, String[] queries) {
     	int d = dynasties.length;
@@ -37,7 +37,7 @@ public class History {
         		min[d2][d1] = -max[d1][d2];
         	}
 
-    		
+
     		int d1 = s.charAt(0) - 'A';
     		int d2 = s.charAt(3) - 'A';
     		int n1 = s.charAt(1) - '0';

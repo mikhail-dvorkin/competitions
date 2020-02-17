@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2018.round2b;
 import java.util.*;
 
 public class SquareFreeSet {
@@ -7,7 +7,7 @@ public class SquareFreeSet {
 		Arrays.sort(x);
 		int gap = 566;
 		int max = x[x.length - 1] + gap + 1;
-		
+
 		boolean[] isPrime = new boolean[max];
 		int[] group = new int[max];
 		for (int i = 1; i < max; i++) {
@@ -56,7 +56,7 @@ public class SquareFreeSet {
 		}
 		return hungarian(e);
 	}
-	
+
 	public static int hungarian(int[][] e) {
 		if (e.length == 0 || e[0].length == 0) {
 			return 0;
@@ -80,7 +80,7 @@ public class SquareFreeSet {
 		for (int i = 1; i <= n1; i++) {
 			p[0] = i;
 			int j0 = 0;
-			int[] minv = new int[n2 + 1]; 
+			int[] minv = new int[n2 + 1];
 			Arrays.fill(minv, infty);
 			boolean[] used = new boolean[n2 + 1];
 			do {

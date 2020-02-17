@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.tco2013.round3b;
 public class SimilarSequences {
 	final int M = 1000000009;
-	
+
     public int count(int[] a, int m) {
     	int n = a.length;
     	long ans = 1;

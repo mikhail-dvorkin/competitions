@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm667;
 import java.util.*;
 
 public class BipartiteGraphGame_wrong {
@@ -7,7 +7,7 @@ public class BipartiteGraphGame_wrong {
 	boolean[][] used;
 	int[] a;
 	int r;
-	
+
     public int[] getMoves(int[] red, int[] blue) {
     	r = red.length;
     	int n = r + blue.length;

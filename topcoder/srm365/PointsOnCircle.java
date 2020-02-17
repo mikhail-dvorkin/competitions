@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm365;
 import java.util.*;
 
 public class PointsOnCircle {
@@ -47,7 +47,7 @@ public class PointsOnCircle {
 		System.out.println(r);
 		return 4 * (a1 - a3);
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new PointsOnCircle().count(3 * 5 * 7 * 11 * 13 * 5 * 7 * 17 * 3 * 5 * 3));
 	}

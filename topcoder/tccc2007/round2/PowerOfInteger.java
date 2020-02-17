@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round2;
 public class PowerOfInteger {
 	public int greatestPower(String left, String right) {
 		long lo = Long.parseLong(left);

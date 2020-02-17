@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm588;
 import java.util.*;
 
 public class KeyDungeonDiv1 {

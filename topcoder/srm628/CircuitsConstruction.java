@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm628;
 import java.util.*;
 
 public class CircuitsConstruction {
@@ -12,7 +12,7 @@ public class CircuitsConstruction {
     	}
     	return ans;
     }
-    
+
     String s;
     int x = 0;
 

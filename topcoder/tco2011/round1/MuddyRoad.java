@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2011.round1;
 public class MuddyRoad {
 	public double getExpectedValue(int[] road) {
 		int n = road.length;

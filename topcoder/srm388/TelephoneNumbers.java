@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm388;
 import java.util.*;
 
 public class TelephoneNumbers {
@@ -12,11 +12,11 @@ public class TelephoneNumbers {
 		}
 		return d;
 	}
-	
+
 	char ch(int d) {
 		return "0123456789ABCDEF".charAt(d);
 	}
-	
+
 	String hex(int v) {
 		String s = "";
 		for (int i = 0; i < 7; i++) {
@@ -26,7 +26,7 @@ public class TelephoneNumbers {
 		}
 		return s;
 	}
-	
+
 	public String kthNumber(int sep, int k) {
 		k--;
 		if (sep == 1)
@@ -46,7 +46,7 @@ public class TelephoneNumbers {
 		}
 		return hex(in.get(k - 1));
 	}
-	
+
 	private int xor(int i) {
 		int r = 0;
 		while (i > 0) {

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm362;
 public class MaximizeSquares {
 	public int squareCount(int n) {
 		int m = (int) Math.floor(Math.sqrt(n) + 1e-10);

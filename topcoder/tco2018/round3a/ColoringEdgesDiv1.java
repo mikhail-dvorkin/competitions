@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.tco2018.round3a;
 public class ColoringEdgesDiv1 {
 	boolean[][] e;
 	boolean[][] tree;
 	boolean[] mark;
-	
+
 	public int[] findColoring(int n, int[] x, int[] y) {
 		e = new boolean[n][n];
 		tree = new boolean[n][n];

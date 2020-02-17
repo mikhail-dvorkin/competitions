@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm436;
 import java.util.*;
 
 public class CircularShifts {
@@ -59,7 +59,7 @@ public class CircularShifts {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(148261627 - new CircularShifts().maxScore(60000, 3045743, 454373, 23945734, 566457379)); // 148261627
 	}

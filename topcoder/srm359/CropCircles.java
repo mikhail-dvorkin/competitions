@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm359;
 import java.util.*;
 
 public class CropCircles {
 	final double eps = 1e-8;
-	
+
 	class Pair implements Comparable<Pair> {
 		double ang;
 		int num;
@@ -22,7 +22,7 @@ public class CropCircles {
 			return 0;
 		}
 	}
-	
+
 	public int countCircles(int[] x, int[] y) {
 		int n = x.length;
 		int answer = 0;
@@ -64,7 +64,7 @@ public class CropCircles {
 		}
 		return answer;
 	}
-	
+
 	public static void main(String[] args) {
 //		int[] x = new int[]{500, 498, 492, 482, 469, 452, 432, 409, 383, 356, 327, 296, 265, 234, 203, 172, 143, 116, 90, 67, 47, 30, 17, 7, 1, 0, 1, 7, 17, 30, 47, 67, 90, 116, 143, 172, 203, 234, 265, 296, 327, 356, 383, 409, 432, 452, 469, 482, 492, 498};
 //		int[] y = new int[]{250, 281, 312, 342, 370, 396, 421, 442, 461, 476, 487, 495, 499, 499, 495, 487, 476, 461, 442, 421, 396, 370, 342, 312, 281, 250, 218, 187, 157, 129, 103, 78, 57, 38, 23, 12, 4, 0, 0, 4, 12, 23, 38, 57, 78, 103, 129, 157, 187, 218};

@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm582;
 public class ColorfulBuilding {
 	final int M = 1000000009;
-	
+
 	public int count(String[] color1, String[] color2, int L) {
 		int n = 0;
 		for (String s : color1) {

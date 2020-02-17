@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2012.round2c;
 public class FlattenOut {
 	public long[] simulateIt(long[] a, long t) {
 		int n = a.length;

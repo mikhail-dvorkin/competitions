@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm390;
 public class ConcatenateNumber {
 	public int getSmallest(int number, int k) {
 		long rest = 0;

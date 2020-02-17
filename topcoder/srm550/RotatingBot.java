@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm550;
 public class RotatingBot {
 	public int minArea(int[] moves) {
 		boolean[][] f = new boolean[5000][5000];

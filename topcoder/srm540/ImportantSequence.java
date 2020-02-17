@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm540;
 public class ImportantSequence {
 	public int getCount(int[] b, String operators) {
 		int n = b.length;

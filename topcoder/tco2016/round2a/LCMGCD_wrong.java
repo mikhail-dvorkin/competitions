@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2016.round2a;
 import java.util.*;
 
 public class LCMGCD_wrong {
 	int n;
 	int[] a, b;
-	
+
 	public String isPossible(int[] x, int t) {
 		 n = x.length;
 		 x = Arrays.copyOf(x, n + 1);
@@ -29,7 +29,7 @@ public class LCMGCD_wrong {
 		 boolean ans = res.contains(v);
 		 return ans ? "Possible" : "Impossible";
 	}
-	
+
 	Map<BitSet, TreeSet<Integer>> memo = new HashMap<>();
 
 	void search(BitSet bitSet) {
@@ -99,7 +99,7 @@ public class LCMGCD_wrong {
 		}
 		memo.put(bitSet, result);
 	}
-	
+
 	static void test(int[] x, int t, String ans) {
 		String res = new LCMGCD_wrong().isPossible(x, t);
 		if (!res.equals(ans)) {
@@ -107,7 +107,7 @@ public class LCMGCD_wrong {
 		}
 		System.out.println(res);
 	}
-	
+
 	public static void main(String[] args) {
 		test(new int[]{2, 3}, 6, "Possible");
 		test(new int[]{4, 9}, 6, "Impossible");

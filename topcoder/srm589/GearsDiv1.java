@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm589;
 import java.util.*;
 
 public class GearsDiv1 {
 	public int n;
 	public char[] c;
 	public boolean[][] e;
-	
+
 	private boolean[] mark;
 	private int[] left;
 
@@ -61,5 +61,5 @@ public class GearsDiv1 {
 		}
 		return false;
 	}
-    
+
 }

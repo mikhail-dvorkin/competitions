@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2013.round3b;
 /*
  * WRONG SOLUTION
  */

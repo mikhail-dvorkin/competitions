@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2018.round2b;
 import java.util.*;
 
 public class LineColoring {

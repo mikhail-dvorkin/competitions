@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm589;
 public class GooseTattarrattatDiv1 {
     public int getmin(String s) {
     	int[] count = new int[26];

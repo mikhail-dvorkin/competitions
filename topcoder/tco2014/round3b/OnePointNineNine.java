@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.tco2014.round3b;
 import java.util.*;
 
 public class OnePointNineNine {
 	long M = 1000000007;
-	
+
     @SuppressWarnings("unchecked")
 	public int countSubsets(int[] x, int[] y, int r) {
     	int n = x.length;
@@ -204,7 +204,7 @@ public class OnePointNineNine {
     	}
     	return (int) ans;
     }
-    
+
     void trav(int v, int p, ArrayList<Integer> list) {
     	list.add(v);
     	mark[v] = true;

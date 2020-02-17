@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2008.round1;
 public class BoxFilling {
 	public long getNumber(int sizeX, int sizeY, int sizeZ, int cubeX, int cubeY, int cubeZ) {
 		return 1 + get(sizeX, sizeY, sizeZ, cubeX, cubeY, cubeZ);
@@ -117,7 +117,7 @@ public class BoxFilling {
 			dim++;
 		return dim;
 	}
-	
+
 	public static void main(String[] args) {
 		long ans = new BoxFilling().getNumber(8, 325252673, 325252673, 8, 325252673, 325252673);
 		System.out.println(ans);

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm365;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -55,7 +55,7 @@ public class ArithmeticProgressions {
 		denb = denb.divide(gcd);
 		return new String[]{numb.toString(), denb.toString()};
 	}
-	
+
 	public static void main(String[] args) {
 		String[] a = new String[50];
 		for (int i = 0; i < 50; i++) {

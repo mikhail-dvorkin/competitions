@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm381;
 public class TheDiceGame {
 	public double expectedThrows(int n) {
 		double[] a = new double[n + 1];

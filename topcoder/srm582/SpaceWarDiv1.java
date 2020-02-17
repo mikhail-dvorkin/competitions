@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm582;
 import java.util.*;
 
 public class SpaceWarDiv1 {
@@ -58,11 +58,11 @@ public class SpaceWarDiv1 {
 		}
 		return right;
 	}
-	
+
 	class Enemy implements Comparable<Enemy> {
 		int strength;
 		long count;
-		
+
 		public Enemy(int strength, long count) {
 			this.strength = strength;
 			this.count = count;

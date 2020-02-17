@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm426;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,11 +8,11 @@ public class LongStraightRoad {
 		ArrayList<Integer> place = new ArrayList<Integer>();
 		ArrayList<Integer> dist = new ArrayList<Integer>();
 	}
-	
+
 	int n;
 	boolean[] mark;
 	Sign[] all;
-	
+
 	public int distanceToDestination(String[] signs, String destination) {
 		n = signs.length;
 		mark = new boolean[n];

@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.tco2009.round5;
 import java.util.*;
 
 public class PawnsAndKings {
 	int d(int x, int y) {
 		return Math.max(Math.abs(x), Math.abs(y));
 	}
-	
+
 	public int minNumberOfMoves(String[] board) {
 		int[] kx = new int[64];
 		int[] ky = new int[64];
@@ -82,7 +82,7 @@ public class PawnsAndKings {
 		}
 		return b[ks][max - 1];
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new PawnsAndKings().minNumberOfMoves(new String[]{"...P....", "..P...P.", "........", "......P.", "....PP..", "....K...", ".P......", ".....K.."});
 		System.out.println(a);

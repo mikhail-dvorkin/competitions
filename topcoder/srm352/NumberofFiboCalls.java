@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm352;
 public class NumberofFiboCalls {
 	public int[] fiboCallsMade(int n) {
 		int[] a = new int[n + 5];

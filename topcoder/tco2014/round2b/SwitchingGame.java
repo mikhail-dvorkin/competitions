@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2014.round2b;
 import java.util.*;
 
 public class SwitchingGame {
@@ -10,7 +10,7 @@ public class SwitchingGame {
 			this.to = to;
 		}
 	}
-	
+
     public int timeToWin(String[] states) {
     	int n = states[0].length();
     	int levels = states.length;

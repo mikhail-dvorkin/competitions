@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round1a;
 import java.util.*;
 
 public class TableLabel {
@@ -57,7 +57,7 @@ public class TableLabel {
 			return new String[]{"multiple"}	;
 		return qq;
 	}
-	
+
 	public static void main(String[] args) {
 		new TableLabel().labels(new String[]{"ABCDEFG   ABCDEFG ABCDEFG  ABCDEFG ACDXX "});
 	}

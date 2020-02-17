@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2015.round2a;
 import java.util.*;
 
 public class FoxMeeting {
 	int[][] e;
 	int[][] p;
-	
+
     public int maxDistance(int[] from, int[] to, int[] len, int[] foxes) {
     	int n = from.length + 1;
     	e = new int[n][n];
@@ -92,7 +92,7 @@ public class FoxMeeting {
     	}
     	return high;
     }
-    
+
 	public boolean[][] edge;
 	private boolean[] mark;
 	private int[] left;

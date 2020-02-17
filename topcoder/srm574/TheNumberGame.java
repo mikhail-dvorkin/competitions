@@ -1,8 +1,8 @@
-package topcoder;
+package topcoder.srm574;
 public class TheNumberGame {
 	String FIRST = "Manao wins";
 	String SECOND = "Manao loses";
-	
+
 	public String determineOutcome(int a, int b) {
 		String s = "" + a;
 		String t = "" + b;

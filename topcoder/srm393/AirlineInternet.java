@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm393;
 import java.util.*;
 
 public class AirlineInternet {
@@ -8,7 +8,7 @@ public class AirlineInternet {
 	double r;
 	double[] xx, yy;
 	ArrayList<Double> times = new ArrayList<Double>();
-	
+
 	private boolean cover() {
 		times.clear();
 		for (int i = 0; i < fs; i++) {
@@ -52,7 +52,7 @@ public class AirlineInternet {
 		}
 		return true;
 	}
-	
+
 	private void times(int from1, int to1, int b1, int e1, int from2, int to2, int b2, int e2) {
 		if (b2 >= e1 || b1 >= e2)
 			return;
@@ -100,7 +100,7 @@ public class AirlineInternet {
 	}
 
 	boolean[] were;
-	
+
 	public double minimumRange(String[] airportLocations, String[] flights) {
 		as = airportLocations.length;
 		xa = new int[as];
@@ -138,7 +138,7 @@ public class AirlineInternet {
 		}
 		return r;
 	}
-	
+
 	public static void main(String[] args) {
 		double a = new AirlineInternet().minimumRange(
 				new String[]{"25 100","0 50","90 150","22 22","60 1","95 8","12 40"}

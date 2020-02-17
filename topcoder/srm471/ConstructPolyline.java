@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm471;
 public class ConstructPolyline {
 	int[] x;
 	int[] y;
@@ -8,7 +8,7 @@ public class ConstructPolyline {
 	double[] nz;
 	int n;
 	long ans = 0;
-	
+
 	public long maximizeLength(int[] xx, int[] yy, int[] zz) {
 		x = xx;
 		y = yy;

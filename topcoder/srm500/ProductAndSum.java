@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm500;
  // Rest in peace, rem.          //
 // We will always remember you. //
 
@@ -28,7 +28,7 @@ public class ProductAndSum {
 				}
 			}
 		}
-		
+
 		int[][] cnk = new int[5000][300];
 		for (int n = 0; n < cnk.length; n++) {
 			cnk[n][0] = 1;
@@ -39,7 +39,7 @@ public class ProductAndSum {
 				cnk[n][k] = p(cnk[n - 1][k - 1], cnk[n - 1][k]);
 			}
 		}
-		
+
 		sum -= 5 * p5 + 7 * p7;
 		int c57 = cnk[p5 + p7][p5];
 		for (int i = 0; i <= p2 + p3; i++) {
@@ -58,7 +58,7 @@ public class ProductAndSum {
 		}
 		return ans;
 	}
-	
+
 	private int p(int x, int y) {
 		x += y;
 		if (x >= M) {

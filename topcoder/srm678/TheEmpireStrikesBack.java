@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm678;
 import java.util.*;
 
 public class TheEmpireStrikesBack {
 	int M = 1_000_000_007;
-	
+
     public int find(int ax, int bx, int cx, int ay, int by, int cy, int n, int m) {
     	int[] x = new int[n];
     	int[] y = new int[n];
@@ -53,7 +53,7 @@ public class TheEmpireStrikesBack {
     	}
     	return (int) high;
     }
-    
+
     class Point implements Comparable<Point> {
     	int x, y;
 

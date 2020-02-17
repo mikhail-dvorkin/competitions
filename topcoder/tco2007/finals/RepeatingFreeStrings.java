@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.tco2007.finals;
 public class RepeatingFreeStrings {
   int n, m;
-  
+
   public int count(int len, int end, int beg) {
     int ans = 1 << (m - len);
     prefcycle:
@@ -29,7 +29,7 @@ public class RepeatingFreeStrings {
     }
     return ans;
   }
-  
+
   public String kthString(int nn, int k) {
     n = nn;
     m = n / 2;

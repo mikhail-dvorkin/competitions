@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm362;
 import java.util.*;
 
 public class PartialSeries {
 	int[] av;
-	
+
 	public int[] getFirst(int[] series, int[] available) {
 		av = available;
 		int n = series.length;
@@ -24,7 +24,7 @@ public class PartialSeries {
 		int m0 = 0;
 		for (int a = 0; a <= 10; a++) {
 			if (series[n - 2] == -1) {
-				boolean found = false; 
+				boolean found = false;
 				for (int i = 0; i < av.length; i++) {
 					if (av[i] == a) {
 						m0 = 1 << i;
@@ -40,7 +40,7 @@ public class PartialSeries {
 			for (int b = 0; b <= 10; b++) {
 				int m1 = 0;
 				if (series[n - 1] == -1) {
-					boolean found = false; 
+					boolean found = false;
 					for (int i = 0; i < av.length; i++) {
 						if (av[i] == b) {
 							m1 = 1 << i;
@@ -174,7 +174,7 @@ public class PartialSeries {
 	private int local(int z, int a, int b) {
 		return (a > Math.max(z, b) || a < Math.min(z, b)) ? 1 : 0;
 	}
-	
+
 	public static void main(String[] args) {
 		new PartialSeries().getFirst(new int[]{-1, -1, -1, -1, -1}, new int[]{1, 2, 3, 4, 5});
 //		new PartialSeries().getFirst(new int[]{-1,-1,-1,-1,-1}, new int[]{1, 2, 3, 4, 5});

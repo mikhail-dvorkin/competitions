@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm694;
 public class DistinguishableSetDiv1 {
     public int count(String[] strings) {
     	int n = strings.length;

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.semi2;
 import java.util.*;
 
 public class BigWheels {
@@ -59,7 +59,7 @@ public class BigWheels {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		int[] a = new BigWheels().enough(new String[]
 { "4 4 4", "7 6" }

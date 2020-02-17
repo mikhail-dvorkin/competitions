@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm345;
 public class StoneGame {
 	public int getScore(int[] t, int[] s) {
 		int n = t.length;
@@ -41,7 +41,7 @@ public class StoneGame {
 			me = !me;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new StoneGame().getScore(new int[]{1, 3, 2, 1, 1, 3, 3, 1, 1, 3}, new int[]{100, 1, 1, 69, 13, 87, 1, 96, 35, 68}));
 	}

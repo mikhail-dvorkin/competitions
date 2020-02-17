@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round4;
 import java.util.*;
 
 public class CommonSubsequence {
@@ -66,7 +66,7 @@ public class CommonSubsequence {
 				}
 				ya = Math.max(ya, cnt[c]);
 			}
-			
+
 			Arrays.fill(cnt, 0);
 			len = x = bn;
 			for (int i = 0; i < bn; i++) {
@@ -103,7 +103,7 @@ public class CommonSubsequence {
 				}
 				yb = Math.max(yb, cnt[c]);
 			}
-			
+
 			ans[c] = Math.min(ya, yb);
 			al[c] = ac[c] - ans[c];
 			bl[c] = bc[c] - ans[c];
@@ -117,7 +117,7 @@ public class CommonSubsequence {
 		int start = Math.max(l - suffixLength, 0);
 		return sb.substring(start);
 	}
-	
+
 	public static void main(String[] args) {
 		String a = new CommonSubsequence().maxLex(new String[]{"ichhbca", "aghafbbgbaehi"}, new String[]{"jdhccgeiaaijbddh"}, 10);
 		System.out.println(a);

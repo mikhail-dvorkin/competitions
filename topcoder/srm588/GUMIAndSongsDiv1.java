@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm588;
 import java.util.*;
 
 public class GUMIAndSongsDiv1 {
@@ -35,12 +35,12 @@ public class GUMIAndSongsDiv1 {
     	}
     	return ans;
     }
-    
+
     class Song implements Comparable<Song> {
     	int duration;
     	int tone;
     	int id;
-    	
+
 		public Song(int duration, int tone, int id) {
 			this.duration = duration;
 			this.tone = tone;

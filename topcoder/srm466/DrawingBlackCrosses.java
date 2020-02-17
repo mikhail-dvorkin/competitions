@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm466;
 import java.util.*;
 
 public class DrawingBlackCrosses {
 	final int modulo = 1000000007;
-	
+
 	public int count(String[] field) {
 		int hei = field.length;
 		int wid = field[0].length();

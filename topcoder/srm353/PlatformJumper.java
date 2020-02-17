@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm353;
 import java.util.*;
 
 public class PlatformJumper {
 	class Platform implements Comparable<Platform> {
 		int x, y, c;
-		
+
 		public Platform(String s) {
 			Scanner in = new Scanner(s);
 			x = in.nextInt();
@@ -12,7 +12,7 @@ public class PlatformJumper {
 			c = in.nextInt();
 			in.close();
 		}
-		
+
 		@Override
 		public int compareTo(Platform o) {
 			return o.y - y;
@@ -25,9 +25,9 @@ public class PlatformJumper {
 			return (dx <= mx);
 		}
 	}
-	
+
 	int V, G;
-	
+
 	public int maxCoins(String[] platforms, int v, int g) {
 		V = v;
 		G = g;
@@ -49,7 +49,7 @@ public class PlatformJumper {
 		Arrays.sort(a);
 		return a[n - 1];
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new PlatformJumper().maxCoins(new String[]{"3 10 7", "5 15 7", "8 9 12" }, 2, 10);
 		System.out.println(a);

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2017.round2a;
 import java.util.*;
 
 public class FourLamps {

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm359;
 public class BubbleSortIterations {
 	public int numIterations(int[] X, int[] Y, int L0, int M, int n) {
 		//L[0] = L0
@@ -14,7 +14,7 @@ public class BubbleSortIterations {
 			a[i] = (int) li;
 		}
 		int ans = 0;
-		
+
 		int[] t = new int[M + 10];
 		int all = 0;
 		for (int k : a) {
@@ -28,7 +28,7 @@ public class BubbleSortIterations {
 		}
 		return ans + 1;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new BubbleSortIterations().numIterations(
 				new int[]{234, 56, 567, 3147, 23464, 57128, 234, 2346, 457, 1346, 1254, 45, 23247, 1347, 145, 123},

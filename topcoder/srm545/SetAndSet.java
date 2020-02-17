@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm545;
 import java.util.*;
 
 public class SetAndSet {
 	int n, m, mask;
 	int[] a, na;
 	boolean[] were;
-	
+
 	public long countandset(int[] A) {
 		a = A;
 		n = a.length;

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round1b;
 import java.util.*;
 
 public class Popularity {

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2011.round5;
 public class RemoveGame {
 	public long countWinning(String s, int r) {
 		int n = s.length();

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2010.round1;
 public class EqualizeStrings {
 	public String getEq(String s, String t) {
 		int n = s.length();

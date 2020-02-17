@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm628;
 public class DivisorsPower {
     public long findArgument(long n) {
     	for (int p = 2; p < 70; p++) {

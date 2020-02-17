@@ -1,8 +1,8 @@
-package topcoder;
+package topcoder.tco2009.round5;
 public class LineOfDice {
 	int mod = 10007;
 	int[][] cnk = new int[5000][1200];
-	
+
 	public int howMany(int[] d) {
 		for (int n = 0; n < 5000; n++) {
 			cnk[n][0] = 1;
@@ -40,7 +40,7 @@ public class LineOfDice {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new LineOfDice().howMany(new int[]{997, 973, 987, 997, 1000, 1000});
 		System.out.println(a);

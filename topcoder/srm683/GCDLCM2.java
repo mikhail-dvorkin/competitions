@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm683;
 import java.util.*;
 
 public class GCDLCM2 {
 	int M = 1000000007;
 	int MAX = 10_000_000;
-	
+
     public int getMaximalSum(int[] start, int[] d, int[] cnt) {
     	int m = start.length;
     	int[] count = new int[MAX + 1];
@@ -48,7 +48,7 @@ public class GCDLCM2 {
     			int pow = powers.get(i);
     			while (cur < pow) {
     				cur++;
-    				v = v * p % M; 
+    				v = v * p % M;
     			}
     			int j = size - 1 - i;
     			array[j] = (int) (v * array[j] % M);

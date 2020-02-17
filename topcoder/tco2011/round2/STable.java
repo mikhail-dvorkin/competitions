@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2011.round2;
 public class STable {
 	class MyString {
 		long length;
 		String s;
 		MyString a, b;
-		
+
 		public MyString(String s) {
 			this.length = s.length();
 			this.s = s;
@@ -16,7 +16,7 @@ public class STable {
 			this.b = b;
 			this.s = a.s;
 		}
-		
+
 		public String substr(long pos, long len) {
 			len = Math.min(len, length - pos);
 			if (a == null) {
@@ -31,13 +31,13 @@ public class STable {
 			}
 			return res;
 		}
-		
+
 		@Override
 		public String toString() {
 			return substr(0, 50);
 		}
 	}
-	
+
 	public String getString(String s, String t, long pos) {
 		int x = Integer.MAX_VALUE / 2;
 		int n = s.length();

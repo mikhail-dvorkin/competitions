@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm512;
 import java.util.*;
 
 public class MysteriousRestaurant {

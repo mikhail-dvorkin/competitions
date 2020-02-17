@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2015.round2a;
 public class ModModMod {
     public long findSum(int[] mod, int r) {
     	int n = mod.length;

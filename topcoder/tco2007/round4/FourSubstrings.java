@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round4;
 import java.util.*;
 
 public class FourSubstrings {
@@ -10,7 +10,7 @@ public class FourSubstrings {
 		String[] a = new String[]{e, b, c, d};
 		int[] l = new int[4];
 		for (int j = 0; j < 4; j++) {
-			l[j] = a[j].length();	
+			l[j] = a[j].length();
 		}
 		boolean[][] can = new boolean[n + 1][4];
 		for (int i = 0; i < n; i++) {
@@ -63,7 +63,7 @@ public class FourSubstrings {
 		int bb = max[n][15][0];
 		return new int[]{aa, bb};
 	}
-	
+
 	public static void main(String[] args) {
 		new FourSubstrings().getCoverageCount(
 				new String[]{"hello"},

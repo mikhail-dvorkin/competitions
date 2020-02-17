@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round2;
 import java.util.*;
 
 public class ExtendableTriangles {
@@ -10,7 +10,7 @@ public class ExtendableTriangles {
 		}
 		return a;
 	}
-	
+
 	class Point implements Comparable<Point> {
 		int x, y, z, c;
 
@@ -25,13 +25,13 @@ public class ExtendableTriangles {
 		public int compareTo(Point o) {
 			return z - o.z;
 		}
-		
+
 		@Override
 		public String toString() {
 			return z + " " + c + " " + x + " " + y;
 		}
 	}
-	
+
 	public int getCount(String[] grid) {
 		int hei = grid.length;
 		int wid = grid[0].length();
@@ -117,7 +117,7 @@ public class ExtendableTriangles {
 		return ans;
 //		return number[0] * number[1] * number[2] - ans / 3;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new ExtendableTriangles().getCount(new String[]{"RGB", "RGB"}));
 	}

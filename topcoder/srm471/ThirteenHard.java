@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm471;
 public class ThirteenHard {
 	int modulo = 13;
-	
+
 	public int calcTime(String[] city) {
 		int n = city.length;
 		int[][] edge = new int[n][n];

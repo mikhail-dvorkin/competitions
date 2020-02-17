@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm699;
 public class OthersXor {
 	int M = 30;
-	
+
     public long minSum(int[] x) {
     	int n = x.length;
     	int absent = -1;

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm436;
 public class BestView {
 	public int numberOfBuildings(int[] heights) {
 		int n = heights.length;

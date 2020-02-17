@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.tco2015.round3b;
 import java.util.*;
 
 public class CommutativeMapping {
 	final int M = 1000000007;
-	
+
 	int n;
 	int[] f;
 	ArrayList<Integer>[] prev;
@@ -12,7 +12,7 @@ public class CommutativeMapping {
 	int[] cycleSize;
 	int[] cycleId;
 
-	
+
     @SuppressWarnings("unchecked")
 	public int count(int[] array) {
     	this.f = array;
@@ -89,7 +89,7 @@ public class CommutativeMapping {
     		}
     		ans = (ans * ansK) % M;
     	}
-    	
+
     	// TEST
     	if (array.length == 3) {
     		int b = 0;
@@ -114,7 +114,7 @@ public class CommutativeMapping {
     			throw new RuntimeException("" + b);
     		}
     	}
-    	
+
     	return (int) ans;
     }
 

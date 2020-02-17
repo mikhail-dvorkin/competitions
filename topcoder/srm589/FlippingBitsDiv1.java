@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm589;
 public class FlippingBitsDiv1 {
     public int getmin(String[] ss, int m) {
     	StringBuilder sb = new StringBuilder();

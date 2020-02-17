@@ -1,13 +1,13 @@
-package topcoder;
+package topcoder.srm416;
 import java.util.*;
 
 public class RussianCheckers {
 	ArrayList<String> sim = new ArrayList<String>();
 	ArrayList<String> cap = new ArrayList<String>();
-	
+
 	int[] dx = new int[]{1,1,-1,-1};
 	int[] dy = new int[]{1,-1,1,-1};
-	
+
 	private ArrayList<String> capture(char[][] f, int i, int j) {
 		if (i == 0)
 			return captureKing(f, i, j);
@@ -36,7 +36,7 @@ public class RussianCheckers {
 		f[i][j] = (i == 0) ? 'W' : 'w';
 		return ans;
 	}
-	
+
 	private ArrayList<String> captureKing(char[][] f, int i, int j) {
 		ArrayList<String> ans = new ArrayList<String>();
 		ArrayList<String> moreCapt = new ArrayList<String>();
@@ -101,11 +101,11 @@ public class RussianCheckers {
 		char d = (char) ('1' + (7 - i));
 		return c + "" + d;
 	}
-	
+
 	boolean out(int i, int j) {
 		return (i >= 8) || (j >= 8) || i < 0 || j < 0;
 	}
-	
+
 	public String[] listMoves(String[] board, String turn) {
 		char[][] f = new char[8][];
 		for (int i = 0; i < 8; i++) {
@@ -130,14 +130,14 @@ public class RussianCheckers {
 			}
 			f = g;
 		}
-		
+
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (f[i][j] == 'B')
 					f[i][j] = 'b';
 			}
 		}
-		
+
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (f[i][j] == 'w') {
@@ -167,7 +167,7 @@ public class RussianCheckers {
 				}
 			}
 		}
-		
+
 		if (cap.size() == 0)
 			cap = sim;
 		if (turn.equals("BLACK")) {
@@ -189,7 +189,7 @@ public class RussianCheckers {
 		Collections.sort(cap);
 		return cap.toArray(new String[0]);
 	}
-	
+
 	public static void main(String[] args) {
 		String[] a = new RussianCheckers().listMoves(new String[]
 {				".W.B.B.W",

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm366;
 public class ChangingSounds {
 	public int maxFinal(int[] changeIntervals, int beginLevel, int maxLevel) {
 		int n = changeIntervals.length;

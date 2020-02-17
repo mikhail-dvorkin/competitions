@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.pilot_round2;
 public class TwistedMatrix {
 	public String[] solve(String[] a, String[] b) {
 		int hei = a.length;
@@ -60,7 +60,7 @@ public class TwistedMatrix {
 	int[] dx = new int[]{0, 0, 1, 1};
 	int[] dy = new int[]{0, 1, 1, 0};
 	char[] t = new char[4];
-	
+
 	private void turn(char[][] c, int i, int j, int d) {
 		for (int k = 0; k < 4; k++) {
 			t[k] = c[i + dx[k]][j + dy[k]];

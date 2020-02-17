@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.tccc2007.round4;
 public class FrabonacciTree {
 	long[] size;
-	
+
 	public String shortestPath(int n, int startIndex, int finishIndex) {
 		size = new long[n + 5];
 		size[0] = size[1] = 1;

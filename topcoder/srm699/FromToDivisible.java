@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm699;
 public class FromToDivisible {
     public int shortest(int n, int s, int t, int[] a, int[] b) {
     	int m = a.length;
@@ -32,7 +32,7 @@ public class FromToDivisible {
     	}
     	return -1;
     }
-    
+
 	public static long gcd(long a, long b) {
 		while (a > 0) {
 			long t = b % a;
@@ -41,7 +41,7 @@ public class FromToDivisible {
 		}
 		return b;
 	}
-	
+
 	public static long lcm(long a, long b) {
 		return (a / gcd(a, b)) * b;
 	}

@@ -1,13 +1,13 @@
-package topcoder;
+package topcoder.tco2015.round3a;
 import java.util.*;
 
 public class BearCharges {
 	final double INF = 1e100;
-	
+
 	int n;
 	double[][] d;
 	double best;
-	
+
     public double minTime(int[] x, int[] y) {
     	n = x.length;
     	if (n == 1) {
@@ -30,7 +30,7 @@ public class BearCharges {
     	search(1, 0);
     	return best;
     }
-    
+
     double[] started;
 
     void search(int our, double time) {

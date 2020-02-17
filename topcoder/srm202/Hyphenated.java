@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm202;
 public class Hyphenated {
     public double avgLength(String[] lines) {
     	StringBuilder sb = new StringBuilder();

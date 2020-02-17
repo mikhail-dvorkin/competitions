@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm635;
 import java.util.*;
 
 public class ColourHolic {
 	final int M = 1000000009;
-	
+
     public int countSequences(int[] count) {
     	Arrays.sort(count);
     	int a = count[0];

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm628;
 import java.util.*;
 
 public class DoraemonPuzzleGame {
@@ -16,7 +16,7 @@ public class DoraemonPuzzleGame {
 			return Double.compare(y, that.y);
 		}
 	}
-	
+
     public double solve(int[] xs, int[] ys, int m) {
     	int n = xs.length;
     	m -= n;

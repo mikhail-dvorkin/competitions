@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round1a;
 public class LetterInterchange {
 	public int[] interchangeWhich(String[] s1, String[] s2) {
 		StringBuilder sb = new StringBuilder();

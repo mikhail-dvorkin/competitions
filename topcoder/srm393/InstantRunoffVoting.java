@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm393;
 public class InstantRunoffVoting {
 	public int winner(String[] voters) {
 		int n = voters.length;

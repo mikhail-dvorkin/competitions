@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm680;
 public class BearSpans {
     public int[] findAnyGraph(int n, int m, int k) {
     	int[][] e = new int[n][n];

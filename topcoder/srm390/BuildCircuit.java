@@ -1,35 +1,35 @@
-package topcoder;
+package topcoder.srm390;
 import java.util.*;
 
 public class BuildCircuit {
 	int max = 50000;
-	
+
 	class Rational {
 		int num, den, hc;
-		
+
 		public Rational(int num, int den) {
 			this.num = num;
 			this.den = den;
 			hc = (num << 16) ^ den;
 		}
-		
+
 		@Override
 		public int hashCode() {
 			return hc;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			Rational r = (Rational) obj;
 			return num == r.num && den == r.den;
 		}
-		
+
 		@Override
 		public String toString() {
 			return num + "/" + den;
 		}
 	}
-	
+
 	int gcd(int a, int b) {
 		while (b > 0) {
 			int t = a % b;
@@ -38,7 +38,7 @@ public class BuildCircuit {
 		}
 		return a;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public int minimalCount(int a, int b) {
 		int g = gcd(a, b);
@@ -83,14 +83,14 @@ public class BuildCircuit {
 		int g = gcd(num, den);
 		return new Rational(num / g, den / g);
 	}
-	
+
 	private Rational sum1(int n1, int d1, int n2, int d2) {
 		int den = d1 * d2;
 		int num = n1 * d2 + n2 * d1;
 		int g = gcd(num, den);
 		return new Rational(den / g, num / g);
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new BuildCircuit().minimalCount(/*756, 874*/852, 1749));
 	}

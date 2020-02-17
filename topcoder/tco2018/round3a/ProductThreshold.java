@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2018.round3a;
 import java.util.Arrays;
 
 public class ProductThreshold {
@@ -55,14 +55,14 @@ public class ProductThreshold {
 					ans--;
 				}
 			}
-			
+
 			int pos = posHigh - posLow;
 			if (signLow == 1) {
 				ans += pos;
 			} else {
 				ans += (high - low) - pos;
 			}
-			
+
 			p /= a[low];
 			signLow *= Integer.signum(a[low]);
 			if (signLow == 1) {

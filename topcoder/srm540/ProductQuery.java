@@ -1,8 +1,8 @@
-package topcoder;
+package topcoder.srm540;
 public class ProductQuery {
 	final int MOD = 1000000007;
 	final long R4 = (MOD + 1) / 4;
-	
+
 	public int theInput(int N, int[] from, int[] to, int[] prod) {
 		n = N;
 		int m = from.length;
@@ -93,7 +93,7 @@ public class ProductQuery {
 		}
 		return ans;
 	}
-	
+
 	private int reverse(int p) {
 		if (p == 1 || p == 9) {
 			return p;
@@ -127,5 +127,5 @@ public class ProductQuery {
 	int[] val;
 	boolean dead;
 	int div;
-	
+
 }

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm501;
 public class FoxPlayingGame {
 	public double theMax(int nA, int nB, int paramA, int paramB) {
 		int n = nA + nB;

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm617;
 public class MyLongCake {
     public int cut(int n) {
     	int ans = 1;
@@ -18,5 +18,5 @@ public class MyLongCake {
 		}
 		return b;
 	}
-	
+
 }

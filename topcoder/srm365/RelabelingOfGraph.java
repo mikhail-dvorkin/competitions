@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm365;
 public class RelabelingOfGraph {
 	boolean[][] e;
 	int[] ans;
 	boolean[] mrk;
 	boolean[] gry;
 	int n;
-	
+
 	public int[] renumberVertices(String[] m) {
 		n = m.length;
 		ans = new int[n];

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round1;
 public class Unicorn {
 	public int countWays(int R, int C, int L, int seed, String word) {
 		int[][] a = new int[C][R];
@@ -75,7 +75,7 @@ public class Unicorn {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new Unicorn().countWays(300, 300, 1, 42, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
 	}

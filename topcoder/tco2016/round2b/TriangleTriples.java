@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2016.round2b;
 import java.math.BigInteger;
 
 public class TriangleTriples {
 	static final int M = 1000000007;
 	static final int INV6 = BigInteger.valueOf(6).modInverse(BigInteger.valueOf(M)).intValue();
-	
+
 	public int count(int a, int b, int c) {
 		long ans = 1L * a * b % M * c % M;
 		ans -= bad(a, b, c);
@@ -30,11 +30,11 @@ public class TriangleTriples {
 		res += 1L * (k3 - k2) * a % M * ((b + c) % M) % M;
 		return (int) ((res % M + M) % M);
 	}
-	
+
 	int s1(int n) {
 		return (int) (1L * n * (n + 1) / 2 % M);
 	}
-	
+
 	int s2(int n) {
 		return (int) (1L * n * (n + 1) % M * (2 * n + 1) % M * INV6 % M);
 	}

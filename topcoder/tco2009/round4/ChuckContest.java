@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round4;
 import java.util.*;
 
 public class ChuckContest {
@@ -8,7 +8,7 @@ public class ChuckContest {
 		}
 		return p1 > p2;
 	}
-	
+
 	public String chuckRules(int numProblems, String[] lowerBounds, String[] upperBounds, int[] partTimes) {
 		int inf = 10000000;
 		int n = partTimes.length;

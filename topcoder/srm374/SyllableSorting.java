@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm374;
 import java.util.*;
 
 public class SyllableSorting {
@@ -6,7 +6,7 @@ public class SyllableSorting {
 		ArrayList<String> nov = new ArrayList<String>();
 		ArrayList<String> old = new ArrayList<String>();
 		String orig;
-		
+
 		public Word(String s) {
 			orig = s;
 			while (s.length() > 0) {
@@ -45,9 +45,9 @@ public class SyllableSorting {
 			}
 			return 0;
 		}
-		
+
 	}
-	
+
 	public String[] sortWords(String[] words) {
 		int n = words.length;
 		Word[] w = new Word[n];
@@ -60,7 +60,7 @@ public class SyllableSorting {
 		}
 		return words;
 	}
-	
+
 	public static void main(String[] args) {
 		new SyllableSorting().sortWords(new String[]{"yamagawa", "gawayama"});
 	}

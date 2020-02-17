@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm699;
 public class TwoSquares_slow {
     public int maxOnes(String[] strings) {
     	int n = strings.length;
@@ -34,7 +34,7 @@ public class TwoSquares_slow {
         	        			}
         	        			int cur = s[n][n] + a1 - a3 - 2 * (o1 - o3) + a2 - a3 - 2 * (o2 - o3);
         	        			ans = Math.max(ans, cur);
-        	        		}        					
+        	        		}
         				}
         			}
         		}

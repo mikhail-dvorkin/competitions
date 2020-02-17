@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2013.round1a;
 public class TheFrog {
 	public double getMinimum(int d, int[] from, int[] to) {
 		double ans = d;

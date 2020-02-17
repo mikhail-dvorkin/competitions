@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm366;
 import java.util.*;
 
 public class GuitarConcert {

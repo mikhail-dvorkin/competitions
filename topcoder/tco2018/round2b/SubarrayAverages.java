@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2018.round2b;
 public class SubarrayAverages {
 	public double[] findBest(int[] arr) {
 		int n = arr.length;

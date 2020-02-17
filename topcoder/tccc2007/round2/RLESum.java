@@ -1,14 +1,14 @@
-package topcoder;
+package topcoder.tccc2007.round2;
 import java.util.*;
 
 public class RLESum {
 	long infty = 1000000000000000000L;
-	
+
 	class Number {
 		int n;
 		long[] len;
 		int[] dig;
-		
+
 		public Number(String a) {
 			ArrayList<Long> leng = new ArrayList<Long>();
 			ArrayList<Integer> digi = new ArrayList<Integer>();
@@ -43,7 +43,7 @@ public class RLESum {
 			}
 		}
 	}
-	
+
 	public int[] getDigits(String a, String b, String[] k) {
 		Number aa = new Number(a);
 		Number bb = new Number(b);
@@ -103,7 +103,7 @@ public class RLESum {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		new RLESum().getDigits(
 				"[12]3", "[3]1[3]2[3]3",

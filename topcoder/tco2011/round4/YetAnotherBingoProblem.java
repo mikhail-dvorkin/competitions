@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.tco2011.round4;
 import java.util.*;
 
 public class YetAnotherBingoProblem {
 	int N = 75;
-	
+
 	public int longestWinningSequence(String[] cards1, String[] cards2) {
 		boolean[][] me = parse(cards1);
 		boolean[][] he = parse(cards2);

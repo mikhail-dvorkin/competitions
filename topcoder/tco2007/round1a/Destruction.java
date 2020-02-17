@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round1a;
 import java.util.*;
 
 public class Destruction {
@@ -15,7 +15,7 @@ public class Destruction {
 		}
 		return a[numTests][numDestroyed] * 50;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new Destruction().minError(1, 1));
 		System.out.println(new Destruction().minError(3, 1));

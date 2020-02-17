@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm607;
 public class PalindromicSubstringsDiv1 {
     public double expectedPalindromes(String[] s1, String[] s2) {
     	StringBuilder sb = new StringBuilder();

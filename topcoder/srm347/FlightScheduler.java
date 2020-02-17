@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm347;
 public class FlightScheduler {
 	int d, k, m, f0;
-	
+
     public double minimizeFuel(int distance, int K, int emptyMass, int takeoffFuel) {
     	d = distance;
     	k = K;
@@ -32,7 +32,7 @@ public class FlightScheduler {
     	}
     	return ans;
     }
-    
+
     double solve(long n) {
     	return n * (f0 - m + m * Math.exp(d * 1.0 / k / n));
     }

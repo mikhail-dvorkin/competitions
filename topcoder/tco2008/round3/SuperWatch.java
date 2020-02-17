@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2008.round3;
 import java.util.Arrays;
 
 public class SuperWatch {
 	int n, f, z;
 	boolean[][] e;
-	
+
 	public int smallestImprecision(String[] times, int[] zones) {
 		n = times.length;
 		int[] t = new int[n];
@@ -63,7 +63,7 @@ public class SuperWatch {
 
 	int[] lp, rp;
 	boolean[] were;
-	
+
 	private boolean match() {
 		Arrays.fill(lp, -1);
 		Arrays.fill(rp, -1);
@@ -95,7 +95,7 @@ public class SuperWatch {
 		}
 		return false;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new SuperWatch().smallestImprecision(new String[]
 {"02:00", "07:00"}

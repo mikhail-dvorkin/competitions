@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2016.russia_regional;
 public class CloneGauntlet2 {
     public int minClones(int[] parent, int[] connection) {
     	int n = connection.length;

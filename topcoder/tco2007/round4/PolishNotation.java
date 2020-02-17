@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round4;
 public class PolishNotation {
 	public long waysToDecode(String s) {
 		int n = s.length();
@@ -12,13 +12,13 @@ public class PolishNotation {
 				int j = i + l;
 				if (s.charAt(i) == '+' || s.charAt(i) == '*' || s.charAt(i) == '/') {
 					for (int k = i; k <= j; k++) {
-						a[i][j] += a[i + 1][k] * a[k][j]; 
+						a[i][j] += a[i + 1][k] * a[k][j];
 					}
 					continue;
 				}
 				if (s.charAt(i) == '-') {
 					for (int k = i; k <= j; k++) {
-						a[i][j] += a[i + 1][k] * a[k][j]; 
+						a[i][j] += a[i + 1][k] * a[k][j];
 					}
 					if (s.charAt(i + 1) >= '0' && s.charAt(i + 1) <= '9')
 						a[i][j] += a[i + 1][j];

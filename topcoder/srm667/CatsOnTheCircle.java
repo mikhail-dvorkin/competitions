@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm667;
 public class CatsOnTheCircle {
 	double gamblerRuin(int up, int down, double p) {
 		if (p == 0.5) {
@@ -10,7 +10,7 @@ public class CatsOnTheCircle {
 		double qp = (1 - p) / p;
 		return (Math.pow(qp, down) - 1) / (Math.pow(qp, up + down) - 1);
 	}
-	
+
     public double getProb(int n, int k, int prob) {
     	double p = prob / 1000000000.0;
     	double up = gamblerRuin(k - 1, n - k - 1, p);

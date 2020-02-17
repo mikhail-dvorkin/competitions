@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.qual2;
 import java.util.*;
 
 public class PageNumbers {
@@ -6,7 +6,7 @@ public class PageNumbers {
 		int[] a = get(n);
 		return a;
 	}
-	
+
 	public int[] get(int n) {
 		int[] a = new int[10];
 		if (n < 0)
@@ -28,7 +28,7 @@ public class PageNumbers {
 		if (m >= 0) a[0]--;
 		return a;
 	}
-	
+
 	public static void main(String[] args) {
 		int[] a = new int[10];
 		for (int i = 1;; i++) {

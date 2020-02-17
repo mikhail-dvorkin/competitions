@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm471;
 public class PrimeSequences {
 	public int getLargestGenerator(int n, int d) {
 		boolean[] isPrime = new boolean[n + 1];

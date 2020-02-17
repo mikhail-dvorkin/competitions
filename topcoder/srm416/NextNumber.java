@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm416;
 public class NextNumber {
 	char[] c, d;
-	
+
 	boolean go(boolean ok, int x, int ones) {
 		if (c.length - x < ones || ones < 0)
 			return false;
@@ -23,7 +23,7 @@ public class NextNumber {
 		c[x] = '1';
 		return go(true, x + 1, ones - 1);
 	}
-	
+
 	public int getNextNumber(int n) {
 		String b = "0" + Integer.toBinaryString(n + 1);
 		c = b.toCharArray();
@@ -33,7 +33,7 @@ public class NextNumber {
 		b = new String(c);
 		return Integer.parseInt(b, 2);
 	}
-	
+
 	private int ones(int n) {
 		if (n == 0)
 			return 0;

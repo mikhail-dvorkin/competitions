@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2017.round1b;
 public class CoinConstruction {
     public int[] construct(int k) {
     	int n = Integer.SIZE - Integer.numberOfLeadingZeros(k);

@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.tco2008.round2;
 import java.util.*;
 
 public class PreciousStones {
 	class Stone implements Comparable<Stone> {
 		int g, s, m;
 		double gm;
-		
+
 		public Stone(int ss, int gg) {
 			s = ss;
 			g = gg;
@@ -17,7 +17,7 @@ public class PreciousStones {
 		public int compareTo(Stone o) {
 			return Double.compare(o.gm, gm);
 		}
-		
+
 	}
 	public double value(int[] silver, int[] gold) {
 		int n = silver.length;

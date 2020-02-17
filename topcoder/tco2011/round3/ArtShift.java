@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2011.round3;
 public class ArtShift {
 	public int maxShifts(String s) {
 		int n = s.length();
@@ -19,7 +19,7 @@ public class ArtShift {
 					for (int jj = 0; j + jj <= b; jj++) {
 						int pp = 1;
 						if (ii == 0 || jj == 0) {
-							
+
 						} else {
 							pp = ii + jj;
 						}
@@ -39,9 +39,9 @@ public class ArtShift {
 		}
 		return b;
 	}
-	
+
 	public static int lcm(int a, int b) {
 		return (a / gcd(a, b)) * b;
 	}
-	
+
 }

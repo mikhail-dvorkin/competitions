@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2010.round1;
 public class TwoRegisters {
 	public String minProg(int a) {
 		for (int b = 1; b <= a; b++) {
@@ -6,7 +6,7 @@ public class TwoRegisters {
 		}
 		return ans;
 	}
-	
+
 	String ans;
 
 	private void check(int a, int b) {

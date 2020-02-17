@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm374;
 import java.util.*;
 
 public class CommercialPlanner {
@@ -36,7 +36,7 @@ public class CommercialPlanner {
 		}
 		return (int) btime;
 	}
-	
+
 	public static void main(String[] args) {
 //		int a = new CommercialPlanner().bestMinute(
 //		new int[]{30, 6},

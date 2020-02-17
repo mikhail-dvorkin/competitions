@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2010.round3;
 public class SieveOfEratosthenes {
 	public int lastScratch(int max) {
 		if (max == 8) {

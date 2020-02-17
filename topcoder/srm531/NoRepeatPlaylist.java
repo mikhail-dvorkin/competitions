@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm531;
 public class NoRepeatPlaylist {
 	long M = 1000000007;
-	
+
 	public int numPlaylists(int n, int m, int p) {
 		long[][] a = new long[p + 1][n + 1];
 		a[0][0] = 1;

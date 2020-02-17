@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm393;
 public class NSegmentDisplay {
 	String[] sym;
 	String[] pat;
 	int n;
-	
+
 	boolean valid(boolean[] yes) {
 		for (String p : pat) {
 			boolean ok = false;
@@ -22,7 +22,7 @@ public class NSegmentDisplay {
 		}
 		return true;
 	}
-	
+
 	public String brokenSegments(String[] symbols, String[] patterns) {
 		sym = symbols;
 		pat = patterns;
@@ -53,7 +53,7 @@ public class NSegmentDisplay {
 		}
 		return sb.toString();
 	}
-	
+
 	public static void main(String[] args) {
 		new NSegmentDisplay().brokenSegments(new String[]{"1011111","0000011","1110110","1110011","0101011"
 				,"1111001","1111101","1000011","1111111","1111011"}, new String[]{"0111111"});

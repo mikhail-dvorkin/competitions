@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm756;
 import java.util.*;
 
 public class CrazyCrazy {

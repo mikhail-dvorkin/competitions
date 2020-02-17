@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm531;
 import java.util.*;
 
 public class MonsterFarm {
 	long M = 1000000007;
-	
+
 	public int numMonsters(String[] transforms) {
 		int n = transforms.length;
 		int[][] a = new int[n][];

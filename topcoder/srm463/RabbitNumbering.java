@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm463;
 import java.util.Arrays;
 
 
 public class RabbitNumbering {
 	int modulo = 1000000007;
-	
+
 	public int theCount(int[] a) {
 		Arrays.sort(a);
 		long ans = 1;

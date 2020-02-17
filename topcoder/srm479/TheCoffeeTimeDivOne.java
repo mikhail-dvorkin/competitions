@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm479;
 public class TheCoffeeTimeDivOne {
 	public long find(int n, int[] tea) {
 		boolean[] t = new boolean[n + 1];

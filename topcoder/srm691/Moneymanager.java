@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm691;
 import java.util.*;
 
 public class Moneymanager {
 	Random r = new Random(566);
 	int n, x;
 	Project[] array;
-	
+
     public int getbest(int[] a, int[] b, int X) {
     	x = X;
     	n = a.length;
@@ -23,7 +23,7 @@ public class Moneymanager {
     	Annealable answer = simulatedAnnealing(new Instance(r), settings, r);
     	return -answer.energy();
     }
-    
+
 	class Project {
 		int a, b;
 
@@ -32,11 +32,11 @@ public class Moneymanager {
 			this.b = b;
 		}
 	}
-	
+
     class Instance implements AnnealableWithStepBack {
     	long first;
     	int swapA, swapB;
-    	
+
     	public Instance(Random random) {
 			ArrayList<Integer> list = new ArrayList<Integer>();
 			for (int i = 0; i < n; i++) {
@@ -94,22 +94,22 @@ public class Moneymanager {
 			clone.first = first;
 			return clone;
 		}
-    	
+
 		@Override
 		public Annealable randomInstance(Random random) {
 			return new Instance(random);
 		}
     }
-    
+
 	public static interface Annealable {
 		public int energy();
 		public Annealable randomInstance(Random random);
 	}
-	
+
 	public static interface AnnealableWithoutStepBack extends Annealable {
 		public AnnealableWithoutStepBack vary(Random random);
 	}
-	
+
 	public static interface AnnealableWithStepBack extends Annealable, Cloneable {
 		public void vary(Random random);
 		public void undo();
@@ -132,12 +132,12 @@ public class Moneymanager {
 			this.desiredEnergy = desiredEnergy;
 			this.temp0 = temp0;
 		}
-		
+
 		public Settings() {
 			this(256, 1024, 1 - 1.0 / 16, Integer.MAX_VALUE, -Double.MAX_VALUE, 1);
 		}
 	}
-	
+
 	public static Annealable simulatedAnnealing(Annealable item, Settings settings, Random r) {
 		boolean stepBack = item instanceof AnnealableWithStepBack;
 		Annealable answer = null;

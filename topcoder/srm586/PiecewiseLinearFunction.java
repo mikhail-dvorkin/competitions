@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm586;
 public class PiecewiseLinearFunction {
     public int maximumSolutions(int[] y) {
     	int n = y.length;

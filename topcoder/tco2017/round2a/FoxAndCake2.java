@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2017.round2a;
 public class FoxAndCake2 {
     public String isPossible(int a, int b) {
     	if (a > b) {
@@ -6,7 +6,7 @@ public class FoxAndCake2 {
     	}
     	return solve(a, b) ? "Possible" : "Impossible";
     }
-    
+
     static boolean solve(int a, int b) {
     	if (a % 2 == 0 && b % 2 == 0 || a % 3 == 0 && b % 3 == 0) {
     		return true;

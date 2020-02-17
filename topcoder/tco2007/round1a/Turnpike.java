@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round1a;
 import java.util.*;
 
 public class Turnpike {

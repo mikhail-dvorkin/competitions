@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round2;
 public class PlaneFractal {
 	public String[] getPattern(int s, int n, int k, int r1, int r2, int c1, int c2) {
 		int z = (n - k) / 2;

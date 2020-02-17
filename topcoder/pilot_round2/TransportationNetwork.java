@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.pilot_round2;
 import java.util.*;
 
 public class TransportationNetwork {
 	class Road implements Comparable<Road> {
 		int i, j;
 		double len;
-		
+
 		public Road(int i, int j, double len) {
 			this.i = i;
 			this.j = j;
@@ -17,7 +17,7 @@ public class TransportationNetwork {
 			return Double.compare(len, o.len);
 		}
 	}
-	
+
 	public double minCost(int[] x, int[] y, double roadCost, double airportCost) {
 		int n = x.length;
 		ArrayList<Road> roads = new ArrayList<Road>();

@@ -1,13 +1,13 @@
-package topcoder;
+package topcoder.tccc2007.round1b;
 public class MutateTree {
 	char[] left = new char[260];
 	char[] right = new char[260];
 	char root;
-	
+
 	boolean isLeaf(char c) {
 		return c >= 'A' && c <= 'Z';
 	}
-	
+
 	public String newTree(String tree, int root1, int root2) {
 		int n = tree.length();
 		char[] stack = new char[n];
@@ -33,7 +33,7 @@ public class MutateTree {
 		if (ss != 1)
 			return "BADTREE";
 		root = stack[0];
-		char rr1 = tree.charAt(root1); 
+		char rr1 = tree.charAt(root1);
 		char rr2 = tree.charAt(root2);
 		if (dfs(rr1, rr2) || dfs(rr2, rr1))
 			return "OVERLAP";
@@ -55,7 +55,7 @@ public class MutateTree {
 			return false;
 		return dfs(left[v], find) || dfs(right[v], find);
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new MutateTree().newTree("ABcCbEZDfzy", 4, 8));
 	}

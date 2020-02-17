@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm617;
 import java.util.*;
 
 public class FarStrings {

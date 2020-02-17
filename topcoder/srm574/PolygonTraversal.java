@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm574;
 public class PolygonTraversal {
 	public long count(int n, int[] points) {
 		int init = 0;

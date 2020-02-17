@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm545;
 public class Spacetsk {
 	public int countsets(int L, int H, int k) {
 		final long MOD = 1000000007;
@@ -56,7 +56,7 @@ public class Spacetsk {
 		}
 		return (int) ans;
 	}
-	
+
 	public static int gcd(int a, int b) {
 		while (a > 0) {
 			int t = b % a;

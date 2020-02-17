@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm351;
 import java.util.*;
 
 public class BoxesArrangement {
@@ -66,7 +66,7 @@ public class BoxesArrangement {
 			return -1;
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		//ABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABC
 	}

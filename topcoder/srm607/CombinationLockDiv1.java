@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm607;
 import java.util.*;
 
 public class CombinationLockDiv1 {

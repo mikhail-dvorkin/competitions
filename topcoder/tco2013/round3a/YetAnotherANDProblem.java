@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2013.round3a;
 import java.util.*;
 
 public class YetAnotherANDProblem {

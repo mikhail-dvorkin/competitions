@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2015.round2a;
 // http://mat.fsv.cvut.cz/gcg/sbornik/tomiczkova.pdf
 public class TrianglePainting {
     public double expectedArea(int[] x1, int[] y1, int[] x2, int[] y2, int[] pInt) {

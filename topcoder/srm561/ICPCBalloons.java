@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm561;
 import java.util.*;
 
 public class ICPCBalloons {

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm558;
 import java.util.*;
 
 public class Stamp {

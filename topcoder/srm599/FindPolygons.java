@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm599;
 import java.awt.Point;
 import java.util.*;
 

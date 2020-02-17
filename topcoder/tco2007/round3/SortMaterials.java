@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round3;
 import java.util.*;
 
 public class SortMaterials {

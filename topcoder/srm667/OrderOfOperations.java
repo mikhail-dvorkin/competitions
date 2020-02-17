@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm667;
 import java.util.*;
 
 public class OrderOfOperations {

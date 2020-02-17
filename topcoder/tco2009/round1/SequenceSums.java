@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round1;
 
 public class SequenceSums {
 	public int[] sequence(int n, int L) {

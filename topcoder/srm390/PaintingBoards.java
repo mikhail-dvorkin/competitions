@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm390;
 public class PaintingBoards {
 	public double minimalTime(int[] boardLength, int[] painterSpeed) {
 		int len = boardLength.length;
@@ -38,7 +38,7 @@ public class PaintingBoards {
 		}
 		return mi;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new PaintingBoards().minimalTime(
 				new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},

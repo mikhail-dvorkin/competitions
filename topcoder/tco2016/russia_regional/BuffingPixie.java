@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2016.russia_regional;
 public class BuffingPixie {
     public int fastestVictory(int hp, int normalAttack, int buffedAttack) {
     	if (buffedAttack <= 2 * normalAttack) {

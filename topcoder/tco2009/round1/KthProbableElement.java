@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round1;
 
 public class KthProbableElement {
 	int low;
@@ -6,7 +6,7 @@ public class KthProbableElement {
 	int m;
 	int k;
 	double[][] cnk;
-	
+
 	public double probability(int M, int lowerBound, int upperBound, int N, int K) {
 		low = lowerBound;
 		high = upperBound;

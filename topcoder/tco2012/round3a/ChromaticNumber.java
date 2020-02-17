@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2012.round3a;
 public class ChromaticNumber {
 	int n;
 	boolean[][] e;
 	boolean[] mark;
 	int vs, es;
-	
+
 	public int minColors(String[] graph) {
 		n = graph.length;
 		e = new boolean[n][n];

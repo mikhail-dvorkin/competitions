@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm353;
 import java.util.*;
 
 public class FurnitureRobbery {
@@ -9,7 +9,7 @@ public class FurnitureRobbery {
 	int lo = 0;
 	final int[] dx = new int[]{1, 0, -1, 0};
 	final int[] dy = new int[]{0, 1, 0, -1};
-	
+
 	public int leastPushes(String[] plan) {
 		hei = plan.length;
 		wid = plan[0].length();
@@ -84,7 +84,7 @@ public class FurnitureRobbery {
 		}
 		return -1;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new FurnitureRobbery().leastPushes(new String[] {
 				"BBCCDE",
@@ -96,7 +96,7 @@ public class FurnitureRobbery {
 //				 ".BBB.X",
 //				 ".B.B.X",
 //				 "DDCC.Y",
-//				 "..AAAY"	
+//				 "..AAAY"
 		});
 		System.out.println(a);
 	}

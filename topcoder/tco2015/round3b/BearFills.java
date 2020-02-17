@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2015.round3b;
 public class BearFills {
     public long countSets(int n, long w, long h) {
     	if (w < h) {

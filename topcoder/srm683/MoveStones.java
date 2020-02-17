@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm683;
 import java.util.*;
 
 public class MoveStones {

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2008.round3;
 public class BattleDice {
 	@SuppressWarnings("unused")
 	int[] die3(int[] die1, int[] die2, int range) {
@@ -13,7 +13,7 @@ public class BattleDice {
 						if (!p[i][f][a][b])
 							continue;
 						for (int e = 1; e <= f; e++) {
-							
+
 						}
 					}
 				}

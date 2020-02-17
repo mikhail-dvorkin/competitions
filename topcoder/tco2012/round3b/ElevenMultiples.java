@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.tco2012.round3b;
 import java.util.*;
 
 public class ElevenMultiples {
 	long M = 1000000007;
-	
+
 	public int countMultiples(String[] pieces) {
 		int n = pieces.length;
 		ArrayList<Integer> a = new ArrayList<Integer>();

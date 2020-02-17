@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm594;
 public class AstronomicalRecords {
     public int minimalPlanets(int[] a, int[] b) {
     	int ans = a.length + b.length - 1;

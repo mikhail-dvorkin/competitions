@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2013.round2a;
 public class TheLargestString {
 	public String find(String s, String t) {
 		int n = s.length();

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm649;
 import java.util.*;
 
 public class CartInSupermarket {

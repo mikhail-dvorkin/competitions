@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2017.round1b;
 import java.util.Arrays;
 
 public class SubtreeSumHash {
@@ -19,7 +19,7 @@ public class SubtreeSumHash {
     	}
     	return ans;
     }
-	
+
 	static long power(long base, long p) {
 		if (p == 0)
 			return 1;
@@ -30,5 +30,5 @@ public class SubtreeSumHash {
 		return (p & 1) == 0 ? v : (v * base) % M;
 	}
 
-    
+
 }

@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm538;
 import java.util.*;
 
 public class TurtleSpy {

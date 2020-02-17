@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm346;
 import java.util.*;
 
 public class Meteorites {
@@ -6,7 +6,7 @@ public class Meteorites {
 		double a;
 		int open, id;
 		boolean cover;
-		
+
 		public Event(double x, int op, int i) {
 			a = x;
 			open = op;
@@ -98,7 +98,7 @@ public class Meteorites {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		double a = new Meteorites().perimeter(
 				new int[]{0, 1000000},

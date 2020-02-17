@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2007.round3;
 import java.util.*;
 
 public class VotingBloc {
@@ -8,7 +8,7 @@ public class VotingBloc {
 	int[] proh;
 	boolean[] took;
 	int n, lo;
-	
+
 	public int[] abstainers(String[] voter) {
 		n = voter.length;
 		yes = new boolean[n];
@@ -66,7 +66,7 @@ public class VotingBloc {
 
 	boolean[] were;
 	int[] lm, rm;
-	
+
 	private int cover(int low) {
 		lo = low;
 		int siz = 0;

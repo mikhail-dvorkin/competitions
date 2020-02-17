@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm545;
 public class StrIIRec {
 	public String recovstr(int n, int minInv, String minStr) {
 		while (minStr.length() < n) {
@@ -31,7 +31,7 @@ public class StrIIRec {
 				if (invs < minInv) {
 					continue;
 				}
-				
+
 				were[v] = true;
 				if (a[i] > c[i]) {
 					eq = false;

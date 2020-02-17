@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round2;
 public class JobPlanner {
 	public int minimalCost(String[] can, int[] cost) {
 		int m = can.length;
@@ -42,7 +42,7 @@ public class JobPlanner {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new JobPlanner().minimalCost(new String[]{"YYYNNNN", "YYYYYYY", "YYYYNNN"}, new int[]{2, 3, 2});
 		System.out.println(a);

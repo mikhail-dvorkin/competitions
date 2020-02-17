@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.tco2009.round5;
 import java.util.*;
 
-@SuppressWarnings("unused") 
+@SuppressWarnings("unused")
 public class NumberGraph {
 	public int largestSet(String[] graphSet, int[] joiningSet) {
 		StringBuilder sb = new StringBuilder();

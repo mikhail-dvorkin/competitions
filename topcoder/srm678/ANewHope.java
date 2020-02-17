@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm678;
 import java.util.*;
 
 public class ANewHope {

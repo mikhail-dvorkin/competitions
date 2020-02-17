@@ -1,7 +1,7 @@
-package topcoder;
+package topcoder.srm605;
 public class AlienAndSetDiv1 {
 	final static int M = 1000000007;
-	
+
     public int getNumber(int n, int k) {
     	n *= 2;
     	k--;

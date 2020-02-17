@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm417;
 public class TemplateMatching {
 	public String bestMatch(String text, String prefix, String suffix) {
 		int n = text.length();
@@ -28,7 +28,7 @@ public class TemplateMatching {
 		}
 		return ans;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new TemplateMatching().bestMatch("something","awesome","ingenious"));
 	}

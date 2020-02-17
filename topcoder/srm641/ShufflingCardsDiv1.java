@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm641;
 public class ShufflingCardsDiv1 {
     public int shuffle(int[] p) {
     	int n = p.length / 2;

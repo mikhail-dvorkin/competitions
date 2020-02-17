@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm466;
 public class LotteryCheating {
 	public int minimalChange(String ID) {
 		int len = ID.length();
@@ -21,7 +21,7 @@ public class LotteryCheating {
 		}
 		return ans;
 	}
-	
-// 7590620582	
+
+// 7590620582
 
 }

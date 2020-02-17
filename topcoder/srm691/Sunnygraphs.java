@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm691;
 public class Sunnygraphs {
 	public long count(int[] a) {
 		int n = a.length;

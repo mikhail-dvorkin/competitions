@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm350;
 import java.util.*;
 
 public class SumsOfPerfectPowers {

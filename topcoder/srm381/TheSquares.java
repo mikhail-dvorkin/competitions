@@ -1,18 +1,18 @@
-package topcoder;
+package topcoder.srm381;
 import java.util.*;
 
 public class TheSquares {
 	class Square implements Comparable<Square> {
 		int x, y, len;
 		String name;
-		
+
 		public Square(int x, int y, int len, String name) {
 			this.x = x;
 			this.y = y;
 			this.len = len;
 			this.name = name;
 		}
-		
+
 		@Override
 		public int compareTo(Square o) {
 			if (len != o.len)
@@ -24,7 +24,7 @@ public class TheSquares {
 			return o.x >= x && o.y >= y && (o.x + o.len <= x + len) && (o.y + o.len <= y + len);
 		}
 	}
-	
+
 	public String[] findSequence(String[] X, String[] Y, String[] Lengths, String[] Names, int k) {
 		int[] x = readArray(X);
 		int[] y = readArray(Y);

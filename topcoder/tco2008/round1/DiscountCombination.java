@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.tco2008.round1;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class DiscountCombination {
 	static int take = 0;
 	static int[] t = null;
-	
+
 	@SuppressWarnings("unchecked")
 	public double minimumPrice(String[] discounts, int price) {
 		double best = price;
@@ -50,7 +50,7 @@ public class DiscountCombination {
 		}
 		return best;
 	}
-	
+
 	public static void main(String[] args) {
 		String[] discounts = new String[]{"313799 3", "2025809 1", "6716544 1", "1617954 2", "4256737 1", "4747940 1", "8408544 1", "2932965 3", "3679064 3", "3279255 3", "8441709 3", "3066413 1", "3294964 2", "2466536 3", "2790294 2", "1491849 3", "2872942 3", "9764598 2", "8879360 3", "202968 1", "1435042 2", "216758 2", "96489 3", "6506576 3", "7081069 2", "2060300 3", "5928512 3", "6440555 3", "2437804 3", "2956950 1", "7723217 2", "8816838 2", "5733226 3", "6848337 2", "76075 3", "9889372 3", "7495726 1", "1436470 3", "7841955 2", "8647091 3", "2878332 1", "6289201 1", "8771846 1", "2731883 2", "9607922 1", "1570695 1", "1774573 2", "4981558 1", "1559447 2", "7396899 3"};
 		double ans = new DiscountCombination().minimumPrice(discounts, 1000000000);

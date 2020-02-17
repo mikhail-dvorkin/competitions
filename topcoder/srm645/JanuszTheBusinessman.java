@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm645;
 public class JanuszTheBusinessman {
 	public int makeGuestsReturn(int[] arrivals, int[] departures) {
 		int n = arrivals.length;

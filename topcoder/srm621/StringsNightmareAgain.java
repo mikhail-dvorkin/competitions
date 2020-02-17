@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm621;
 import java.util.*;
 
 public class StringsNightmareAgain {
@@ -75,7 +75,7 @@ public class StringsNightmareAgain {
     						s_[ts - 2] = tv;
     					} else {
     						s_[ts - 2] = ts;
-    					} 
+    					}
     					tp = r_[tv] - tp + r_[ts - 2] + 2;
     					continue;
     				}

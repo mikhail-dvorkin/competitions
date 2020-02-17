@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm500;
  // Rest in peace, rem.          //
 // We will always remember you. //
 
 public class FractalPicture {
 	int x1, y1, x2, y2;
 	final int s = 500 - 4 + 1;
-	
+
 	public double getLength(int x1_, int y1_, int x2_, int y2_) {
 		this.x1 = x1_;
 		this.y1 = y1_;

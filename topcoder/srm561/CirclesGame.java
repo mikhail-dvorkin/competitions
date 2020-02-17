@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm561;
 import java.util.*;
 
 public class CirclesGame {
@@ -7,7 +7,7 @@ public class CirclesGame {
 	int[] g;
 	int[] gc;
 	int n;
-	
+
 	public String whoCanWin(int[] x, int[] y, int[] r) {
 		n = x.length;
 		p = new int[n];

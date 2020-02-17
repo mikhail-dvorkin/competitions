@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm388;
 import java.util.*;
 
 public class InformFriends {
@@ -40,7 +40,7 @@ public class InformFriends {
 		Arrays.sort(good);
 		return good[max - 1];
 	}
-	
+
 	public static void main(String[] args) {
 		new InformFriends().maximumGroups(new String[]{
 					"NYYYYYYYYYYYYYY",
@@ -58,7 +58,7 @@ public class InformFriends {
 					"YYYYYYYYYYYYNYY",
 					"YYYYYYYYYYYYYNY",
 					"YYYYYYYYYYYYYYN"
-				
+
 		});
 	}
 }

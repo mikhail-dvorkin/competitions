@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2010.round1;
 public class VacationTours {
 	public int getIncome(String[] d1, String[] d2, int fee) {
 		int n = d1.length;

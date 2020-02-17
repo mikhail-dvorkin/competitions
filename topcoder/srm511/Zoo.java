@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm511;
 import java.util.*;
 
 public class Zoo {

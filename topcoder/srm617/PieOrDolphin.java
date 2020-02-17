@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm617;
 public class PieOrDolphin {
 	int m = 50;
 	int[][] to = new int[m][];
 	int[][] index = new int[m][];
 	int[][] dir = new int[m][];
 	int[] degree = new int[m];
-	
+
     public int[] Distribute(int[] choice1, int[] choice2) {
     	int edges = choice1.length;
     	for (int i = 0; i < edges; i++) {
@@ -64,7 +64,7 @@ public class PieOrDolphin {
     	}
     	return answer;
     }
-    
+
 //[0, 2, 4, 6, 8, 11, 12, 15, 17, 19, 21, 22, 24, 26, 28, 31, 33, 34, 36, 39, 40, 42, 45, 46, 48, 49, 2, 3, 6, 7, 9, 12, 13, 15, 18, 19, 21, 23, 25, 28, 30, 32, 34, 35, 38, 39, 42, 43, 46, 48]
 //[1, 3, 5, 7, 9, 10, 13, 14, 16, 18, 20, 23, 25, 27, 29, 30, 32, 35, 37, 38, 41, 43, 44, 47, 49, 0, 1, 4, 5, 8, 10, 11, 14, 16, 17, 20, 22, 24, 26, 27, 29, 31, 33, 36, 37, 40, 41, 44, 45, 47]
 

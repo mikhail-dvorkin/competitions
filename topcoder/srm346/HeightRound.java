@@ -1,11 +1,11 @@
-package topcoder;
+package topcoder.srm346;
 import java.util.*;
 
 public class HeightRound {
 	int n, d;
 	int[] h, a;
 	boolean[] were;
-	
+
 	public int[] getBestRound(int[] he) {
 		h = he;
 		n = h.length;
@@ -81,7 +81,7 @@ public class HeightRound {
 		}
 		return Math.abs(x - y) <= d;
 	}
-	
+
 	public static void main(String[] args) {
 		new HeightRound().getBestRound(new int[]{239, 239, 567, 566, 1, 2, 1, 3, 4, 4, 5, 6, 5, 6, 7, 8, 7, 8, 11, 100, 567, 568, 239, 239, 566, 566});
 	}

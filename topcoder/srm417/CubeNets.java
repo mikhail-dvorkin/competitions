@@ -1,19 +1,19 @@
-package topcoder;
+package topcoder.srm417;
 public class CubeNets {
 	final String[][] p = new String[][]{
-			new String[]{"..#.", "####", "..#."},	
-			new String[]{"..#.", "####", "...#"},	
-			new String[]{"...#", "####", "...#"},	
-			new String[]{"..#.", "####", ".#.."},	
-			new String[]{"..#.", "####", "#..."},	
+			new String[]{"..#.", "####", "..#."},
+			new String[]{"..#.", "####", "...#"},
+			new String[]{"...#", "####", "...#"},
+			new String[]{"..#.", "####", ".#.."},
+			new String[]{"..#.", "####", "#..."},
 			new String[]{"...#", "####", "#..."},
-			new String[]{"###..", "..###"},	
-			new String[]{"##..", ".###", "..#."},	
-			new String[]{"##..", ".###", "...#"},	
-			new String[]{"..#.", "###.", "..##"},	
-			new String[]{"##..", ".##.", "..##"}	
+			new String[]{"###..", "..###"},
+			new String[]{"##..", ".###", "..#."},
+			new String[]{"##..", ".###", "...#"},
+			new String[]{"..#.", "###.", "..##"},
+			new String[]{"##..", ".##.", "..##"}
 	};
-	
+
 	boolean good(String[] f) {
 		for (String[] s : p) {
 			for (int dx = -10; dx < 10; dx++) {
@@ -42,7 +42,7 @@ public class CubeNets {
 		}
 		return false;
 	}
-	
+
 	public String isCubeNet(String[] f) {
 		if (good(f))
 			return "YES";
@@ -101,7 +101,7 @@ public class CubeNets {
 		}
 		return gg;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new CubeNets().isCubeNet(new String[]{"####",
 			 "...#",

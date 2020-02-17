@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm380;
 public class LameKnight {
 	public int maxCells(int hei, int wid) {
 		if (wid >= 7) {

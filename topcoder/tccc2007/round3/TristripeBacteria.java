@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tccc2007.round3;
 public class TristripeBacteria {
 	int hei, wid;
 	int[][] mark, m2;
@@ -8,7 +8,7 @@ public class TristripeBacteria {
 	int[] dy = new int[]{0, 1, 0, -1};
 	int[] size = new int[2500];
 	String[] p;
-	
+
 	public int howMany(String[] photo) {
 		p = photo;
 		hei = photo.length;
@@ -84,7 +84,7 @@ public class TristripeBacteria {
 			dfs(i + dx[d], j + dy[d]);
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		int a = new TristripeBacteria().howMany(new String[]{".*..***.*.***...*..*.**...***********.*..***.*.***", "**..********.**.*******.******...****.***..******."});
 		System.out.println(a);

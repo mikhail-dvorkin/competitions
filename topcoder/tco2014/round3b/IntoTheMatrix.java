@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2014.round3b;
 public class IntoTheMatrix {
     public int takePills(int turns, int bags) {
     	if (bags == 1) {

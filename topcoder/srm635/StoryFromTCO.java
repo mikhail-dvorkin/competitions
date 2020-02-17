@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm635;
 import java.util.*;
 
 public class StoryFromTCO {

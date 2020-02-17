@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm374;
 import java.util.*;
 
 public class PlayerExtraction {
@@ -8,10 +8,10 @@ public class PlayerExtraction {
 	String[] a;
 	char find;
 	int xmin, xmax, ymin, ymax, area;
-	
+
 	class Pair implements Comparable<Pair> {
 		int x, y;
-		
+
 		public Pair(int xx, int yy) {
 			x = xx;
 			y = yy;
@@ -23,13 +23,13 @@ public class PlayerExtraction {
 				return y - o.y;
 			return x - o.x;
 		}
-		
+
 		@Override
 		public String toString() {
 			return x + " " + y;
 		}
 	}
-	
+
 	public String[] extractPlayers(String[] photo, int k, int threshold) {
 		a = photo;
 		hei = photo.length;
@@ -58,7 +58,7 @@ public class PlayerExtraction {
 			ans[i] = answer.get(i).toString();
 		return ans;
 	}
-	
+
 	int[] dx = new int[]{1, 0, -1, 0};
 	int[] dy = new int[]{0, 1, 0, -1};
 

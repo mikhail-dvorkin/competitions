@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.tco2012.round3a;
 import java.util.*;
 
 public class FoxAndCake {
 	int[] di = new int[]{1, 0, -1, 0};
 	int[] dj = new int[]{0, 1, 0, -1};
-	
+
 	public String ableToDivide(int n, int m, int[] x, int[] y) {
 		TreeSet<Integer> impX = new TreeSet<Integer>();
 		TreeSet<Integer> impY = new TreeSet<Integer>();
@@ -71,7 +71,7 @@ public class FoxAndCake {
 		}
 		return "Yes";
 	}
-	
+
 	private boolean dfs(int v) {
 		if (v == T) {
 			System.out.println("--");

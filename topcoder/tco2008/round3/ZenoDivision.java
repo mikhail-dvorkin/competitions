@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2008.round3;
 public class ZenoDivision {
 	public String cycle(String aa, String bb) {
 		long a = Long.parseLong(aa);
@@ -19,7 +19,7 @@ public class ZenoDivision {
 		}
 		return "impossible";
 	}
-	
+
 	public static void main(String[] args) {
 		String a = new ZenoDivision().cycle("153", "2147483649");
 		System.out.println(a);

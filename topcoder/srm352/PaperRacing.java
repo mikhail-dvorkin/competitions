@@ -1,10 +1,10 @@
-package topcoder;
+package topcoder.srm352;
 import java.util.*;
 
 public class PaperRacing {
 	String[] f;
 	int hei, wid;
-	
+
 	public int minMoves(String[] track, int vRow, int vCol) {
 		f = track;
 		hei = track.length;
@@ -95,7 +95,7 @@ public class PaperRacing {
 		}
 		return -1;
 	}
-	
+
 	private char getChar(int xx, int yy) {
 		if (xx < 0 || yy < 0 || xx >= hei || yy >= wid)
 			return '#';

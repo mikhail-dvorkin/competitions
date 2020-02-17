@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm354;
 public class DateFormat {
 	public String fromEuropeanToUs(String[] dateList) {
 		int[] max = new int[]{0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};

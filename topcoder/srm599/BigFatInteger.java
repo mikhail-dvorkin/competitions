@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm599;
 public class BigFatInteger {
     public int minOperations(int a, int b) {
     	int n = a;

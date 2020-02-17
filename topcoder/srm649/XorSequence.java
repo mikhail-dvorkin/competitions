@@ -1,9 +1,9 @@
-package topcoder;
+package topcoder.srm649;
 public class XorSequence {
 	int m;
 	int[] a, b, c;
 	long[] x, y;
-	
+
 	public long getmax(int N, int sz, int A0, int A1, int P, int Q, int R) {
 		a = new int[sz];
 		b = new int[sz];

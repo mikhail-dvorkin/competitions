@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.srm390;
 import java.util.Arrays;
 
 public class PaintingBoards_slow {
@@ -33,7 +33,7 @@ public class PaintingBoards_slow {
 		Arrays.sort(a[len]);
 		return a[len][0];
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new PaintingBoards_slow().minimalTime(
 				new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},

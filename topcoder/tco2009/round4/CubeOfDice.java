@@ -1,4 +1,4 @@
-package topcoder;
+package topcoder.tco2009.round4;
 import java.util.*;
 
 public class CubeOfDice {
