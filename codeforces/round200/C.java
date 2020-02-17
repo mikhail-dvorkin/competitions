@@ -34,7 +34,6 @@ public class C {
 				} else {
 					long d = hh - p0;
 					if (time < d) {
-						possible = false;
 						break;
 					}
 					if (time <= 3 * d) {
