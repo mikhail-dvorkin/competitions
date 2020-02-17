@@ -4,76 +4,46 @@ const val M = 1_000_000_007
 
 fun main() {
 	val (n, m) = readInts()
-	val s = readInts().map { it - 1 }
-	val h = List(n) { mutableSetOf<Int>() }
+	val a = readInts().map { it - 1 }
+	val indices = List(n) { mutableListOf<Int>() }
+	for (x in a.indices) { indices[a[x]].add(x) }
+	val eaters = List(n) { mutableSetOf<Int>() }
 	repeat(m) {
-		val (fi, hi) = readInts().map { it - 1 }
-		h[fi].add(hi)
+		val (id, hunger) = readInts().map { it - 1 }
+		eaters[id].add(hunger)
 	}
-	val canEatLeft = BooleanArray(n) { false }
-	val canEatRight = BooleanArray(n) { false }
-	val rights = IntArray(n) { 0 }
-	val ind = List(n) { mutableListOf<Int>() }
-	for (i in s.indices) {
-		ind[s[i]].add(i)
-	}
-	for (f in h.indices) {
-		val indices = ind[f]
-		for (hunger in h[f]) {
-			if (hunger < indices.size) {
-				canEatLeft[indices[hunger]] = true
-				canEatRight[indices[indices.size - 1 - hunger]] = true
-				rights[f]++
+	val eatable = List(2) { BooleanArray(n) { false } }
+	val count = List(2) { IntArray(n) { 0 } }
+	for (id in eaters.indices) {
+		for (hunger in eaters[id]) {
+			if (hunger < indices[id].size) {
+				eatable[0][indices[id][hunger]] = true
+				eatable[1][indices[id][indices[id].size - 1 - hunger]] = true
+				count[1][id]++
  			}
 		}
 	}
-	val lefts = IntArray(n) { 0 }
 	var max = 0
-	var waysMax = 0
-	repeat(1) {
-		var cur = 0
-		var ways = 1
-		for (f in h.indices) {
-			if (rights[f] > 0) {
-				cur++
-				ways = ((ways.toLong() * rights[f]) % M).toInt()
-			}
-		}
-		max = cur
-		waysMax = ways
+	var waysMax = 1
+	for (v in count[1].filter { it > 0 }) {
+		max++
+		waysMax = ((waysMax.toLong() * v) % M).toInt()
 	}
-	for (x in 0 until n) {
+	for (x in a.indices) {
+		if (eatable[1][x]) count[1][a[x]]--
+		if (eatable[0][x]) count[0][a[x]]++ else continue
 		var cur = 0
 		var ways = 1
-		if (canEatRight[x]) {
-			rights[s[x]]--
-		}
-		if (!canEatLeft[x]) continue
-		lefts[s[x]]++
-		for (f in 0 until n) {
-			val left = lefts[f]
-			val right = rights[f]
-			if (f == s[x]) {
-				cur++
-				var r = right
-				if (left - 1 < right) r--
-				if (r > 0) {
-					cur++
-					ways = ((ways.toLong() * r) % M).toInt()
-				}
-				continue
+		for (id in a.indices) {
+			val left = count[0][id]
+			val right = count[1][id]
+			val (two, one) = if (id == a[x]) {
+				(if (left - 1 < right) right - 1 else right) to 1
+			} else {
+				left * right - minOf(left, right) to left + right
 			}
-			val two = left * right - minOf(left, right)
-			if (two > 0) {
-				cur += 2
-				ways = ((ways.toLong() * two) % M).toInt()
-				continue
-			}
-			val one = left + right
-			if (one > 0) {
-				cur++
-				ways = ((ways.toLong() * one) % M).toInt()
-			}
+			val mul = if (two > 0) { cur += 2; two } else if (one > 0) { cur++; one } else continue
+			ways = ((ways.toLong() * mul) % M).toInt()
 		}
 		if (cur > max) {
 			max = cur; waysMax = ways

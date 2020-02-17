@@ -1,18 +1,14 @@
 package codeforces.round621
 
 fun main() {
-	val s = readLine()!!
-	var ans = s.groupBy { it }.values.map { it.size }.max()!!.toLong()
-	val prev = MutableList(26) { 0 }
-	val count = List(26) { MutableList(26) { 0L } }
+	val s = readLine()!!.map { it - 'a' }
+	val prev = MutableList(s.max()!! + 1) { 0 }
+	val count = List(prev.size) { MutableList(prev.size) { 0L } }
 	for (c in s) {
-		val d = c - 'a'
-		for (i in 0..25) {
-			count[i][d] = count[i][d] + prev[i]
+		for (i in prev.indices) {
+			count[i][c] = count[i][c] + prev[i]
 		}
-		prev[d]++
+		prev[c]++
 	}
-	ans = maxOf(ans, count.flatten().max()!!)
-	println(ans)
+	println((count.flatten() + s.groupBy { it }.values.map { it.size.toLong() }).max()!!)
 }
-
