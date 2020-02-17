@@ -5,7 +5,7 @@ import java.util.*;
 public class D {
 	final static int M = 1000000007;
 	final static int N = 5000;
-	
+
 	public Map<String, String> run() {
 		Map<String, String> map = new TreeMap<String, String>();
 		int[][] a = new int[N][N];
@@ -67,11 +67,11 @@ public class D {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static String encodeBase64(byte[] data) {
 		return javax.xml.bind.DatatypeConverter.printBase64Binary(data);
 	}
-	
+
 	public static byte[] decodeBase64(String string) {
 		return javax.xml.bind.DatatypeConverter.parseBase64Binary(string);
 	}
@@ -85,7 +85,7 @@ public class D {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static Object deserialize(byte[] bytes) {
 		try {
 			return new ObjectInputStream(new ByteArrayInputStream(bytes)).readObject();
@@ -93,7 +93,7 @@ public class D {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static String serializeToJavaCodeWithZip(Serializable object) {
 		byte[] bytes = serialize(object);
 		byte[] zipped = compressWithZip(bytes);
@@ -104,7 +104,7 @@ public class D {
 		result.append("public Object call() {\n");
 		result.append("try {\n");
 		result.append("String s =\n\"");
-		result.append(base64.replaceAll(".{75,75}", "$0\"+\n\""));
+		result.append(base64.replaceAll(".{75}", "$0\"+\n\""));
 		result.append("\";\n");
 		result.append("byte[] z = javax.xml.bind.DatatypeConverter.parseBase64Binary(s);\n");
 		result.append("java.util.zip.Inflater i = new java.util.zip.Inflater();\n");

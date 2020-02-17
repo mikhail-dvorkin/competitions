@@ -46,7 +46,7 @@ public class Surveillance_precalc_small {
 		}
 		return memo;
 	}
-	
+
 	static void gen2(int x, int h, long ma, long mb, HashMap<Pair, Integer> storage) {
 		if (x == h) {
 			storage.put(new Pair(ma, mb), 1);
@@ -117,7 +117,7 @@ public class Surveillance_precalc_small {
 			Pair other = (Pair) obj;
 			return (a == other.a) && (b == other.b);
 		}
-		
+
 		@Override
 		public String toString() {
 			return a + "_" + b;
@@ -141,7 +141,7 @@ public class Surveillance_precalc_small {
 	public static String encodeBase64(byte[] data) {
 		return javax.xml.bind.DatatypeConverter.printBase64Binary(data);
 	}
-	
+
 	public static byte[] serialize(Serializable object) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -151,7 +151,7 @@ public class Surveillance_precalc_small {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static String serializeToJavaCodeWithZip(Serializable object) {
 		byte[] bytes = serialize(object);
 		byte[] zipped = compressWithZip(bytes);
@@ -162,7 +162,7 @@ public class Surveillance_precalc_small {
 		result.append("public Object call() {\n");
 		result.append("try {\n");
 		result.append("String s =\n\"");
-		result.append(base64.replaceAll(".{75,75}", "$0\"+\n\""));
+		result.append(base64.replaceAll(".{75}", "$0\"+\n\""));
 		result.append("\";\n");
 		result.append("byte[] z = javax.xml.bind.DatatypeConverter.parseBase64Binary(s);\n");
 		result.append("java.util.zip.Inflater i = new java.util.zip.Inflater();\n");

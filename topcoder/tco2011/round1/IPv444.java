@@ -5,10 +5,10 @@ public class IPv444 {
 	class Request implements Comparable<Request> {
 		int[] mask;
 		int price;
-		
+
 		public Request(String s, int price) {
 			mask = new int[4];
-			String[] ss = s.split("[\\.]");
+			String[] ss = s.split("[.]");
 			for (int i = 0; i < 4; i++) {
 				if (ss[i].equals("*")) {
 					mask[i] = -1;
@@ -24,7 +24,7 @@ public class IPv444 {
 			return o.price - price;
 		}
 	}
-	
+
 	public long getMaximumMoney(String[] request, int[] price) {
 		int n = request.length;
 		Request[] r = new Request[n];
