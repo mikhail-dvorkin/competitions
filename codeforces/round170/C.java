@@ -34,11 +34,11 @@ public class C {
 		if ((ym - 1 - hor.size()) % 2 != 0) {
 			xor ^= xm;
 		}
-		for (ArrayList<Integer> segs : ver.values()) {
-			xor ^= xor(segs, ym);
+		for (ArrayList<Integer> segments : ver.values()) {
+			xor ^= xor(segments, ym);
 		}
-		for (ArrayList<Integer> segs : hor.values()) {
-			xor ^= xor(segs, xm);
+		for (ArrayList<Integer> segments : hor.values()) {
+			xor ^= xor(segments, xm);
 		}
 		if (xor == 0) {
 			System.out.println("SECOND");
@@ -62,20 +62,20 @@ public class C {
 			return;
 		}
 		for (Entry<Integer, ArrayList<Integer>> entry : ver.entrySet()) {
-			ArrayList<Integer> segs = entry.getValue();
-			int v = xor(segs, ym);
+			ArrayList<Integer> segments = entry.getValue();
+			int v = xor(segments, ym);
 			if (v > (v ^ xor)) {
-				int y = bite(segs, v ^ xor, ym);
+				int y = bite(segments, v ^ xor, ym);
 				int x = entry.getKey();
 				System.out.println(x + " " + y + " " + x + " " + ym);
 				return;
 			}
 		}
 		for (Entry<Integer, ArrayList<Integer>> entry : hor.entrySet()) {
-			ArrayList<Integer> segs = entry.getValue();
-			int v = xor(segs, xm);
+			ArrayList<Integer> segments = entry.getValue();
+			int v = xor(segments, xm);
 			if (v > (v ^ xor)) {
-				int x = bite(segs, v ^ xor, xm);
+				int x = bite(segments, v ^ xor, xm);
 				int y = entry.getKey();
 				System.out.println(x + " " + y + " " + xm + " " + y);
 				return;
@@ -83,11 +83,11 @@ public class C {
 		}
 	}
 
-	private int bite(ArrayList<Integer> segs, int amount, int ri) {
+	private int bite(ArrayList<Integer> segments, int amount, int ri) {
 		int le = 0;
 		while (le + 1 < ri) {
 			int m = (le + ri) / 2;
-			if (xor(segs, m) > amount) {
+			if (xor(segments, m) > amount) {
 				ri = m;
 			} else {
 				le = m;
@@ -96,13 +96,13 @@ public class C {
 		return le;
 	}
 
-	private int xor(ArrayList<Integer> segs, int len) {
+	private int xor(ArrayList<Integer> segments, int len) {
 		len *= 2;
-		Collections.sort(segs);
+		Collections.sort(segments);
 		int open = 0;
 		int p = 0;
 		int res = 0;
-		for (int s : segs) {
+		for (int s : segments) {
 			if (s >= len) {
 				break;
 			}
@@ -122,15 +122,15 @@ public class C {
 		return res;
 	}
 
-	private void addSegment(Map<Integer, ArrayList<Integer>> ver, int x1, int y1, int y2) {
-		if (!ver.containsKey(x1)) {
-			ver.put(x1, new ArrayList<>());
+	private void addSegment(Map<Integer, ArrayList<Integer>> ver, int z, int t1, int t2) {
+		if (!ver.containsKey(z)) {
+			ver.put(z, new ArrayList<>());
 		}
-		if (y1 > y2) {
-			int t = y1; y1 = y2; y2 = t;
+		if (t1 > t2) {
+			int t = t1; t1 = t2; t2 = t;
 		}
-		ver.get(x1).add(2 * y1);
-		ver.get(x1).add(2 * y2 + 1);
+		ver.get(z).add(2 * t1);
+		ver.get(z).add(2 * t2 + 1);
 	}
 
 	public static void main(String[] args) throws IOException {

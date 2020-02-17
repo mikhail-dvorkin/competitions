@@ -68,6 +68,7 @@ public class C {
 		}
 	}
 
+	@SuppressWarnings("SuspiciousNameCombination")
 	private void dfs2(int v, int[] a, int x, int z) {
 		if (left[v] == -1) {
 			return;
@@ -84,11 +85,11 @@ public class C {
 	int[] amount;
 	long[] sum;
 
-	private void add(int x, int y, int value) {
-		amount[x]++;
-		sum[x] += value;
-		amount[y]--;
-		sum[y] -= value;
+	private void add(int inc, int dec, int value) {
+		amount[inc]++;
+		sum[inc] += value;
+		amount[dec]--;
+		sum[dec] -= value;
 	}
 
 	private void dfs1(int v) {

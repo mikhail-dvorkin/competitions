@@ -90,15 +90,15 @@ public class D {
 			}
 		}
 		for (int q = 0; q < queries; q++) {
-			int x = in.nextInt() - 1;
-			int y = in.nextInt() - 1;
-			if (x >= y) {
-				int t = x; x = y; y = t;
+			int u = in.nextInt() - 1;
+			int v = in.nextInt() - 1;
+			if (u >= v) {
+				int t = u; u = v; v = t;
 			}
-			long enc = encode(x, y);
+			long enc = encode(u, v);
 			int res = count.getOrDefault(enc, 0);
-			int[] cx = popColor[x];
-			int[] cy = popColor[y];
+			int[] cx = popColor[u];
+			int[] cy = popColor[v];
 			for (int i = 0; i < popular; i++) {
 				if (cx[i] == cy[i]) {
 					res++;
