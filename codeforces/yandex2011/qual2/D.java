@@ -3,7 +3,7 @@ import java.util.*;
 
 public class D {
 	private static Scanner in;
-	
+
 	int inf;
 	int n;
 	int[] a;
@@ -52,10 +52,10 @@ public class D {
 			return d[x][p];
 		}
 		int best = inf;
-		int sumv = p + 2 * x + 3; //v[0] + v[1] + v[2];
+		int sumV = p + 2 * x + 3; //v[0] + v[1] + v[2];
 		for (int i = 0; i < len; i++) {
 			for (int j = i + 1; j < len; j++) {
-				int cur = solve(x + 2, sumv - v[i] - v[j]) + Math.max(a[v[i]], a[v[j]]);
+				int cur = solve(x + 2, sumV - v[i] - v[j]) + Math.max(a[v[i]], a[v[j]]);
 				if (cur < best) {
 					best = cur;
 					how1[x][p] = v[i];

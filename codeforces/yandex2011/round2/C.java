@@ -34,18 +34,18 @@ public class C {
 			int c1 = c;
 			String ss = s + n;
 			for (;;) {
-				int cbest = c1;
+				int cBest = c1;
 				for (String d : dna) {
 					for (int i = 0; i <= c1; i++) {
 						if (ss.substring(i).startsWith(d)) {
-							cbest = Math.max(cbest, i + d.length());
+							cBest = Math.max(cBest, i + d.length());
 						}
 					}
 				}
-				if (cbest == c1) {
+				if (cBest == c1) {
 					break;
 				}
-				c1 = cbest;
+				c1 = cBest;
 			}
 			loop:
 			for (;;) {

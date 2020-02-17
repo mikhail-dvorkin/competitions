@@ -8,13 +8,13 @@ public class D {
 		int n = in.nextInt();
 		int[] x = new int[n + 1];
 		int[] y = new int[n + 1];
-		int xmin = Integer.MAX_VALUE;
-		int xmax = Integer.MIN_VALUE;
+		int xMin = Integer.MAX_VALUE;
+		int xMax = Integer.MIN_VALUE;
 		for (int i = 0; i < n; i++) {
 			x[i] = in.nextInt();
 			y[i] = in.nextInt();
-			xmin = Math.min(xmin, x[i]);
-			xmax = Math.max(xmax, x[i]);
+			xMin = Math.min(xMin, x[i]);
+			xMax = Math.max(xMax, x[i]);
 		}
 		x[n] = x[0];
 		y[n] = y[0];
@@ -24,15 +24,15 @@ public class D {
 		double sy2 = 0;
 		double cnt = 0;
 		int i = 0;
-		while (x[i] != xmin) {
+		while (x[i] != xMin) {
 			i++;
 		}
 		int j = i;
 		if (j == 0) j = n;
 		double slope1 = (y[i + 1] - y[i]) * 1.0 / (x[i + 1] - x[i]);
 		double slope2 = (y[j - 1] - y[j]) * 1.0 / (x[j - 1] - x[j]);
-		for (int t = xmin; t <= xmax; t++) {
-			if (t < xmax) {
+		for (int t = xMin; t <= xMax; t++) {
+			if (t < xMax) {
 				while (x[i + 1] <= t) {
 					i++;
 					if (i == n) {

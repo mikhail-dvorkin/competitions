@@ -3,31 +3,31 @@ import java.util.*;
 
 public class E {
 	private static Scanner in;
-	final double infty = 1e10;
+	final double inf = 1e10;
 
 	public void run() {
 		int n = in.nextInt();
 		int[] x = new int[n + 1];
 		int[] y = new int[n + 1];
-		int ymax = Integer.MIN_VALUE;
-		int ymaxI = -1;
-		int ymin = Integer.MAX_VALUE;
-		int yminI = -1;
+		int yMax = Integer.MIN_VALUE;
+		int yMaxI = -1;
+		int yMin = Integer.MAX_VALUE;
+		int yMinI = -1;
 		for (int i = 1; i <= n; i++) {
 			x[i] = in.nextInt();
 			y[i] = in.nextInt();
-			if (y[i] > ymax) {
-				ymax = y[i];
-				ymaxI = i;
-			} else if (y[i] == ymax) {
-				ymaxI = -1;
+			if (y[i] > yMax) {
+				yMax = y[i];
+				yMaxI = i;
+			} else if (y[i] == yMax) {
+				yMaxI = -1;
 			}
-			if (y[i] < ymin) {
-				ymin = y[i];
-				yminI = i;
+			if (y[i] < yMin) {
+				yMin = y[i];
+				yMinI = i;
 			}
 		}
-		if (ymaxI == -1) {
+		if (yMaxI == -1) {
 			System.out.println(-1);
 			return;
 		}
@@ -37,11 +37,11 @@ public class E {
 				if (y[j] > y[i]) {
 					e[i][2 * j - 1] = e[i][2 * j] = Math.hypot(x[i] - x[j], y[i] - y[j]);
 				} else {
-					e[i][2 * j - 1] = e[i][2 * j] = infty;
+					e[i][2 * j - 1] = e[i][2 * j] = inf;
 				}
 			}
 		}
-		e[ymaxI][2 * yminI] = 0;
+		e[yMaxI][2 * yMinI] = 0;
 		double[] u = new double[n + 1];
 		double[] v = new double[2 * n + 1];
 		int[] p = new int[2 * n + 1];
@@ -49,22 +49,22 @@ public class E {
 		for (int i = 1; i <= n; i++) {
 			p[0] = i;
 			int j0 = 0;
-			double[] minv = new double[2 * n + 1];
-			Arrays.fill(minv, infty);
+			double[] minV = new double[2 * n + 1];
+			Arrays.fill(minV, inf);
 			boolean[] used = new boolean[2 * n + 1];
 			do {
 				used[j0] = true;
 				int i0 = p[j0], j1 = 0;
-				double delta = infty;
+				double delta = inf;
 				for (int j = 1; j <= 2 * n; j++) {
 					if (!used[j]) {
 						double cur = e[i0][j] - u[i0] - v[j];
-						if (cur < minv[j]) {
-							minv[j] = cur;
+						if (cur < minV[j]) {
+							minV[j] = cur;
 							way[j] = j0;
 						}
-						if (minv[j] < delta) {
-							delta = minv[j];
+						if (minV[j] < delta) {
+							delta = minV[j];
 							j1 = j;
 						}
 					}
@@ -74,7 +74,7 @@ public class E {
 						u[p[j]] += delta;
 						v[j] -= delta;
 					} else {
-						minv[j] -= delta;
+						minV[j] -= delta;
 					}
 				}
 				j0 = j1;
@@ -91,7 +91,7 @@ public class E {
 				ans += e[p[j]][j];
 			}
 		}
-		if (ans >= infty) {
+		if (ans >= inf) {
 			System.out.println(-1);
 			return;
 		}
