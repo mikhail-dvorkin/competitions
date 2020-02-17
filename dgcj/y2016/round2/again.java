@@ -85,6 +85,7 @@ public class again extends dgcj.DgcjProblem {
 
 	}
 
+	@SuppressWarnings("SwitchStatementWithTooFewBranches")
 	static class Test3 {
 		public static long GetN() {
 			return 1L;

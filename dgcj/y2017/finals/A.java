@@ -36,7 +36,7 @@ public class A {
 				cumSum[i] = message.GetLL(0);
 			}
 		}
-		
+
 		long total = cumSum[NODES];
 		ArrayList<Long> affixes = new ArrayList<>();
 		for (long v : cumSum) {
@@ -45,10 +45,10 @@ public class A {
 		affixes.add(total / 2);
 		Collections.sort(affixes);
 		affixes.remove(0);
-		
+
 		long low = affixes.get(ID);
 		long high = affixes.get(ID + 1);
-		
+
 		int left = 0;
 		long sumLeft = 0;
 		while (sumLeft + cumSum[left + 1] - cumSum[left] <= low) {
@@ -61,11 +61,11 @@ public class A {
 			sumRight += cumSum[right + 1] - cumSum[right];
 			right--;
 		}
-		
+
 		left = (int) (1L * n * left / NODES);
 		right = (int) (1L * n * (right + 1) / NODES);
 		int ans = 0;
-		for (;;) {
+		do {
 			if (sumLeft == sumRight && sumLeft > low) {
 				ans++;
 			}
@@ -74,12 +74,9 @@ public class A {
 				left++;
 			} else {
 				right--;
-				sumRight += baby_blocks.GetBlockWeight(right); 
+				sumRight += baby_blocks.GetBlockWeight(right);
 			}
-			if (sumLeft > high || sumRight > high) {
-				break;
-			}
-		}
+		} while (sumLeft <= high && sumRight <= high);
 
 		if (ID > 0) {
 			message.PutInt(0, ans);

@@ -5,11 +5,11 @@ import java.io.*;
 public class LocalTesting {
 	public static final File logFile = new File("log~.txt");
 
-	@SuppressWarnings({"resource", "ResultOfMethodCallIgnored"})
 	public static void run(String problemName, int nodes) {
 		if ("TemplateDgcjProblem".equals(problemName)) {
 			throw new AssertionError("Change PROBLEM field in Main!");
 		}
+		//noinspection ResultOfMethodCallIgnored
 		logFile.delete();
 		String exec = "./dgcj_tool~/dcj.sh"
 				+ " test"
@@ -22,6 +22,7 @@ public class LocalTesting {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		//noinspection ResultOfMethodCallIgnored
 		new File("Main").delete();
 		try {
 			if (logFile.exists()) {

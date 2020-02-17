@@ -26,7 +26,7 @@ public class D {
 			message.PutInt(J, 0);
 			message.Send(J);
 		}
-		
+
 		countMap.clear();
 		for (int J = 0; J < NODES; J++) {
 			message.Receive(J);
@@ -39,7 +39,7 @@ public class D {
 				increase(countMap, value, count);
 			}
 		}
-		
+
 		long best = Long.MAX_VALUE;
 		for (Map.Entry<Long, Integer> entry : countMap.entrySet()) {
 			long value = entry.getKey();
@@ -50,7 +50,7 @@ public class D {
 			best = value;
 			break;
 		}
-		
+
 		if (ID > 0) {
 			message.PutLL(0, best);
 			message.Send(0);
@@ -75,7 +75,7 @@ public class D {
 		}
 	}
 
-	static final long fmix64(long x) {
+	static long fmix64(long x) {
 		x ^= x >>> 33;
 		x *= 0xff51afd7ed558ccdL;
 		x ^= x >>> 33;

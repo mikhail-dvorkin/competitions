@@ -5,7 +5,7 @@ import dgcj.message;
 
 public class C {
 	static final Object PROBLEM = new kenneth(); // PROBLEM NAME goes here
-	
+
 	final static int X = 566239;
 	final static int M = 1000000007;
 
@@ -20,7 +20,7 @@ public class C {
 		int to = lenCum[ID + 1];
 		int len = to - from;
 		int total = lenCum[NODES];
-		
+
 		int[] h = new int[len + 1];
 		int[] t = new int[len + 1];
 		t[0] = 1;
@@ -28,7 +28,7 @@ public class C {
 			h[i + 1] = (int) ((h[i] * (long) X + kenneth.GetSignalCharacter(from + i)) % M);
 			t[i + 1] = (int) ((t[i] * (long) X) % M);
 		}
-		
+
 		int hPrev = 0;
 		if (ID > 0) {
 			message.Receive(ID - 1);
@@ -39,11 +39,11 @@ public class C {
 			message.PutInt(ID + 1, hNext);
 			message.Send(ID + 1);
 		}
-		
+
 		for (int i = 0; i <= len; i++) {
 			h[i] = (int) ((h[i] + hPrev * (long) t[i]) % M);
 		}
-		
+
 		TreeSet<Integer> pSet = new TreeSet<>();
 		for (int p = 1; p * p <= total; p++) {
 			if (total % p == 0) {
@@ -65,7 +65,7 @@ public class C {
 			}
 			toSend.add(h[q - from]);
 		}
-		
+
 		if (ID < NODES - 1) {
 			message.PutInt(NODES - 1, toSend.size());
 			for (int x : toSend) {
@@ -74,7 +74,7 @@ public class C {
 			message.Send(NODES - 1);
 			return null;
 		}
-		
+
 		ArrayList<Integer> got = new ArrayList<>();
 		for (int id = 0; id < NODES - 1; id++) {
 			message.Receive(id);
@@ -84,14 +84,14 @@ public class C {
 			}
 		}
 		got.addAll(toSend);
-		ArrayList<Integer> queriesList = new ArrayList<Integer>(queries);
+		ArrayList<Integer> queriesList = new ArrayList<>(queries);
 		TreeMap<Integer, Integer> map = new TreeMap<>();
 		for (int i = 0; i < got.size(); i++) {
 			map.put(queriesList.get(i), got.get(i));
 		}
 		map.put(0, 0);
 		map.put(total, h[len]);
-		
+
 		int ans = total;
 		for (int p : pSet) {
 			int pw = power(total - p);
@@ -113,7 +113,7 @@ public class C {
 		v = (v * v) % M;
 		return (int) ((p & 1) == 0 ? v : (v * X) % M);
 	}
-	
+
 	static int NODES;
 	static int ID;
 

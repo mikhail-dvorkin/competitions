@@ -16,6 +16,7 @@ public class encoded_sum extends dgcj.DgcjProblem {
 		return TESTED.GetScrollTwo(i);
 	}
 
+	@SuppressWarnings("SwitchStatementWithTooFewBranches")
 	static class Test1 {
 		public static long GetLength() {
 			return 1L;

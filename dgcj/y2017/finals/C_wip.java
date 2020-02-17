@@ -41,7 +41,7 @@ public class C_wip {
 			Collections.sort(sample);
 			return "" + sample.get(W);
 		}
-		
+
 		long h = hash(0);
 		for (int i = 0;; i++) {
 			if (hashMap.containsKey(h)) {
@@ -66,14 +66,14 @@ public class C_wip {
 				int k = message.GetInt(id);
 				delta[id] = k * shift + i;
 			}
-			/*****/return "" + Arrays.toString(delta);
+			/* *** */return "" + Arrays.toString(delta);
 		}
-		/*****/if (ID > 0) return null;
-		
+		/* *** */if (ID > 0) return null;
+
 		int n = (int) median.GetN();
 		int from = (int) (1L * n * ID / NODES);
 		int to = (int) (1L * n * (ID + 1) / NODES);
-		
+
 		int low = 1;
 		int high = (int) (1e9 + 1);
 		int bins = 1000;
@@ -89,7 +89,7 @@ public class C_wip {
 				int bin = (v - low) / binSize;
 				size[bin]++;
 			}
-			
+
 			if (ID > 0) {
 				for (int i = 0; i < bins; i++) {
 					message.PutInt(0, size[i]);
@@ -111,20 +111,20 @@ public class C_wip {
 				}
 				low += i * binSize;
 			}
-			
+
 			high = low + binSize;
 			if (ID + 1 < NODES) {
 				message.PutInt(ID + 1, low);
 				message.Send(ID + 1);
 			}
 		}
-		
+
 		if (ID == 0) {
 			return "" + low;
 		}
 		return null;
 	}
-	
+
 	static final int P = 566239;
 	static final int W = 1000;
 	static final int Q;
@@ -135,7 +135,7 @@ public class C_wip {
 		}
 		Q = q;
 	}
-	
+
 	long hash(int from) {
 		long hash = 0;
 		for (int i = 0; i < W; i++) {
@@ -143,7 +143,7 @@ public class C_wip {
 		}
 		return hash;
 	}
-	
+
 	long hashMove(long hash, int from) {
 		hash = hash * P + median.GetData(from + W);
 		hash -= median.GetData(from) * Q;

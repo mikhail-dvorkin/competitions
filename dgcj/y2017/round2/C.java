@@ -8,18 +8,18 @@ public class C {
 
 	public String run() {
 		int n = (int) broken_memory.GetLength();
-		
+
 		long[] cum = new long[n + 1];
 		for (int i = 0; i < n; i++) {
 			long x = mix(broken_memory.GetValue(i));
 			x = mix(x + i);
 			cum[i + 1] = (cum[i] + x);
 		}
-		
+
 		ArrayList<Segment> segments = new ArrayList<>();
 		segments.add(new Segment(0, n));
-		
-		for (;;) {
+
+		do {
 			ArrayList<Segment> next = new ArrayList<>();
 			for (Segment segment : segments) {
 				if (segment.length() > 1) {
@@ -42,13 +42,8 @@ public class C {
 					segments.add(segment);
 				}
 			}
-			if (segments.size() == 2 &&
-					segments.get(0).length() == 1 &&
-					segments.get(1).length() == 1) {
-				break;
-			}
-		}
-		
+		} while (segments.size() != 2 || segments.get(0).length() != 1 || segments.get(1).length() != 1);
+
 		int ans = -1;
 		for (int i = 0; i < 2; i++) {
 			message.PutInt(RIGHT, segments.get(i).from);
@@ -64,14 +59,14 @@ public class C {
 				ans = segments.get(i).from;
 			}
 		}
-		
+
 		message.PutInt(0, ans);
 		message.Send(0);
-		
+
 		if (ID > 0) {
 			return null;
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		for (int id = 0; id < NODES; id++) {
 			message.Receive(id);
@@ -79,7 +74,7 @@ public class C {
 		}
 		return sb.toString().trim();
 	}
-	
+
 	static class Segment {
 		int from, to;
 
@@ -87,16 +82,16 @@ public class C {
 			this.from = from;
 			this.to = to;
 		}
-		
+
 		public int length() {
 			return to - from;
 		}
-		
+
 		public long sum(long[] cum) {
 			return cum[to] - cum[from];
 		}
 	}
-	
+
 	static long mix(long x) {
 		x ^= x >>> 33;
 		x *= 0xff51afd7ed558ccdL;

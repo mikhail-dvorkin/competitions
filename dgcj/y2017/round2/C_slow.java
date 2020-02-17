@@ -35,8 +35,8 @@ public class C_slow {
 		}
 //		log(Arrays.toString(hash));
 		if (ID > 0) {
-			for (int j = 0; j < hash.length; j++) {
-				message.PutLL(0, hash[j]);
+			for (long value : hash) {
+				message.PutLL(0, value);
 			}
 			message.Send(0);
 			return null;
@@ -77,7 +77,7 @@ public class C_slow {
 				}
 			}
 			pos = p[pos];
-			sb.append(" " + pos);
+			sb.append(" ").append(pos);
 		}
 		return sb.toString().trim();
 	}
@@ -90,7 +90,7 @@ public class C_slow {
 		x ^= x >>> 16;
 		return x;
 	}
-	
+
 	long mix(long x) {
 		x ^= x >>> 33;
 		x *= 0xff51afd7ed558ccdL;
@@ -100,7 +100,7 @@ public class C_slow {
 		return x;
 	}
 
-	
+
 	final static boolean SINGLE = false;
 	final int NODES = SINGLE ? 1 : message.NumberOfNodes();
 	final int ID = SINGLE ? 0 : message.MyNodeId();

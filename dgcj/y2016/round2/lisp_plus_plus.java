@@ -49,6 +49,7 @@ public class lisp_plus_plus extends dgcj.DgcjProblem {
 
 	}
 
+	@SuppressWarnings("SwitchStatementWithTooFewBranches")
 	static class Test3 {
 		public static long GetLength() {
 			return 1L;

@@ -16,6 +16,7 @@ public class todd_and_steven extends dgcj.DgcjProblem {
 		return TESTED.GetStevenValue(i);
 	}
 
+	@SuppressWarnings("SwitchStatementWithTooFewBranches")
 	static class Test1 {
 		public static long GetToddLength() {
 			return 1L;
@@ -41,6 +42,7 @@ public class todd_and_steven extends dgcj.DgcjProblem {
 		}
 	}
 
+	@SuppressWarnings("SwitchStatementWithTooFewBranches")
 	static class Test2 {
 		public static long GetToddLength() {
 			return 1L;
