@@ -5,7 +5,7 @@ fun main() = repeat(readInt()) {
 	val ans = mutableListOf<Int>()
 	var i = 0
 	while (i < s.length) {
-		val t = listOf("twone", "one", "two").firstOrNull { s.startsWith(it, i) }
+		val t = listOf("two" + "ne", "one", "two").firstOrNull { s.startsWith(it, i) }
 		if (t == null) {
 			i++
 			continue
