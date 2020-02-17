@@ -74,6 +74,7 @@ public class C_tl {
 
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
+		//noinspection ConstantConditions
 		if (stdStreams) {
 			br = new BufferedReader(new InputStreamReader(System.in));
 			out = new PrintWriter(System.out);

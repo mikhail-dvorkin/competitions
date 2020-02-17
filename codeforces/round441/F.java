@@ -72,6 +72,7 @@ public class F {
 	static MyScanner in;
 	static PrintWriter out;
 
+	@SuppressWarnings("ConstantConditions")
 	public static void main(String[] args) throws IOException {
 		boolean stdStreams = true;
 		String fileName = F.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
@@ -80,6 +81,7 @@ public class F {
 
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
+		//noinspection ConstantConditions
 		if (stdStreams) {
 			br = new BufferedReader(new InputStreamReader(System.in));
 			out = new PrintWriter(System.out);
