@@ -9,12 +9,10 @@ fun main() {
 		nei[u].add(v); nei[v].add(u)
 	}
 	val (s, t) = listOf(0, n - 1).map { bfs(nei, it) }
-	fun max(s: List<Int>, t: List<Int>): Int {
-		return special.sortedBy { s[it] - t[it] }.fold(0 to -n) { (ans, maxPrev), i ->
-			maxOf(ans, maxPrev + t[i]) to maxOf(maxPrev, s[i])
-		}.first
-	}
-	println(minOf(t[0], maxOf(max(s, t), max(t, s)) + 1))
+	val best = special.sortedBy { s[it] - t[it] }.fold(0 to -n) { (ans, maxPrev), i ->
+		maxOf(ans, maxPrev + t[i]) to maxOf(maxPrev, s[i])
+	}.first
+	println(minOf(t[0], best + 1))
 }
 
 private fun bfs(nei: List<MutableList<Int>>, s: Int): List<Int> {
