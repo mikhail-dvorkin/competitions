@@ -1,32 +1,29 @@
 package topcoder.srm779;
 
+import java.util.Arrays;
+
 public class ArraySorting {
 	public int[] arraySort(int[] a) {
-		int max = 2001;
 		int n = a.length;
-		int[][] b = new int[n + 1][max];
-		for (int i = 0; i < max; i++) {
-			b[n][i] = n + 1;
-		}
-		b[n][max - 1] = 0;
+		int max = Arrays.stream(a).max().orElseThrow(null);
+		int[][] b = new int[n + 1][max + 1];
+		Arrays.fill(b[n], n);
+		b[n][max] = 0;
 		for (int i = n - 1; i >= 0; i--) {
-			int bestNext = n + 1;
-			for (int j = max - 1; j >= 1; j--) {
+			int bestNext = n;
+			for (int j = max; j >= 1; j--) {
 				bestNext = Math.min(bestNext, b[i + 1][j]);
 				b[i][j] = bestNext + (a[i] == j ? 0 : 1);
 			}
 		}
-		int j = 1;
 		int[] ans = new int[n];
 		for (int i = 0; i < n; i++) {
-			int best = n + 1;
-			for (int k = j; k < max; k++) {
-				if (b[i][k] < best) {
-					best = b[i][k];
-					j = k;
+			ans[i] = i == 0 ? 1 : ans[i - 1];
+			for (int j = ans[i] + 1; j <= max; j++) {
+				if (b[i][j] < b[i][ans[i]]) {
+					ans[i] = j;
 				}
 			}
-			ans[i] = j;
 		}
 		return ans;
 	}
