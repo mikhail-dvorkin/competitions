@@ -3,20 +3,16 @@ package codeforces.kotlinheroes3
 private fun solve() {
 	val (n, k) = readInts()
 	val a = readInts()
-	val b = a.sorted()
-	val bMax = b.last()
-	val forTogether = b.mapIndexed { index, v -> bMax - (n - 1L - index) - v }.sum()
-	val moves = if (forTogether >= k) 0 else ((k - forTogether + n - 1) / n)
-	var v = bMax + moves
-	val d = mutableMapOf<Int, Long>()
-	var toSpend = k.toLong()
-	for (i in b.indices.reversed()) {
-		val spend = minOf(v - b[i], toSpend)
-		d[b[i]] = spend
-		toSpend -= spend
-		v--
+	val b = a.sortedDescending()
+	val toConnect = b.indices.map { b[0].toLong() - it - b[it] }.sum()
+	val top = b[0] + maxOf(k - toConnect + n - 1, 0).toInt() / n
+	val increase = mutableMapOf<Int, Int>()
+	b.indices.fold(k) { toSpend, i ->
+		val spend = minOf(top - i - b[i], toSpend)
+		increase[b[i]] = spend
+		toSpend - spend
 	}
-	println(a.map { d[it] }.joinToString(" "))
+	println(a.map { increase[it] }.joinToString(" "))
 }
 
 fun main() = repeat(readInt()) { solve() }

@@ -1,34 +1,21 @@
 package codeforces.kotlinheroes3
 
-import java.util.*
-
 private fun solve() {
 	val (n, m) = readInts()
 	data class Segment(val start: Int, val end: Int, val id: Int)
 	val segments = List(n) { val data = readInts(); Segment(data[0], data[1], it) }
-	val open = segments.sortedBy { it.start }
+	val byOpening = segments.sortedByDescending { it.start }.toMutableList()
 	val ans = MutableList(n) { 0 }
+	val byEnding = sortedSetOf<Segment>(compareBy({ it.end }, { it.id }))
 	var time = 0
-	var i = 0
-	val toWatch = TreeSet<Long>()
-	var worstGap = 0L
+	var worstGap = 0
 	while (true) {
-		if (toWatch.isEmpty()) {
-			if (i == n) break
-			time = open[i].start
-		}
-		while (i < n && open[i].start == time) {
-			toWatch.add(open[i].end * n.toLong() + open[i].id)
-			i++
-		}
+		if (byEnding.isEmpty()) time = byOpening.lastOrNull()?.start ?: break
+		while (byOpening.lastOrNull()?.start == time) byEnding.add(byOpening.removeAt(byOpening.lastIndex))
 		for (temp in 0 until m) {
-			if (toWatch.isEmpty()) break
-			val v = toWatch.first()!!
-			val t = v / n
-			val id = (v % n).toInt()
-			worstGap = maxOf(worstGap, time - t)
-			ans[id] = time
-			toWatch.remove(v)
+			val segment = byEnding.pollFirst() ?: break
+			worstGap = maxOf(worstGap, time - segment.end)
+			ans[segment.id] = time
 		}
 		time++
 	}

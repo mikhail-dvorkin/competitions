@@ -3,57 +3,28 @@ package codeforces.kotlinheroes3
 private fun solve() {
 	val s = readLn()
 	val inf = (s.max()!! + 1).toString()
-	var sure = listOf(inf)
-	var unsure = listOf("")
-	var sureHow = listOf("")
-	var unsureHow = listOf("")
-	for (i in s.indices) {
-		val c = s[i]
-		val sureNext = MutableList(i + 1) { inf }
-		val unsureNext = MutableList(i + 1) { inf }
-		val sureHowNext = MutableList(i + 1) { inf }
-		val unsureHowNext = MutableList(i + 1) { inf }
-		fun update(isSure: Boolean, index: Int, t: String, toStore: Boolean, how: String) {
-			val a = if (isSure) sureNext else unsureNext
-			val b = if (isSure) sureHowNext else unsureHowNext
-			if (a[index] <= t) return
-			a[index] = t
-			b[index] = how + if (toStore) "R" else "B"
+	val init = listOf(listOf(inf to listOf<Boolean>()), listOf("" to listOf()))
+	val ans = s.foldIndexed(init) { i, (sure, unsure), c ->
+		val next = List(2) { MutableList(i + 1) { inf to listOf<Boolean>()} }
+		fun update(isSure: Boolean, index: Int, new: Pair<String, List<Boolean>>) {
+			val a = next[if (isSure) 0 else 1]
+			if (!new.first.startsWith(inf) && new.first < a[index].first) a[index] = new
 		}
-		for (j in sure.indices) {
-			if (sure[j] != inf) {
-				val t = sure[j]
-				if (t.length == j) {
-					update(true, j, t, false, sureHow[j])
-					val jj = minOf(j + 1, i - j)
-					update(true, jj, t + c, true, sureHow[j])
-				} else {
-					update(true, j + 1, t, false, sureHow[j])
-					update(true, j, t + c, true, sureHow[j])
-				}
-			}
-			if (unsure[j] != inf) {
-				val t = unsure[j]
-				update(false, j, t + c, true, unsureHow[j])
-				if (j == i - j) continue
-				val d = t[j]
-				if (c != d) {
-					val new = if (c > d) t.substring(0, j) + c else t
-					update(true, j + 1, new, (c > d), unsureHow[j])
-					continue
-				}
-				update(false, j + 1, t, false, unsureHow[j])
+		sure.forEachIndexed { j, (t, how) ->
+			val storeShort = if (t.length == j) 1 else 0
+			update(true, j + 1 - storeShort, t to how + false)
+			update(true, minOf(j + storeShort, i - j), t + c to how + true)
+		}
+		unsure.forEachIndexed { j, (t, how) ->
+			update(false, j, t + c to how + true)
+			if (j != i - j && t != inf) when {
+				c > t[j] -> update(true, j + 1, t.substring(0, j) + c to how + true)
+				else -> update(c < t[j], j + 1, t to how + false)
 			}
 		}
-		sure = sureNext
-		unsure = unsureNext
-		sureHow = sureHowNext
-		unsureHow = unsureHowNext
+		next
 	}
-	val a = (sure + unsure)
-	val b = (sureHow + unsureHow)
-	val i = a.indexOf(a.min())
-	println(b[i])
+	println(ans.flatten().minBy { it.first }!!.second.joinToString("") { if (it) "R" else "B" })
 }
 
 fun main() = repeat(readInt()) { solve() }

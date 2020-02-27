@@ -15,7 +15,7 @@ private fun solve() {
 		val v = leaves.last()
 		val u = nei[v].first()
 		ans.remove(v)
-		nei[v].remove(u); nei[u].remove(v)
+		nei[u].remove(v)
 		leaves.removeAt(leaves.lastIndex)
 		if (nei[u].size == 1) leaves.add(u)
 	}
@@ -28,35 +28,3 @@ private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
 private fun readInts() = readStrings().map { it.toInt() }
-
-/*
-4
-
-10 4
-4 5
-5 2
-2 1
-1 3
-1 9
-9 10
-2 7
-7 8
-5 6
-
-4 3
-1 2
-2 3
-3 4
-
-5 3
-1 2
-1 3
-1 4
-1 5
-
-4 1
-1 2
-2 4
-2 3
-
- */

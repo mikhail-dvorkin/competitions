@@ -1,19 +1,17 @@
 package codeforces.kotlinheroes3
 
-import kotlin.math.absoluteValue
+import kotlin.math.abs
 
 private fun solve() {
-	readInt()
+	readLn()
 	val a = readInts()
-	val take = a.indices.map { a[it] > 0 }.toMutableList()
-	val x = a.indices.filter { a[it] != 0 }.minBy { a[it].absoluteValue }!!
-	take[x] = !take[x]
-	println(a.filterIndexed { index, _ -> take[index] }.sum())
+	val x = a.indices.filter { a[it] != 0 }.minBy { abs(a[it]) }!!
+	val take = a.indices.map { (a[it] > 0) xor (it == x) }
+	println(a.indices.filter { take[it] }.sumBy { a[it] })
 	println(take.joinToString("") { if (it) "1" else "0" })
 }
 
 fun main() = repeat(readInt()) { solve() }
-
 
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
