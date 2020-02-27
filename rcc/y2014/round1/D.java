@@ -69,11 +69,13 @@ public class D {
 	}
 
 	public static String encodeBase64(byte[] data) {
-		return javax.xml.bind.DatatypeConverter.printBase64Binary(data);
+		return Base64.getEncoder().encodeToString(data);
+		//return javax.xml.bind.DatatypeConverter.printBase64Binary(data);
 	}
 
 	public static byte[] decodeBase64(String string) {
-		return javax.xml.bind.DatatypeConverter.parseBase64Binary(string);
+		return Base64.getDecoder().decode(string);
+		//return javax.xml.bind.DatatypeConverter.parseBase64Binary(string);
 	}
 
 	public static byte[] serialize(Serializable object) {

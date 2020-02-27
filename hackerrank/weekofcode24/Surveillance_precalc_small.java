@@ -139,7 +139,8 @@ public class Surveillance_precalc_small {
 	}
 
 	public static String encodeBase64(byte[] data) {
-		return javax.xml.bind.DatatypeConverter.printBase64Binary(data);
+		return Base64.getEncoder().encodeToString(data);
+		//return javax.xml.bind.DatatypeConverter.printBase64Binary(data);
 	}
 
 	public static byte[] serialize(Serializable object) {
