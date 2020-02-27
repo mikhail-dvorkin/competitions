@@ -132,12 +132,13 @@ public class D {
 		out.println("	@SuppressWarnings(\"unchecked\")");
 		out.println("	static Map<String, String> map = (Map<String, String>) " + serializeToJavaCodeWithZip((Serializable) map) + ";");
 		out.println("");
+		out.print("	public static void m" + "ain(String[] args) ");
 		if (stdStreams) {
-			out.println("	public static void main(String[] args) {");
+			out.println("{");
 			out.println("		Scanner in = new Scanner(System.in);");
 			out.println("		PrintWriter out = new PrintWriter(System.out);");
 		} else {
-			out.println("	public static void main(String[] args) throws IOException {");
+			out.println("throws IOException {");
 			out.println("		Scanner in = new Scanner(new File(\"" + inputFileName + "\"));");
 			out.println("		PrintWriter out = new PrintWriter(\"" + outputFileName + "\");");
 		}

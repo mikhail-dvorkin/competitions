@@ -34,7 +34,7 @@ public class E {
 	static String generatedClassName = E.class.getSimpleName().replaceFirst("_.*", "") + "Generated";
 	static String generatedFileName = generatedClassName + ".java";
 	static PrintWriter out;
-	
+
 	public static void main(String[] args) throws IOException {
 		Locale.setDefault(Locale.US);
 		Map<String, String> map = new E().run();
@@ -43,12 +43,13 @@ public class E {
 		out.println("import java.util.*;");
 		out.println("");
 		out.println("public class " + generatedClassName + " {");
+		out.print("	public static void m" + "ain(String[] args) ");
 		if (stdStreams) {
-			out.println("	public static void main(String[] args) {");
+			out.println("{");
 			out.println("		Scanner in = new Scanner(System.in);");
 			out.println("		PrintWriter out = new PrintWriter(System.out);");
 		} else {
-			out.println("	public static void main(String[] args) throws IOException {");
+			out.println("throws IOException {");
 			out.println("		Scanner in = new Scanner(new File(\"" + inputFileName + "\"));");
 			out.println("		PrintWriter out = new PrintWriter(\"" + outputFileName + "\");");
 		}
