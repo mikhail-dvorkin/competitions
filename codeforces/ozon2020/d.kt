@@ -9,14 +9,14 @@ fun main() {
 	}
 	val possible = nei.indices.toMutableSet()
 	while (possible.size > 1) {
-		val (u, v) = possible.filter { nei[it].intersect(possible).size == 1 }.take(2)
-		println("? ${u + 1} ${v + 1}")
+		val uv = possible.filter { nei[it].intersect(possible).size == 1 }.take(2)
+		println("? ${uv.map { it + 1 }.joinToString(" ")}")
 		val w = readInt() - 1
-		if (w == u || w == v) {
+		if (w in uv) {
 			possible.clear(); possible.add(w)
 			break
 		}
-		possible.removeAll(listOf(u, v))
+		possible.removeAll(uv)
 	}
 	println("! ${possible.first() + 1}")
 }
