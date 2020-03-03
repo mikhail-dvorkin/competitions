@@ -2,10 +2,7 @@ package codeforces.ozon2020
 
 private fun solve() {
 	readLn()
-	val a = readInts()
-	val b = readInts()
-	println(a.sorted().joinToString(" "))
-	println(b.sorted().joinToString(" "))
+	repeat(2) { println(readInts().sorted().joinToString(" ")) }
 }
 
 fun main() = repeat(readInt()) { solve() }

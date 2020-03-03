@@ -2,15 +2,12 @@ package codeforces.ozon2020
 
 fun main() {
 	val s = readLn()
-	var i = 0
-	var j = s.lastIndex
 	val ans = mutableListOf<Int>()
-	while (true) {
+	var (i, j) = 0 to s.lastIndex
+	while (i < j) {
 		while (i < j && s[i] == ')') i++
 		while (i < j && s[j] == '(') j--
-		if (i >= j) break
-		ans.add(i++)
-		ans.add(j--)
+		if (i < j) ans.addAll(listOf(i++, j--))
 	}
 	if (ans.isEmpty()) return println(0)
 	println(1)

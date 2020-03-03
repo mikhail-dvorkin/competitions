@@ -2,8 +2,6 @@ package codeforces.ozon2020
 
 fun main() {
 	val (n, m) = readInts()
-	val max = n * (n - 1L) * (n - 2) / 6
-	if (m > max) return println(-1)
 	val ans = mutableListOf<Int>()
 	var cur = 0
 	for (i in 1..n) {
@@ -13,22 +11,8 @@ fun main() {
 		ans.add(i)
 	}
 	if (ans.size == n && cur < m) return println(-1)
-	if (ans.size < n) {
-		val k = ans.size
-		for (i in k + 1..2 * k) {
-			val next = cur + (2 * k - i + 1) / 2
-			if (next == m) {
-				ans.add(i)
-				break
-			}
-		}
-		val inf = 1e5.toInt()
-		var i = inf + 1
-		while (ans.size < n) {
-			ans.add(i)
-			i += inf
-		}
-	}
+	if (ans.size < n) ans.add(2 * (ans.size + cur - m))
+	while (ans.size < n) ans.add(2 * n * ans.size + 1)
 	println(ans.joinToString(" "))
 }
 
