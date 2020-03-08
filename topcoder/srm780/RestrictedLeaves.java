@@ -5,65 +5,39 @@ public class RestrictedLeaves {
 
 	public int count(int[] parent) {
 		int n = parent.length;
-		long[][][][] a = new long[2][2][2][n];
+		long[][][][] a = new long[n][2][2][2];
+		long ans = 0;
 		for (int v = n - 1; v >= 0; v--) {
-			int kids = 0;
-			for (int u = v + 1; u < n; u++) {
-				if (parent[u] != v) continue;
-				kids++;
-			}
-			if (kids == 0) {
-				a[0][0][0][v] = 1;
-				a[1][1][1][v] = 1;
-				continue;
-			}
 			boolean first = true;
+			a[v][0][0][0] = a[v][1][1][1] = 1;
 			for (int u = v + 1; u < n; u++) {
 				if (parent[u] != v) continue;
-				if (first) {
-					a[0][0][0][v] = (a[0][0][0][u] + a[1][0][0][u]) % M;
-					a[0][0][1][v] = (a[0][0][1][u] + a[1][0][1][u]) % M;
-					a[0][1][0][v] = (a[0][1][0][u] + a[1][1][0][u]) % M;
-					a[0][1][1][v] = (a[0][1][1][u] + a[1][1][1][u]) % M;
-					a[1][0][0][v] = a[0][0][0][u];
-					a[1][0][1][v] = a[0][0][1][u];
-					a[1][1][0][v] = a[0][1][0][u];
-					a[1][1][1][v] = a[0][1][1][u];
-					first = false;
-					continue;
-				}
 				long[][][] b = new long[2][2][2];
-				b[0][0][0] = (a[0][0][0][v] * (a[0][0][0][u] + a[0][1][0][u] + a[1][0][0][u] + a[1][1][0][u]) + a[0][0][1][v] * (a[0][0][0][u] + a[1][0][0][u])) % M;
-				b[0][0][1] = (a[0][0][0][v] * (a[0][0][1][u] + a[0][1][1][u] + a[1][0][1][u] + a[1][1][1][u]) + a[0][0][1][v] * (a[0][0][1][u] + a[1][0][1][u])) % M;
-				b[0][1][0] = (a[0][1][0][v] * (a[0][0][0][u] + a[0][1][0][u] + a[1][0][0][u] + a[1][1][0][u]) + a[0][1][1][v] * (a[0][0][0][u] + a[1][0][0][u])) % M;
-				b[0][1][1] = (a[0][1][0][v] * (a[0][0][1][u] + a[0][1][1][u] + a[1][0][1][u] + a[1][1][1][u]) + a[0][1][1][v] * (a[0][0][1][u] + a[1][0][1][u])) % M;
-				b[1][0][0] = (a[1][0][0][v] * (a[0][0][0][u] + a[0][1][0][u]) + a[1][0][1][v] * a[0][0][0][u]) % M;
-				b[1][0][1] = (a[1][0][0][v] * (a[0][0][1][u] + a[0][1][1][u]) + a[1][0][1][v] * a[0][0][1][u]) % M;
-				b[1][1][0] = (a[1][1][0][v] * (a[0][0][0][u] + a[0][1][0][u]) + a[1][1][1][v] * a[0][0][0][u]) % M;
-				b[1][1][1] = (a[1][1][0][v] * (a[0][0][1][u] + a[0][1][1][u]) + a[1][1][1][v] * a[0][0][1][u]) % M;
-				for (int i = 0; i < 2; i++) {
-					for (int j = 0; j < 2; j++) {
-						for (int k = 0; k < 2; k++) {
-							a[i][j][k][v] = b[i][j][k];
+				ans = 0;
+				for (int left = 0; left < 2; left++) {
+					for (int right = 0; right < 2; right++) {
+						if (first) {
+							b[1][left][right] = a[u][0][left][right];
+							b[0][left][right] = b[1][left][right] + a[u][1][left][right];
+						} else {
+							b[0][left][right] = a[v][0][left][0] * (a[u][0][0][right] + a[u][0][1][right] + a[u][1][0][right] + a[u][1][1][right]);
+							b[0][left][right] += a[v][0][left][1] * (a[u][0][0][right] + a[u][1][0][right]);
+							b[1][left][right] = a[v][1][left][0] * (a[u][0][0][right] + a[u][0][1][right]);
+							b[1][left][right] += a[v][1][left][1] * a[u][0][0][right];
+						}
+					}
+					for (int right = 0; right < 2; right++) {
+						for (int top = 0; top < 2; top++) {
+							a[v][top][left][right] = b[top][left][right] % M;
+							if (left + right < 2) {
+								ans += a[v][top][left][right];
+							}
 						}
 					}
 				}
+				first = false;
 			}
 		}
-		long ans = 0;
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
-				for (int k = 0; k < 2; k++) {
-					if (j + k == 2) continue;
-					ans = (ans + a[i][j][k][0]) % M;
-				}
-			}
-		}
-		return (int) ans;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(new RestrictedLeaves().count(new int[] {-1, 0, 0, 0, 0}));
-		System.out.println(new RestrictedLeaves().count(new int[] {-1, 0, 0, 1, 2, 1, 2, 1, 4, 4}));
+		return (int) (ans % M);
 	}
 }
