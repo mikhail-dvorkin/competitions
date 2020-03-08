@@ -4,63 +4,36 @@ import java.util.*;
 
 public class SubstringQueries {
 	public long solve(String s, int k) {
-		String ss = s + s;
-		int n = s.length();
-		boolean[] can = new boolean[n];
-		Arrays.fill(can, true);
-		long ans = 0;
-		int best = 0;
-		for (int len = 1; len <= n; len++) {
-			best = -1;
-			for (int i = 0; i < n; i++) {
-				if (!can[i]) continue;
-				if (best == -1 || ss.charAt(i + len - 1) < ss.charAt(best + len - 1)) {
-					best = i;
-				}
-  			}
-			for (int i = 0; i < n; i++) {
-				if (!can[i]) continue;
-				if (ss.charAt(i + len - 1) > ss.charAt(best + len - 1)) {
-					can[i] = false;
-				}
-  			}
-			ans += best;
-		}
-		ans += best * (k - 2L) * n;
-		if (k == 1) {
-			return solveEnd(s, 1);
-		}
-		ans += solveEnd(ss, n + 1);
-		return ans;
+		return k == 1 ? solve(s, 1, 1) : solve(s, 0, k) + solve(s + s, s.length() + 1, 1);
 	}
 
-	private int solveEnd(String s, int from) {
+	private long solve(String s, int from, int k) {
 		int n = s.length();
-		int ans = 0;
-		ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
-		lists.add(new ArrayList<>());
+		ArrayList<ArrayList<Integer>> lists = new ArrayList<>(Collections.singletonList(new ArrayList<>()));
 		for (int i = 0; i <= n; i++) {
 			lists.get(0).add(i);
 		}
+		long ans = 0;
+		Map<Character, ArrayList<Integer>> classes = new TreeMap<>();
 		for (int len = 1; len <= n; len++) {
 			ArrayList<ArrayList<Integer>> next = new ArrayList<>();
-			for (ArrayList<Integer> equal : lists) {
-				ArrayList[] types = new ArrayList[26];
-				for (int x : equal) {
-					if (x + len - 1 >= n) continue;
-					int c = s.charAt(x + len - 1) - 'a';
-					if (types[c] == null) types[c] = new ArrayList();
-					types[c].add(x);
+			for (ArrayList<Integer> equivalenceClass : lists) {
+				if (equivalenceClass.size() == 1) {
+					if (k > 1 || equivalenceClass.get(0) + len - 1 < n) next.add(equivalenceClass);
+					continue;
 				}
-				for (ArrayList list : types) {
-					if (list == null) continue;
-					next.add(list);
+				for (int x : equivalenceClass) {
+					if (k == 1 && x + len - 1 >= n) continue;
+					classes.computeIfAbsent(s.charAt((x + len - 1) % n), ((c) -> new ArrayList<>())).add(x);
 				}
+				next.addAll(classes.values());
+				classes.clear();
 			}
 			lists = next;
-			if (len >= from) {
-				ans += lists.get(0).get(0);
-			}
+			long c = 1;
+			if (k == 1 && len < from) c = 0;
+			if (k > 1 && len == n) c += (k - 2L) * n;
+			ans += c * lists.get(0).get(0);
 		}
 		return ans;
 	}
