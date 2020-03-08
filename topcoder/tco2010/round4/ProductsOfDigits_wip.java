@@ -1,6 +1,6 @@
 package topcoder.tco2010.round4;
-public class P {
-	public long get(int[] p) {
+public class ProductsOfDigits_wip {
+	public long firstOccurrence(int[] p) {
 		int n = p.length;
 		if (n == 1) {
 			if (p[0] == 0) {
@@ -45,29 +45,29 @@ public class P {
 				return (x * 100 + 99) - (zz - 1);
 			}
 		}
-		aloop:
+		aLoop:
 		for (int a = 9; a <= 99; a++) {
 			int x = -1;
 			for (int i = 0; i < n; i++) {
 				int b = a + i;
 				if (b > 100) {
-					continue aloop;
+					continue aLoop;
 				}
 				int c = (b % 10) * (b / 10);
 				if (c == 0) {
 					if (p[i] != 0) {
-						continue aloop;
+						continue aLoop;
 					}
 					continue;
 				}
 				if (p[i] % c != 0) {
-					continue aloop;
+					continue aLoop;
 				}
-				int y = p[i] / c;
-				if (x != -1 && y != x) {
-					continue aloop;
+				int xNext = p[i] / c;
+				if (x != -1 && xNext != x) {
+					continue aLoop;
 				}
-				x = y;
+				x = xNext;
 			}
 			long t = minWith(x);
 			return 100 * t + a;
@@ -121,13 +121,10 @@ public class P {
 		if (p % 2 == 0) {
 			return 1 + len(p / 3);
 		}
-		if (p % 2 == 0) {
-			return 1 + len(p / 3);
-		}
 		throw new RuntimeException("1");
 	}
 
 	public static void main(String[] args) {
-		System.out.println(new P().get(new int[]{1,2}));
+		System.out.println(new ProductsOfDigits_wip().firstOccurrence(new int[]{1,2}));
 	}
 }
