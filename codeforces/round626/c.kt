@@ -1,66 +1,29 @@
 package codeforces.round626
 
 import java.io.*
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
-private fun solve() {
-	var st = StringTokenizer(`in`.readLine())
-	val n = st.nextToken().toInt()
-	val m = st.nextToken().toInt()
-	val c = LongArray(n)
-	st = StringTokenizer(`in`.readLine())
-	val nei: Array<ArrayList<Int>> = Array(n) { ArrayList() }
-	for (i in 0 until n) {
-		c[i] = st.nextToken().toLong()
-	}
-	for (i in 0 until m) {
-		st = StringTokenizer(`in`.readLine())
-		val u = st.nextToken().toInt() - 1
-		val v = st.nextToken().toInt() - 1
+private fun solve(): Long {
+	val (n, m) = readInts()
+	val c = readLongs()
+	val nei = List(n) { mutableListOf<Int>() }
+	repeat(m) {
+		val (u, v) = readInts().map { it - 1 }
 		nei[v].add(u)
 	}
-	val cSum: MutableMap<Long, Long> = HashMap()
-	for (i in 0 until n) {
-		if (nei[i].isEmpty()) continue
-		nei[i].sort()
-		var p = nei[i].size.toLong()
-		for (x in nei[i]) {
-			p = mix(p shl 16 or x.toLong())
-		}
-		cSum[p] = c[i] + cSum.getOrDefault(p, 0L)
+	val hashed = nei.map { it.sorted().fold(1L) { acc: Long, x: Int -> acc * 566239L + x } }
+	val groups = hashed.indices.groupBy { hashed[it] }.map {
+		if (it.key == 1L) 0L else it.value.map { i -> c[i] }.sum()
 	}
-	var ans: Long = 0
-	for (xx in cSum.values) {
-		var x = xx
-		while (x > 0) {
-			val t = ans % x
-			ans = x
-			x = t
-		}
-	}
-	out.println(ans)
+	return groups.fold(0L, ::gcd)
 }
 
-fun mix(x: Long): Long {
-	var xx = x
-	xx = xx xor (xx ushr 33)
-	xx *= -0xae502812aa7333L
-	xx = xx xor (xx ushr 33)
-	xx *= -0x3b314601e57a13adL
-	xx = xx xor (xx ushr 33)
-	return xx
-}
+private tailrec fun gcd(a: Long, b: Long): Long = if (a == 0L) b else gcd(b % a, a)
+
+fun main() = println(List(readInt()) { if (it > 0) readLn(); solve() }.joinToString("\n"))
 
 private val `in` = BufferedReader(InputStreamReader(System.`in`))
-private val out = PrintWriter(System.out)
-
-fun main() {
-	val tests = `in`.readLine().toInt()
-	for (test in 0 until tests) {
-		if (test > 0) `in`.readLine()
-		solve()
-	}
-	out.close()
-}
+private fun readLn() = `in`.readLine()
+private fun readInt() = readLn().toInt()
+private fun readStrings() = readLn().split(" ")
+private fun readInts() = readStrings().map { it.toInt() }
+private fun readLongs() = readStrings().map { it.toLong() }
