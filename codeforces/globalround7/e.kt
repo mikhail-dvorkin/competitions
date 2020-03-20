@@ -1,121 +1,39 @@
 package codeforces.globalround7
 
-import java.util.*
-
 fun main() {
 	val n = readInt()
 	val p = readInts().map { it - 1 }
 	val q = readInts().map { it - 1 }
-	val indexInP = IntArray(n)
-	for (i in p.indices) {
-		indexInP[p[i]] = i
-	}
+	val pRev = IntArray(n)
+	for (i in p.indices) pRev[p[i]] = i
 
-	val st = SegmentsTreeSimple(2 * n + 2)
-	val map = TreeMap<Int, Int>()
-	fun addNumber(x: Int) {
-		st.set(2 * n + 1 - 2 * x, -1)
-	}
-	fun addBomb(x: Int) {
-		st.set(2 * n + 1 - 2 * x - 1, 1)
-	}
-	fun alive(): Int {
-		return if (st.getMinBalance() < 0) 1 else 0
-//		var b = 0
-//		for (d in map.values) {
-//			b += d
-//			if (b < 0) return 1
-//		}
-//		return 0
-	}
-
-	var alive = n - 1
-	addNumber(indexInP[alive])
-	val ans = mutableListOf(alive)
-	for (bomb in 0 until n - 1) {
-		addBomb(q[bomb])
-		while (alive() == 0) {
-			alive--
-			addNumber(indexInP[alive])
-		}
-		ans.add(alive)
+	val st = SegmentsTreeSimple(2 * n)
+	var alive = n
+	val ans = q.map {
+		while (st.getMinBalance() >= 0) st[2 * n - 2 * pRev[--alive] - 1] = -1
+		st[2 * n - 2 * it - 2] = 1
+		alive
 	}
 	println(ans.map{ it + 1 }.joinToString(" "))
 }
 
 class SegmentsTreeSimple(var n: Int) {
-	var min: IntArray
-	var sum: IntArray
-	var size = 1
+	var size = 2 * Integer.highestOneBit(n)
+	var min = IntArray(2 * size)
+	var sum = IntArray(2 * size)
 
 	operator fun set(index: Int, value: Int) {
 		var i = size + index
+		min[i] = minOf(0, value)
 		sum[i] = value
-		min[i] = if (value > 0) 0 else -1
 		while (i > 1) {
 			i /= 2
-			min[i] = Math.min(min[2 * i], sum[2 * i] + min[2 * i + 1])
+			min[i] = minOf(min[2 * i], sum[2 * i] + min[2 * i + 1])
 			sum[i] = sum[2 * i] + sum[2 * i + 1]
 		}
 	}
 
-	operator fun get(index: Int): Int {
-		return min[size + index]
-	}
-
-	fun getMinBalance(): Int {
-		return min[1]
-	}
-
-//	fun getMax(from: Int, to: Int): Int {
-//		var from = from
-//		var to = to
-//		from += size
-//		to += size
-//		var res = Int.MIN_VALUE
-//		while (from < to) {
-//			if (from % 2 == 1) {
-//				res = Math.max(res, max[from])
-//				from++
-//			}
-//			if (to % 2 == 1) {
-//				to--
-//				res = Math.max(res, max[to])
-//			}
-//			from /= 2
-//			to /= 2
-//		}
-//		return res
-//	}
-//
-//	fun getMin(from: Int, to: Int): Int {
-//		var from = from
-//		var to = to
-//		from += size
-//		to += size
-//		var res = Int.MAX_VALUE
-//		while (from < to) {
-//			if (from % 2 == 1) {
-//				res = Math.min(res, min[from])
-//				from++
-//			}
-//			if (to % 2 == 1) {
-//				to--
-//				res = Math.min(res, min[to])
-//			}
-//			from /= 2
-//			to /= 2
-//		}
-//		return res
-//	}
-
-	init {
-		while (size <= n) {
-			size *= 2
-		}
-		min = IntArray(2 * size)
-		sum = IntArray(2 * size)
-	}
+	fun getMinBalance(): Int = min[1]
 }
 
 private fun readLn() = readLine()!!
