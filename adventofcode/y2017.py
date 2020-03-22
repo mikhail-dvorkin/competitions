@@ -2,11 +2,9 @@
 import adventofcode
 import collections
 import functools
-import json
 import numpy as np
 import operator
 import re
-import requests
 import threading
 
 def assembler(_prog, _env, _p, _regs=26):

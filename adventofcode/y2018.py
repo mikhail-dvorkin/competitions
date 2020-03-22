@@ -2,12 +2,8 @@
 import adventofcode
 import collections
 import itertools
-import json
 import numpy as np
-import os
 import re
-import requests
-import sys
 
 assembler_instructions = {
 	'addr': lambda r, a, b: r[a] + r[b],

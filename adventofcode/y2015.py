@@ -2,9 +2,7 @@
 import adventofcode
 import hashlib
 import itertools
-import json
 import re
-import requests
 
 def day1(s):
 	def balance(s):
