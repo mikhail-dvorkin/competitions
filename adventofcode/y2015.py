@@ -4,46 +4,61 @@ import hashlib
 import itertools
 import re
 
+
 def day1(s):
-	def balance(s):
-		return s.count('(') - s.count(')')
+	def balance(t):
+		return t.count('(') - t.count(')')
+
 	yield balance(s)
 	yield next(i for i in range(len(s) + 1) if balance(s[:i]) < 0)
 
+
 def day2(s):
 	s = s.split()
-	f1 = lambda a, b, c: 3 * a * b + 2 * c * (a + b)
-	f2 = lambda a, b, c: 2 * (a + b) + a * b * c
+
+	def f1(a, b, c):
+		return 3 * a * b + 2 * c * (a + b)
+
+	def f2(a, b, c):
+		return 2 * (a + b) + a * b * c
+
 	for f in f1, f2:
 		yield sum([f(*sorted(map(int, line.split('x')))) for line in s])
 
+
 def day3(s):
-	def visited(s):
+	def visited(t):
 		x, y = 0, 0
 		v = {(x, y)}
-		for c in s:
+		for c in t:
 			dx, dy = adventofcode.DIR[c]
 			x += dx
 			y += dy
 			v.add((x, y))
 		return v
+
 	yield len(visited(s))
 	yield len(visited(s[::2]).union(visited(s[1::2])))
 
+
 def day4(s):
 	for zeroes in 5, 6:
-		yield next(i for i in itertools.count() if hashlib.md5(bytes(s + str(i), 'utf8')).hexdigest().startswith('0' * zeroes))
+		yield next(i for i in itertools.count()
+			if hashlib.md5(bytes(s + str(i), 'utf8')).hexdigest().startswith('0' * zeroes))
+
 
 def day5(s):
 	s = s.split()
+	# noinspection SpellCheckingInspection
 	res1 = '([aeiou].*){3}', '(.)\\1', '^(?!.*(ab|cd|pq|xy))'
 	res2 = '(..).*\\1', '(.).\\1'
 	for res in res1, res2:
 		yield sum([all([re.findall(r, line) for r in res]) for line in s])
 
+
 def day6(s, n=1000):
-	functions1 = {'on': lambda x: 1, 'off': lambda x: 0, 'toggle': lambda x: int(not x)}
-	functions2 = {'on': lambda x: x + 1, 'off': lambda x: max(x - 1, 0), 'toggle': lambda x: x + 2}
+	functions1 = {'on': lambda t: 1, 'off': lambda t: 0, 'toggle': lambda t: int(not t)}
+	functions2 = {'on': lambda t: t + 1, 'off': lambda t: max(t - 1, 0), 'toggle': lambda t: t + 2}
 	for functions in functions1, functions2:
 		a = [[0] * n for _ in range(n)]
 		for line in s.split('\n'):
@@ -54,6 +69,7 @@ def day6(s, n=1000):
 				for y in range(y1, y2 + 1):
 					a[x][y] = f(a[x][y])
 		yield sum(sum(a, []))
+
 
 def day7(s):
 	operators = {'AND': '&', 'OR': '|', 'LSHIFT': '<<', 'RSHIFT': '>>', 'NOT': '~'}
@@ -75,8 +91,10 @@ def day7(s):
 	scope["_b"] = lambda: a
 	yield eval('_a()', scope)
 
+
 def day8(s):
-	yield 0
+	yield s
+
 
 if __name__ == '__main__':
 	adventofcode.run()
