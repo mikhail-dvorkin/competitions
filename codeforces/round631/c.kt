@@ -1,45 +1,28 @@
 package codeforces.round631
 
-import java.io.*
-
-private fun solve() {
+private fun solve(): String {
 	val (h, g) = readInts()
 	val a = (listOf(0) + readInts()).toIntArray()
-//	val h2 = 1 shl h
-	val h3 = 1 shl (h - 1)
-	val g2 = 1 shl g
-//	val g3 = 1 shl (g - 1)
+	val bottomLevel = 1 shl (h - 1)
+	tailrec fun siftDown(i: Int, act: Boolean): Int {
+		val j = if (i >= bottomLevel) 0 else if (a[2 * i] >= a[2 * i + 1]) 2 * i else 2 * i + 1
+		if (act) a[i] = a[j]
+		return if (a[j] == 0) i else siftDown(j, act)
+	}
+	val toLeave = 1 shl g
 	val ans = mutableListOf<Int>()
-	for (r in 1 until g2) {
-		while (true) {
-			var x = r
-			while (true) {
-				if (x >= g2 || a[x] == 0) break
-				x = if (a[2 * x] >= a[2 * x + 1]) 2 * x else 2 * x + 1
-			}
-			if (a[x] == 0) break
-			ans.add(r)
-			x = r
-			while (true) {
-				if (x >= h3 || a[x] == 0) {
-					a[x] = 0
-					break
-				}
-				x = if (a[2 * x] >= a[2 * x + 1]) 2 * x else 2 * x + 1
-				a[x / 2] = a[x]
-			}
+	for (i in 1 until toLeave) {
+		while (siftDown(i, false) >= toLeave) {
+			ans.add(i)
+			siftDown(i, true)
 		}
 	}
-	var sum = 0L
-	a.forEach { sum += it }
-	println(sum)
-	println(ans.joinToString(" "))
+	return "${a.fold(0L, Long::plus)}\n${ans.joinToString(" ")}"
 }
 
-fun main() = repeat(readInt()) { solve() }
+fun main() = println(List(readInt()) { solve() }.joinToString("\n"))
 
-private val br = BufferedReader(InputStreamReader(System.`in`))
-private fun readLn() = br.readLine()
+private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
 private fun readInts() = readStrings().map { it.toInt() }

@@ -2,14 +2,12 @@ package codeforces.round631
 
 private fun solve() {
 	val (d, m) = readInts()
-	val n = d.toString(2).length
-	var a = 1 % m
-	for (i in 0 until n) {
+	val ans = d.toString(2).indices.fold(1) { acc, i ->
 		val from = 1 shl i
 		val to = minOf(1 shl (i + 1), d + 1)
-		a = (a * (to - from + 1L) % m).toInt()
+		(acc * (to - from + 1L) % m).toInt()
 	}
-	println((a + m - 1) % m)
+	println((ans + m - 1) % m)
 }
 
 fun main() = repeat(readInt()) { solve() }
