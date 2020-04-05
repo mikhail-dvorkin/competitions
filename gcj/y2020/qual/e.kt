@@ -1,7 +1,7 @@
 package gcj.y2020.qual
 
 private fun solve(possible: String = "POSSIBLE", impossible: String = "IMPOSSIBLE"): String {
-//	for (n in 2..50) { solve(n, 0, 0); solve(n, 1, 1); solve(n, 1, 2) }
+//	for (n in 2..50) { solveDiagonal(n, 0, 0); solveDiagonal(n, 1, 1); solveDiagonal(n, 1, 2) }
 	val (n, trace) = readInts()
 	for (i in 1..n) for (j in 1..n) for (k in 1..n) {
 		if ((i == j) xor (i == k) || (n - 2) * i + j + k != trace) continue
