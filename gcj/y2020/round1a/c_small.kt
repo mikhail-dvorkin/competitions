@@ -1,35 +1,28 @@
 package gcj.y2020.round1a
 
-private fun solve(): String {
+private fun solve(): Long {
 	val (hei, wid) = readInts()
 	val a = List(hei) { readInts().toIntArray() }
 	var ans = 0L
 	while (true) {
 		val eliminated = mutableListOf<Pair<Int, Int>>()
-		for (x in 0 until hei) for (y in 0 until wid) {
-			if (a[x][y] == 0) continue
-			val found = mutableListOf<Int>()
-			repeat(4) { d ->
-				var xx = x
-				var yy = y
+		for (x in 0 until hei) for (y in 0 until wid) if (a[x][y] > 0) {
+			fun nei(d: Int): Int? {
+				var xx = x; var yy = y
 				while (true) {
-					xx += DX[d]
-					yy += DY[d]
-					if (xx < 0 || xx >= hei || yy < 0 || yy >= wid) break
-					if (a[xx][yy] != 0) {
-						found.add(a[xx][yy])
-						break
-					}
+					xx += DX[d]; yy += DY[d]
+					val v = a.getOrNull(xx)?.getOrNull(yy) ?: return null
+					if (v > 0) return v
 				}
 			}
-			if (a[x][y] * found.size >= found.sum()) continue
-			eliminated.add(x to y)
+			val found: List<Int> = DX.indices.mapNotNull { nei(it) }
+			if (a[x][y] * found.size < found.sum()) eliminated.add(x to y)
 		}
 		ans += a.sumBy { it.sum() }
 		eliminated.forEach { (x, y) -> a[x][y] = 0 }
 		if (eliminated.isEmpty()) break
 	}
-	return ans.toString()
+	return ans
 }
 
 val DX = intArrayOf(1, 0, -1, 0)

@@ -1,22 +1,16 @@
 package gcj.y2020.round1a
 
 private fun solve(impossible: String = "*"): String {
-	var prefix = ""
-	var suffix = ""
-	var middle = ""
-	val data = List(readInt()) { readLn() }
-	for (p in data) {
-		val first = p.indexOf('*')
-		val last = p.lastIndexOf('*')
-		val thisPrefix = p.take(first)
-		val thisSuffix = p.drop(last + 1)
-		if (first < last) middle += p.substring(first + 1, last).replace("*", "")
-		if (!prefix.startsWith(thisPrefix) && !thisPrefix.startsWith(prefix)) return impossible
-		prefix = listOf(prefix, thisPrefix).maxBy { it.length }!!
-		if (!suffix.endsWith(thisSuffix) && !thisSuffix.endsWith(suffix)) return impossible
-		suffix = listOf(suffix, thisSuffix).maxBy { it.length }!!
-	}
-	return prefix + middle + suffix
+	return List(readInt()) { readLn() }.fold("**") { s, t ->
+		val split = listOf(s, t).map { it.split("*") }
+		val prefix = unite(split.map { it[0] }, String::startsWith) ?: return impossible
+		val suffix = unite(split.map { it.last() }, String::endsWith) ?: return impossible
+		prefix + "*" + split.flatMap { it.drop(1).dropLast(1) }.joinToString("") + "*" + suffix
+	}.replace("*", "")
+}
+
+fun unite(s: List<String>, f: (String, String, Boolean) -> Boolean): String? {
+	return s.maxBy { it.length }!!.takeIf { res -> s.all { f(res, it, false) } }
 }
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
