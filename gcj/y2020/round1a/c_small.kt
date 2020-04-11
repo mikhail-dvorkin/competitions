@@ -25,8 +25,8 @@ private fun solve(): Long {
 	return ans
 }
 
-val DX = intArrayOf(1, 0, -1, 0)
-val DY = intArrayOf(0, 1, 0, -1)
+private val DX = intArrayOf(1, 0, -1, 0)
+private val DY = intArrayOf(0, 1, 0, -1)
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
