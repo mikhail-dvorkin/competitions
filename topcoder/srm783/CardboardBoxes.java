@@ -8,13 +8,13 @@ public class CardboardBoxes {
 		for (long i = 1; i * i <= s; i++) {
 			if (s % i != 0) continue;
 			long j = s / i;
-			ans += solve(s, i, j);
-			if (j > i) ans += solve(s, j, i);
+			ans += solve(s, i);
+			if (j > i) ans += solve(s, j);
 		}
 		return ans;
 	}
 
-	private long solve(long s, long wl, long hwl) {
-		return Math.min(hwl - 1, wl / 2);
+	private long solve(long s, long p) {
+		return Math.min(p - 1, s / p / 2);
 	}
 }
