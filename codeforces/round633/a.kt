@@ -1,19 +1,12 @@
 package codeforces.round633
 
-private fun solve() {
+@ExperimentalStdlibApi
+fun main() = repeat(readInt()) {
 	readLn()
 	val a = readInts()
-	var max = Int.MIN_VALUE
-	var maxUp = 0
-	for (x in a) {
-		max = maxOf(max, x)
-		maxUp = maxOf(maxUp, max - x)
-	}
-	if (maxUp == 0) return println(0)
-	println((0..32).first { (1L shl it) > maxUp })
+	val maxUp = a.scanReduce(::maxOf).zip(a, Int::minus).max()!!
+	println(Int.SIZE_BITS - maxUp.countLeadingZeroBits())
 }
-
-fun main() = repeat(readInt()) { solve() }
 
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()

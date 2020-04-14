@@ -11,21 +11,18 @@ fun main() {
 	val dist = IntArray(n)
 	fun dfs(v: Int) {
 		mark[v] = true
-		for (u in nei[v]) {
-			if (!mark[u]) {
-				dist[u] = dist[v] + 1
-				dfs(u)
-			}
+		for (u in nei[v]) if (!mark[u]) {
+			dist[u] = dist[v] + 1
+			dfs(u)
 		}
 	}
 	dfs(0)
 	val leaves = nei.indices.filter { nei[it].size == 1 }
-	val mods = leaves.map { dist[it] % 2 }.toSet()
-	val ansMin = if (mods.size == 1) 1 else 3
-	var ansMax = n - 1
-	for (v in nei.indices) {
+	val differentParities = leaves.map { dist[it] % 2 }.toSet().size
+	val ansMin = if (differentParities == 1) 1 else 3
+	val ansMax = n - 1 - nei.indices.sumBy { v ->
 		val neiLeaves = nei[v].count { nei[it].size == 1 }
-		ansMax -= maxOf(neiLeaves - 1, 0)
+		maxOf(neiLeaves - 1, 0)
 	}
 	println("$ansMin $ansMax")
 }

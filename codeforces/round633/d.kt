@@ -7,41 +7,24 @@ fun main() {
 		val (u, v) = readInts().map { it - 1 }
 		nei[u].add(v); nei[v].add(u)
 	}
-	val take = IntArray(n)
-	val notTake = IntArray(n)
-	val notTakeBothSides = IntArray(n)
-	val answer = IntArray(n)
+	val canTake = IntArray(n) { 1 }
+	val cannotTake = IntArray(n)
+	val canTakeAnswer = IntArray(n) { 1 }
+	val cannotTakeAnswer = IntArray(n)
 	fun dfs(v: Int, p: Int) {
-		val takes = mutableListOf<Int>()
-		val notTakes = mutableListOf<Int>()
-		val notTakesBothSides = mutableListOf<Int>()
-		val better = mutableListOf<Int>()
-		for (u in nei[v]) {
-			if (u == p) continue
-			dfs(u, v)
-			takes.add(take[u])
-			notTakes.add(notTake[u])
-			notTakesBothSides.add(notTakeBothSides[u])
-			better.add(maxOf(take[u], notTake[u]))
-		}
-		if (takes.isEmpty()) {
-			take[v] = 1
-			notTake[v] = 0
-			return
-		}
-		take[v] = 1 + notTakes.max()!!
-		notTake[v] = maxOf(takes.max()!!, notTakes.max()!!) + takes.size - 1
-		notTakeBothSides[v] = better.sortedDescending().mapIndexed { index: Int, x: Int -> if (index < 2) x else 1 }.sum()
-		answer[v] = listOf(take[v], notTake[v],
-				1 + notTakes.sortedDescending().take(2).sum(),
-				notTakeBothSides[v],
-				1 + notTakesBothSides.max()!!
-		).max()!!
-
+		nei[v].remove(p)
+		if (nei[v].isEmpty()) return
+		for (u in nei[v]) dfs(u, v)
+		val bestCanTake = nei[v].map { canTake[it] }.sortedDescending().take(2)
+		cannotTake[v] = nei[v].size - 1 + bestCanTake[0]
+		canTake[v] = maxOf(cannotTake[v], 1 + nei[v].map { cannotTake[it] }.max()!!)
+		cannotTakeAnswer[v] = bestCanTake.sum() + nei[v].size - bestCanTake.size
+		canTakeAnswer[v] = maxOf(cannotTakeAnswer[v], canTake[v],
+				nei[v].map { maxOf(canTakeAnswer[it], cannotTakeAnswer[it] + 1) }.max()!!)
 	}
 	val leaf = nei.indices.first { nei[it].size == 1 }
 	dfs(leaf, -1)
-	println(answer.max())
+	println(canTakeAnswer[leaf])
 }
 
 private fun readLn() = readLine()!!
