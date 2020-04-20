@@ -1,65 +1,40 @@
 package gcj.y2020.round1b
 
-import java.lang.RuntimeException
-import kotlin.math.absoluteValue
+import kotlin.math.abs
 
-const val s = 1_000_000_000
+const val SIZE = 1_000_000_000
 
 private fun solve() {
-	try {
-		val grid = 9
-		var init: Pair<Int, Int>? = null
-		for (i in 1 until grid) {
-			for (j in 1 until grid) {
-				val x = -s + 2 * s / grid * i
-				val y = -s + 2 * s / grid * j
-				if (hit(x, y)) {
-					init = x to y
-					break
-				}
-			}
-			if (init != null) break
-		}
-		val (xInit, yInit) = init!!
-		val (_, y1) = furthestInside(xInit, yInit, 0, 1)
-		val (x1, _) = furthestInside(xInit, y1, -1, 0)
-		val (x2, _) = furthestInside(xInit, y1, 1, 0)
-		val xCenter = (x1 + x2) / 2
-		val (_, yUp) = furthestInside(xCenter, y1, 0, 1)
-		val (_, yDown) = furthestInside(xCenter, y1, 0, -1)
-		hit(xCenter, (yUp + yDown) / 2)
-	} catch (found: Found) {
-	}
+	val gridSize = 9
+	val xs = (1 until gridSize).map { -SIZE + 2 * SIZE / gridSize * it }
+	val grid = xs.flatMap { x -> xs.map { y -> x to y } }
+	val (xInit, yInit) = grid.first { (x, y) -> hit(x, y) }
+	val (xLeft, _) = furthestInside(xInit, yInit, -1, 0)
+	val (xRight, _) = furthestInside(xInit, yInit, 1, 0)
+	val xCenter = (xLeft + xRight) / 2
+	val (_, yUp) = furthestInside(xCenter, yInit, 0, 1)
+	val (_, yDown) = furthestInside(xCenter, yInit, 0, -1)
+	hit(xCenter, (yUp + yDown) / 2)
 }
 
-fun furthestInside(x: Int, y: Int, dx: Int, dy: Int): Pair<Int, Int> {
-	var low = 0
-	var high = 2 * s
+private fun furthestInside(x: Int, y: Int, dx: Int, dy: Int): Pair<Int, Int> {
+	var (low, high) = 0 to 2 * SIZE
 	while (low + 1 < high) {
 		val mid = ((low + high.toLong()) / 2).toInt()
-		val xTry = x + dx * mid
-		val yTry = y + dy * mid
-		if (maxOf(xTry.absoluteValue, yTry.absoluteValue) > s || !hit(xTry, yTry)) {
-			high = mid
-		} else {
-			low = mid
-		}
+		if (hit(x + dx * mid, y + dy * mid)) low = mid else high = mid
 	}
 	return x + dx * low to y + dy * low
 }
 
-fun hit(x: Int, y: Int): Boolean {
+private fun hit(x: Int, y: Int): Boolean {
+	if (maxOf(abs(x), abs(y)) > SIZE) return false
 	println("$x $y")
-	val response = readLn()
-	if (response == "CENTER") throw Found()
-	return response == "HIT"
+	return "HIT" == readLn().also { if (it == "CENTER") throw Found() }
 }
 
-class Found() : RuntimeException("") {}
+private class Found : Exception()
 
-fun main() {
-	repeat(readInts()[0]) { solve() }
-}
+fun main() = repeat(readInts()[0]) { try { solve() } catch (_: Found) {} }
 
 private fun readLn() = readLine()!!
 private fun readStrings() = readLn().split(" ")
