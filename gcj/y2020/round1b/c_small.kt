@@ -1,18 +1,13 @@
 package gcj.y2020.round1b
 
 private fun search(init: List<Int>): String {
-	val dist = mutableMapOf<List<Int>, Int>()
-	val queue = mutableListOf<List<Int>>()
+	val queue = mutableListOf(init)
+	val dist = mutableMapOf(init to 0)
 	val how = mutableMapOf<List<Int>, Way?>()
-	dist[init] = 0
-	how[init] = null
-	queue.add(init)
 	var index = 0
-	while (index < queue.size) {
+	while (true) {
 		val a = queue[index++]
-		if (a.zipWithNext().all { it.first <= it.second }) {
-			return dist[a].toString() + "\n" + how[a].toString().trim()
-		}
+		if (a.zipWithNext().all { it.first <= it.second }) return "${dist[a]}\n${how[a]}"
 		for (i in 1 until a.size) for (j in i + 1..a.size) {
 			val b = a.subList(i, j) + a.take(i) + a.drop(j)
 			if (b in dist) continue
@@ -21,13 +16,10 @@ private fun search(init: List<Int>): String {
 			queue.add(b)
 		}
 	}
-	error("")
 }
 
 private data class Way(val i: Int, val j: Int, val prev: Way?) {
-	override fun toString(): String {
-		return (prev ?: "").toString() + "\n$i ${j - i}"
-	}
+	override fun toString(): String = (if (prev == null) "" else prev.toString() + "\n") + "$i ${j - i}"
 }
 
 private fun solve(): String {

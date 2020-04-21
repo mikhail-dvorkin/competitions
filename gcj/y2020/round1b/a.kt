@@ -1,46 +1,23 @@
 package gcj.y2020.round1b
 
-import kotlin.math.absoluteValue
-
 private fun solve(): String {
 	var (x, y) = readInts()
-	for (i in 1..60) {
-		val solve = solve(x.toLong(), y.toLong(), i)
-		if (solve != null) return solve
-	}
-	return "IMPOSSIBLE"
+	val steps = (x.abs() + y.abs()).countSignificantBits()
+	return (steps - 1 downTo 0).map { i ->
+		val dir = DX.indices.maxBy { x * DX[it] + y * DY[it] }!!
+		x -= DX[dir] shl i; y -= DY[dir] shl i
+		DIR_ROSE[dir]
+	}.joinToString("").reversed().takeIf { x == 0 && y == 0 } ?: "IMPOSSIBLE"
 }
 
-private fun solve(x: Long, y: Long, steps: Int): String? {
-	var x = x
-	var y = y
-	var ans = ""
-	for (i in steps - 1 downTo 0) {
-		val move = 1L shl i
-		if (x.absoluteValue > y.absoluteValue) {
-			if (x > 0) {
-				x -= move
-				ans += "E"
-			} else {
-				x += move
-				ans += "W"
-			}
-		} else {
-			if (y > 0) {
-				y -= move
-				ans += "N"
-			} else {
-				y += move
-				ans += "S"
-			}
-		}
-	}
-	if (x == 0L && y == 0L) return ans.reversed()
-	return null
-}
+private val DX = intArrayOf(1, 0, -1, 0)
+private val DY = intArrayOf(0, 1, 0, -1)
+private const val DIR_ROSE = "ENWS"
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
+private fun Int.countSignificantBits() = Int.SIZE_BITS - Integer.numberOfLeadingZeros(this)
+private fun Int.abs() = kotlin.math.abs(this)
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
