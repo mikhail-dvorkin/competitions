@@ -2,7 +2,7 @@ package gcj.y2020.round1b
 
 import kotlin.math.abs
 
-const val SIZE = 1_000_000_000
+private const val SIZE = 1_000_000_000
 
 private fun solve() {
 	val grid = listOf(-SIZE / 3, SIZE / 3).cartesianSquare()

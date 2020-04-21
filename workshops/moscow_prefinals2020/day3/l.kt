@@ -27,7 +27,7 @@ private fun solve() {
 
 private const val M = 1_000_000_007
 
-class Hashing(s: String, x: Int = 566239) {
+private class Hashing(s: String, x: Int = 566239) {
 	val h = IntArray(s.length + 1)
 	val t = IntArray(s.length + 1)
 
