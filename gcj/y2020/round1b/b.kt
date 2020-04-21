@@ -16,12 +16,8 @@ private fun solve() {
 }
 
 private fun furthestInside(x: Int, y: Int, dx: Int, dy: Int): Pair<Int, Int> {
-	var (low, high) = 0 to 2 * SIZE + 1
-	while (low + 1 < high) {
-		val mid = low + (high - low) / 2
-		if (hit(x + dx * mid, y + dy * mid)) low = mid else high = mid
-	}
-	return x + dx * low to y + dy * low
+	val r = (0..2 * SIZE + 1).binarySearch { !hit(x + dx * it, y + dy * it) } - 1
+	return x + dx * r to y + dy * r
 }
 
 private fun hit(x: Int, y: Int): Boolean {
@@ -33,6 +29,12 @@ private fun hit(x: Int, y: Int): Boolean {
 private class Found : Exception()
 
 fun main() = repeat(readLn().split(" ")[0].toInt()) { try { solve() } catch (_: Found) {} }
+
+private fun IntRange.binarySearch(predicate: (Int) -> Boolean): Int {
+	var (low, high) = this.first to this.last
+	while (low + 1 < high) (low + (high - low) / 2).also { if (predicate(it)) high = it else low = it }
+	return high
+}
 
 private fun readLn() = readLine()!!
 private fun <T> Iterable<T>.cartesianSquare() = flatMap { x -> map { y -> x to y } }
