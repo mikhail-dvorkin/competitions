@@ -1,4 +1,4 @@
-package petrozavodsk.y2018.day7;
+package workshops.petrozavodsk_summer2018.day7;
 
 import java.io.*;
 import java.util.*;
@@ -61,7 +61,7 @@ public class J_small_slow {
 		String fileName = J_small_slow.class.getSimpleName().replaceFirst("_.*", "").toLowerCase();
 		String inputFileName = fileName + ".in";
 		String outputFileName = fileName + ".out";
-		
+
 		Locale.setDefault(Locale.US);
 		BufferedReader br;
 		if (stdStreams) {
@@ -79,7 +79,7 @@ public class J_small_slow {
 		br.close();
 		out.close();
 	}
-	
+
 	static class MyScanner {
 		BufferedReader br;
 		StringTokenizer st;
@@ -87,7 +87,7 @@ public class J_small_slow {
 		MyScanner(BufferedReader br) {
 			this.br = br;
 		}
-		
+
 		void findToken() {
 			while (st == null || !st.hasMoreTokens()) {
 				try {
@@ -97,20 +97,20 @@ public class J_small_slow {
 				}
 			}
 		}
-		
+
 		String next() {
 			findToken();
 			return st.nextToken();
 		}
-		
+
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
-		
+
 		long nextLong() {
 			return Long.parseLong(next());
 		}
-		
+
 		double nextDouble() {
 			return Double.parseDouble(next());
 		}
