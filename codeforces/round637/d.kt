@@ -11,17 +11,14 @@ fun main() {
 	fun dfs(v: Int, p: Int, tIn: Int) {
 		ans.add(v to tIn)
 		val kids = nei[v].minus(p)
-		val latter = minOf(tIn - 1, kids.size)
-		val former = kids.size - latter
+		val jump = maxOf(kids.size - tIn + 1, 0)
 		for (i in kids.indices) {
-			val tOut = if (i < former) tIn + i + 1 else tIn + i - kids.size
-			if (i == former) {
-				ans.add(v to tOut - 1)
-			}
+			val tOut = tIn + i + if (i < jump) 1 else -kids.size
+			if (i == jump) ans.add(v to tOut - 1)
 			dfs(kids[i], v, tOut)
 			ans.add(v to tOut)
 		}
-		if (p >= 0 && latter == 0) ans.add(v to tIn - 1)
+		if (p >= 0 && jump == kids.size) ans.add(v to tIn - 1)
 	}
 	dfs(0, -1, 0)
 	println(ans.size)
