@@ -68,11 +68,11 @@ private fun solve() {
 			} else {
 				when (listOf(left, up).count { it == -1 }) {
 					2 -> state[y] = hei
-					1 -> run {
+					1 -> {
 						state[y] = maxOf(left, up)
 						if (left == -1 && y + 1 < hei && state[y + 1] == up) bad = true
 					}
-					0 -> run {
+					0 -> {
 						state[y] = up
 						state.indices.forEach { if (state[it] == left) state[it] = up }
 					}
