@@ -1,6 +1,6 @@
 package gcj.y2020.round2
 
-private fun solve(aIn: Long, bIn: Long): String {
+fun solvePancakes(aIn: Long, bIn: Long): String {
 	var a = aIn
 	var b = bIn
 	val maxN = (Math.pow(a.toDouble() + b + 100, 0.5) * 3).toLong()
@@ -37,42 +37,12 @@ private fun solve(aIn: Long, bIn: Long): String {
 
 private fun solve(): String {
 	val (a, b) = readLongs()
-	return solve(a, b)
-}
-
-private fun solveDumb(aIn: Long, bIn: Long): String {
-	var a = aIn; var b = bIn
-	var i = 1L
-
-	fun go(): String? {
-		if (maxOf(a, b) < i) return "${i - 1} $a $b"
-		if (a >= b) a -= i else b -= i
-		i++
-		return null
-	}
-
-	val m = 3e5.toInt()
-	repeat(m) {
-		go()?.also { return it }
-	}
-	error("")
-}
-
-fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
-
-fun main1() {
-	val max = 2000L
-	for (a in 1..max) for (b in 1..max) {
-		val dumb = solveDumb(a, b)
-		val ans = solve(a, b)
-		if (ans != dumb) {
-			println("$a $b -> $dumb not $ans")
-			return
-		}
-	}
+	return solvePancakes(a, b)
 }
 
 private fun sum(start: Long, end: Long) = (start + end) * (end + 1 - start) / 2
+
+fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
 private fun LongRange.binarySearch(predicate: (Long) -> Boolean): Long {
 	var (low, high) = this.first to this.last // must be false .. must be true
@@ -83,5 +53,4 @@ private fun LongRange.binarySearch(predicate: (Long) -> Boolean): Long {
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
-private fun readInts() = readStrings().map { it.toInt() }
 private fun readLongs() = readStrings().map { it.toLong() }
