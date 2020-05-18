@@ -1,65 +1,53 @@
 package gcj.y2020.kickstart_c
 
-import java.util.*
-
 private fun solve(): Long {
 	val (n, q) = readInts()
-	val a = readInts().toMutableList()
 	val ft = FenwickTree(n)
-	for (i in a.indices) {
-		ft.add(i, a[i].toLong())
+	val ftCoef = FenwickTree(n)
+	fun set(i: Int, value: Int) {
+		ft[i] = minusOnePow(i) * value
+		ftCoef[i] = minusOnePow(i) * value * (i + 1)
 	}
+	fun query(start: Int, end: Int) = (ftCoef.sum(start, end) - ft.sum(start, end) * start) * minusOnePow(start)
+	readInts().forEachIndexed(::set)
 	var ans = 0L
 	repeat(q) {
 		val (op, xIn, yIn) = readStrings()
 		val x = xIn.toInt() - 1; val y = yIn.toInt()
-		if (op == "U") {
-			ft.add(x, y.toLong() - a[x])
-			a[x] = y
-		} else {
-			ans += ft.query(x, y)
-		}
+		if (op == "U") set(x, y) else ans += query(x, y)
  	}
 	return ans
 }
 
-class FenwickTree(val n: Int) {
-	val sum = LongArray(n)
-	val sumCoef = LongArray(n)
+class FenwickTree(n: Int) {
+	val t = LongArray(n)
 
-	fun add(index: Int, value: Long) {
-		var v = value
-		if (index % 2 == 1) v *= -1
-		var i = index
-		while (i < n) {
-			sum[i] += v
-			sumCoef[i] += v * (index + 1)
-			i += i + 1 and -(i + 1)
+	fun add(i: Int, value: Long) {
+		var j = i
+		while (j < t.size) {
+			t[j] += value
+			j += j + 1 and -(j + 1)
 		}
 	}
 
-	fun sum(index: Int): Pair<Long, Long> {
-		var i = index - 1
+	fun sum(i: Int): Long {
+		var j = i - 1
 		var res = 0L
-		var resCoef = 0L
-		while (i >= 0) {
-			res += sum[i]
-			resCoef += sumCoef[i]
-			i -= i + 1 and -(i + 1)
+		while (j >= 0) {
+			res += t[j]
+			j -= j + 1 and -(j + 1)
 		}
-		return res to resCoef
+		return res
 	}
 
-	fun query(start: Int, end: Int): Long {
-		val (pref, prefCoef) = sum(start)
-		val (suf, sufCoef) = sum(end)
-		val r = sufCoef - prefCoef - (suf - pref) * start
-		return if (start % 2 == 1) -r else r
-	}
+	fun sum(start: Int, end: Int): Long = sum(end) - sum(start)
+	operator fun get(i: Int): Long = sum(i, i + 1)
+	operator fun set(i: Int, value: Int) = add(i, value - get(i))
 }
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
+fun minusOnePow(i: Int) = 1 - ((i and 1) shl 1)
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")

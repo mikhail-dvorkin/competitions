@@ -1,23 +1,15 @@
 package gcj.y2020.kickstart_c
 
+@ExperimentalStdlibApi
 private fun solve(): Int {
-	val (n, k) = readInts()
+	val k = readInts()[1]
 	val a = readInts()
-	var series = 0
-	var ans = 0
-	for (i in a.indices) {
-		if (a[i] == k) {
-			series = 1
-		} else if (series > 0 && i > 0 && a[i - 1] == a[i] + 1) {
-			series++
-		} else {
-			series = 0
-		}
-		if (series == k) ans++
-	}
-	return ans
+	return a.indices.scan(0) { series, i ->
+		if (a[i] == k) 1 else if (series > 0 && a[i] == a[i - 1] - 1) series + 1 else 0
+	}.count { it == k }
 }
 
+@ExperimentalStdlibApi
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }
 
 private fun readLn() = readLine()!!
