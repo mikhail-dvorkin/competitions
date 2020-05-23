@@ -1,12 +1,11 @@
 package codeforces.kotlinheroes4.practice
 
 fun main() = repeat(readInt()) {
-	val (a1, b1) = readInts()
-	val (a2, b2) = readInts()
-	val square = maxOf(a1, b1) == maxOf(a2, b2) && minOf(a1, b1) + minOf(a2, b2) == maxOf(a1, b1)
-	println(if (square) "Yes" else "No")
+	val (a1, b1, a2, b2) = List(2) { readInts().sorted() }.flatten()
+	println((b1 == b2 && a1 + a2 == b1).iif("Yes", "No"))
 }
 
+private fun <T> Boolean.iif(onTrue: T, onFalse: T) = if (this) onTrue else onFalse
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")

@@ -3,34 +3,19 @@ package codeforces.kotlinheroes4.practice
 fun main() = repeat(readInt()) {
 	readInt()
 	val a = readInts()
-	var i = 0
-	var j = a.lastIndex
+	var (i, j) = 0 to a.lastIndex
 	var prev = 0
-	var sumA = 0
-	var sumB = 0
+	val sum = intArrayOf(0, 0)
 	var moves = 0
 	while (true) {
 		var taken = 0
-		while (taken <= prev && i <= j) {
-			taken += a[i++]
-		}
+		while (taken <= prev && i <= j) taken += a[if (moves % 2 == 0) i++ else j--]
 		if (taken == 0) break
-		moves++
-		sumA += taken
-		if (taken <= prev) break
-		prev = taken
-
-		taken = 0
-		while (taken <= prev && i <= j) {
-			taken += a[j--]
-		}
-		if (taken == 0) break
-		moves++
-		sumB += taken
+		sum[moves++ % 2] += taken
 		if (taken <= prev) break
 		prev = taken
 	}
-	println("$moves $sumA $sumB")
+	println("$moves ${sum.joinToString(" ")}")
 }
 
 private fun readLn() = readLine()!!
