@@ -1,17 +1,9 @@
 package codeforces.kotlinheroes4
 
+@ExperimentalStdlibApi
 fun main() = repeat(readInt()) {
-	val (n, day1, day2) = readInts()
-	val isFree = readLn().map { it == '0' }
-	val a = IntArray(n)
-	var took = 0
-	for (i in isFree.indices) {
-		if (isFree[i]) continue
-		a[i] = day1
-		if (i > 0) a[i] = minOf(a[i], day2 - a[i - 1])
-		took += a[i]
-	}
-	println(took)
+	val (_, day1, day2) = readInts()
+	println(readLn().scan(0) { prev, c -> if (c == '0') 0 else minOf(day1, day2 - prev) }.sum())
 }
 
 private fun readLn() = readLine()!!

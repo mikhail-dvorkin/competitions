@@ -2,12 +2,13 @@ package codeforces.kotlinheroes4
 
 import kotlin.math.pow
 
+const val D = 4
+
 fun main() = repeat(readInt()) {
 	val (n, k) = readInts()
-	val d = 4
-	val c = List(d) { k.toDouble().pow(it).toInt() }
+	val c = List(D) { k.toDouble().pow(it).toLong() }
 	val s = c.sum()
-	println(c.map { it.toLong() * n / s }.joinToString(" "))
+	println(c.map { it * n / s }.joinToString(" "))
 }
 
 private fun readLn() = readLine()!!
