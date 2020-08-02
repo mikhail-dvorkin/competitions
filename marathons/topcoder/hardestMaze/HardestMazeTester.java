@@ -243,6 +243,7 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 			Score+=PathLengths[q];
 		}
 		if (hasFatalError) Score = getErrorScore();
+		this.myScore = 100.0 * Score / T / N / N;
 	}
 
 	private int coords2id(int r, int c)
