@@ -31,7 +31,7 @@ public class Pictures {
 			String format = "png";
 			String fileName = seed + "~." + format;
 			ImageIO.write(image, format, new File(fileName));
-			html.println("<nobr>" + seed);
+			html.println("<nobr>" + String.format("%03d", seed));
 			html.println("<img src=\"" + fileName + "\"");
 			if (!width.isEmpty()) {
 				html.println("width=\"" + width + "\"");
