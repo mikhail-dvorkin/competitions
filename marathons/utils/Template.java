@@ -16,8 +16,7 @@ public class Template {
 	public int solve(int input) {
 		try {
 			solve();
-		} catch (TimeOutException e) {
-			_troubles.add(e.getClass().getSimpleName());
+		} catch (TimeOutException ignored) {
 		}
 		_myScore = input;
 		return 0;
