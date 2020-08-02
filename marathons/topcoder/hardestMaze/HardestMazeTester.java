@@ -149,7 +149,7 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 		return Score;
 	}
 
-	private double eval() {
+	private void eval() {
 		Arrays.fill(Dist, INF);
 		for (int i=0; i<N*N; i++) Grid[i/N][i%N]=(Solution[i]==Wall);
 		boolean hasFatalError = false;
@@ -235,7 +235,7 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 				if (total<PathLengths[q])
 				{
 					PathLengths[q]=total;
-					for (int i=0; i<T; i++) bestInd[q][i]=ind[i];
+					System.arraycopy(ind, 0, bestInd[q], 0, T);
 				}
 			}
 			while(nextPermutation(ind));
@@ -243,7 +243,6 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 			Score+=PathLengths[q];
 		}
 		if (hasFatalError) Score = getErrorScore();
-		return Score;
 	}
 
 	private int coords2id(int r, int c)
@@ -532,7 +531,7 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 	}
 
 	@Override
-	public Void call() throws Exception {
+	public Void call() {
 		main(new String[0]);
 		return null;
 	}

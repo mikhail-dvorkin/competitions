@@ -19,7 +19,7 @@ public class HardestMaze {
 			EVALUATOR.call();
 			return;
 		}
-		try {
+		{
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 			int N = Integer.parseInt(br.readLine());
@@ -39,13 +39,11 @@ public class HardestMaze {
 				}
 			}
 
-			HardestMaze prog = new HardestMaze();
-			char[] ret = prog.findSolution(N, R, T, Starts, Targets);
+			HardestMaze program = new HardestMaze();
+			char[] ret = program.findSolution(N, R, T, Starts, Targets);
 
 			System.out.println(ret.length);
-			for (int i = 0; i < ret.length; i++)
-				System.out.println(ret[i]);
+			for (char c : ret) System.out.println(c);
 		}
-		catch (Exception e) {}
 	}
 }
