@@ -163,7 +163,8 @@ public abstract class MarathonVis extends MarathonTester {
 
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						frame.setSize(1000, 1000);
+						int maxSize = 1000;
+						frame.setSize(maxSize, maxSize);
 						frame.setTitle(className + " - Seed: " + seed);
 						frame.setIconImage(getIcon());
 						frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -179,8 +180,7 @@ public abstract class MarathonVis extends MarathonTester {
 
 						frame.setVisible(true);
 						if (size <= 0) {
-							Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-							Rectangle bounds = new Rectangle(0, 0, screenSize.width, screenSize.height);
+							Rectangle bounds = new Rectangle(0, 0, maxSize, maxSize);
 							try {
 								GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 								bounds = new Rectangle(gc.getBounds());
