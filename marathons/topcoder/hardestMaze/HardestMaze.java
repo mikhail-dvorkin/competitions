@@ -3,13 +3,22 @@ package marathons.topcoder.hardestMaze;
 import java.io.*;
 
 public class HardestMaze {
+	private static final java.util.concurrent.Callable<Void> EVALUATOR =
+			new HardestMazeTester(); //TESTING
+//			null; //SUBMISSION
+	private static final long TIME_LIMIT = 9850;
+
 	public char[] findSolution(int N, int R, int T, int[][] Starts, int[][][] Targets) {
 		char[] grid=new char[N*N];
 		for (int i=0; i<N*N; i++) grid[i]='.';
 		return grid;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		if (EVALUATOR != null) {
+			EVALUATOR.call();
+			return;
+		}
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 

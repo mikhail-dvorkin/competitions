@@ -3,6 +3,7 @@ package marathons.topcoder.hardestMaze;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 import marathons.utils.topcoder.*;
 
@@ -11,7 +12,9 @@ import marathons.utils.topcoder.*;
  *
  * Manual mode added by wleite.
  */
-public class HardestMazeTester extends MarathonVis {
+public class HardestMazeTester extends MarathonVis implements Callable<Void> {
+	static boolean myExec = true;
+
 	//parameter ranges
 	private static final int minN = 10, maxN = 40;
 	private static final int minR = 1, maxR = 6;
@@ -475,6 +478,12 @@ public class HardestMazeTester extends MarathonVis {
 	}
 
 	private char[] callSolution() throws Exception {
+		if (myExec) {
+			startTime();
+			char[] ans = new HardestMaze().findSolution(N, R, T, Starts, Targets);
+			stopTime();
+			return ans;
+		}
 		writeLine(N);
 		writeLine(R);
 		writeLine(T);
@@ -518,7 +527,13 @@ public class HardestMazeTester extends MarathonVis {
 		}
 	}
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		new MarathonController().run(args);
+	}
+
+	@Override
+	public Void call() throws Exception {
+		main(new String[0]);
+		return null;
 	}
 }
