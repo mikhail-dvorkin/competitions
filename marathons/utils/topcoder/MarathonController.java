@@ -17,7 +17,7 @@ public class MarathonController {
 	private final Object statsLock = new Object();
 	private long maxRunTime, avgRunTime;
 	private int numFails, numCases, numImproved, numTied, numNew;
-	private double prevTotScore, currTotScore;
+	private double prevTotScore, currTotScore, myScoresSum;
 	private static final double eps = 1e-9;
 
 	private Parameters parseArgs(String[] args) {
@@ -276,10 +276,13 @@ public class MarathonController {
 
 							double score = tester.runTest();
 							long runTime = tester.getRunTime();
+							double myScore = tester.myScore;
+							myScoresSum += myScore;
 
 							sb.delete(0, sb.length());
-							if (multipleSeeds) sb.append("Seed = ").append(seed).append(", ");
-							sb.append("Score = ").append(score);
+							if (multipleSeeds) sb.append("Seed = ").append(seed).append(",\t");
+							sb.append("Score = ").append(score).append(",\t");
+							if (myScore != 0) sb.append("MyScore = ").append(myScore).append(",\t");
 							Double best = checkBest(bestsFile, isMaximize, errorScore, seed, score);
 							if (best != null) sb.append(", PreviousBest = ").append(best);
 							if (printRuntime) sb.append(", RunTime = ").append(runTime).append(" ms");
@@ -330,6 +333,7 @@ public class MarathonController {
 		if (multipleSeeds && !parameters.isDefined(Parameters.noSummary)) {
 			avgRunTime /= numCases;
 			System.out.println();
+			System.out.println("  Average MyScore: " + myScoresSum / numCases);
 			System.out.println("            Seeds: " + startSeed + " to " + endSeed);
 			System.out.println("   Executed Cases: " + numCases);
 			System.out.println("     Failed Cases: " + numFails);

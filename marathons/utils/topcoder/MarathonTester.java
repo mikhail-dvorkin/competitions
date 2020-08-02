@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  * problems with no visualization.
  */
 public abstract class MarathonTester {
+	public double myScore;
 	protected Parameters parameters;
 	protected boolean debug;
 	protected long seed;
