@@ -6,6 +6,7 @@ public class HardestMaze {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
 			new HardestMazeTester(); //TESTING
 //			null; //SUBMISSION
+	public static final String EVALUATOR_PARAMETERS = "-seed 1,3";
 	private static final long TIME_LIMIT = 9850;
 
 	public char[] findSolution(int N, int R, int T, int[][] Starts, int[][][] Targets) {

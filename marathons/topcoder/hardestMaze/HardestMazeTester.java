@@ -532,7 +532,7 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 
 	@Override
 	public Void call() {
-		main(new String[0]);
+		main(HardestMaze.EVALUATOR_PARAMETERS.split(" "));
 		return null;
 	}
 }
