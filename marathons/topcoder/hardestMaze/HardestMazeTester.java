@@ -5,6 +5,7 @@ import java.awt.geom.*;
 import java.util.*;
 import java.util.concurrent.Callable;
 
+import marathons.utils.Evaluator;
 import marathons.utils.topcoder.*;
 
 /**
@@ -144,6 +145,7 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 			for (int c = 0; c < R; c++) {
 				addInfo(colors[c], PathLengths[c]);
 			}
+			for (String s : myLabels) addInfo(s);
 			update();
 		}
 		return Score;
@@ -479,9 +481,13 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 
 	private char[] callSolution() throws Exception {
 		if (myExec) {
+			HardestMaze._localTimeCoefficient = Evaluator.localTimeCoefficient();
 			startTime();
-			char[] ans = new HardestMaze().findSolution(N, R, T, Starts, Targets);
+			HardestMaze program = new HardestMaze();
+			char[] ans = program.findSolution(N, R, T, Starts, Targets);
 			stopTime();
+			myTroubles = program._troubles;
+			myLabels = program._labels;
 			return ans;
 		}
 		writeLine(N);

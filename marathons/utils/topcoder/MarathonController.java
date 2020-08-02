@@ -16,7 +16,7 @@ import java.util.TreeMap;
 public class MarathonController {
 	private final Object statsLock = new Object();
 	private long maxRunTime, avgRunTime;
-	private int numFails, numCases, numImproved, numTied, numNew;
+	private int numFails, numCases, numImproved, numTied, numNew, numTroubles;
 	private double prevTotScore, currTotScore, myScoresSum;
 	private static final double eps = 1e-9;
 
@@ -276,13 +276,17 @@ public class MarathonController {
 
 							double score = tester.runTest();
 							long runTime = tester.getRunTime();
-							double myScore = tester.myScore;
-							myScoresSum += myScore;
+							myScoresSum += tester.myScore;
 
 							sb.delete(0, sb.length());
 							if (multipleSeeds) sb.append("Seed = ").append(seed).append(",\t");
 							sb.append("Score = ").append(score).append(",\t");
-							if (myScore != 0) sb.append("MyScore = ").append(myScore).append(",\t");
+							if (tester.myScore != 0) sb.append("MyScore = ").append(tester.myScore).append(",\t");
+							if (!tester.myTroubles.isEmpty()) {
+								numTroubles++;
+								sb.append(tester.myTroubles);
+							}
+							if (!tester.myLabels.isEmpty()) sb.append(tester.myLabels);
 							Double best = checkBest(bestsFile, isMaximize, errorScore, seed, score);
 							if (best != null) sb.append(", PreviousBest = ").append(best);
 							if (printRuntime) sb.append(", RunTime = ").append(runTime).append(" ms");
@@ -351,6 +355,10 @@ public class MarathonController {
 				}
 				currTotScore /= numCases;
 				System.out.println("    Current Score: " + df.format(currTotScore * 100));
+			}
+			if (numTroubles > 0) {
+				String s = numTroubles + " TROUBLES!";
+				System.out.println(s); System.err.println(s);
 			}
 		}
 	}
