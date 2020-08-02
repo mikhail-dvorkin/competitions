@@ -1,5 +1,7 @@
 package marathons.utils.topcoder;
 
+import marathons.utils.Pictures;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -47,6 +49,7 @@ import javax.swing.SwingUtilities;
  */
 public abstract class MarathonVis extends MarathonTester {
 	protected final Object updateLock = new Object();
+	private boolean myVis = true;
 	protected JFrame frame;
 	private boolean vis = true;
 	private JPanel panel;
@@ -100,7 +103,21 @@ public abstract class MarathonVis extends MarathonTester {
 	}
 
 	protected void update() {
+		update(false);
+	}
+
+	protected void update(boolean isInit) {
 		if (!vis) return;
+		if (myVis) {
+			if (isInit) return;
+			int width = 1000;
+			int height = 800;
+			infoFontWidth = infoFontHeight = 12;
+			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			paintVis(image.getGraphics(), width, height);
+			Pictures.write(image, seed, "");
+			return;
+		}
 		synchronized (updateLock) {
 			if (frame == null) {
 				String className = getClass().getName();
@@ -273,7 +290,7 @@ public abstract class MarathonVis extends MarathonTester {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(new Color(230, 230, 232));
 		g2.fillRect(0, 0, w, h);
-		g2.setRenderingHints(hints);
+		if (!myVis) g2.setRenderingHints(hints);
 
 		synchronized (updateLock) {
 			if (infoColumns > 0) paintInfo(g2, w);

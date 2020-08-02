@@ -22,14 +22,17 @@ public class Pictures {
 	}
 
 	public static void write(BufferedImage image) {
+		write(image, Evaluator._seed, Evaluator.settings().getProperty("width", ""));
+	}
+
+	public static void write(BufferedImage image, long seed, String width) {
 		try {
 			init();
 			String format = "png";
-			String fileName = Evaluator._seed + "~." + format;
+			String fileName = seed + "~." + format;
 			ImageIO.write(image, format, new File(fileName));
-			html.println("<nobr>" + Evaluator._seed);
+			html.println("<nobr>" + seed);
 			html.println("<img src=\"" + fileName + "\"");
-			String width = Evaluator.settings().getProperty("width", "");
 			if (!width.isEmpty()) {
 				html.println("width=\"" + width + "\"");
 			}
