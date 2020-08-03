@@ -105,8 +105,7 @@ public class Evaluator implements Callable<Void> {
 		}
 	}
 
-	@Override
-	public Void call() {
+	public static void requireEnablesAssertions() {
 		int assertOn = 0;
 		//noinspection AssertWithSideEffects,ConstantConditions
 		assert (assertOn = 1) > 0;
@@ -114,6 +113,11 @@ public class Evaluator implements Callable<Void> {
 		if (assertOn == 0) {
 			throw new AssertionError("Asserts must be on.");
 		}
+	}
+
+	@Override
+	public Void call() {
+		requireEnablesAssertions();
 		if (visualize > 0 && !text()) {
 			_vis = true;
 			_verbose = visualizeVerbose;

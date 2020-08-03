@@ -1,5 +1,7 @@
 package marathons.utils.topcoder;
 
+import marathons.utils.Evaluator;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -137,6 +139,8 @@ public class MarathonController {
 
 	//Called by local tester, passing command line parameters
 	public final void run(String[] args) {
+		Evaluator.requireEnablesAssertions();
+
 		//Find the name of the concrete class (actual MarathonTester) to be called using reflection
 		String className = new Exception().getStackTrace()[1].getClassName();
 
