@@ -14,8 +14,6 @@ import marathons.utils.topcoder.*;
  * Manual mode added by wleite.
  */
 public class HardestMazeTester extends MarathonVis implements Callable<Void> {
-	static boolean myExec = true;
-
 	//parameter ranges
 	private static final int minN = 10, maxN = 40;
 	private static final int minR = 1, maxR = 6;
@@ -480,7 +478,7 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 	}
 
 	private char[] callSolution() throws Exception {
-		if (myExec) {
+		if (parameters.isDefined(Parameters.myExec)) {
 			HardestMaze._localTimeCoefficient = Evaluator.localTimeCoefficient();
 			startTime();
 			HardestMaze program = new HardestMaze();
