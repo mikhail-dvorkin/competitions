@@ -285,7 +285,7 @@ public class MarathonController {
 							sb.delete(0, sb.length());
 							if (multipleSeeds) sb.append("Seed = ").append(seed).append(",\t");
 							sb.append("Score = ").append(score).append(",\t");
-							if (tester.myScore != 0) sb.append("MyScore = ").append(tester.myScore).append(",\t");
+							if (tester.myScore != 0) sb.append("MyScore = ").append(Evaluator.round(tester.myScore, 2)).append(",\t");
 							if (!tester.myTroubles.isEmpty()) {
 								numTroubles++;
 								sb.append(tester.myTroubles);
@@ -341,7 +341,7 @@ public class MarathonController {
 		if (multipleSeeds && !parameters.isDefined(Parameters.noSummary)) {
 			avgRunTime /= numCases;
 			System.out.println();
-			System.out.println("  Average MyScore: " + myScoresSum / numCases);
+			System.out.println("  Average MyScore: " + Evaluator.round(myScoresSum / numCases, 2));
 			System.out.println("            Seeds: " + startSeed + " to " + endSeed);
 			System.out.println("   Executed Cases: " + numCases);
 			System.out.println("     Failed Cases: " + numFails);
