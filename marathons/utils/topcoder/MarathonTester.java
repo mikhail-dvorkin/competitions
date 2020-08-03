@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class MarathonTester {
 	public double myScore;
-	public ArrayList<String> myTroubles;
-	public ArrayList<String> myLabels;
+	public ArrayList<String> myTroubles = new ArrayList<>();
+	public ArrayList<String> myLabels = new ArrayList<>();
 	protected Parameters parameters;
 	protected boolean debug;
 	protected long seed;
