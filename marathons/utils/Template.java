@@ -31,7 +31,11 @@ public class Template {
 	}
 
 	private void checkTimeLimit() {
-		if (timePassed() >= 1) {
+		checkTimeLimit(1);
+	}
+
+	private void checkTimeLimit(double threshold) {
+		if (timePassed() >= threshold) {
 			throw new TimeOutException();
 		}
 	}
