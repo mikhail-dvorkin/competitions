@@ -10,7 +10,6 @@ public class Template {
 	private static final long TIME_LIMIT = 9850;
 
 	private void solve() {
-		checkTimeLimit(); rnd.nextBoolean();
 	}
 
 	public int solve(int input) {
