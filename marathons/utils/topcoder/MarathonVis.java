@@ -17,10 +17,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
@@ -138,6 +135,12 @@ public abstract class MarathonVis extends MarathonTester {
 				frame.addWindowListener(new WindowAdapter() {
 					public void windowClosed(WindowEvent e) {
 						end();
+					}
+				});
+				frame.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode() == KeyEvent.VK_ESCAPE) System.exit(0);
 					}
 				});
 
