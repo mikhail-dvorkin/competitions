@@ -1,10 +1,9 @@
 package codeforces.round633
 
-@ExperimentalStdlibApi
 fun main() = repeat(readInt()) {
 	readLn()
 	val a = readInts()
-	val maxUp = a.scanReduce(::maxOf).zip(a, Int::minus).max()!!
+	val maxUp = a.runningReduce(::maxOf).zip(a, Int::minus).max()!!
 	println(Int.SIZE_BITS - maxUp.countLeadingZeroBits())
 }
 
