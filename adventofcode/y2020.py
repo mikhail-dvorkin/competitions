@@ -76,6 +76,142 @@ def day7(s, my='shiny gold'):
         return 1 + sum([dag[v][u] * size(u) for u in dag[v]])
     yield size(my) - 1
 
+def day8(s):
+    s = s.split('\n')
+    def exec_assembler(changed=-1):
+        i = 0
+        acc = 0
+        executed = set()
+        while i not in executed and i < len(s):
+            op, arg = s[i].split()
+            if i == changed:
+                if op == 'nop':
+                    op = 'jmp'
+                elif op == 'jmp':
+                    op = 'nop'
+            arg = int(arg)
+            executed.add(i)
+            i += 1
+            if op == 'acc':
+                acc += arg
+            elif op == 'jmp':
+                i += arg - 1
+        return i == len(s), acc
+    yield exec_assembler()[1]
+    yield max([exec_assembler(changed) for changed in range(len(s))])[1]
+
+def day9(s, m=25):
+    s, i = [int(x) for x in s.split('\n')], None
+    for i in range(m, len(s)):
+        prev = set(s[i - m:i])
+        if not any([s[i] - x in prev for x in prev]):
+            break
+    j, k, diff = 0, 0, s[i]
+    yield diff
+    while diff:
+        if diff > 0:
+            diff -= s[k]
+            k += 1
+        else:
+            diff += s[j]
+            j += 1
+    yield min(s[j:k]) + max(s[j:k])
+
+def day10(s):
+    s = sorted([int(x) for x in s.split('\n')])
+    s = [0] + s + [max(s) + 3]
+    diffs = [b - a for a, b in zip(s, s[1:])]
+    yield diffs.count(1) * diffs.count(3)
+    a = [1]
+    for i in range(s[-1]):
+        a.append(sum(a[-3:]) * (i + 1 in s))
+    yield a[-1]
+
+def day11(s, parameters=((4, False), (5, True))):
+    s = s.split('\n')
+    hei, wid = len(s), len(s[0])
+    def model(field, threshold, long):
+        field_next = [list(row) for row in field]
+        for i in range(hei):
+            for j in range(wid):
+                nei = 0
+                for di in range(-1, 2):
+                    for dj in range(-1, 2):
+                        if di == dj == 0:
+                            continue
+                        ii, jj = i, j
+                        while True:
+                            ii, jj = ii + di, jj + dj
+                            if not (long and 0 <= ii < hei and 0 <= jj < wid and field[ii][jj] == '.'):
+                                break
+                        if 0 <= ii < hei and 0 <= jj < wid and field[ii][jj] == '#':
+                            nei += 1
+                if field[i][j] == 'L' and nei == 0:
+                    field_next[i][j] = '#'
+                if field[i][j] == '#' and nei >= threshold:
+                    field_next[i][j] = 'L'
+        if field_next == field:
+            return sum(field, []).count('#')
+        return model(field_next, threshold, long)
+    for p in parameters:
+        yield model(s, *p)
+
+def day12(s):
+    for mode in range(2):
+        x, y = 0, 0
+        dx, dy = (10, 1) if mode else adventofcode.DIR['E']
+        for line in s.split('\n'):
+            op, dist = line[0], int(line[1:])
+            if op in 'LR':
+                for _ in range(dist // 90 * (3 if op == 'L' else 1)):
+                    dx, dy = dy, -dx
+            elif op == 'F':
+                x += dx * dist
+                y += dy * dist
+            else:
+                vx, vy = adventofcode.DIR[op]
+                if mode:
+                    dx += vx * dist
+                    dy += vy * dist
+                else:
+                    x += vx * dist
+                    y += vy * dist
+        yield abs(x) + abs(y)
+
+def day13(s):
+    time, buses = s.split('\n')
+    time = int(time)
+    buses = [int(token) if token != 'x' else 0 for token in buses.split(',')]
+    ans = min([((time + bus - 1) // bus * bus - time, bus) for bus in buses if bus])
+    yield ans[0] * ans[1]
+    a, p = 0, 1
+    for i in range(len(buses)):
+        b, q = -i, buses[i]
+        if q:
+            a, p = pow(p, -1, q) * (b - a) % q * p + a, p * q
+    yield a
+
+def day14(s):
+    for mode in range(2):
+        mem, mask_x, mask_ones = {}, 0, 0
+        for line in s.split('\n'):
+            var, value = line.split(' = ')
+            if var == 'mask':
+                mask_x, mask_ones = [int(value.replace(c, '0').replace('X', '1'), 2) for c in '1X']
+                continue
+            index, value = int(var[4:-1]), int(value)
+            if not mode:
+                mem[index] = value & mask_x | mask_ones
+                continue
+            index = (index | mask_ones) & ~mask_x
+            mask = mask_x
+            while True:
+                mem[index | mask] = value
+                if not mask:
+                    break
+                mask = (mask - 1) & mask_x
+        yield sum(mem.values())
+
 
 if __name__ == '__main__':
     adventofcode.run()
