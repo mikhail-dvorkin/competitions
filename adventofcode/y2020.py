@@ -435,6 +435,14 @@ def day21(s):
 	order = scipy.optimize.linear_sum_assignment(contains, True)[1]
 	yield ','.join([all_possible[x] for x in order])
 
+def day22(s):
+	s = [list(map(int, hand.split('\n')[1:])) for hand in s.split('\n\n')]
+	while s[0] and s[1]:
+		a, *s[0] = s[0]; b, *s[1] = s[1]
+		s[a < b].extend(sorted([a, b], reverse=True))
+	s = list(reversed(s[0] + s[1]))
+	yield sum([s[i] * (i + 1) for i in range(len(s))])
+
 
 if __name__ == '__main__':
 	adventofcode.run()
