@@ -2,6 +2,7 @@
 import adventofcode
 import functools
 import re
+import scipy.optimize
 
 
 def day1(s, n=2020):
@@ -211,6 +212,228 @@ def day14(s):
                     break
                 mask = (mask - 1) & mask_x
         yield sum(mem.values())
+
+def day15(s, ns=(2020, 30_000_000)):
+    last, val = {}, 0
+    for i in range(max(ns)):
+        if i < len(s):
+            val = s[i]
+        if i + 1 in ns:
+            yield val
+        last[val], val = i, i - last[val] if val in last else 0
+
+def day16(s, prefix='departure'):
+    fields, my, nearby = s.split('\n\n')
+    fields = fields.split('\n')
+    my = list(map(int, my.split('\n')[1].split(',')))
+    nearby = [list(map(int, line.split(','))) for line in nearby.split('\n')[1:]]
+    ranges = []
+    for line in fields:
+        valid = set()
+        for r in [token for token in line.split() if '-' in token]:
+            a, b = map(int, r.split('-'))
+            valid.update(range(a, b + 1))
+        ranges.append(valid)
+    all_ranges = functools.reduce(set.union, ranges)
+    error_sum = 0
+    possible = [[1] * len(ranges) for _ in range(len(ranges))]
+    for ticket in nearby:
+        errors = [x for x in ticket if x not in all_ranges]
+        if errors:
+            error_sum += sum(errors)
+            continue
+        for i in range(len(ranges)):
+            for j in range(len(ranges)):
+                if ticket[i] not in ranges[j]:
+                    possible[i][j] = 0
+    yield error_sum
+    order = scipy.optimize.linear_sum_assignment(possible, True)[1]
+    yield functools.reduce(int.__mul__, [my[i] for i in range(len(my)) if fields[order[i]].startswith(prefix)])
+
+def day17(s, n=6):
+    s = s.split('\n')
+    init = set()
+    for i in range(len(s)):
+        for j in range(len(s[i])):
+            if s[i][j] == '#':
+                init.add((i, j, 0, 0))
+    def nei(active, x, y, z, w):
+        count = 0
+        for dx in range(-1, 2):
+            for dy in range(-1, 2):
+                for dz in range(-1, 2):
+                    for dw in range(-1, 2):
+                        if not (dx == dy == dz == dw == 0) and (x + dx, y + dy, z + dz, w + dw) in active:
+                            count += 1
+        return count
+    def run(active, mode):
+        for _ in range(n):
+            new = set()
+            for x in range(-n - 1, n + len(s) + 2):
+                for y in range(-n - 1, n + len(s[0]) + 2):
+                    for z in range(-n - 1, n + 2):
+                        for w in range(-n - 1, n + 2):
+                            if w and not mode:
+                                continue
+                            want = [2, 3] if (x, y, z, w) in active else [3]
+                            if nei(active, x, y, z, w) in want:
+                                new.add((x, y, z, w))
+            active = new
+        return len(active)
+    yield run(init, False)
+    yield run(init, True)
+
+def day18(s):
+    class WeirdInt(int):
+        def __add__(self, other):
+            return WeirdInt(int(self) + other)
+        def __mul__(self, other):
+            return self + other
+        def __sub__(self, other):
+            return WeirdInt(int(self) * other)
+    ans1, ans2 = 0, 0
+    for line in s.split('\n'):
+        line = re.sub('\\d+', lambda match: WeirdInt.__name__ + "(" + match.group() + ")", line)
+        line = line.replace('*', '-')
+        ans1 += eval(line)
+        ans2 += eval(line.replace('+', '*'))
+    yield ans1
+    yield ans2
+
+def day19(s):
+    rules, lines = [part.split('\n') for part in s.split('\n\n')]
+    rules = dict([rule.split(': ') for rule in rules])
+    memo = {}
+    def matches(rule, string):
+        if (rule, string) in memo:
+            return memo[(rule, string)]
+        result = False
+        for prod in rules[rule].split(' | '):
+            if prod.startswith('"'):
+                result = result or prod == '"' + string + '"'
+                continue
+            prod = prod.split(' ')
+            if len(prod) == 1:
+                result = result or matches(prod[0], string)
+                continue
+            for i in range(1, len(string)):
+                result = result or matches(prod[0], string[:i]) and matches(prod[1], string[i:])
+        memo[(rule, string)] = result
+        return result
+    for _ in range(2):
+        yield sum([matches('0', line) for line in lines])
+        rules['8'] = '42 | 42 8'
+        rules['11'] = '42 31 | 42 !'
+        rules['!'] = '11 31'
+        memo = {}
+
+def day20(s, pattern=('..................#.', '#....##....##....###', '.#..#..#..#..#..#...')):
+    connect, tiles = {}, {}
+    for tile in s.split('\n\n'):
+        name, *tile = tile.split('\n')
+        name = int(name.replace('Tile ', '').replace(':', ''))
+        borders = [tile[0], tile[-1], ''.join([row[0] for row in tile]), ''.join([row[-1] for row in tile])]
+        tiles[name] = tile
+        for row in borders:
+            row = min(row, row[::-1])
+            if row not in connect:
+                connect[row] = []
+            connect[row].append(name)
+    nei = {}
+    for pair in connect.values():
+        if len(pair) < 2:
+            continue
+        for i in range(2):
+            if pair[i] not in nei:
+                nei[pair[i]] = []
+            nei[pair[i]].append(pair[1 - i])
+    corners, edge, middle = [[name for name in nei if len(nei[name]) == x] for x in range(2, 5)]
+    yield functools.reduce(int.__mul__, corners)
+    placed = set()
+    top = [corners[0]]
+    placed.add(corners[0])
+    top_loop = True
+    while top_loop:
+        v = top[-1]
+        u = [u for u in nei[v] if u in edge and u not in placed]
+        if not u:
+            top_loop = False
+            u = [u for u in nei[v] if u in corners and u not in placed]
+        top.append(u[0])
+        placed.add(u[0])
+    order = [top]
+    while True:
+        row = []
+        for i in range(len(top)):
+            v = order[-1][i]
+            u = [u for u in nei[v] if u not in placed]
+            if not u:
+                break
+            row.append(u[0])
+            placed.add(u[0])
+        if not row:
+            break
+        order.append(row)
+    def flipped(r):
+        return [''.join([r[y][x] for y in range(len(r))]) for x in range(len(r[0]))]
+    def rotated(r):
+        return [''.join([r[len(r) - 1 - y][x] for y in range(len(r))]) for x in range(len(r[0]))]
+    def transformed(r, m):
+        if m // 4:
+            r = flipped(r)
+        for _ in range(m % 4):
+            r = rotated(r)
+        return r
+    for i in range(len(order) - 1):
+        for j in range(len(order[0])):
+            u, v, done = order[i][j], order[i + 1][j], False
+            for a in range(7, -1, -1):  # or range(8)
+                u_tile = transformed(tiles[u], a)
+                if i and a:
+                    continue
+                if not i and j:
+                    w = order[0][j - 1]
+                    w_tile = tiles[w]
+                    if not all([w_tile[x][-1] == u_tile[x][0] for x in range(len(u_tile))]):
+                        continue
+                for b in range(8):
+                    v_tile = transformed(tiles[v], b)
+                    if u_tile[-1] != v_tile[0]:
+                        continue
+                    tiles[u], tiles[v], done = u_tile, v_tile, True
+                    break
+                if done:
+                    break
+            if not done:
+                raise Exception('Change order of a')
+    tile = tiles[corners[0]]
+    field = [''] * (len(tile) - 2) * len(order)
+    for i in range(len(order)):
+        for j in range(len(order[0])):
+            tile = tiles[order[i][j]]
+            for x in range(1, len(tile) - 1):
+                field[i * (len(tile) - 2) + x - 1] += tile[x][1:-1]
+    def count(r):
+        res = 0
+        for x in range(len(r) - len(pattern) + 1):
+            for y in range(len(r[0]) - len(pattern[0]) + 1):
+                res += all([re.fullmatch(pattern[z], r[x + z][y:y + len(pattern[0])]) for z in range(len(pattern))])
+        return res
+    found = max([count(transformed(field, a)) for a in range(8)])
+    yield ''.join(field).count('#') - found * ''.join(pattern).count('#')
+
+def day21(s):
+    data = [[part.split(' ') for part in line[:-1].replace(',', '').split(' (contains ')]
+            for line in s.split('\n')]
+    allergens = sorted(set(sum([d[1] for d in data], [])))
+    possible = {allergen:
+                list(functools.reduce(set.intersection, [set(d[0]) for d in data if allergen in d[1]]))
+                for allergen in allergens}
+    all_possible = sorted(set(sum(possible.values(), [])))
+    yield len([x for x in sum([d[0] for d in data], []) if x not in all_possible])
+    contains = [[possible[a].count(i) for i in all_possible] for a in allergens]
+    order = scipy.optimize.linear_sum_assignment(contains, True)[1]
+    yield ','.join([all_possible[x] for x in order])
 
 
 if __name__ == '__main__':
