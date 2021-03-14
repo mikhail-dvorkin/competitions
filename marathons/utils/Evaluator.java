@@ -171,6 +171,9 @@ public class Evaluator implements Callable<Void> {
 				Pictures.write(sb);
 			}
 		}
+		if (Pictures.mode) {
+			System.out.println("file://" + Pictures.picsFile.getAbsolutePath());
+		}
 		System.exit(0);
 		return null;
 	}

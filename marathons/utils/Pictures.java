@@ -7,13 +7,14 @@ import javax.imageio.ImageIO;
 
 public class Pictures {
 	static boolean mode = false;
+	static File picsFile = new File("pics~.html");
 	private static PrintWriter html;
 
 	public static void init() {
 		try {
 			if (!mode) {
 				mode = true;
-				html = new PrintWriter("pics~.html");
+				html = new PrintWriter(picsFile);
 				html.println("<html><body>");
 			}
 		} catch (IOException e) {
@@ -25,22 +26,33 @@ public class Pictures {
 		write(image, Evaluator._seed, Evaluator.settings().getProperty("width", ""));
 	}
 
+	public static void write(String fileName) {
+		write(fileName, Evaluator._seed, Evaluator.settings().getProperty("width", ""));
+	}
+
 	public static void write(BufferedImage image, long seed, String width) {
+		init();
+		String format = "png";
+		String fileName = seed + "~." + format;
 		try {
-			init();
-			String format = "png";
-			String fileName = seed + "~." + format;
 			ImageIO.write(image, format, new File(fileName));
-			html.println("<nobr>" + String.format("%03d", seed));
-			html.println("<img src=\"" + fileName + "\"");
-			if (!width.isEmpty()) {
-				html.println("width=\"" + width + "\"");
-			}
-			html.println("/></nobr>");
-			html.flush();
 		} catch (IOException e) {
 			throw new RuntimeException();
 		}
+		write(fileName, seed, width);
+	}
+
+	public static void write(String fileName, long seed, String width) {
+		init();
+		String[] fileNameSplit = fileName.split("\\.");
+		String format = fileNameSplit[fileNameSplit.length - 1];
+		html.println("<nobr>" + String.format("%03d", seed));
+		html.println("<img src=\"" + fileName + "\"");
+		if (!width.isEmpty()) {
+			html.println("width=\"" + width + "\"");
+		}
+		html.println("/></nobr>");
+		html.flush();
 	}
 
 	public static void writeHtml(CharSequence message) {
