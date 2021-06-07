@@ -6,7 +6,7 @@ private fun solve(initials: String = "CJ", impossible: String = "IMPOSSIBLE"): S
 	val ans = IntArray(activities.size)
 	val free = IntArray(2)
 	activities.sortedBy { it.start }.forEach {
-		val who = free.indices.minBy { i -> free[i] }!!
+		val who = free.indices.minByOrNull { i -> free[i] }!!
 		if (free[who] > it.start) return impossible
 		free[who] = it.end
 		ans[it.id] = who

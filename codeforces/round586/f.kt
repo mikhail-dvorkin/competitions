@@ -8,7 +8,7 @@ fun main() {
 	val indexOfRoot = aInit.indexOf(-1)
 	val a = aInit.drop(indexOfRoot + 1).plus(aInit.take(indexOfRoot))
 	val d = heights(a.reversed()).reversed().zip(heights(a), ::maxOf)
-	val dMin = d.min()!!
+	val dMin = d.minOrNull()!!
 	println("${dMin + 1} ${(indexOfRoot + 1 + d.indexOf(dMin)) % (a.size + 1)}")
 }
 

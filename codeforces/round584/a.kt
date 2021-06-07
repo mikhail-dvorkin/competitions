@@ -1,7 +1,7 @@
 package codeforces.round584
 
 fun main() {
-	(0..readInt()).fold(readInts(), { a, i -> val x = a.min() ?: return println(i); a.filter { it % x != 0 } })
+	(0..readInt()).fold(readInts()) { a, i -> val x = a.minOrNull() ?: return println(i); a.filter { it % x != 0 } }
 }
 
 private fun readLn() = readLine()!!

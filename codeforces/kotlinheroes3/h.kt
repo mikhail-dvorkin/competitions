@@ -2,7 +2,7 @@ package codeforces.kotlinheroes3
 
 private fun solve() {
 	val s = readLn()
-	val inf = (s.max()!! + 1).toString()
+	val inf = (s.maxOrNull()!! + 1).toString()
 	val init = listOf(listOf(inf to listOf<Boolean>()), listOf("" to listOf()))
 	val ans = s.foldIndexed(init) { i, (sure, unsure), c ->
 		val next = List(2) { MutableList(i + 1) { inf to listOf<Boolean>()} }
@@ -24,7 +24,7 @@ private fun solve() {
 		}
 		next
 	}
-	println(ans.flatten().minBy { it.first }!!.second.joinToString("") { if (it) "R" else "B" })
+	println(ans.flatten().minByOrNull { it.first }!!.second.joinToString("") { if (it) "R" else "B" })
 }
 
 fun main() = repeat(readInt()) { solve() }

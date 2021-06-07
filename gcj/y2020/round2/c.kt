@@ -12,7 +12,7 @@ private fun solve(): Int {
 		val sizes = points.groupBy { it.x.toLong() * y - it.y.toLong() * x }.map { it.value.size }
 		val bad = sizes.count { it == 1 } + sizes.filter { it > 1 }.sum() % 2
 		sizes.sum() - maxOf(bad - 2, 0)
-	}.max() ?: 1
+	}.maxOrNull() ?: 1
 }
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }

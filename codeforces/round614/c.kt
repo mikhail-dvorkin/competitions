@@ -25,7 +25,7 @@ fun main() {
 		if (a[u][v] == -1L) a[u][v] = maxOf(solve(par[v][u], v), solve(u, par[u][v])) + count[v][u] * count[u][v]
 		return a[u][v]
 	}
-	println(nei.indices.map { u -> nei.indices.map { v -> solve(u, v) }.max()!! }.max())
+	println(nei.indices.map { u -> nei.indices.maxOf { v -> solve(u, v) } }.maxOrNull())
 }
 
 private fun readLn() = readLine()!!

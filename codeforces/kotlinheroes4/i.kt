@@ -12,14 +12,14 @@ fun main() {
 	}
 
 	for (k in e.indices) for (i in e.indices) for (j in e.indices) e[i][j] = minOf(e[i][j], e[i][k] + e[k][j])
-	val sum = List(1 shl n) { mask -> mask.oneIndices().map { a[it].toLong() }.sum() }
+	val sum = List(1 shl n) { mask -> mask.oneIndices().sumOf { a[it].toLong() } }
 	val sumAll = sum.last()
 	val len = List(n) { List(n) { IntArray(1 shl n) { inf } } }
 	for (mask in 0 until (1 shl n)) {
 		val indices = mask.oneIndices()
 		if (indices.size == 1) len[indices[0]][indices[0]][mask] = 0
 		for (i in indices) for (j in indices) if (i != j) {
-			len[i][j][mask] = indices.map { k -> len[i][k][mask xor (1 shl j)] + e[k][j] }.min()!!
+			len[i][j][mask] = indices.minOf { k -> len[i][k][mask xor (1 shl j)] + e[k][j] }
 		}
 	}
 
@@ -44,9 +44,9 @@ fun main() {
 	val period: Int; val periodEdges: Int
 	while (true) {
 		val prev = best.last()
-		val next = IntArray(n) { i -> e.indices.map { j -> prev[j] + len[j][i].last() }.min()!! }
+		val next = IntArray(n) { i -> e.indices.minOf { j -> prev[j] + len[j][i].last() } }
 		best.add(next)
-		val nextMin = next.min()!!
+		val nextMin = next.minOrNull()!!
 		val snapshot = next.map { it - nextMin }
 		if (snapshot in seen) {
 			period = seen.size - seen[snapshot]!!.first
@@ -61,7 +61,7 @@ fun main() {
 		val toTake = c - sumAll * i
 		val takePeriods = maxOf(i - best.size + period, 0) / period
 		val bestI = best[(i - takePeriods * period).toInt()]
-		takePeriods * periodEdges +	e.indices.map { j -> bestI[j] + eat[j].ceilingEntry(toTake)!!.value!! }.min()!!
+		takePeriods * periodEdges + e.indices.minOf { j -> bestI[j] + eat[j].ceilingEntry(toTake)!!.value!! }
 	}.joinToString("\n"))
 }
 

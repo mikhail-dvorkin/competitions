@@ -4,7 +4,7 @@ private fun solve(): String {
 	var (x, y) = readInts()
 	val steps = (x.abs() + y.abs()).countSignificantBits()
 	return (steps - 1 downTo 0).map { i ->
-		val dir = DX.indices.maxBy { x * DX[it] + y * DY[it] }!!
+		val dir = DX.indices.maxByOrNull { x * DX[it] + y * DY[it] }!!
 		x -= DX[dir] shl i; y -= DY[dir] shl i
 		DIR_ROSE[dir]
 	}.joinToString("").reversed().takeIf { x == 0 && y == 0 } ?: "IMPOSSIBLE"

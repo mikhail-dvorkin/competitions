@@ -28,8 +28,8 @@ private fun solveDumb(k: Int, toSwitch: List<Int>, where: List<List<Int>>): List
 	return toSwitch.indices.map { x ->
 		(0 until (1 shl k)).filter { m ->
 			(0..x).all { i ->
-				(toSwitch[i] + where[i].sumBy { s -> (m shr s) and 1 }) % 2 == 0
+				(toSwitch[i] + where[i].sumOf { s -> (m shr s) and 1 }) % 2 == 0
 			}
-		}.map(Integer::bitCount).min() ?: k + 1
+		}.map(Integer::bitCount).minOrNull() ?: k + 1
 	}
 }

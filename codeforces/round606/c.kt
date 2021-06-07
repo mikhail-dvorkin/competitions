@@ -12,7 +12,7 @@ fun main() {
 	val (h, w) = (1..sqrt(a.size.toDouble()).toInt()).map { h ->
 		while (bSelf > 0 && b[bSelf - 1] <= h) bSum += b[--bSelf]
 		h to ((bSelf + bSum / h).takeIf { it >= h } ?: 0)
-	}.maxBy { it.first * it.second }!!
+	}.maxByOrNull { it.first * it.second }!!
 	println("${h * w}\n$h $w")
 	val f = List(h) { IntArray(w) }
 	var x = 0

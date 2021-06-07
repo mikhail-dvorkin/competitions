@@ -8,7 +8,7 @@ private val options = (0..999).associateWith { "$it" } +
 
 private fun solve() {
 	val n = readInt()
-	println(options.minWith(compareBy({ abs(it.key - n) }, { -it.key }))!!.value)
+	println(options.minWithOrNull(compareBy({ abs(it.key - n) }, { -it.key }))!!.value)
 }
 
 fun main() = repeat(readInt()) { solve() }

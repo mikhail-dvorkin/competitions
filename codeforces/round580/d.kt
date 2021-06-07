@@ -12,9 +12,9 @@ fun main() {
 		val (sizes, vertices) = nei[v].map { Pair(dfs(it, setOf(v), 0, nei), it) }.sortedBy { it.first }.unzip()
 		sizes.indices.map { i ->
 			val size = sizes.take(i).sum()
-			Pair((size + 1) * (n - size), {	dfs(v, vertices.drop(i), 1, nei); dfs(v, vertices.take(i), size + 1, nei) })
+			Pair((size + 1) * (n - size)) { dfs(v, vertices.drop(i), 1, nei); dfs(v, vertices.take(i), size + 1, nei) }
 		}
-	}.maxBy { it.first }?.second?.invoke()
+	}.maxByOrNull { it.first }?.second?.invoke()
 }
 
 private fun dfs(v: Int, p: Collection<Int>, k: Int, nei: List<List<Int>>): Int {

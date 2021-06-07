@@ -4,7 +4,7 @@ import java.io.*
 import kotlin.random.Random
 
 private fun solve(edges: List<List<Int>>): BooleanArray {
-	val n = edges.flatten().max()!! + 1
+	val n = edges.flatten().maxOrNull()!! + 1
 	val nei = List(n) { mutableListOf<Int>() }
 	for ((u, v) in edges) { nei[u].add(v); nei[v].add(u) }
 	val r = Random(566)
@@ -19,7 +19,7 @@ private fun solve(edges: List<List<Int>>): BooleanArray {
 	val status = IntArray(n) { 2 }
 	val s = 64
 	val deg = IntArray(n) { nei[it].size * s + r.nextInt(s) }
-	val byDeg = List(deg.max()!! + 1) { mutableSetOf<Int>() }
+	val byDeg = List(deg.maxOrNull()!! + 1) { mutableSetOf<Int>() }
 	for (u in nei.indices) byDeg[deg[u]].add(u)
 	while (true) {
 		val u = byDeg.firstOrNull { it.isNotEmpty() }?.first() ?: break

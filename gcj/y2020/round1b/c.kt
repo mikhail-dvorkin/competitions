@@ -10,7 +10,7 @@ private fun greedy(init: List<Int>): String {
 			pairs[score] = i to j
 			if (score == 0) break@loop
 		}
-		val (i, j) = pairs[pairs.keys.min()]!!
+		val (i, j) = pairs[pairs.keys.minOrNull()]!!
 		a = a.subList(i, j) + a.take(i) + a.drop(j)
 		moves.add("$i ${j - i}")
 	}

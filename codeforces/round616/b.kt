@@ -2,7 +2,7 @@ package codeforces.round616
 
 fun main() {
 	val s = readLn()
-	val pref = ('a'..s.max()!!).map { c -> s.map { it == c }.prefixSum() }
+	val pref = ('a'..s.maxOrNull()!!).map { c -> s.map { it == c }.prefixSum() }
 	val ans = List(readInt()) {
 		val (lowIn, high) = readInts()
 		val low = lowIn - 1

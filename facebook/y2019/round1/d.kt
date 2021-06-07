@@ -18,7 +18,7 @@ private fun solve(): Int {
 	}
 	return if (h + v < n) -1 else List(2) { t ->
 		solveVertical(sorted[t].second, sorted[t].first, sorted[1 - t].first, listOf(h, v)[t])
-	}.min()!!
+	}.minOrNull()!!
 }
 
 fun solveVertical(x: List<Int>, y: List<Int>, xSorted: List<Int>, v: Int): Int {

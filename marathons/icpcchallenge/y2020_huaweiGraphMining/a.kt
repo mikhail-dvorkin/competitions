@@ -12,7 +12,7 @@ fun solve(fileName: String, nei: List<IntArray>) {
 	val auxFile = "$fileName.aux"
 
 	val n = nei.size
-	val edges = nei.sumBy { it.size } / 2
+	val edges = nei.sumOf { it.size } / 2
 	val r = kotlin.random.Random(566)
 	println("$fileName $n ${2.0 * edges / n}")
 
@@ -32,8 +32,8 @@ fun solve(fileName: String, nei: List<IntArray>) {
 				if (map[color[v]] == cu) eIn[cu]++ else eOut[cu]++
 			}
 		}
-		val modularity = eIn.indices.sumByDouble { eIn[it] * 0.5 / edges - (sumDeg[it] * 0.5 / edges).pow(2) }
-		val regularization = 0.5 * (eIn.indices.sumByDouble { if (size[it] == 1) 1.0 else eIn[it].toDouble() / (size[it] * (size[it] - 1)) } / parts - parts.toDouble() / n)
+		val modularity = eIn.indices.sumOf { eIn[it] * 0.5 / edges - (sumDeg[it] * 0.5 / edges).pow(2) }
+		val regularization = 0.5 * (eIn.indices.sumOf { if (size[it] == 1) 1.0 else eIn[it].toDouble() / (size[it] * (size[it] - 1)) } / parts - parts.toDouble() / n)
 		//		println("$modularity $regularization $res")
 		return (1 + modularity + regularization) * 1e5
 	}
@@ -68,8 +68,8 @@ fun solve(fileName: String, nei: List<IntArray>) {
 
 	@Suppress("unused")
 	fun bestParts(): Int {
-		return (10000..60000 step 1000).maxBy { parts ->
-			val q = List(8) { eval(byCenters(randomCenters(parts))) }.max()!!
+		return (10000..60000 step 1000).maxByOrNull { parts ->
+			val q = List(8) { eval(byCenters(randomCenters(parts))) }.maxOrNull()!!
 			println("$parts $q")
 			q
 		}!!
@@ -254,7 +254,7 @@ fun main() {
 		val fileName = "a$test"
 		val input = BufferedReader(FileReader("${fileName}.in"))
 		val edges = generateSequence { input.readLine()?.split(" ")?.map { it.toInt() } }.toList()
-		val n = edges.flatten().max()!! + 1
+		val n = edges.flatten().maxOrNull()!! + 1
 		val nei = List(n) { mutableListOf<Int>() }
 		for ((u, v) in edges) { nei[u].add(v); nei[v].add(u) }
 		solve(fileName, nei.map { it.toIntArray() })

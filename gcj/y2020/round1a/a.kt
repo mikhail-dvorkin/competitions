@@ -10,7 +10,7 @@ private fun solve(impossible: String = "*"): String {
 }
 
 fun unite(s: List<String>, f: (String, String, Boolean) -> Boolean): String? {
-	return s.maxBy { it.length }!!.takeIf { res -> s.all { f(res, it, false) } }
+	return s.maxByOrNull { it.length }!!.takeIf { res -> s.all { f(res, it, false) } }
 }
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }

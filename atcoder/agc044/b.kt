@@ -3,7 +3,7 @@ package atcoder.agc044
 fun main() {
 	val n = readInt()
 	val p = readInts().map { it - 1 }
-	val dist = List(n) { x -> IntArray(n) { y -> sequenceOf(x, y, n - 1 - x, n - 1 - y).min()!! + 1 } }
+	val dist = List(n) { x -> IntArray(n) { y -> sequenceOf(x, y, n - 1 - x, n - 1 - y).minOrNull()!! + 1 } }
 	val on = List(n) { x -> BooleanArray(n) { true } }
 	var ans = 0
 	val stack = IntArray(n * n)

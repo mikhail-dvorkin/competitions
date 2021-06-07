@@ -3,7 +3,7 @@ package codeforces.round633
 fun main() = repeat(readInt()) {
 	readLn()
 	val a = readInts()
-	val maxUp = a.runningReduce(::maxOf).zip(a, Int::minus).max()!!
+	val maxUp = a.runningReduce(::maxOf).zip(a, Int::minus).maxOrNull()!!
 	println(Int.SIZE_BITS - maxUp.countLeadingZeroBits())
 }
 

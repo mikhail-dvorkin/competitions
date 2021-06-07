@@ -17,10 +17,10 @@ fun main() {
 		for (u in nei[v]) dfs(u, v)
 		val bestCanTake = nei[v].map { canTake[it] }.sortedDescending().take(2)
 		cannotTake[v] = nei[v].size - 1 + bestCanTake[0]
-		canTake[v] = maxOf(cannotTake[v], 1 + nei[v].map { cannotTake[it] }.max()!!)
+		canTake[v] = maxOf(cannotTake[v], 1 + nei[v].maxOf { cannotTake[it] })
 		cannotTakeAnswer[v] = bestCanTake.sum() + nei[v].size - bestCanTake.size
 		canTakeAnswer[v] = maxOf(cannotTakeAnswer[v], canTake[v],
-				nei[v].map { maxOf(canTakeAnswer[it], cannotTakeAnswer[it] + 1) }.max()!!)
+			nei[v].maxOf { maxOf(canTakeAnswer[it], cannotTakeAnswer[it] + 1) })
 	}
 	val leaf = nei.indices.first { nei[it].size == 1 }
 	dfs(leaf, -1)

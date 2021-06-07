@@ -63,7 +63,7 @@ private fun solve() {
 				state[y] = -1
 				bad = (left >= 0) && !state.contains(left)
 				if (bad) {
-					if (state.max() == -1 && !future[y][x]) ans = minOf(ans, newPerimeter)
+					if (state.maxOrNull() == -1 && !future[y][x]) ans = minOf(ans, newPerimeter)
 				}
 			} else {
 				when (listOf(left, up).count { it == -1 }) {
@@ -91,7 +91,7 @@ private fun solve() {
 		}
 		a = b
 	}
-	ans = minOf(ans, a.filter { intToArray(it.key); state.max()!! <= 0 }.values.min() ?: inf)
+	ans = minOf(ans, a.filter { intToArray(it.key); state.maxOrNull()!! <= 0 }.values.minOrNull() ?: inf)
 	println(if (ans < inf) ans else -1)
 }
 

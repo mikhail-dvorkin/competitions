@@ -2,7 +2,7 @@ package codeforces.round621
 
 fun main() {
 	val s = readLine()!!.map { it - 'a' }
-	val prev = MutableList(s.max()!! + 1) { 0 }
+	val prev = MutableList(s.maxOrNull()!! + 1) { 0 }
 	val count = List(prev.size) { MutableList(prev.size) { 0L } }
 	for (c in s) {
 		for (i in prev.indices) {
@@ -10,5 +10,5 @@ fun main() {
 		}
 		prev[c]++
 	}
-	println((count.flatten() + s.groupBy { it }.values.map { it.size.toLong() }).max()!!)
+	println((count.flatten() + s.groupBy { it }.values.map { it.size.toLong() }).maxOrNull()!!)
 }

@@ -9,7 +9,7 @@ fun main() {
 		var x = (c == '1')
 		List(steps) { if (it >= b && (it - b) % a == 0) x = !x; x }
 	}
-	println(List(steps) { i -> on.count { it[i] } }.max())
+	println(List(steps) { i -> on.count { it[i] } }.maxOrNull())
 }
 
 private fun readLn() = readLine()!!

@@ -14,8 +14,8 @@ fun main() {
 	val best = points.indices.mapNotNull { i ->
 		points.indices.mapNotNull { j ->
 			(abs(j - i) + 1).takeIf { dist(xs to ys, points[i]) + dist(points[i], points[j]) <= t }
-		}.max()
-	}.max() ?: 0
+		}.maxOrNull()
+	}.maxOrNull() ?: 0
 	println(best)
 }
 

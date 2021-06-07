@@ -4,7 +4,7 @@ fun main() {
 	readLn()
 	val a = readInts()
 	data class Entry(val left: Int, val right: Int, val count: Int)
-	val e = a.indices.groupBy { a[it] }.values.map { Entry(it.min()!!, it.max()!!, it.size) }.sortedBy { it.left }
+	val e = a.indices.groupBy { a[it] }.values.map { Entry(it.minOrNull()!!, it.maxOrNull()!!, it.size) }.sortedBy { it.left }
 	var ans = a.size
 	var i = 0
 	while (i < e.size) {
@@ -14,7 +14,7 @@ fun main() {
 			j++
 			maxRight = maxOf(maxRight, e[j].right)
 		}
-		ans -= e.subList(i, j + 1).map { it.count }.max()!!
+		ans -= e.subList(i, j + 1).maxOf { it.count }
 		i = j + 1
 	}
 	println(ans)

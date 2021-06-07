@@ -16,20 +16,20 @@ fun solve(k: Int, toSwitch: List<Int>, where: List<List<Int>>): List<Int> {
 		if (where[x].size == 1) {
 			val (a) = where[x]
 			val aa = get(a)
-			val old = d[aa].min()!!
+			val old = d[aa].minOrNull()!!
 			d[aa][odd[a] xor toSwitch[x] xor 1] = k + 1
-			return d[aa].min()!! - old
+			return d[aa].minOrNull()!! - old
 		}
 		val (a, b) = where[x].let { if ((x + it.hashCode()) % 2 == 0) it else it.reversed() }
 		val (aa, bb) = get(a) to get(b)
 		if (aa == bb) return 0
 		p[aa] = bb
 		odd[aa] = odd[a] xor odd[b] xor toSwitch[x]
-		val old = d[aa].min()!! + d[bb].min()!!
+		val old = d[aa].minOrNull()!! + d[bb].minOrNull()!!
 		for (i in 0..1) {
 			d[bb][i] = minOf(d[bb][i] + d[aa][i xor odd[aa]], k + 1)
 		}
-		return d[bb].min()!! - old
+		return d[bb].minOrNull()!! - old
 	}
 	var ans = 0
 	return toSwitch.indices.map { ans += spend(it); ans }

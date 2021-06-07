@@ -37,7 +37,7 @@ private fun gauss(a: List<DoubleArray>, b: DoubleArray): DoubleArray {
 	val pos = IntArray(m)
 	for (i in 0 until m) {
 		val ai = a[i]
-		val s = (0 until n).maxBy { ai[it].abs() }!!
+		val s = (0 until n).maxByOrNull { ai[it].abs() }!!
 		pos[i] = s
 		for (k in 0 until m) if (k != i) {
 			val ak = a[k]

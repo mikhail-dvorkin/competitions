@@ -3,7 +3,7 @@ package codeforces.kotlinheroes2
 fun main() {
 	readLine()
 	val a = readInts()
-	println(a.mapIndexed { index, v -> if (v == 0) 0L else 1 + index + a.size * (v - 1L) }.max())
+	println(a.mapIndexed { index, v -> if (v == 0) 0L else 1 + index + a.size * (v - 1L) }.maxOrNull())
 }
 
 private fun readLn() = readLine()!!

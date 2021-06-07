@@ -1,7 +1,7 @@
 package codeforces.kotlinheroes4
 
 private fun solve(p: List<Int>, x: List<Int>): List<Int>? {
-	val k = (0..x.size - 3).minBy { x[it + 2] - x[it] }
+	val k = (0..x.size - 3).minByOrNull { x[it + 2] - x[it] }
 		?: return listOf(x[0], p[0], x[1], p[0])
 	for (i in k..k + 2) for (j in k until i) for (aPeriod in p) {
 		val rem = x[i] % aPeriod

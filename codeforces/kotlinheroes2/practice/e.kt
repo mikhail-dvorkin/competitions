@@ -7,11 +7,11 @@ fun main() {
     readLine()
     val spaces = readInts().withIndex().toMutableSet()
     val taken = groups.mapNotNull { group ->
-        val selected = spaces.filter { it.value >= group.size }.minBy { it.value } ?: return@mapNotNull null
+        val selected = spaces.filter { it.value >= group.size }.minByOrNull { it.value } ?: return@mapNotNull null
         spaces.remove(selected)
         group to selected.index
     }.toMap()
-    println("${taken.size} ${taken.keys.sumBy { it.profit }}")
+    println("${taken.size} ${taken.keys.sumOf { it.profit }}")
     taken.forEach { println("${it.key.id + 1} ${it.value + 1}") }
 }
 

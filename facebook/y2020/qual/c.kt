@@ -20,7 +20,7 @@ private fun solve(): Int {
 		val h = growsHere[x] ?: continue
 		bestWithoutThis[x + h] = maxOf(bestWithoutThis.getOrDefault(x + h, 0), bw + h)
 	}
-	return (best.values + bestWithoutThis.values).max()!!
+	return (best.values + bestWithoutThis.values).maxOrNull()!!
 }
 
 fun main() = repeat(readInt()) { println("Case #${it + 1}: ${solve()}") }

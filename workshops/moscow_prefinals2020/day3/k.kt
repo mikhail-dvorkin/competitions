@@ -2,7 +2,7 @@ package workshops.moscow_prefinals2020.day3
 
 fun main() {
 	val (x, y, z) = List(3) { readInts().drop(1).reversed() }
-	var (low, high) = maxOf((x + y + z).max()!!, 1).toLong() to Long.MAX_VALUE / 2
+	var (low, high) = maxOf((x + y + z).maxOrNull()!!, 1).toLong() to Long.MAX_VALUE / 2
 	binarySearch@while (low + 1 < high) {
 		val b = (low + high) / 2
 		val zNew = LongArray(z.size)

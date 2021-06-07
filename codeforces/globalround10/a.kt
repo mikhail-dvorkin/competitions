@@ -3,7 +3,7 @@ package codeforces.globalround10
 private fun solve() {
 	readLn()
 	val a = readInts()
-	println(if (a.min() == a.max()) a.size else 1)
+	println(if (a.minOrNull() == a.maxOrNull()) a.size else 1)
 }
 
 fun main() = repeat(readInt()) { solve() }

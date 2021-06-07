@@ -22,7 +22,7 @@ fun main() {
 		e[v][u] = inf
 		floyd(e)
 		e[u][v] + 1
-	}.min() ?: inf
+	}.minOrNull() ?: inf
 	println(if (ans < inf) ans else -1)
 }
 

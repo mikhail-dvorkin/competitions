@@ -3,7 +3,7 @@ package atcoder.agc043
 fun main(args: Array<String>) {
 	readLn()
 	val a = readLn().map { it - '1' }
-	if (a.min() == a.max()) return println(0)
+	if (a.minOrNull() == a.maxOrNull()) return println(0)
 	if (!a.contains(1)) return println(solve(a.map { it / 2 }) * 2)
 	println(solve(a.map { it % 2 }))
 }

@@ -4,7 +4,7 @@ private fun solve() {
 	val k = (readStrings()[1].toLong() + 1) % 2 + 1
 	var a = readInts()
 	repeat(k.toInt()) {
-		val d = a.max()!!
+		val d = a.maxOrNull()!!
 		a = a.map { d - it }
 	}
 	println(a.joinToString(" "))

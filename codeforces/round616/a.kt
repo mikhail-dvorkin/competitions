@@ -6,7 +6,7 @@ private fun solve(): Int {
 	val k = minOf(kIn, m)
 	val a = readInts()
 	val b = List(m + 1) { maxOf(a[it], a[it + n - 1 - m]) }
-	return List(k + 1) { b.drop(it).take(m + 1 - k).min()!! }.max()!!
+	return List(k + 1) { b.drop(it).take(m + 1 - k).minOrNull()!! }.maxOrNull()!!
 }
 
 fun main() = repeat(readInt()) { println(solve()) }

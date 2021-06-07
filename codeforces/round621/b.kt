@@ -3,7 +3,7 @@ package codeforces.round621
 private fun solve(): Int {
 	val (_, x) = readInts()
 	val a = readInts()
-	val s = a.max()!!
+	val s = a.maxOrNull()!!
 	if (x % s == 0) return x / s
 	if (a.contains(x)) return 1
 	return maxOf(x / s + 1, 2)
