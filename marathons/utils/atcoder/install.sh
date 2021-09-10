@@ -6,6 +6,7 @@ NUM_TESTS=$3
 
 wget $URL_DIR/$ARCHIVE
 rm tools~.zip
+rm -rf tools~
 mv $ARCHIVE tools~.zip
 unzip tools~.zip
 mv tools tools~
@@ -16,4 +17,6 @@ do
     echo $i>> seeds.txt
 done
 cargo run --release --bin gen < seeds.txt
+cargo run --release --bin gen seeds.txt
 cargo run --release --bin vis example.in example.out
+cd ..
