@@ -18,10 +18,7 @@ fun main(solution: ((BufferedReader, BufferedWriter) -> Unit)) {
 	solution.invoke(File(inFileName).bufferedReader(), File(outFileName).bufferedWriter())
 	Evaluator._outcomeTime += System.currentTimeMillis()
 	val command = "cargo run --release --bin vis in/$paddedName.txt out/$paddedName.out"
-	val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(toolsDir))
-	val process = processBuilder.start()
-	process.waitFor()
-	val output = process.inputStream.reader().readText().trim()
+	val (output, error) = exec(command, toolsDir)
 	val score = output.toInt()
 	File(hardcodedImageFileName).renameTo(File(imageFileName))
 	Pictures.write(imageFileName)
@@ -29,9 +26,17 @@ fun main(solution: ((BufferedReader, BufferedWriter) -> Unit)) {
 	Evaluator._outcomeMyScore = Evaluator._outcomeScore
 	if (score == 0) {
 		print("\t Score = 0 !!!")
-		val error = process.errorStream.reader().readLines().joinToString(" ")
 		Evaluator._outcomeTroubles.add(error)
 	}
+}
+
+fun exec(command: String, dir: String): Pair<String, String> {
+	val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
+	val process = processBuilder.start()
+	process.waitFor()
+	val output = process.inputStream.reader().readText().trim()
+	val error = process.errorStream.reader().readLines().joinToString(" ")
+	return Pair(output, error)
 }
 
 class Visualizer(val solution: ((BufferedReader, BufferedWriter) -> Unit)) : Callable<Void?> {
