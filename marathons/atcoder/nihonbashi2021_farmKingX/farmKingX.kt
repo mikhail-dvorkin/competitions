@@ -1,4 +1,4 @@
-package marathons.atcoder.nihonbashi2021
+package marathons.atcoder.nihonbashi2021_farmKingX
 
 import java.io.BufferedReader
 import java.io.BufferedWriter
