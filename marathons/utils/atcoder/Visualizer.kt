@@ -8,20 +8,24 @@ fun main(solution: ((BufferedReader, BufferedWriter) -> Unit)) {
 	val seed = Evaluator._seed
 	val paddedName = seed.toString().padStart(4, '0')
 	val toolsDir = solution.javaClass.packageName.replace(".", "/") + "/tools~"
-	val inFileName = "$toolsDir/in/$paddedName.txt"
-	val outFileName = "$toolsDir/out/$paddedName.out"
-	val imageFileName = "$toolsDir/img/$paddedName.svg"
-	val hardcodedImageFileName = "$toolsDir/out.svg"
-	File(outFileName).parentFile.mkdirs()
-	File(imageFileName).parentFile.mkdirs()
+	val inFileName = "$paddedName.txt"
+	val inFile = File("$toolsDir/in", inFileName)
+	val outFileName = "$paddedName.out"
+	val outFile = File("$toolsDir/out", outFileName)
+	val imageFileName = "$paddedName.svg"
+	val imageFile = File("$toolsDir/img", imageFileName)
+	val hardcodedImageFileName = "out.svg"
+	val hardcodedImageFile = File(toolsDir, hardcodedImageFileName)
+	outFile.parentFile.mkdirs()
+	imageFile.parentFile.mkdirs()
 	Evaluator._outcomeTime = -System.currentTimeMillis()
-	solution.invoke(File(inFileName).bufferedReader(), File(outFileName).bufferedWriter())
+	solution.invoke(inFile.bufferedReader(), outFile.bufferedWriter())
 	Evaluator._outcomeTime += System.currentTimeMillis()
 	val command = "cargo run --release --bin vis in/$paddedName.txt out/$paddedName.out"
 	val (output, error) = exec(command, toolsDir)
 	val score = output.toInt()
-	File(hardcodedImageFileName).renameTo(File(imageFileName))
-	Pictures.write(imageFileName)
+	hardcodedImageFile.renameTo(imageFile)
+	Pictures.write(imageFile.path)
 	Evaluator._outcomeScore = score.toDouble()
 	Evaluator._outcomeMyScore = Evaluator._outcomeScore
 	if (score == 0) {
@@ -33,7 +37,6 @@ fun main(solution: ((BufferedReader, BufferedWriter) -> Unit)) {
 fun exec(command: String, dir: String): Pair<String, String> {
 	val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
 	val process = processBuilder.start()
-	process.waitFor()
 	val output = process.inputStream.reader().readText().trim()
 	val error = process.errorStream.reader().readLines().joinToString(" ")
 	return Pair(output, error)
