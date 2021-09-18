@@ -66,38 +66,35 @@ public class ChickenRun {
 			EVALUATOR.call();
 			return;
 		}
-		int[] dr={0,-1,0,1};
-		int[] dc={-1,0,1,0};
+		int[] dr = {0, -1, 0, 1};
+		int[] dc = {-1, 0, 1, 0};
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		int N = Integer.parseInt(br.readLine());
 
-		char[][] grid=new char[N][N];
-		for (int r=0; r<N; r++)
-			for (int c=0; c<N; c++)
+		char[][] grid = new char[N][N];
+		for (int r = 0; r < N; r++)
+			for (int c = 0; c < N; c++)
 				grid[r][c] = br.readLine().charAt(0);
 
-		for (int turn=1; turn<=N*N; turn++)
-		{
-			List<String> moves=new ArrayList<String>();
-			boolean[][] used=new boolean[N][N];
+		for (int turn = 1; turn <= N * N; turn++) {
+			List<String> moves = new ArrayList<String>();
+			boolean[][] used = new boolean[N][N];
 
-			for (int r=0; r<N; r++)
-				for (int c=0; c<N; c++)
+			for (int r = 0; r < N; r++)
+				for (int c = 0; c < N; c++)
 					if (grid[r][c] == 'P' && !used[r][c])
-						for (int m=0; m<dr.length; m++)
-						{
-							int dir=(r*c+turn+m)%dr.length;
-							int r2=r+dr[dir];
-							int c2=c+dc[dir];
+						for (int m = 0; m < dr.length; m++) {
+							int dir = (r * c + turn + m) % dr.length;
+							int r2 = r + dr[dir];
+							int c2 = c + dc[dir];
 
-							if (r2>=0 && r2<N && c2>=0 && c2<N && (grid[r2][c2]=='.' || grid[r2][c2]=='C'))
-							{
-								moves.add(r+" "+c+" "+r2+" "+c2);
-								grid[r][c]='.';
-								grid[r2][c2]='P';
-								used[r2][c2]=true;
+							if (r2 >= 0 && r2 < N && c2 >= 0 && c2 < N && (grid[r2][c2] == '.' || grid[r2][c2] == 'C')) {
+								moves.add(r + " " + c + " " + r2 + " " + c2);
+								grid[r][c] = '.';
+								grid[r2][c2] = 'P';
+								used[r2][c2] = true;
 								break;
 							}
 						}
@@ -111,8 +108,8 @@ public class ChickenRun {
 			int elapsedTime = Integer.parseInt(br.readLine());
 
 			//read the updated grid
-			for (int r=0; r<N; r++)
-				for (int c=0; c<N; c++)
+			for (int r = 0; r < N; r++)
+				for (int c = 0; c < N; c++)
 					grid[r][c] = br.readLine().charAt(0);
 		}
 
