@@ -4,20 +4,16 @@ private fun solve() {
 	var minK = 0
 	var maxK = Int.MAX_VALUE
 	repeat(readInt()) {
-		val (s, t, shouldIn) = readStrings()
-		val sr = s.reversed()
-		val tr = t.reversed()
-		val should = shouldIn.toInt() > 0
-		var x = 0
-		while (x < sr.length && x < tr.length && sr[x] == tr[x]) x++
-		if (should) {
+		val (s, t, should) = readStrings()
+		val x = s.reversed().zip(t.reversed()).takeWhile { it.first == it.second }.size
+		if (should == "1") {
 			maxK = minOf(maxK, x)
 		} else {
 			minK = maxOf(minK, x + 1)
 		}
 	}
-	val ans = (minK..maxK).toList()
-	println(ans.size)
+	val ans = minK..maxK
+	println(ans.count())
 	println(ans.joinToString(" "))
 }
 

@@ -3,24 +3,17 @@ package codeforces.kotlinheroes8
 fun main() {
 	val (n, m) = readInts()
 	data class Attack(val warrior: Int, val barricade: Int, val damage: Int)
-	val attacks = mutableListOf<Attack>()
-	repeat(n) { warrior ->
-		readLn()
-		val damages = readInts()
-		val barricades = readInts().map { m - it }
-		for (i in damages.indices) {
-			val a = Attack(warrior, barricades[i], damages[i])
-			if (a.barricade > a.warrior) continue
-			attacks.add(a)
-		}
-	}
-	val st = SegmentsTreeSimple(n + 1)
+	val attacks = List(n) { warrior ->
+		val (_, damages, barricadesLeft) = List(3) { readInts() }
+		List(damages.size) { Attack(warrior, m - barricadesLeft[it], damages[it]) }
+	}.flatten()
+	val st = SegmentsTreeSimple(n)
 	for (a in attacks.sortedBy { it.barricade }) {
 		val level = a.warrior - a.barricade
-		val best = if (level == 0) 0L else st.getMax(0, level)
-		st[level] = maxOf(a.damage + best, st[level])
+		if (level < 0) continue
+		st[level] = maxOf(st[level], a.damage + maxOf(st.getMax(0, level), 0))
 	}
-	println(st.getMax(0, n + 1))
+	println(st.getMax(0, n))
 }
 
 class SegmentsTreeSimple(var n: Int) {
@@ -41,22 +34,22 @@ class SegmentsTreeSimple(var n: Int) {
 	}
 
 	fun getMax(from: Int, to: Int): Long {
-		var from = from
-		var to = to
-		from += size
-		to += size
+		var fromVar = from
+		var toVar = to
+		fromVar += size
+		toVar += size
 		var res = Long.MIN_VALUE
-		while (from < to) {
-			if (from % 2 == 1) {
-				res = maxOf(res, max[from])
-				from++
+		while (fromVar < toVar) {
+			if (fromVar % 2 == 1) {
+				res = maxOf(res, max[fromVar])
+				fromVar++
 			}
-			if (to % 2 == 1) {
-				to--
-				res = maxOf(res, max[to])
+			if (toVar % 2 == 1) {
+				toVar--
+				res = maxOf(res, max[toVar])
 			}
-			from /= 2
-			to /= 2
+			fromVar /= 2
+			toVar /= 2
 		}
 		return res
 	}

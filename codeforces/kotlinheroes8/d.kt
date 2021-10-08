@@ -16,13 +16,12 @@ fun main() {
 		if (x1 == x2) continue
 		val group2 = other[x1][x2]
 		val group1 = other1[x1] + other2[x2] - 2 * group2
-		val rank: Int
-		if (my1 == x1 && my2 == x2) {
-			rank = 1
+		val rank = if (my1 == x1 && my2 == x2) {
+			1
 		} else if (my1 == x1 || my2 == x2) {
-			rank = group2 + 1
+			group2 + 1
 		} else {
-			rank = group2 + group1 + 1
+			group2 + group1 + 1
 		}
 		ans = maxOf(ans, rank)
 	}

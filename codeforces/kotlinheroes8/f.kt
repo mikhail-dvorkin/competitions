@@ -2,57 +2,33 @@ package codeforces.kotlinheroes8
 
 fun main() {
 	val (n, m) = readInts()
-	val consecutive = mutableListOf<IndexedValue<Int>>()
-	val alternating = mutableListOf<IndexedValue<Int>>()
+	val groups = List(2) { mutableListOf<IndexedValue<Int>>() }
 	repeat(n) {
 		val (k, t) = readInts()
-		(if (t == 1) consecutive else alternating).add(IndexedValue(it, k))
+		groups[t - 1].add(IndexedValue(it, k))
 	}
-	val consecutiveSum = consecutive.sumOf { it.value }
-	val alternatingSum = alternating.sumOf { it.value }
+	val groupSum = groups.map { group -> group.sumOf { it.value } }
 	val can = BooleanArray(m + 1)
-	val how = MutableList<IndexedValue<Int>?>(m + 1) { null }
+	val how = Array<IndexedValue<Int>?>(m + 1) { null }
 	can[0] = true
-	for (a in alternating) {
-		for (i in m - a.value downTo 0) {
-			if (!can[i] || can[i + a.value]) continue
-			can[i + a.value] = true
-			how[i + a.value] = a
-		}
+	for (series in groups[1]) for (i in m - series.value downTo 0) {
+		if (!can[i] || can[i + series.value]) continue
+		can[i + series.value] = true
+		how[i + series.value] = series
 	}
-	for (x in 0..m) {
-		if (!can[x]) continue
-		val odd = 2 * x - 1
-		val even = 2 * (alternatingSum - x)
-		val ans = maxOf(odd, even) + consecutiveSum
-		if (ans <= m) {
-			val starts = IntArray(n)
-			var z = x
-			val odds = mutableListOf<IndexedValue<Int>>()
-			while (z > 0) {
-				odds.add(how[z]!!)
-				z -= how[z]!!.value
-			}
-			val evens = alternating - odds
-			var t = 1
-			for (a in odds) {
-				starts[a.index] = t
-				t += a.value * 2
-			}
-			t = 2
-			for (a in evens) {
-				starts[a.index] = t
-				t += a.value * 2
-			}
-			t = m + 1
-			for (a in consecutive) {
-				t -= a.value
-				starts[a.index] = t
-			}
-			return println(starts.joinToString(" "))
-		}
+	val x = can.indices.firstOrNull { can[it] && maxOf(2 * it - 1, 2 * (groupSum[1] - it)) + groupSum[0] <= m }
+		?: return println(-1)
+	val odd = mutableListOf<IndexedValue<Int>>()
+	var z = x
+	while (z > 0) z -= how[z]!!.also { odd.add(it) }.value
+	val ans = IntArray(n)
+	fun place(list: List<IndexedValue<Int>>, start: Int, gap: Int) {
+		list.fold(start) { time, series -> (time + series.value * gap).also { ans[series.index] = time } }
 	}
-	println(-1)
+	place(odd, 1, 2)
+	place(groups[1] - odd, 2, 2)
+	place(groups[0], m - groupSum[0] + 1, 1)
+	println(ans.joinToString(" "))
 }
 
 private fun readLn() = readLine()!!

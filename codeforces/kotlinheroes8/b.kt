@@ -1,12 +1,11 @@
 package codeforces.kotlinheroes8
 
 private fun solve(): Int {
-	val n = readInt()
+	readInt()
 	val (a, va) = readInts()
-	val (c, vc) = readInts()
+	val (_, vc) = readInts()
 	val b = readInt()
-	val d = b - a
-	return minOf(va + d, vc)
+	return minOf(va + b - a, vc)
 }
 
 fun main() = repeat(readInt()) { println(solve()) }

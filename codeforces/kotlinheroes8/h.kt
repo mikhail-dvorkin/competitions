@@ -1,53 +1,47 @@
 package codeforces.kotlinheroes8
 
 fun main() {
-	val M = 998244353
-	val DEN = 1_000_000
-	val DEN_INV = DEN.toBigInteger().modInverse(M.toBigInteger()).toInt()
+	val den = 1_000_000.toModular()
 	val (n, wid, hei) = readInts()
-	val pSlash = IntArray(wid + hei + 1) { 1 } // prob of being free
-	val pBackslash = IntArray(wid + hei + 1) { 1 }
-	val vertical = BooleanArray(wid + 1)
-	val horizontal = BooleanArray(hei + 1)
-	vertical[0] = true
-	vertical[wid] = true
-	horizontal[0] = true
-	horizontal[hei] = true
+	val (pSlash, pBackslash) = List(2) { Array(wid + hei + 1) { 1.toModular() } } // prob of being free
+	val (vertical, horizontal) = listOf(wid, hei).map { s -> BooleanArray(s + 1).also { it[0] = true; it[s] = true } }
 	repeat(n) {
-		val (x, y, prob) = readInts()
-		val pMod = ((DEN - prob).toLong() * DEN_INV % M).toInt()
-		vertical[x] = true
-		horizontal[y] = true
-		pBackslash[x + y] = (pBackslash[x + y].toLong() * pMod % M).toInt()
-		pSlash[x - y + hei] = (pSlash[x - y + hei].toLong() * pMod % M).toInt()
-	}
-	var edgesExpectation = vertical.count { it } * hei + horizontal.count { it } * wid
-	var isolatedExpectation = 0
-	for (x in 0..wid) for (y in 0..hei) {
-		if (!vertical[x] && !horizontal[y]) {
-			val pIsolated = (pBackslash[x + y].toLong() * pSlash[x - y + hei] % M).toInt()
-			isolatedExpectation = (isolatedExpectation + pIsolated) % M
-		}
-		if (x < wid && y < hei) {
-			val pIsolated = (pBackslash[x + y + 1].toLong() * pSlash[x - y + hei] % M).toInt()
-			isolatedExpectation = (isolatedExpectation + pIsolated) % M
-		}
-		if (y - 1 >= 0 && x + 1 <= wid) {
-			val pEdge = (M + 1 - pBackslash[x + y]) % M
-			edgesExpectation = ((edgesExpectation + 2L * pEdge) % M).toInt()
-		}
-		if (y + 1 <= hei && x + 1 <= wid) {
-			val pEdge = (M + 1 - pSlash[x - y + hei]) % M
-			edgesExpectation = ((edgesExpectation + 2L * pEdge) % M).toInt()
-		}
+		val (x, y, pIn) = readInts()
+		val p = 1 - pIn / den
+		vertical[x] = true; horizontal[y] = true
+		pBackslash[x + y] *= p; pSlash[x - y + hei] *= p
 	}
 	val vertices = (wid + 1) * (hei + 1) + wid * hei
-//	println(vertices)
-//	println(edgesExpectation)
-//	println(isolatedExpectation)
-	val ans = (1L + isolatedExpectation + edgesExpectation - vertices + M) % M
+	val edgesInitial = vertical.count { it } * hei + horizontal.count { it } * wid
+	var ans = (1 - vertices + edgesInitial).toModular()
+	for (x in 0..wid) for (y in 0..hei) {
+		if (!vertical[x] && !horizontal[y]) ans += pBackslash[x + y] * pSlash[x - y + hei]
+		if (x < wid && y < hei) ans += pBackslash[x + y + 1] * pSlash[x - y + hei]
+		if (x + 1 <= wid && y - 1 >= 0) ans += 2 * (1 - pBackslash[x + y])
+		if (x + 1 <= wid && y + 1 <= hei) ans += 2 * (1 - pSlash[x - y + hei])
+	}
 	println(ans)
 }
+
+fun Int.toModular() = Modular(this)//toDouble()
+class Modular {
+	companion object {
+		const val M = 998244353
+	}
+	val x: Int
+	@Suppress("ConvertSecondaryConstructorToPrimary")
+	constructor(value: Int) { x = (value % M).let { if (it < 0) it + M else it } }
+	operator fun plus(that: Modular) = Modular((x + that.x) % M)
+	operator fun minus(that: Modular) = Modular((x + M - that.x) % M)
+	operator fun times(that: Modular) = (x.toLong() * that.x % M).toInt().toModular()
+	fun modInverse() = Modular(x.toBigInteger().modInverse(M.toBigInteger()).toInt())
+	operator fun div(that: Modular) = times(that.modInverse())
+	override fun toString() = x.toString()
+}
+operator fun Int.plus(that: Modular) = Modular(this) + that
+operator fun Int.minus(that: Modular) = Modular(this) - that
+operator fun Int.times(that: Modular) = Modular(this) * that
+operator fun Int.div(that: Modular) = Modular(this) / that
 
 private fun readLn() = readLine()!!
 private fun readStrings() = readLn().split(" ")
