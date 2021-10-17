@@ -5,8 +5,9 @@ import java.util.*;
 
 public class GraphLabeling {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
-//			new marathons.utils.Evaluator(new TopCoderMarathonVis()); //TESTING
-			null; //SUBMISSION
+			new GraphLabelingTester(); //TESTING
+//			null; //SUBMISSION
+	public static final String EVALUATOR_PARAMETERS = "-seed 1,10 -myExec";
 	private static final long TIME_LIMIT = 9850;
 
 	int n;

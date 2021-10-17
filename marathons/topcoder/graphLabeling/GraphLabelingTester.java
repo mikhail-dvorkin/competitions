@@ -1,10 +1,12 @@
 package marathons.topcoder.graphLabeling;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 
+import marathons.utils.Evaluator;
 import marathons.utils.topcoderMy.*;
 
-public class GraphLabelingTester extends MarathonTester {
+public class GraphLabelingTester extends MarathonTester implements Callable<Void> {
 	//Ranges
 	private static final int minN = 5, maxN = 500;
 	private static final double minC = 0.05, maxC = 1;
@@ -94,20 +96,34 @@ public class GraphLabelingTester extends MarathonTester {
 	}
 
 	protected double run() throws Exception {
-		writeLine(N);
-		writeLine(Edges);
-		for (int i = 0; i < N; i++)
-			for (int k = i + 1; k < N; k++)
-				if (Graph[i][k])
-					writeLine(i + " " + k);
-		flush();
+		String[] temp;
+		if (parameters.isDefined(Parameters.myExec)) {
+			GraphLabeling._localTimeCoefficient = Evaluator.localTimeCoefficient();
+			startTime();
+			GraphLabeling program = new GraphLabeling();
+			long[] ans = program.solve(Graph);
+			stopTime();
+			temp = new String[ans.length];
+			for (int i = 0; i < ans.length; i++) {
+				temp[i] = "" + ans[i];
+			}
+			myTroubles = program._troubles;
+			myLabels = program._labels;
+		} else {
+			writeLine(N);
+			writeLine(Edges);
+			for (int i = 0; i < N; i++)
+				for (int k = i + 1; k < N; k++)
+					if (Graph[i][k])
+						writeLine(i + " " + k);
+			flush();
 
-		//run the solution and read its output
-		startTime();
-		String line = readLine();
-		stopTime();
-
-		String[] temp = line.trim().split(" ");
+			//run the solution and read its output
+			startTime();
+			String line = readLine();
+			stopTime();
+			temp = line.trim().split(" ");
+		}
 
 		if (debug) {
 			System.out.println("Your solution:");
@@ -122,6 +138,7 @@ public class GraphLabelingTester extends MarathonTester {
 		Set<Long> seen = new HashSet<>();
 		long[] values = new long[N];
 		long maxValue = -1;
+		myScore = -1;
 
 		for (int i = 0; i < N; i++) {
 			try {
@@ -149,10 +166,17 @@ public class GraphLabelingTester extends MarathonTester {
 					diffs.add(diff);
 				}
 
+		myScore = maxValue;
 		return maxValue;
 	}
 
-	public static void main(String[] args) {
+	public static void mainRenamed(String[] args) {
 		new MarathonController().run(args);
+	}
+
+	@Override
+	public Void call() throws Exception {
+		mainRenamed(GraphLabeling.EVALUATOR_PARAMETERS.split(" "));
+		return null;
 	}
 }
