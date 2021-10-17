@@ -58,7 +58,7 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  		//Find the name of the concrete class (actual MarathonTester) to be called using reflection
  		String className = new Exception().getStackTrace()[1].getClassName();
  
-@@ -305,10 +309,17 @@
+@@ -305,10 +309,18 @@
  
  							double score = tester.runTest();
  							long runTime = tester.getRunTime();
@@ -73,12 +73,13 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
 +							if (tester.myScore != 0) sb.append("MyScore = ").append(Evaluator.round(tester.myScore, 2)).append(",\t");
 +							if (!tester.myTroubles.isEmpty()) {
 +								numTroubles++;
-+								sb.append(tester.myTroubles);
++								sb.append(tester.myTroubles).append("\t");
 +							}
++							for (String label : tester.myLabels) sb.append(label).append("\t");
  							Double best = checkBest(bestsFile, isMaximize, errorScore, seed, score);
  							if (best != null) sb.append(", PreviousBest = ").append(best);
  							if (printRuntime) sb.append(", RunTime = ").append(runTime).append(" ms");
-@@ -359,6 +370,7 @@
+@@ -359,6 +371,7 @@
  		if (multipleSeeds && !parameters.isDefined(Parameters.noSummary)) {
  			avgRunTime /= numCases;
  			System.out.println();
@@ -86,7 +87,7 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  			System.out.println("            Seeds: " + seedsProcessed);
  			System.out.println("   Executed Cases: " + numCases);
  			System.out.println("     Failed Cases: " + numFails);
-@@ -377,6 +389,10 @@
+@@ -377,6 +390,10 @@
  				currTotScore /= numCases;
  				System.out.println("    Current Score: " + df.format(currTotScore * 100));
  			}

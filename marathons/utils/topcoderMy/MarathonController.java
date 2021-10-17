@@ -318,8 +318,9 @@ public class MarathonController {
 							if (tester.myScore != 0) sb.append("MyScore = ").append(Evaluator.round(tester.myScore, 2)).append(",\t");
 							if (!tester.myTroubles.isEmpty()) {
 								numTroubles++;
-								sb.append(tester.myTroubles);
+								sb.append(tester.myTroubles).append("\t");
 							}
+							for (String label : tester.myLabels) sb.append(label).append("\t");
 							Double best = checkBest(bestsFile, isMaximize, errorScore, seed, score);
 							if (best != null) sb.append(", PreviousBest = ").append(best);
 							if (printRuntime) sb.append(", RunTime = ").append(runTime).append(" ms");
