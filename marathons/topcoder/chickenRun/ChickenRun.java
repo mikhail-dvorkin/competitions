@@ -5,9 +5,14 @@ import java.util.*;
 
 public class ChickenRun {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
-//			new utils.Evaluator(new TopCoderMarathonVis()); //TESTING
-			null; //SUBMISSION
+			new ChickenRunTester(); //TESTING
+//			null; //SUBMISSION
+	public static final String EVALUATOR_PARAMETERS = "-seed 1 -myExec";
 	private static final long TIME_LIMIT = 9850;
+
+	private void makeMove(char[][] grid) {
+
+	}
 
 	private void solve() {
 	}
