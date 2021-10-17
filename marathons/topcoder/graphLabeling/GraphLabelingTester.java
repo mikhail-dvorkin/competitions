@@ -11,7 +11,6 @@ public class GraphLabelingTester extends MarathonTester {
 
 	//Inputs
 	private int N;          //number of nodes
-	private double C;       //connectivity
 
 	//State Control
 	private boolean[][] Graph;      //graph's adjacency matrix
@@ -20,7 +19,8 @@ public class GraphLabelingTester extends MarathonTester {
 
 	protected void generate() {
 		N = randomInt(minN, maxN);
-		C = randomDouble(minC, maxC);
+		//connectivity
+		double c = randomDouble(minC, maxC);
 
 		//Special cases for seeds 1 and 2
 		if (seed == 1) {
@@ -35,30 +35,29 @@ public class GraphLabelingTester extends MarathonTester {
 			N = randomInt(parameters.getIntRange("N"), minN, maxN);
 		}
 		if (parameters.isDefined("C")) {
-			C = randomDouble(parameters.getDoubleRange("C"), minC, maxC);
+			c = randomDouble(parameters.getDoubleRange("C"), minC, maxC);
 		}
 
 		//generate the graph
-		while (true) {
+		do {
 			Graph = new boolean[N][N];
 			Edges = 0;
 
 			for (int i = 0; i < N; i++)
 				for (int k = i + 1; k < N; k++)
-					if (randomDouble(0, 1) < C) {
+					if (randomDouble(0, 1) < c) {
 						Graph[i][k] = true;
 						Graph[k][i] = true;      //make symmetric
 						Edges++;
 					}
 
-			if (isConnected()) break;
-		}
+		} while (!isConnected());
 
 
 		if (debug) {
 			System.out.println("Nodes = " + N);
 			System.out.println("Edges = " + Edges);
-			System.out.println("Connectivity = " + C);
+			System.out.println("Connectivity = " + c);
 			System.out.println("Graph:");
 			for (int i = 0; i < N; i++) {
 				for (int k = 0; k < N; k++) System.out.print(Graph[i][k] ? "1" : "0");
@@ -73,7 +72,7 @@ public class GraphLabelingTester extends MarathonTester {
 	protected boolean isConnected() {
 		boolean[] seen = new boolean[N];
 		int count = 0;
-		List<Integer> Q = new ArrayList<Integer>();
+		List<Integer> Q = new ArrayList<>();
 		Q.add(0);
 
 		while (Q.size() > 0) {
@@ -120,7 +119,7 @@ public class GraphLabelingTester extends MarathonTester {
 			return fatalError("Your output does not contain " + N + " elements");
 
 
-		Set<Long> seen = new HashSet<Long>();
+		Set<Long> seen = new HashSet<>();
 		long[] values = new long[N];
 		long maxValue = -1;
 
@@ -133,13 +132,13 @@ public class GraphLabelingTester extends MarathonTester {
 				seen.add(values[i]);
 				maxValue = Math.max(maxValue, values[i]);
 			} catch (Exception e) {
-				if (debug) System.out.println(e.toString());
+				if (debug) e.printStackTrace();
 				return fatalError("Cannot parse your output");
 			}
 		}
 
 		//check that the solution is valid
-		Set<Long> diffs = new HashSet<Long>();
+		Set<Long> diffs = new HashSet<>();
 
 		for (int i = 0; i < N; i++)
 			for (int k = i + 1; k < N; k++)
