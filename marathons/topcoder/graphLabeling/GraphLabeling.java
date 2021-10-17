@@ -9,23 +9,33 @@ public class GraphLabeling {
 			null; //SUBMISSION
 	private static final long TIME_LIMIT = 9850;
 
+	int n;
+	boolean[][] e;
+	long[] ans;
+
 	private void solve() {
+		for (int i = 0; i < n; i++) {
+			ans[i] = (1L << i) - 1;
+		}
 	}
 
-	public int solve(int input) {
+	public long[] solve(boolean[][] e) {
+		this.e = e;
+		n = e.length;
+		ans = new long[n];
 		try {
 			solve();
+			checkTimeLimit(0.5);
 		} catch (TimeOutException ignored) {
 		}
-		_myScore = input;
-		return 0;
+		_myScore = 1;
+		return ans;
 	}
 
 	private static void log(String s) {
 		if (!SUBMIT) System.out.print(s + " ");
 	}
 
-	@SuppressWarnings("serial")
 	private static class TimeOutException extends RuntimeException {
 	}
 
@@ -81,9 +91,11 @@ public class GraphLabeling {
 			graph[node2][node1] = true;
 		}
 
-		String out = "";
+		long[] ans = new GraphLabeling().solve(graph);
+
+		StringBuilder out = new StringBuilder();
 		for (int i = 0; i < N; i++)
-			out += ((1L << i) - 1) + " ";
+			out.append(ans[i]).append(" ");
 
 		System.out.println(out);
 		System.out.flush();
