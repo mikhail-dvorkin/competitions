@@ -1,5 +1,7 @@
 package marathons.utils.topcoder2021_09_15;
 
+import marathons.utils.Pictures;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,10 +18,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
@@ -119,7 +118,21 @@ public abstract class MarathonVis extends MarathonTester {
 	}
 
 	protected void update() {
+		update(false);
+	}
+
+	protected void update(boolean isInit) {
 		if (!vis) return;
+		if (parameters.isDefined(Parameters.myVis)) {
+			if (isInit) return;
+			int width = 1000;
+			int height = 800;
+			infoFontWidth = infoFontHeight = 12;
+			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			paintVis(image.getGraphics(), width, height);
+			Pictures.write(image, seed, "");
+			return;
+		}
 		synchronized (updateLock) {
 			if (frame == null) {
 				String className = getClass().getName();
@@ -141,6 +154,12 @@ public abstract class MarathonVis extends MarathonTester {
 				frame.addWindowListener(new WindowAdapter() {
 					public void windowClosed(WindowEvent e) {
 						end();
+					}
+				});
+				frame.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode() == KeyEvent.VK_ESCAPE) System.exit(0);
 					}
 				});
 
@@ -440,7 +459,7 @@ public abstract class MarathonVis extends MarathonTester {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(new Color(230, 230, 232));
 		g2.fillRect(0, 0, w, h);
-		g2.setRenderingHints(hints);
+		if (!parameters.isDefined(Parameters.myVis)) g2.setRenderingHints(hints);
 
 		synchronized (updateLock) {
 			if (infoColumns > 0 && infoFontWidth > 0) paintInfo(g2, w);

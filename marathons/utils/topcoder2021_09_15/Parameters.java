@@ -16,6 +16,8 @@ public class Parameters {
 	public static final String exec = "exec";
 	public static final String infoScale = "infoScale";
 	public static final String loadSolOutput = "loadSolOutput";
+	public static final String myExec = "myExec";
+	public static final String myVis = "myVis";
 	public static final String noAntialiasing = "noAntialiasing";
 	public static final String noOutput = "noOutput";
 	public static final String noSummary = "noSummary";

@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit;
  * problems with no visualization. Updated: 2020/09/28
  */
 public abstract class MarathonTester {
+	public double myScore;
+	public ArrayList<String> myTroubles = new ArrayList<>();
+	public ArrayList<String> myLabels = new ArrayList<>();
 	protected Parameters parameters;
 	protected boolean debug;
 	protected long seed;
