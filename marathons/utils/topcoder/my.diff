@@ -53,11 +53,12 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  		//Find the name of the concrete class (actual MarathonTester) to be called using reflection
  		String className = new Exception().getStackTrace()[1].getClassName();
  
-@@ -305,10 +308,16 @@
+@@ -305,10 +308,17 @@
  
  							double score = tester.runTest();
  							long runTime = tester.getRunTime();
 +							myScoresSum += tester.myScore;
++							if (!tester.getExecutionsErrors().isEmpty()) tester.myTroubles.addAll(Arrays.asList(tester.getExecutionsErrors().split("\n")));
  
  							sb.delete(0, sb.length());
 -							if (multipleSeeds) sb.append("Seed = ").append(seed).append(", ");
@@ -72,7 +73,7 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  							Double best = checkBest(bestsFile, isMaximize, errorScore, seed, score);
  							if (best != null) sb.append(", PreviousBest = ").append(best);
  							if (printRuntime) sb.append(", RunTime = ").append(runTime).append(" ms");
-@@ -359,6 +368,7 @@
+@@ -359,6 +369,7 @@
  		if (multipleSeeds && !parameters.isDefined(Parameters.noSummary)) {
  			avgRunTime /= numCases;
  			System.out.println();
@@ -80,7 +81,7 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  			System.out.println("            Seeds: " + seedsProcessed);
  			System.out.println("   Executed Cases: " + numCases);
  			System.out.println("     Failed Cases: " + numFails);
-@@ -377,6 +387,10 @@
+@@ -377,6 +388,10 @@
  				currTotScore /= numCases;
  				System.out.println("    Current Score: " + df.format(currTotScore * 100));
  			}
@@ -110,6 +111,22 @@ diff -urN topcoderTheir/MarathonTester.java topcoderMy/MarathonTester.java
  	protected Parameters parameters;
  	protected boolean debug;
  	protected long seed;
+@@ -250,13 +253,13 @@
+ 	}
+ 
+ 	protected final double fatalError() {
+-		System.out.println(errorMessage);
++		if (debug) System.out.println(errorMessage);
+ 		executionErrors.append(errorMessage).append("\n");
+ 		return getErrorScore();
+ 	}
+ 
+ 	protected final double fatalError(String msg) {
+-		System.out.println(msg);
++		if (debug) System.out.println(msg);
+ 		executionErrors.append(msg).append("\n");
+ 		return getErrorScore();
+ 	}
 diff -urN topcoderTheir/MarathonTestResult.java topcoderMy/MarathonTestResult.java
 --- topcoderTheir/MarathonTestResult.java
 +++ topcoderMy/MarathonTestResult.java
