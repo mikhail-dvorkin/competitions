@@ -1,3 +1,5 @@
+package marathons.topcoder.graphLabeling;
+
 import java.io.*;
 
 public class GraphLabeling {

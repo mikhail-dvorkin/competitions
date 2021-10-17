@@ -1,6 +1,8 @@
+package marathons.topcoder.graphLabeling;
+
 import java.util.*;
 
-import com.topcoder.marathon.*;
+import marathons.utils.topcoderMy.*;
 
 public class GraphLabelingTester extends MarathonTester {
 	//Ranges
