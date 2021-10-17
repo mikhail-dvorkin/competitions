@@ -1,16 +1,12 @@
 package atcoder.arc128
 
-const val INF = Int.MAX_VALUE
-
 private fun solve() {
 	val a = readInts()
-	val ans = a.indices.minOf { solve(a.drop(it) + a.take(it)) }
-	println(if (ans == INF) -1 else ans)
-}
-
-private fun solve(a: List<Int>): Int {
-	if (a[1] % 3 != a[2] % 3) return INF
-	return maxOf(a[1], a[2])
+	val ans = a.indices.mapNotNull {
+		val (x, y) = (a.drop(it) + a).take(2)
+		maxOf(x, y).takeIf { (x - y) % 3 == 0 }
+	}.minOrNull() ?: -1
+	println(ans)
 }
 
 fun main() {

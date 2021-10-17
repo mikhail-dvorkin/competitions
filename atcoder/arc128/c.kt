@@ -9,21 +9,17 @@ fun main() {
 	for (i in a.indices) {
 		stack.add(Group(i, i + 1, a[i].toLong()))
 		while (stack.size >= 2) {
-			val left = stack[stack.lastIndex - 1]
-			val right = stack.last()
-			if (left.sum * right.length() >= right.sum * left.length()) {
-				stack.removeAt(stack.lastIndex)
-				stack.removeAt(stack.lastIndex)
-				stack.add(Group(left.from, right.to, left.sum + right.sum))
-			} else break
+			val (left, right) = stack.takeLast(2)
+			if (left.sum * right.length() < right.sum * left.length()) break
+			repeat(2) { stack.removeLast() }
+			stack.add(Group(left.from, right.to, left.sum + right.sum))
 		}
 	}
 	var toDistribute = s.toDouble()
-	var ans = 0.0
-	for (group in stack.reversed()) {
+	val ans = stack.reversed().sumOf { group ->
 		val value = minOf(toDistribute / group.length(), m.toDouble())
-		ans += group.sum * value
 		toDistribute -= group.length() * value
+		group.sum * value
 	}
 	println(ans)
 }
