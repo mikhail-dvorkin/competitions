@@ -253,13 +253,13 @@ public abstract class MarathonTester {
 	}
 
 	protected final double fatalError() {
-		System.out.println(errorMessage);
+		if (debug) System.out.println(errorMessage);
 		executionErrors.append(errorMessage).append("\n");
 		return getErrorScore();
 	}
 
 	protected final double fatalError(String msg) {
-		System.out.println(msg);
+		if (debug) System.out.println(msg);
 		executionErrors.append(msg).append("\n");
 		return getErrorScore();
 	}

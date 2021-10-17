@@ -309,6 +309,7 @@ public class MarathonController {
 							double score = tester.runTest();
 							long runTime = tester.getRunTime();
 							myScoresSum += tester.myScore;
+							if (!tester.getExecutionsErrors().isEmpty()) tester.myTroubles.addAll(Arrays.asList(tester.getExecutionsErrors().split("\n")));
 
 							sb.delete(0, sb.length());
 							if (multipleSeeds) sb.append("Seed = ").append(seed).append(",\t");
