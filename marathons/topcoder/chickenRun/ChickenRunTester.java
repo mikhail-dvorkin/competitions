@@ -7,10 +7,11 @@ import java.io.*;
 import javax.imageio.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import marathons.utils.topcoder2021_09_15.*;
 
-public class ChickenRunTester extends MarathonAnimatedVis {
+public class ChickenRunTester extends MarathonAnimatedVis implements Callable<Void> {
 	//parameter ranges
 	private static final int minN = 6, maxN = 30;
 	private static final double minC = 0.03, maxC = 0.1;
@@ -474,5 +475,11 @@ public class ChickenRunTester extends MarathonAnimatedVis {
 
 	public static void main(String[] args) {
 		new MarathonController().run(args);
+	}
+
+	@Override
+	public Void call() throws Exception {
+		main(ChickenRun.EVALUATOR_PARAMETERS.split("\\s+"));
+		return null;
 	}
 }
