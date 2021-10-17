@@ -1,0 +1,186 @@
+diff --git a/MarathonController.java b/MarathonController.java
+index a9fa295..dd6ec3e 100644
+--- a/MarathonController.java
++++ b/MarathonController.java
+@@ -1,5 +1,7 @@
+ package marathons.utils.topcoder;
+ 
++import marathons.utils.Evaluator;
++
+ import java.io.BufferedReader;
+ import java.io.BufferedWriter;
+ import java.io.File;
+@@ -16,8 +18,8 @@ import java.util.TreeMap;
+ public class MarathonController {
+ 	private final Object statsLock = new Object();
+ 	private long maxRunTime, avgRunTime;
+-	private int numFails, numCases, numImproved, numTied, numNew;
+-	private double prevTotScore, currTotScore;
++	private int numFails, numCases, numImproved, numTied, numNew, numTroubles;
++	private double prevTotScore, currTotScore, myScoresSum;
+ 	private static final double eps = 1e-9;
+ 
+ 	private Parameters parseArgs(String[] args) {
+@@ -137,6 +139,8 @@ public class MarathonController {
+ 
+ 	//Called by local tester, passing command line parameters
+ 	public final void run(String[] args) {
++		Evaluator.requireEnablesAssertions();
++
+ 		//Find the name of the concrete class (actual MarathonTester) to be called using reflection
+ 		String className = new Exception().getStackTrace()[1].getClassName();
+ 
+@@ -276,10 +280,17 @@ public class MarathonController {
+ 
+ 							double score = tester.runTest();
+ 							long runTime = tester.getRunTime();
++							myScoresSum += tester.myScore;
+ 
+ 							sb.delete(0, sb.length());
+-							if (multipleSeeds) sb.append("Seed = ").append(seed).append(", ");
+-							sb.append("Score = ").append(score);
++							if (multipleSeeds) sb.append("Seed = ").append(seed).append(",\t");
++							sb.append("Score = ").append(score).append(",\t");
++							if (tester.myScore != 0) sb.append("MyScore = ").append(Evaluator.round(tester.myScore, 2)).append(",\t");
++							if (!tester.myTroubles.isEmpty()) {
++								numTroubles++;
++								sb.append(tester.myTroubles);
++							}
++							if (!tester.myLabels.isEmpty()) sb.append(tester.myLabels);
+ 							Double best = checkBest(bestsFile, isMaximize, errorScore, seed, score);
+ 							if (best != null) sb.append(", PreviousBest = ").append(best);
+ 							if (printRuntime) sb.append(", RunTime = ").append(runTime).append(" ms");
+@@ -330,6 +341,7 @@ public class MarathonController {
+ 		if (multipleSeeds && !parameters.isDefined(Parameters.noSummary)) {
+ 			avgRunTime /= numCases;
+ 			System.out.println();
++			System.out.println("  Average MyScore: " + Evaluator.round(myScoresSum / numCases, 2));
+ 			System.out.println("            Seeds: " + startSeed + " to " + endSeed);
+ 			System.out.println("   Executed Cases: " + numCases);
+ 			System.out.println("     Failed Cases: " + numFails);
+@@ -348,6 +360,10 @@ public class MarathonController {
+ 				currTotScore /= numCases;
+ 				System.out.println("    Current Score: " + df.format(currTotScore * 100));
+ 			}
++			if (numTroubles > 0) {
++				String s = numTroubles + " TROUBLES!";
++				System.out.println(s); System.err.println(s);
++			}
+ 		}
+ 	}
+ }
+diff --git a/MarathonTester.java b/MarathonTester.java
+index bd8e44f..f12f3b3 100644
+--- a/MarathonTester.java
++++ b/MarathonTester.java
+@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit;
+  * problems with no visualization.
+  */
+ public abstract class MarathonTester {
++	public double myScore;
++	public ArrayList<String> myTroubles = new ArrayList<>();
++	public ArrayList<String> myLabels = new ArrayList<>();
+ 	protected Parameters parameters;
+ 	protected boolean debug;
+ 	protected long seed;
+diff --git a/MarathonVis.java b/MarathonVis.java
+index a9d6eeb..19733a5 100644
+--- a/MarathonVis.java
++++ b/MarathonVis.java
+@@ -1,5 +1,7 @@
+ package marathons.utils.topcoder;
+ 
++import marathons.utils.Pictures;
++
+ import java.awt.BasicStroke;
+ import java.awt.Color;
+ import java.awt.Dimension;
+@@ -15,10 +17,7 @@ import java.awt.Rectangle;
+ import java.awt.RenderingHints;
+ import java.awt.Shape;
+ import java.awt.Toolkit;
+-import java.awt.event.MouseAdapter;
+-import java.awt.event.MouseEvent;
+-import java.awt.event.WindowAdapter;
+-import java.awt.event.WindowEvent;
++import java.awt.event.*;
+ import java.awt.font.FontRenderContext;
+ import java.awt.font.GlyphVector;
+ import java.awt.geom.AffineTransform;
+@@ -100,7 +99,21 @@ public abstract class MarathonVis extends MarathonTester {
+ 	}
+ 
+ 	protected void update() {
++		update(false);
++	}
++
++	protected void update(boolean isInit) {
+ 		if (!vis) return;
++		if (parameters.isDefined(Parameters.myVis)) {
++			if (isInit) return;
++			int width = 1000;
++			int height = 800;
++			infoFontWidth = infoFontHeight = 12;
++			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
++			paintVis(image.getGraphics(), width, height);
++			Pictures.write(image, seed, "");
++			return;
++		}
+ 		synchronized (updateLock) {
+ 			if (frame == null) {
+ 				String className = getClass().getName();
+@@ -124,6 +137,12 @@ public abstract class MarathonVis extends MarathonTester {
+ 						end();
+ 					}
+ 				});
++				frame.addKeyListener(new KeyAdapter() {
++					@Override
++					public void keyPressed(KeyEvent e) {
++						if (e.getKeyCode() == KeyEvent.VK_ESCAPE) System.exit(0);
++					}
++				});
+ 
+ 				panel = new JPanel() {
+ 					private static final long serialVersionUID = -1008231133177413855L;
+@@ -163,7 +182,8 @@ public abstract class MarathonVis extends MarathonTester {
+ 
+ 				SwingUtilities.invokeLater(new Runnable() {
+ 					public void run() {
+-						frame.setSize(1000, 1000);
++						int maxSize = 1000;
++						frame.setSize(maxSize, maxSize);
+ 						frame.setTitle(className + " - Seed: " + seed);
+ 						frame.setIconImage(getIcon());
+ 						frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+@@ -179,8 +199,7 @@ public abstract class MarathonVis extends MarathonTester {
+ 
+ 						frame.setVisible(true);
+ 						if (size <= 0) {
+-							Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+-							Rectangle bounds = new Rectangle(0, 0, screenSize.width, screenSize.height);
++							Rectangle bounds = new Rectangle(0, 0, maxSize, maxSize);
+ 							try {
+ 								GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+ 								bounds = new Rectangle(gc.getBounds());
+@@ -273,7 +292,7 @@ public abstract class MarathonVis extends MarathonTester {
+ 		Graphics2D g2 = (Graphics2D) g;
+ 		g2.setColor(new Color(230, 230, 232));
+ 		g2.fillRect(0, 0, w, h);
+-		g2.setRenderingHints(hints);
++		if (!parameters.isDefined(Parameters.myVis)) g2.setRenderingHints(hints);
+ 
+ 		synchronized (updateLock) {
+ 			if (infoColumns > 0) paintInfo(g2, w);
+diff --git a/Parameters.java b/Parameters.java
+index 03cdd0e..406e5a6 100644
+--- a/Parameters.java
++++ b/Parameters.java
+@@ -9,6 +9,8 @@ public class Parameters {
+ 	public static final String delay = "delay";
+ 	public static final String exec = "exec";
+ 	public static final String loadSolOutput = "loadSolOutput";
++	public static final String myExec = "myExec";
++	public static final String myVis = "myVis";
+ 	public static final String noAntialiasing = "noAntialiasing";
+ 	public static final String noOutput = "noOutput";
+ 	public static final String noSummary = "noSummary";
