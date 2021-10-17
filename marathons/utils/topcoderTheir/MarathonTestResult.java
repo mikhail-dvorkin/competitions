@@ -1,4 +1,4 @@
-package marathons.utils.topcoder2021_10_13;
+package marathons.utils.topcoderTheir;
 
 public class MarathonTestResult {
 	private String error;
