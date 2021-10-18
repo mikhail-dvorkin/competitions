@@ -70,4 +70,10 @@ public class Pictures {
 		html.println("<br/>");
 		html.flush();
 	}
+
+	public static void remind() {
+		if (mode) {
+			System.out.println("file://" + picsFile.getAbsolutePath());
+		}
+	}
 }
