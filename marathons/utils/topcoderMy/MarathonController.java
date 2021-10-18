@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import marathons.utils.Evaluator;
+import marathons.utils.Pictures;
 
 /**
  * Main entry point of the Marathon tester. It handles parameter and calls the solution.
@@ -390,6 +391,7 @@ public class MarathonController {
 				currTotScore /= numCases;
 				System.out.println("    Current Score: " + df.format(currTotScore * 100));
 			}
+			Pictures.remind();
 			if (numTroubles > 0) {
 				String s = numTroubles + " TROUBLES!";
 				System.out.println(s); System.err.println(s);

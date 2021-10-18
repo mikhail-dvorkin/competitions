@@ -25,7 +25,7 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  
  import java.io.BufferedReader;
  import java.io.BufferedWriter;
-@@ -9,10 +9,12 @@
+@@ -9,10 +9,13 @@
  import java.nio.file.Files;
  import java.nio.file.StandardCopyOption;
  import java.text.DecimalFormat;
@@ -35,10 +35,11 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  import java.util.Map;
  import java.util.TreeMap;
 +import marathons.utils.Evaluator;
++import marathons.utils.Pictures;
  
  /**
   * Main entry point of the Marathon tester. It handles parameter and calls the solution.
-@@ -25,8 +27,8 @@
+@@ -25,8 +28,8 @@
  public class MarathonController {
  	private final Object statsLock = new Object();
  	private long maxRunTime, avgRunTime;
@@ -49,7 +50,7 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  	private static final double eps = 1e-9;
  
  	private Parameters parseArgs(String[] args) {
-@@ -146,6 +148,8 @@
+@@ -146,6 +149,8 @@
  
  	//Called by local tester, passing command line parameters
  	public final void run(String[] args) {
@@ -58,7 +59,7 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  		//Find the name of the concrete class (actual MarathonTester) to be called using reflection
  		String className = new Exception().getStackTrace()[1].getClassName();
  
-@@ -305,10 +309,18 @@
+@@ -305,10 +310,18 @@
  
  							double score = tester.runTest();
  							long runTime = tester.getRunTime();
@@ -79,7 +80,7 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  							Double best = checkBest(bestsFile, isMaximize, errorScore, seed, score);
  							if (best != null) sb.append(", PreviousBest = ").append(best);
  							if (printRuntime) sb.append(", RunTime = ").append(runTime).append(" ms");
-@@ -359,6 +371,7 @@
+@@ -359,6 +372,7 @@
  		if (multipleSeeds && !parameters.isDefined(Parameters.noSummary)) {
  			avgRunTime /= numCases;
  			System.out.println();
@@ -87,10 +88,11 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
  			System.out.println("            Seeds: " + seedsProcessed);
  			System.out.println("   Executed Cases: " + numCases);
  			System.out.println("     Failed Cases: " + numFails);
-@@ -377,6 +390,10 @@
+@@ -377,6 +391,11 @@
  				currTotScore /= numCases;
  				System.out.println("    Current Score: " + df.format(currTotScore * 100));
  			}
++			Pictures.remind();
 +			if (numTroubles > 0) {
 +				String s = numTroubles + " TROUBLES!";
 +				System.out.println(s); System.err.println(s);
@@ -101,13 +103,15 @@ diff -urN topcoderTheir/MarathonController.java topcoderMy/MarathonController.ja
 diff -urN topcoderTheir/MarathonTester.java topcoderMy/MarathonTester.java
 --- topcoderTheir/MarathonTester.java
 +++ topcoderMy/MarathonTester.java
-@@ -1,4 +1,4 @@
+@@ -1,4 +1,6 @@
 -package marathons.utils.topcoderTheir;
 +package marathons.utils.topcoderMy;
++
++import marathons.utils.Evaluator;
  
  import java.io.BufferedReader;
  import java.io.BufferedWriter;
-@@ -20,6 +20,9 @@
+@@ -20,6 +22,9 @@
   * problems with no visualization. Updated: 2020/09/28
   */
  public abstract class MarathonTester {
@@ -117,7 +121,15 @@ diff -urN topcoderTheir/MarathonTester.java topcoderMy/MarathonTester.java
  	protected Parameters parameters;
  	protected boolean debug;
  	protected long seed;
-@@ -250,13 +253,13 @@
+@@ -53,6 +58,7 @@
+ 
+ 	public void setSeed(long seed) {
+ 		this.seed = seed;
++		Evaluator._seed = seed;
+ 		try {
+ 			rnd = SecureRandom.getInstance("SHA1PRNG");
+ 			rnd.setSeed(seed);
+@@ -250,13 +256,13 @@
  	}
  
  	protected final double fatalError() {

@@ -1,5 +1,7 @@
 package marathons.utils.topcoderMy;
 
+import marathons.utils.Evaluator;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -56,6 +58,7 @@ public abstract class MarathonTester {
 
 	public void setSeed(long seed) {
 		this.seed = seed;
+		Evaluator._seed = seed;
 		try {
 			rnd = SecureRandom.getInstance("SHA1PRNG");
 			rnd.setSeed(seed);
