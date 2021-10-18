@@ -9,6 +9,8 @@ public class GraphLabeling {
 //			null; //SUBMISSION
 	public static final String EVALUATOR_PARAMETERS = "-seed 1,50 -myExec -myVis";
 	private static final long TIME_LIMIT = 9850;
+	public static final int MIN_N = 5, MAX_N = 500;
+	public static final double MIN_C = 0.05, MAX_C = 1;
 
 	int n;
 	boolean[][] e;

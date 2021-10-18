@@ -11,8 +11,8 @@ import marathons.utils.topcoderMy.*;
 
 public class GraphLabelingTester extends MarathonTester implements Callable<Void> {
 	//Ranges
-	private static final int minN = 5, maxN = 500;
-	private static final double minC = 0.05, maxC = 1;
+	private static final int minN = GraphLabeling.MIN_N, maxN = GraphLabeling.MAX_N;
+	private static final double minC = GraphLabeling.MIN_C, maxC = GraphLabeling.MAX_C;
 
 	//Inputs
 	private int N;          //number of nodes
