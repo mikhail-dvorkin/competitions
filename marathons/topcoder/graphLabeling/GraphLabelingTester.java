@@ -1,9 +1,12 @@
 package marathons.topcoder.graphLabeling;
 
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.Callable;
 
 import marathons.utils.Evaluator;
+import marathons.utils.Pictures;
+import marathons.utils.dot.*;
 import marathons.utils.topcoderMy.*;
 
 public class GraphLabelingTester extends MarathonTester implements Callable<Void> {
@@ -167,7 +170,28 @@ public class GraphLabelingTester extends MarathonTester implements Callable<Void
 				}
 
 		myScore = maxValue;
+		visualizeDot(values);
 		return maxValue;
+	}
+
+	private void visualizeDot(long[] values) {
+		if (!parameters.isDefined(Parameters.myVis)) return;
+		DotGraphImpl graph = new DotGraphImpl();
+		for (int i = 0; i < N; i++) {
+			graph.vertices().add(new DotVertexImpl("v" + i).setLabel(values[i] + "@" + i));
+			for (int j = 0; j < i; j++) {
+				if (Graph[i][j]) {
+					graph.edges().add(new DotEdgeImpl("v" + i, "v" + j).undirected().setLabel("" + Math.abs(values[i] - values[j])));
+				}
+			}
+		}
+		new DotGraphPrinter("pic" + seed + "~.dot", "test" + seed).printAndClose(graph);
+		PrintWriter sh = DotGraphPrinter.printWriter("pics~.sh");
+		String format = "png";
+		sh.println("sfdp -x -Goverlap=scale -O -T" + format + " pic*~.dot");
+		Pictures.write("pic" + seed + "~.dot." + format);
+		Pictures.br();
+		sh.close();
 	}
 
 	public static void mainRenamed(String[] args) {

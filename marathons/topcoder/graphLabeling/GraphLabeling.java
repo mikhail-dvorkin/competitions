@@ -7,7 +7,7 @@ public class GraphLabeling {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
 			new GraphLabelingTester(); //TESTING
 //			null; //SUBMISSION
-	public static final String EVALUATOR_PARAMETERS = "-seed 1,10 -myExec";
+	public static final String EVALUATOR_PARAMETERS = "-seed 1,50 -myExec -myVis";
 	private static final long TIME_LIMIT = 9850;
 
 	int n;
@@ -15,6 +15,7 @@ public class GraphLabeling {
 	long[] ans;
 
 	private void solve() {
+		_labels.add("n = " + n);
 		for (int i = 0; i < n; i++) {
 			ans[i] = (1L << i) - 1;
 		}
@@ -72,7 +73,6 @@ public class GraphLabeling {
 	private final Random rnd = new Random(566);
 
 	public static void main(String[] args) throws Exception {
-		//noinspection ConstantConditions
 		if (EVALUATOR != null) {
 			EVALUATOR.call();
 			return;
