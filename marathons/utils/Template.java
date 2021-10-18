@@ -7,7 +7,7 @@ public class Template {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
 //			new marathons.utils.Evaluator(new TopCoderMarathonVis()); //TESTING
 			null; //SUBMISSION
-	private static final long TIME_LIMIT = 9850;
+	public static final long TIME_LIMIT = 9850;
 
 	private void solve() {
 	}
