@@ -7,7 +7,7 @@ public class GraphLabeling {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
 			new GraphLabelingTester(); //TESTING
 //			null; //SUBMISSION
-	public static final String EVALUATOR_PARAMETERS = "-seed 1,50 -myExec -myVis";
+	public static final String EVALUATOR_PARAMETERS = "-seed 1,100 -myExec -myVis #myGen";
 	public static final long TIME_LIMIT = 10000 - 300;
 	public static final int MIN_N = 5, MAX_N = 500;
 	public static final double MIN_C = 0.05, MAX_C = 1;

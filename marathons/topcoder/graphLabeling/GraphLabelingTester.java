@@ -33,7 +33,9 @@ public class GraphLabelingTester extends MarathonTester implements Callable<Void
 		} else if (seed == 2) {
 			N = maxN;
 		}
-
+		if (parameters.isDefined(Parameters.myGen)) {
+			c = minC + (seed - 3) % 95 / 95.0 * (maxC - minC);
+		}
 
 		//User defined parameters
 		if (parameters.isDefined("N")) {
