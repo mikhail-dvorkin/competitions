@@ -106,8 +106,9 @@ public class GraphLabelingTester extends MarathonTester implements Callable<Void
 			GraphLabeling._localTimeCoefficient = Evaluator.localTimeCoefficient();
 			startTime();
 			GraphLabeling program = new GraphLabeling();
-			long[] ans = program.solve(Graph);
+			int[] ans = program.solve(Graph);
 			stopTime();
+			myScore = program._myScore;
 			temp = new String[ans.length];
 			for (int i = 0; i < ans.length; i++) {
 				temp[i] = "" + ans[i];
@@ -143,7 +144,6 @@ public class GraphLabelingTester extends MarathonTester implements Callable<Void
 		Set<Long> seen = new HashSet<>();
 		long[] values = new long[N];
 		long maxValue = -1;
-		myScore = -1;
 
 		for (int i = 0; i < N; i++) {
 			try {
@@ -171,7 +171,6 @@ public class GraphLabelingTester extends MarathonTester implements Callable<Void
 					diffs.add(diff);
 				}
 
-		myScore = maxValue;
 		visualizeDot(values);
 		return maxValue;
 	}

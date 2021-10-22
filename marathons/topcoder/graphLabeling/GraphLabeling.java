@@ -31,7 +31,7 @@ public class GraphLabeling {
 			solve();
 		} catch (TimeOutException ignored) {
 		}
-		_myScore = 1;
+		_myScore = 100.0 * edges / ansWidth;
 		return ans;
 	}
 
@@ -94,7 +94,7 @@ public class GraphLabeling {
 			graph[node2][node1] = true;
 		}
 
-		long[] ans = new GraphLabeling().solve(graph);
+		int[] ans = new GraphLabeling().solve(graph);
 
 		StringBuilder out = new StringBuilder();
 		for (int i = 0; i < N; i++)
