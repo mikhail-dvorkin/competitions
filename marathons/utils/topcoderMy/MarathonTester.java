@@ -160,7 +160,7 @@ public abstract class MarathonTester {
 				}
 			}
 			end();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			stopTime();
 			if (!timeout && !ending) {
 				String msg = "";
