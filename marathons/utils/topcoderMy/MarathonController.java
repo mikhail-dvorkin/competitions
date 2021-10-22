@@ -316,6 +316,7 @@ public class MarathonController {
 
 							sb.delete(0, sb.length());
 							if (multipleSeeds) sb.append("Seed = ").append(seed).append(",\t");
+							sb.append("Time = ").append(runTime).append(",\t");
 							sb.append("Score = ").append(score).append(",\t");
 							if (tester.myScore != 0) sb.append("MyScore = ").append(Evaluator.round(tester.myScore, 2)).append(",\t");
 							if (!tester.myTroubles.isEmpty()) {
