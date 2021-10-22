@@ -29,7 +29,6 @@ public class GraphLabeling {
 		ans = new long[n];
 		try {
 			solve();
-			checkTimeLimit(0.5);
 		} catch (TimeOutException ignored) {
 		}
 		_myScore = 1;
@@ -47,6 +46,7 @@ public class GraphLabeling {
 		checkTimeLimit(1);
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	private void checkTimeLimit(double threshold) {
 		if (timePassed() >= threshold) {
 			throw new TimeOutException();

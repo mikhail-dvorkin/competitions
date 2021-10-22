@@ -25,7 +25,6 @@ public class Template {
 		if (!SUBMIT) System.out.print(s + " ");
 	}
 
-	@SuppressWarnings("serial")
 	private static class TimeOutException extends RuntimeException {
 	}
 
@@ -33,6 +32,7 @@ public class Template {
 		checkTimeLimit(1);
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	private void checkTimeLimit(double threshold) {
 		if (timePassed() >= threshold) {
 			throw new TimeOutException();
