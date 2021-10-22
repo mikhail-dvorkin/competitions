@@ -36,6 +36,7 @@ public class MarathonController {
 		Parameters parameters = new Parameters();
 		String last = null;
 		for (String s : args) {
+			if (s.startsWith("#")) continue;
 			if (!s.startsWith("-")) {
 				if (last == null) {
 					System.out.println("ERROR: Invalid command line parameters!");
