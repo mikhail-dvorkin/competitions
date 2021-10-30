@@ -1,19 +1,12 @@
 package codeforces.round752
 
-private fun solve(): Long {
+private fun solve(): Number {
 	val (x, y) = readInts()
-	val n = solve(x, y)
-	if (n % x != y % n) error("")
-	return n
-}
-
-private fun solve(x: Int, y: Int): Long {
-	if (y < x) {
-		return x.toLong() * x + y
+	return when {
+		y < x -> x.toLong() * x + y
+		y % x == 0 -> x
+		else -> y - y % x / 2
 	}
-	if (y % x == 0) return x.toLong()
-	val p = y.toLong() - y % x
-	return (p + y) / 2
 }
 
 fun main() = repeat(readInt()) { println(solve()) }
