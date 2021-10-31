@@ -1,28 +1,15 @@
 package codeforces.deltix2021summer
 
 fun main() {
-	val M = 1_000_000_007
-	val MBigInteger = M.toBigInteger()
 	readLn()
-	val strengths = readInts()
+	val strengths = readInts().map { it.toModular() }
 	val n = strengths.size
-	val probWin = List(n) { IntArray(n) }
-	val probLose = List(n) { IntArray(n) }
-	for (i in 0 until n) {
-		for (j in 0 until n) {
-			if (i == j) continue
-			probWin[i][j] =	(strengths[i].toLong() * (strengths[i] + strengths[j]).toBigInteger().modInverse(MBigInteger).toLong() % M).toInt()
-			probLose[j][i] = probWin[i][j]
-		}
-	}
+	val probWin = Array(n) { i -> Array(n) { j -> strengths[i] / (strengths[i] + strengths[j]) } }
 	val masks = 1 shl n
-	val pScc = IntArray(masks)
-	var ans = 0L
+	val pScc = Array(masks) { 1.toModular() }
+	var ans = 0.toModular()
 	for (mask in 1 until masks) {
-		if (mask.countOneBits() == 1) {
-			pScc[mask] = 1
-			continue
- 		}
+		if (mask.countOneBits() == 1) continue
 		var top = (mask - 1) and mask
 		var rest = 1L
 		while (top > 0) {
@@ -31,19 +18,40 @@ fun main() {
 				if (!top.hasBit(i)) continue
 				for (j in 0 until n) {
 					if (top.hasBit(j) || !mask.hasBit(j)) continue
-					thisTop = (thisTop.toLong() * probWin[i][j] % M).toInt()
+					thisTop *= probWin[i][j]
 				}
 			}
-			if (mask == masks - 1) {
-				ans += thisTop.toLong() * top.countOneBits()
-			}
-			rest = (rest + M - thisTop)
+			if (mask == masks - 1) ans += top.countOneBits() * thisTop
+			rest -= thisTop.x
 			top = (top - 1) and mask
 		}
-		pScc[mask] = (rest % M).toInt()
+		pScc[mask] = rest.toModular()
 	}
-	println((ans + pScc[masks - 1].toLong() * n) % M)
+	println(ans + n * pScc.last())
 }
+
+private fun Int.toModular() = Modular(this)//toDouble()
+private fun Long.toModular() = Modular(this)
+private class Modular {
+	companion object {
+		const val M = 1_000_000_007
+	}
+	val x: Int
+	@Suppress("ConvertSecondaryConstructorToPrimary")
+	constructor(value: Int) { x = (value % M).let { if (it < 0) it + M else it } }
+	@Suppress("ConvertSecondaryConstructorToPrimary")
+	constructor(value: Long) { x = (value % M).toInt().let { if (it < 0) it + M else it } }
+	operator fun plus(that: Modular) = Modular((x + that.x) % M)
+	operator fun minus(that: Modular) = Modular((x + M - that.x) % M)
+	operator fun times(that: Modular) = (x.toLong() * that.x % M).toInt().toModular()
+	private fun modInverse() = Modular(x.toBigInteger().modInverse(M.toBigInteger()).toInt())
+	operator fun div(that: Modular) = times(that.modInverse())
+	override fun toString() = x.toString()
+}
+private operator fun Int.plus(that: Modular) = Modular(this) + that
+private operator fun Int.minus(that: Modular) = Modular(this) - that
+private operator fun Int.times(that: Modular) = Modular(this) * that
+private operator fun Int.div(that: Modular) = Modular(this) / that
 
 private fun Int.bit(index: Int) = shr(index) and 1
 private fun Int.hasBit(index: Int) = bit(index) != 0

@@ -11,15 +11,13 @@ private fun solve(): Long {
 	readLn()
 	val a = readInts().map { it and 1 }
 	val n = a.size
-	val ones = a.count { it == 1}
+	val balance = a.sum() - n / 2
 	if (n % 2 == 0) {
-		if (ones != n / 2) return -1
-		return minOf(solve(a, 0), solve(a, 1))
+		if (balance == 0) return minOf(solve(a, 0), solve(a, 1))
 	} else {
-		if (ones == n / 2) return solve(a, 0)
-		if (ones == n / 2 + 1) return solve(a, 1)
-		return -1
+		if (balance in 0..1) return solve(a, balance)
 	}
+	return -1
 }
 
 fun main() {

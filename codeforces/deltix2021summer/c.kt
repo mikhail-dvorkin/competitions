@@ -9,33 +9,32 @@ fun main() {
 	for (i in c.indices) {
 		if (i % 2 == 0) {
 			balance += c[i]
-		} else {
-			val newBalance = balance - c[i]
-			var from = balance
-			while (true) {
-				if (peaks.isEmpty()) {
-					peaks.add(newBalance to 1)
-					break
-				}
-				if (peaks.last().first < newBalance) {
-					answer += from - newBalance
-					peaks.add(newBalance to 1)
-					break
-				}
-				if (peaks.last().first == newBalance) {
-					val p = peaks.removeAt(peaks.lastIndex)
-					answer += from - newBalance + p.second
-					if (peaks.isEmpty()) answer--
-					peaks.add(p.first to p.second + 1)
-					break
-				}
-				val p = peaks.removeAt(peaks.lastIndex)
-				answer += from - p.first + p.second
-				if (peaks.isEmpty()) answer--
-				from = p.first
-			}
-			balance = newBalance
+			continue
 		}
+		val newBalance = balance - c[i]
+		var from = balance
+		while (true) {
+			if (peaks.isEmpty()) {
+				peaks.add(newBalance to 1)
+				break
+			}
+			val compare = peaks.last().first.compareTo(newBalance)
+			if (compare < 0) {
+				answer += from - newBalance
+				peaks.add(newBalance to 1)
+				break
+			}
+			val p = peaks.removeAt(peaks.lastIndex)
+			if (peaks.isEmpty()) answer--
+			if (compare == 0) {
+				answer += from - newBalance + p.second
+				peaks.add(p.first to p.second + 1)
+				break
+			}
+			answer += from - p.first + p.second
+			from = p.first
+		}
+		balance = newBalance
 	}
 	println(answer)
 }

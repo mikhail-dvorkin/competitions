@@ -1,15 +1,17 @@
 package codeforces.deltix2021summer
 
-private fun solve() {
+private fun solve(): Int {
 	val (c, d) = readInts()
-	if (c == d && c == 0) return println(0)
-	if (c == d && c > 0 || c == -d) return println(1)
-	if (c + d > 0 && (c + d) % 2 == 0) return println(2)
-	println(-1)
+	return when {
+		c == d && c == 0 -> 0
+		c == d && c > 0 || c == -d -> 1
+		c + d > 0 && (c + d) % 2 == 0 -> 2
+		else -> -1
+	}
 }
 
 fun main() {
-	repeat(readInt()) { solve() }
+	repeat(readInt()) { println(solve()) }
 }
 
 private fun readLn() = readLine()!!
