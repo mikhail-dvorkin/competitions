@@ -20,8 +20,8 @@ fun main() {
 	println(ans)
 }
 
-fun Int.toModular() = Modular(this)
-class Modular {
+private fun Int.toModular() = Modular(this)
+private class Modular {
 	companion object {
 		const val M = 998244353
 	}
@@ -31,14 +31,14 @@ class Modular {
 	operator fun plus(that: Modular) = Modular((x + that.x) % M)
 	operator fun minus(that: Modular) = Modular((x + M - that.x) % M)
 	operator fun times(that: Modular) = (x.toLong() * that.x % M).toInt().toModular()
-	fun modInverse() = Modular(x.toBigInteger().modInverse(M.toBigInteger()).toInt())
+	private fun modInverse() = Modular(x.toBigInteger().modInverse(M.toBigInteger()).toInt())
 	operator fun div(that: Modular) = times(that.modInverse())
 	override fun toString() = x.toString()
 }
-operator fun Int.plus(that: Modular) = Modular(this) + that
-operator fun Int.minus(that: Modular) = Modular(this) - that
-operator fun Int.times(that: Modular) = Modular(this) * that
-operator fun Int.div(that: Modular) = Modular(this) / that
+private operator fun Int.plus(that: Modular) = Modular(this) + that
+private operator fun Int.minus(that: Modular) = Modular(this) - that
+private operator fun Int.times(that: Modular) = Modular(this) * that
+private operator fun Int.div(that: Modular) = Modular(this) / that
 
 private fun readLn() = readLine()!!
 private fun readStrings() = readLn().split(" ")
