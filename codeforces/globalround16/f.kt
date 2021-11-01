@@ -1,15 +1,13 @@
 package codeforces.globalround16
 
 private fun solve() {
-	val (n, m) = readInts()
+	val (_, m) = readInts()
 	val points = readInts().sorted()
 	val segments = List(m) { readInts().let { it[0] to it[1] } }
-	val groups = List(n + 1) { mutableListOf<Pair<Int, Int>>() }
+	val groups = List(points.size + 1) { mutableListOf<Pair<Int, Int>>() }
 	for (segment in segments) {
 		val index = (-1..points.size).binarySearch { points[it] >= segment.first }
-		if (index < points.size) {
-			if (points[index] <= segment.second) continue
-		}
+		if (index < points.size && points[index] <= segment.second) continue
 		groups[index].add(segment)
 	}
 	var ifEats = 0L
@@ -29,13 +27,13 @@ private fun solve() {
 			}
 			g.add(segment)
 		}
-		val pPrev = if (k == 0) -inf else points[k - 1].toLong()
-		val pNext = if (k == groups.lastIndex) inf else points[k].toLong()
+		val pPrev = points.getOrElse(k - 1) { -inf }.toLong()
+		val pNext = points.getOrElse(k) { inf }.toLong()
 		var newIfEats = inf
 		var newIfGives = inf
 		for (i in 0..g.size) {
-			val comeLeft = if (i == 0) pPrev else g[i - 1].first.toLong()
-			val comeRight = if (i == g.size) pNext else g[i].second.toLong()
+			val comeLeft = g.getOrNull(i - 1)?.first?.toLong() ?: pPrev
+			val comeRight = g.getOrNull(i)?.second?.toLong() ?: pNext
 			val leftBest = minOf(ifEats + 2 * (comeLeft - pPrev), ifGives + comeLeft - pPrev)
 			val possibleIfEats = leftBest + pNext - comeRight
 			newIfEats = minOf(newIfEats, possibleIfEats)

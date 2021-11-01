@@ -1,14 +1,9 @@
 package codeforces.globalround16
 
 private fun solve() {
-	val (hei, wid) = readInts()
+	readLn()
 	val a = readInts()
-	var ans = 0L
-	for (i in a.indices) {
-		for (j in 0 until i) {
-			if (a[j] < a[i]) ans++
-		}
-	}
+	val ans = a.indices.sumOf { i -> (0 until i).count { j -> a[j] < a[i] } }
 	println(ans)
 }
 

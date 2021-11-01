@@ -23,15 +23,9 @@ private fun solve() {
 		}
 		isLeaf[v] = (p != -1 && kids[v] == 0)
 		isBud[v] = (p != -1 && !nonLeaves && !isLeaf[v])
-		if (isBud[v]) {
-			ans += - 1
-		}
-		if (isLeaf[v]) {
-			ans++
-		}
-		if (v == 0 && kids[v] == 0) {
-			ans++
-		}
+		if (isBud[v]) ans--
+		if (isLeaf[v]) ans++
+		if (v == 0 && kids[v] == 0) ans++
 	}
 	dfs(0)
 	println(ans)

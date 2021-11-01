@@ -8,14 +8,14 @@ private fun solve() {
 	var have1 = false
 	var want1 = false
 	for (i in a.indices) {
-		val c = (a[i] + "" + b[i])
-		if ("0" in c && "1" in c) {
+		val c = setOf(a[i], b[i])
+		if (c.size == 2) {
 			ans += 2
 			have1 = false
 			want1 = false
 			continue
 		}
-		if ("1" !in c) { // 00
+		if ('1' !in c) { // 00
 			ans += 1
 			if (have1) {
 				ans++

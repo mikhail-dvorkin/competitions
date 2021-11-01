@@ -6,37 +6,29 @@ private fun solve() {
 	val places = mutableMapOf<Int, MutableList<Pair<Int, Int>>>()
 	val aSorted = a.sorted()
 	for (i in aSorted.indices) {
-		val v = aSorted[i]
-		if (v !in places) {
-			places[v] = mutableListOf()
-		}
-		places[v]!!.add(i / wid to i % wid)
+		places.getOrPut(aSorted[i]) { mutableListOf() }.add(i / wid to i % wid)
 	}
-	for (v in places.keys) {
-		places[v]!!.sortBy { - it.first * wid + it.second }
-	}
-	var ans = 0L
+	places.forEach { (_, list) -> list.sortBy { - it.first * wid + it.second } }
 	val f = List(hei) { FenwickTree(wid) }
-	for (v in a) {
-		val (x, y) = places[v]!!.removeAt(places[v]!!.lastIndex)
-		ans += f[x].sum(y)
-		f[x].add(y, 1)
+	val ans = a.sumOf { v ->
+		val (x, y) = places[v]!!.removeLast()
+		f[x].sum(y).also { f[x].add(y, 1) }
 	}
 	println(ans)
 }
 
 class FenwickTree(n: Int) {
 	var t: LongArray
-	fun add(i: Int, value: Long) {
-		var i = i
+	fun add(index: Int, value: Long) {
+		var i = index
 		while (i < t.size) {
 			t[i] += value
 			i += i + 1 and -(i + 1)
 		}
 	}
 
-	fun sum(i: Int): Long {
-		var i = i
+	fun sum(index: Int): Long {
+		var i = index
 		var res: Long = 0
 		i--
 		while (i >= 0) {
