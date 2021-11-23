@@ -2,7 +2,7 @@ package codechef.snackdown2021.preelim
 
 import java.util.*
 
-private fun solve(): List<Int> {
+private fun solve(magic: Int = 96): List<Int> {
 	val n = readInt()
 	val e = List(n) { readLn() }
 	val diff = (n + 1) / 2
@@ -13,7 +13,7 @@ private fun solve(): List<Int> {
 	for (mid in e.indices.shuffled(r)) {
 		val (weak, strong) = (e.indices - mid).partition { won(mid, it) }.toList().map { it.toMutableList() }
 		if (maxOf(weak.size, strong.size) > diff + 1) continue
-		if (++tries == 96) break
+		if (++tries == magic) break
 		level.fill(0)
 		for (a in listOf(weak, strong)) {
 			for (i in a.indices) for (j in 0 until i) {

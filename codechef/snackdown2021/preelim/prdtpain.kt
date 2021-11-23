@@ -7,8 +7,9 @@ private fun solve(): Long {
 	for (i in 0..a.size - 3) {
 		var j = i + 1
 		for (k in i + 2..a.lastIndex) {
-			while (j + 1 < k && (a[i] - a[j + 1]) * (a[j + 1] - a[k]) >= (a[i] - a[j]) * (a[j] - a[k])) j++
-			ans += (a[i] - a[j]) * (a[j] - a[k])
+			fun score(x: Int) = (a[i] - a[x]) * (a[x] - a[k])
+			while (j + 1 < k && score(j + 1) >= score(j)) j++
+			ans += score(j)
 		}
 	}
 	return ans
