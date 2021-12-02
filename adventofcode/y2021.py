@@ -12,13 +12,18 @@ def day1(s, windows=[1, 3]):
 def day2(s):
 	DIR = {'forward': (1, 0), 'up': (0, 1), 'down': (0, -1)}
 	s = s.split('\n')
-	x, y = 0, 0
-	for line in s:
-		d, length = line.split()
-		length = int(length)
-		dx, dy = [length * z for z in DIR[d]]
-		x += dx; y += dy
-	yield x * y
+	for mode in range(2):
+		x, y, aim = 0, 0, 0
+		for line in s:
+			d, length = line.split()
+			length = int(length)
+			dx, dy = [length * z for z in DIR[d]]
+			if mode:
+				aim += dy
+				x += dx; y += dx * aim
+			else:
+				x += dx; y += dy
+		yield -x * y
 
 
 if __name__ == '__main__':
