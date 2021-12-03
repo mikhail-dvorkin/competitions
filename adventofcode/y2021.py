@@ -25,6 +25,12 @@ def day2(s):
 				x += dx; y += dy
 		yield -x * y
 
+def day3(s):
+	s = s.split()
+	common = [sorted(column)[len(column) // 2] for column in zip(*s)]
+	x = int(''.join(common), 2)
+	yield x * (2 ** len(s[0]) - 1 - x)
+
 
 if __name__ == '__main__':
 	adventofcode.run()
