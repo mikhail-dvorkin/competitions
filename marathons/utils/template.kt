@@ -8,7 +8,7 @@ val EVALUATOR: Callable<Void?>
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null
-const val TIME_LIMIT = 9850L
+const val TIME_LIMIT = 10000 - 150
 
 fun solve(input: Int): Int {
 	val timeStart = System.currentTimeMillis()
