@@ -27,9 +27,20 @@ def day2(s):
 
 def day3(s):
 	s = s.split()
-	common = [sorted(column)[len(column) // 2] for column in zip(*s)]
-	x = int(''.join(common), 2)
+	def most_common(column):
+		return sorted(column)[len(column) // 2]
+	def to_int(row):
+		return int(''.join(row), 2)
+	common = [most_common(column) for column in zip(*s)]
+	x = to_int(common)
 	yield x * (2 ** len(s[0]) - 1 - x)
+	def process(mode, a=s, x=0):
+		if len(a) == 1:
+			return to_int(a[0])
+		bit = most_common([row[x] for row in a])
+		a = [row for row in a if (row[x] == bit) ^ mode]
+		return process(mode, a, x + 1)
+	yield process(0) * process(1)
 
 
 if __name__ == '__main__':
