@@ -60,5 +60,6 @@ def day5(s):
 	for c in count_straight, count:
 		yield len([p for p in c if c[p] > 1])
 
+
 if __name__ == '__main__':
 	adventofcode.run()
