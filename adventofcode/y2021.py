@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import adventofcode
+import collections
 
 
 def day1(s, windows=[1, 3]):
@@ -42,6 +43,18 @@ def day3(s):
 		return process(mode, a, x + 1)
 	yield process(0) * process(1)
 
+def day5(s):
+	s = s.split('\n')
+	count = collections.defaultdict(lambda: 0)
+	for line in s:
+		x1, y1, x2, y2 = map(int, line.replace(' -> ', ',').split(','))
+		if x1 != x2 and y1 != y2:
+			continue
+		x1, x2 = sorted([x1, x2]); y1, y2 = sorted([y1, y2])
+		for x in range(x1, x2 + 1):
+			for y in range(y1, y2 + 1):
+				count[(x, y)] += 1
+	yield len([p for p in count if count[p] > 1])
 
 if __name__ == '__main__':
 	adventofcode.run()
