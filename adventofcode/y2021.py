@@ -43,6 +43,19 @@ def day3(s):
 		return process(mode, a, x + 1)
 	yield process(0) * process(1)
 
+def day4(s):
+	drawn, *s = s.split('\n\n')
+	drawn = list(map(int, drawn.split(',')))
+	when = {drawn[i]: i for i in range(len(drawn))}
+	wins = []
+	for board in s:
+		board = [list(map(int, line.split())) for line in board.split('\n')]
+		lines = board + list(zip(*board))
+		win = min([max([when[x] for x in line]) for line in lines])
+		wins.append((win, sum([x for x in sum(board, []) if when[x] > win])))
+	first_win = min(wins)
+	yield drawn[first_win[0]] * first_win[1]
+
 def day5(s):
 	s = s.split('\n')
 	count, count_straight = [collections.defaultdict(lambda: 0) for _ in range(2)]
