@@ -53,8 +53,9 @@ def day4(s):
 		lines = board + list(zip(*board))
 		win = min([max([when[x] for x in line]) for line in lines])
 		wins.append((win, sum([x for x in sum(board, []) if when[x] > win])))
-	first_win = min(wins)
-	yield drawn[first_win[0]] * first_win[1]
+	for f in min, max:
+		win = f(wins)
+		yield drawn[win[0]] * win[1]
 
 def day5(s):
 	s = s.split('\n')
