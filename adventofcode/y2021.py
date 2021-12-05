@@ -45,16 +45,20 @@ def day3(s):
 
 def day5(s):
 	s = s.split('\n')
-	count = collections.defaultdict(lambda: 0)
+	count, count_straight = [collections.defaultdict(lambda: 0) for _ in range(2)]
 	for line in s:
 		x1, y1, x2, y2 = map(int, line.replace(' -> ', ',').split(','))
-		if x1 != x2 and y1 != y2:
-			continue
-		x1, x2 = sorted([x1, x2]); y1, y2 = sorted([y1, y2])
-		for x in range(x1, x2 + 1):
-			for y in range(y1, y2 + 1):
-				count[(x, y)] += 1
-	yield len([p for p in count if count[p] > 1])
+		dx, dy = map(adventofcode.signum, [x2 - x1, y2 - y1])
+		x, y = x1, y1
+		while True:
+			count[(x, y)] += 1
+			if dx == 0 or dy == 0:
+				count_straight[(x, y)] += 1
+			if (x, y) == (x2, y2):
+				break
+			x += dx; y += dy
+	for c in count_straight, count:
+		yield len([p for p in c if c[p] > 1])
 
 if __name__ == '__main__':
 	adventofcode.run()
