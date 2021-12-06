@@ -74,6 +74,16 @@ def day5(s):
 	for c in count_straight, count:
 		yield len([p for p in c if c[p] > 1])
 
+def day6(s):
+	s = list(map(int, s.split(',')))
+	for _ in range(80):
+		s = [x - 1 for x in s]
+		for i in range(len(s)):
+			if s[i] == -1:
+				s[i] = 6
+				s.append(8)
+	yield len(s)
+
 
 if __name__ == '__main__':
 	adventofcode.run()
