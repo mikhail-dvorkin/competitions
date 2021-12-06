@@ -74,15 +74,17 @@ def day5(s):
 	for c in count_straight, count:
 		yield len([p for p in c if c[p] > 1])
 
-def day6(s):
+def day6(s, days={80, 256}, new=(7, 9)):
 	s = list(map(int, s.split(',')))
-	for _ in range(80):
-		s = [x - 1 for x in s]
-		for i in range(len(s)):
-			if s[i] == -1:
-				s[i] = 6
-				s.append(8)
-	yield len(s)
+	count = collections.defaultdict(lambda: 0)
+	for x in s:
+		count[x] += 1
+	for day in range(max(days) + 1):
+		if day in days:
+			yield sum(count.values())
+		for add in new:
+			count[day + add] += count[day]
+		del count[day]
 
 
 if __name__ == '__main__':
