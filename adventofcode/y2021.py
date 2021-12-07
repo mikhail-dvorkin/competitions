@@ -86,6 +86,11 @@ def day6(s, days={80, 256}, new=(7, 9)):
 			count[day + add] += count[day]
 		del count[day]
 
+def day7(s):
+	s = list(map(int, s.split(',')))
+	median = sorted(s)[len(s) // 2]
+	yield sum([abs(x - median) for x in s])
+
 
 if __name__ == '__main__':
 	adventofcode.run()
