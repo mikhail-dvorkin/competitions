@@ -87,9 +87,9 @@ def day6(s, days={80, 256}, new=(7, 9)):
 		del count[day]
 
 def day7(s):
-	s = list(map(int, s.split(',')))
-	median = sorted(s)[len(s) // 2]
-	yield sum([abs(x - median) for x in s])
+	s = sorted(map(int, s.split(',')))
+	for f in abs, lambda d: abs(d) * (abs(d) + 1) // 2:
+		yield min([sum([f(x - c) for x in s]) for c in range(s[0], s[-1] + 1)])
 
 
 if __name__ == '__main__':
