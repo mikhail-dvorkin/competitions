@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import adventofcode
 import collections
+import itertools
 
 
 def day1(s, windows=[1, 3]):
@@ -90,6 +91,23 @@ def day7(s):
 	s = sorted(map(int, s.split(',')))
 	for f in abs, lambda d: abs(d) * (abs(d) + 1) // 2:
 		yield min([sum([f(x - c) for x in s]) for c in range(s[0], s[-1] + 1)])
+
+def day8(s):
+	digits = adventofcode.DIGITAL
+	wires = [chr(ord('a') + i) for i in range(len(digits[0]))]
+	reads = {}
+	for p in itertools.permutations(wires):
+		read = {}
+		for d in range(len(digits)):
+			shown = ''.join(sorted([p[i] for i in range(len(digits[d])) if digits[d][i] == '+']))
+			read[shown] = d
+		reads[tuple(sorted(read))] = read
+	numbers = []
+	for case in s.split('\n'):
+		a, b = [[''.join(sorted(token)) for token in part.split()] for part in case.split(' | ')]
+		read = reads[tuple(sorted(a))]
+		numbers.append([read[token] for token in b])
+	yield len([x for x in sum(numbers, []) if x in (1, 4, 7, 8)])
 
 
 if __name__ == '__main__':
