@@ -92,7 +92,7 @@ def day7(s):
 	for f in abs, lambda d: abs(d) * (abs(d) + 1) // 2:
 		yield min([sum([f(x - c) for x in s]) for c in range(s[0], s[-1] + 1)])
 
-def day8(s):
+def day8(s, easy=(1, 4, 7, 8)):
 	digits = adventofcode.DIGITAL
 	wires = [chr(ord('a') + i) for i in range(len(digits[0]))]
 	reads = {}
@@ -107,7 +107,8 @@ def day8(s):
 		a, b = [[''.join(sorted(token)) for token in part.split()] for part in case.split(' | ')]
 		read = reads[tuple(sorted(a))]
 		numbers.append([read[token] for token in b])
-	yield len([x for x in sum(numbers, []) if x in (1, 4, 7, 8)])
+	yield len([x for x in sum(numbers, []) if x in easy])
+	yield sum([int(''.join(map(str, number))) for number in numbers])
 
 
 if __name__ == '__main__':
