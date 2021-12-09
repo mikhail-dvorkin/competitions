@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import adventofcode
 import collections
+import functools
 import itertools
 
 
@@ -112,18 +113,24 @@ def day8(s, easy=(1, 4, 7, 8)):
 
 def day9(s):
 	s = [list(map(int, line)) for line in s.split()]
-	ans = 0
-	for x in range(len(s)):
-		for y in range(len(s[0])):
-			low = True
-			for dx, dy in adventofcode.DIRS:
-				xx = x + dx; yy = y + dy
-				if 0 <= xx < len(s) and 0 <= yy < len(s[0]) and s[xx][yy] <= s[x][y]:
-					low = False
-					break
-			if low:
-				ans += s[x][y] + 1
-	yield ans
+	hei, wid = len(s), len(s[0])
+	mark = [[s[x][y] == 9 for y in range(wid)] for x in range(hei)]
+	def dfs(x, y, h):
+		mark[x][y] = True
+		h.append(s[x][y])
+		for dx, dy in adventofcode.DIRS[:4]:
+			xx = x + dx; yy = y + dy
+			if 0 <= xx < len(s) and 0 <= yy < len(s[0]) and not mark[xx][yy]:
+				dfs(xx, yy, h)
+	basins = []
+	for x in range(hei):
+		for y in range(wid):
+			if mark[x][y]:
+				continue
+			basins.append([])
+			dfs(x, y, basins[-1])
+	yield sum([min(basin) + 1 for basin in basins])
+	yield functools.reduce(int.__mul__, sorted(map(len, basins))[-3:])
 
 
 if __name__ == '__main__':
