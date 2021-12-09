@@ -110,6 +110,21 @@ def day8(s, easy=(1, 4, 7, 8)):
 	yield len([x for x in sum(numbers, []) if x in easy])
 	yield sum([int(''.join(map(str, number))) for number in numbers])
 
+def day9(s):
+	s = [list(map(int, line)) for line in s.split()]
+	ans = 0
+	for x in range(len(s)):
+		for y in range(len(s[0])):
+			low = True
+			for dx, dy in adventofcode.DIRS:
+				xx = x + dx; yy = y + dy
+				if 0 <= xx < len(s) and 0 <= yy < len(s[0]) and s[xx][yy] <= s[x][y]:
+					low = False
+					break
+			if low:
+				ans += s[x][y] + 1
+	yield ans
+
 
 if __name__ == '__main__':
 	adventofcode.run()
