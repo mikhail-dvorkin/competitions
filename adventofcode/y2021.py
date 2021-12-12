@@ -132,7 +132,7 @@ def day9(s):
 	yield sum([min(basin) + 1 for basin in basins])
 	yield functools.reduce(int.__mul__, sorted(map(len, basins))[-3:])
 
-def day11(s):
+def day11(s, flash=10, m=100):
 	s = [list(map(int, line)) for line in s.split()]
 	hei, wid = len(s), len(s[0])
 	ans = 0
@@ -141,24 +141,28 @@ def day11(s):
 		ans += 1
 		for dx, dy in adventofcode.DIRS[:8]:
 			xx = x + dx; yy = y + dy
-			if xx < 0 or xx >= hei or yy < 0 or yy >= wid or s[xx][yy] == 10:
+			if xx < 0 or xx >= hei or yy < 0 or yy >= wid or s[xx][yy] == flash:
 				continue
 			s[xx][yy] += 1
-			if s[xx][yy] == 10:
+			if s[xx][yy] == flash:
 				dfs(xx, yy)
-	for step in range(100):
+	for step in itertools.count():
+		if step == m:
+			yield ans
+		if sum(sum(s, [])) == 0:
+			yield step
+			break
 		for x in range(hei):
 			for y in range(wid):
-				if s[x][y] == 10:
+				if s[x][y] == flash:
 					continue
 				s[x][y] += 1
-				if s[x][y] == 10:
+				if s[x][y] == flash:
 					dfs(x, y)
 		for x in range(hei):
 			for y in range(wid):
-				if s[x][y] == 10:
+				if s[x][y] == flash:
 					s[x][y] = 0
-	yield ans
 
 def day12(s, start='start', end='end'):
 	nei = {}
