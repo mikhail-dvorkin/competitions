@@ -132,6 +132,29 @@ def day9(s):
 	yield sum([min(basin) + 1 for basin in basins])
 	yield functools.reduce(int.__mul__, sorted(map(len, basins))[-3:])
 
+def day12(s):
+	nei = {}
+	def add(u, v):
+		if u not in nei:
+			nei[u] = []
+		nei[u].append(v)
+	for edge in s.split():
+		u, v = edge.split('-')
+		add(u, v); add(v, u)
+	def search(v, seen=[]):
+		nonlocal ans
+		seen = seen + [v]
+		if v == 'end':
+			ans += 1
+			return
+		for u in nei[v]:
+			if u[0].islower() and u in seen:
+				continue
+			search(u, seen)
+	ans = 0
+	search('start')
+	yield ans
+
 
 if __name__ == '__main__':
 	adventofcode.run()
