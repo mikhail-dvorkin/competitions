@@ -132,6 +132,22 @@ def day9(s):
 	yield sum([min(basin) + 1 for basin in basins])
 	yield functools.reduce(int.__mul__, sorted(map(len, basins))[-3:])
 
+def day10(s):
+	s = s.split()
+	pairs = {'(': ')', '[': ']', '{': '}', '<': '>'}
+	cost = {')': 3, ']': 57, '}': 1197, '>': 25137}
+	def score(line):
+		stack = []
+		for c in line:
+			if c in pairs:
+				stack.append(pairs[c])
+				continue
+			if not stack or stack[-1] != c:
+				return cost[c]
+			stack.pop()
+		return 0
+	yield sum(map(score, s))
+
 def day11(s, flash=10, m=100):
 	s = [list(map(int, line)) for line in s.split()]
 	hei, wid = len(s), len(s[0])
