@@ -135,7 +135,7 @@ def day9(s):
 def day10(s):
 	s = s.split()
 	pairs = {'(': ')', '[': ']', '{': '}', '<': '>'}
-	cost = {')': 3, ']': 57, '}': 1197, '>': 25137}
+	cost = {')': (3, 1), ']': (57, 2), '}': (1197, 3), '>': (25137, 4)}
 	def score(line):
 		stack = []
 		for c in line:
@@ -143,10 +143,13 @@ def day10(s):
 				stack.append(pairs[c])
 				continue
 			if not stack or stack[-1] != c:
-				return cost[c]
+				return (cost[c][0], 0)
 			stack.pop()
-		return 0
-	yield sum(map(score, s))
+		return (0, functools.reduce((lambda x, c: x * 5 + cost[c][1]), stack[::-1], 0))
+	scores = list(zip(*map(score, s)))
+	yield sum(scores[0])
+	scores = list(filter(bool, scores[1]))
+	yield sorted(scores)[len(scores) // 2]
 
 def day11(s, flash=10, m=100):
 	s = [list(map(int, line)) for line in s.split()]
