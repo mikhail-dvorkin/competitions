@@ -206,6 +206,19 @@ def day12(s, start='start', end='end'):
 		search(start, repeats)
 		yield ans
 
+def day13(s):
+	dots, folds = s.split('\n\n')
+	dots = {tuple(map(int, line.split(','))) for line in dots.split()}
+	folds = [line.split()[-1] for line in folds.split('\n')]
+	def apply(fold):
+		global x, y
+		nonlocal dots
+		x, y = [2**32] * 2
+		exec(fold, globals())
+		dots = {(min(xx, 2 * x - xx), min(yy, 2 * y - yy)) for (xx, yy) in dots}
+	apply(folds[0])
+	yield len(dots)
+
 
 if __name__ == '__main__':
 	adventofcode.run()
