@@ -210,14 +210,13 @@ def day13(s):
 	dots, folds = s.split('\n\n')
 	dots = {tuple(map(int, line.split(','))) for line in dots.split()}
 	folds = [line.split()[-1] for line in folds.split('\n')]
-	def apply(fold):
+	def apply(dots, fold):
 		global x, y
-		nonlocal dots
 		x, y = [2**32] * 2
 		exec(fold, globals())
-		dots = {(min(xx, 2 * x - xx), min(yy, 2 * y - yy)) for (xx, yy) in dots}
-	apply(folds[0])
-	yield len(dots)
+		return {(min(xx, 2 * x - xx), min(yy, 2 * y - yy)) for (xx, yy) in dots}
+	yield len(apply(dots, folds[0]))
+	yield adventofcode.show_pixels(functools.reduce(apply, folds, dots))
 
 
 if __name__ == '__main__':
