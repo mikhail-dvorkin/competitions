@@ -212,7 +212,7 @@ def day13(s):
 	folds = [line.split()[-1] for line in folds.split('\n')]
 	def apply(dots, fold):
 		global x, y
-		x, y = [2**32] * 2
+		x, y = [max(sum(dots, ()))] * 2
 		exec(fold, globals())
 		return {(min(xx, 2 * x - xx), min(yy, 2 * y - yy)) for (xx, yy) in dots}
 	yield len(apply(dots, folds[0]))
