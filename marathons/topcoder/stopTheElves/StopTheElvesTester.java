@@ -294,6 +294,10 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 	}
 
 	private double callSolution() throws Exception {
+		StopTheElves solution = null;
+		if (parameters.isDefined(Parameters.myExec)) {
+			solution = new StopTheElves();
+		}
 		writeLine(N);
 		writeLine(C);
 		writeLine("" + elfP);
@@ -305,7 +309,11 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 				writeLine("" + grid[r][c]);
 
 		flush();
-		if (!isReadActive()) return -1;
+		if (solution != null) {
+			solution.init(N, C, elfP, money, grid);
+		} else {
+			if (!isReadActive()) return -1;
+		}
 
 		if (hasVis() && hasDelay()) {
 			synchronized (updateLock) {
@@ -317,7 +325,12 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 		for (numTurns = 1; numTurns <= N * N; numTurns++) {
 
 			startTime();
-			String line = readLine();
+			String line;
+			if (solution != null) {
+				line = solution.move();
+			} else  {
+				line = readLine();
+			}
 			stopTime();
 
 			numLastBoxes = 0;
@@ -411,6 +424,9 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 				for (int c = 0; c < N; c++)
 					writeLine("" + grid[r][c]);
 			flush();
+			if (solution != null) {
+				solution.update(getRunTime(), money, grid);
+			}
 		}
 
 		return score;
