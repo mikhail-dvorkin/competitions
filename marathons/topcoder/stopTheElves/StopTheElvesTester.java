@@ -1,3 +1,5 @@
+package marathons.topcoder.stopTheElves;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -5,10 +7,11 @@ import java.io.*;
 import javax.imageio.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
-import com.topcoder.marathon.*;
+import marathons.utils.topcoderMy.*;
 
-public class StopTheElvesTester extends MarathonAnimatedVis {
+public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<Void> {
 	//parameter ranges
 	private static final int minN = 10, maxN = 30; // grid size range
 	private static final int minC = 1, maxC = 10; // cost of box range
@@ -512,5 +515,11 @@ public class StopTheElvesTester extends MarathonAnimatedVis {
 
 	public static void main(String[] args) {
 		new MarathonController().run(args);
+	}
+
+	@Override
+	public Void call() throws Exception {
+		main(StopTheElves.EVALUATOR_PARAMETERS.split(" "));
+		return null;
 	}
 }
