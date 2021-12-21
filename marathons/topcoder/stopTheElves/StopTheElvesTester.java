@@ -3,10 +3,7 @@ package marathons.topcoder.stopTheElves;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-import java.io.*;
 import javax.imageio.*;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 import marathons.utils.topcoderMy.*;
@@ -56,9 +53,9 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 	private int boxesPlaced;
 	private int score;
 	private int money;
-	private Queue<Integer> qr = new LinkedList<Integer>();
-	private Queue<Integer> qc = new LinkedList<Integer>();
-	private Queue<Integer> qd = new LinkedList<Integer>();
+	private final Queue<Integer> qr = new LinkedList<>();
+	private final Queue<Integer> qc = new LinkedList<>();
+	private final Queue<Integer> qd = new LinkedList<>();
 	private int[] lastBoxes;
 	private int numLastBoxes;
 
@@ -123,7 +120,7 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 		lastBoxes = new int[N * N];
 
 		//initialize grid
-		while (true) {
+		do {
 			grid = new char[N][N];
 			presents = 0;
 
@@ -140,8 +137,7 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 						grid[i][k] = Empty;
 					}
 				}
-			if (presents > 0) break;
-		}
+		} while (presents <= 0);
 
 
 		boxesPlaced = 0;
@@ -241,7 +237,7 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 		char e = grid[y][x];
 		int[] order = {0, 1, 2, 3};
 		int[] visited = new int[N * N];
-		int dirToBox = -1; // direction to nearest box
+		int dirToBox = -1; // direction to the nearest box
 		for (int i = 0; i < N * N; i++) visited[i] = 0;
 		while (qd.size() != 0) {
 			int d = qd.remove();
@@ -270,7 +266,7 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 							}
 							if (grid[nr][nc] == Empty) canMove = true;
 						}
-						if (grid[nr][nc] == Box && dirToBox == -1) // Collect info about nearest box
+						if (grid[nr][nc] == Box && dirToBox == -1) // Collect info about the nearest box
 						{
 							dirToBox = (d == -1 ? dir : d);
 						}
@@ -290,7 +286,7 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 		if (dirToBox != -1 && e == Elf) {
 			moveElf(y, x, dirToBox);
 		}
-		// otherwise remain stationary
+		// otherwise, remain stationary
 	}
 
 	private double callSolution() throws Exception {
@@ -316,8 +312,6 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 		}
 
 		if (hasVis() && hasDelay()) {
-			synchronized (updateLock) {
-			}
 			updateDelay();
 		}
 
@@ -335,10 +329,10 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 
 			numLastBoxes = 0;
 			String[] temp = line.trim().split(" ");
-			if (temp.length == 1) {
-				// do nothing
-			} else if (temp.length % 2 == 1) {
-				return fatalError("Cannot parse your output. Uneven number of elements. It should contain coordinates.");
+			if (temp.length % 2 == 1) {
+				if (temp.length != 1) {
+					return fatalError("Cannot parse your output. Uneven number of elements. It should contain coordinates.");
+				}
 			} else {
 				// Plant the boxes
 				for (int i = 0; i < temp.length; i += 2) {
@@ -358,7 +352,7 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 						boxesPlaced++;
 						lastBoxes[numLastBoxes++] = row + col * N;
 					} catch (Exception e) {
-						if (debug) System.out.println(e.toString());
+						if (debug) e.printStackTrace();
 						return fatalError("Cannot parse your output");
 					}
 				}
@@ -522,8 +516,7 @@ public class StopTheElvesTester extends MarathonAnimatedVis implements Callable<
 
 	Image loadImage(String name) {
 		try {
-			Image im = ImageIO.read(getClass().getResourceAsStream(name));
-			return im;
+			return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(name)));
 		} catch (Exception e) {
 			return null;
 		}

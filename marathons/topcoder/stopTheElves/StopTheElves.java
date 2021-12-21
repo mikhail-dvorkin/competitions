@@ -77,7 +77,6 @@ public class StopTheElves {
 	private final Random rnd = new Random(566);
 
 	public static void main(String[] args) throws Exception {
-		//noinspection ConstantConditions
 		if (EVALUATOR != null) {
 			EVALUATOR.call();
 			return;
