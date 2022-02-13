@@ -1,5 +1,6 @@
 package marathons.utils.topcoderMy;
 
+import marathons.utils.Evaluator;
 import marathons.utils.Pictures;
 
 import java.awt.BasicStroke;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -69,14 +71,13 @@ import javax.swing.SwingUtilities;
 public abstract class MarathonVis extends MarathonTester {
 	protected final Object updateLock = new Object();
 	protected JFrame frame;
-	private boolean vis = true;
 	private JPanel panel;
 	private Font infoFontPlain, infoFontBold;
 	private final Map<Object, Object> infoMap = new HashMap<Object, Object>();
 	private final Map<Object, Boolean> infoChecked = new HashMap<Object, Boolean>();
 	private final Map<Object, Rectangle2D> infoRects = new HashMap<Object, Rectangle2D>();
 	private final List<Object> infoSequence = new ArrayList<Object>();
-	private int border, infoFontWidth, infoFontHeight, infoColumns, infoLines;
+	private int border, infoFontWidth = Pictures.infoFontWidth, infoFontHeight = Pictures.infoFontHeight, infoColumns, infoLines;
 	private double size = -1;
 	private Rectangle2D contentRect = new Rectangle2D.Double(0, 0, 100, 100);
 	private Rectangle2D contentScreen = new Rectangle2D.Double();
@@ -96,21 +97,22 @@ public abstract class MarathonVis extends MarathonTester {
 
 	public void setParameters(Parameters parameters) {
 		super.setParameters(parameters);
-		if (parameters.isDefined(Parameters.noVis)) {
+		Evaluator._visOnlyFile = parameters.isDefined(Parameters.fileVis);
+		Evaluator._visScreen = !Evaluator._visOnlyFile && !parameters.isDefined(Parameters.noVis);
+		if (!Evaluator._visScreen) {
 			System.setProperty("java.awt.headless", "true");
-			vis = false;
 		}
 		if (parameters.isDefined(Parameters.size)) size = parameters.getIntValue(Parameters.size);
 	}
 
 	protected final void setInfoMaxDimension(int infoColumns, int infoLines) {
-		if (!vis) return;
+		if (!hasVis()) return;
 		this.infoColumns = infoColumns;
 		this.infoLines = infoLines;
 	}
 
 	protected final void setContentRect(double xLeft, double yTop, double xRight, double yBottom) {
-		if (!vis) return;
+		if (!hasVis()) return;
 		contentRect.setRect(xLeft, yTop, xRight - xLeft, yBottom - yTop);
 	}
 
@@ -119,23 +121,13 @@ public abstract class MarathonVis extends MarathonTester {
 	}
 
 	protected final boolean hasVis() {
-		return vis;
+		return Evaluator._visScreen || Evaluator._visOnlyFile;
 	}
 
 	protected void update() {
-		update(false);
-	}
-
-	protected void update(boolean isInit) {
-		if (!vis) return;
-		if (parameters.isDefined(Parameters.myVis)) {
-			if (isInit) return;
-			int width = 1000;
-			int height = 800;
-			infoFontWidth = infoFontHeight = 12;
-			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-			paintVis(image.getGraphics(), width, height);
-			Pictures.write(image, seed, "");
+		if (!hasVis()) return;
+		if (Evaluator._visOnlyFile) {
+			Pictures.write(graphics -> paintVis(graphics, Pictures.width, Pictures.height));
 			return;
 		}
 		synchronized (updateLock) {
@@ -222,7 +214,7 @@ public abstract class MarathonVis extends MarathonTester {
 				try {
 					SwingUtilities.invokeAndWait(new Runnable() {
 						public void run() {
-							frame.setSize(1000, 800);
+							frame.setSize(Pictures.width, Pictures.height);
 							frame.setTitle(className + " - Seed: " + seed);
 							frame.setIconImage(getIcon());
 							frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -419,33 +411,33 @@ public abstract class MarathonVis extends MarathonTester {
 	}
 
 	protected final void addInfo(Object key, Object value) {
-		if (!vis) return;
+		if (!hasVis()) return;
 		if (!infoMap.containsKey(key)) infoSequence.add(key);
 		infoMap.put(key, value);
 	}
 
 	protected final void addInfo(Object key) {
-		if (!vis) return;
+		if (!hasVis()) return;
 		if (!infoMap.containsKey(key)) infoSequence.add(key);
 		infoMap.put(key, null);
 	}
 
 	protected final void addInfo(Object key, Object value, boolean checked) {
-		if (!vis) return;
+		if (!hasVis()) return;
 		if (!infoMap.containsKey(key)) infoSequence.add(key);
 		infoMap.put(key, value);
 		infoChecked.put(key, checked);
 	}
 
 	protected final void addInfo(Object key, boolean checked) {
-		if (!vis) return;
+		if (!hasVis()) return;
 		if (!infoMap.containsKey(key)) infoSequence.add(key);
 		infoMap.put(key, null);
 		infoChecked.put(key, checked);
 	}
 
 	protected final void addInfoBreak() {
-		if (!vis) return;
+		if (!hasVis()) return;
 		infoSequence.add(null);
 	}
 
@@ -464,7 +456,7 @@ public abstract class MarathonVis extends MarathonTester {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(new Color(230, 230, 232));
 		g2.fillRect(0, 0, w, h);
-		if (!parameters.isDefined(Parameters.myVis)) g2.setRenderingHints(hints);
+		if (hints != null) g2.setRenderingHints(hints);
 
 		synchronized (updateLock) {
 			if (infoColumns > 0 && infoFontWidth > 0) paintInfo(g2, w);

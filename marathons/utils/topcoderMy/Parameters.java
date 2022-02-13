@@ -14,6 +14,7 @@ public class Parameters {
 	public static final String debug = "debug";
 	public static final String delay = "delay";
 	public static final String exec = "exec";
+	public static final String fileVis = "fileVis";
 	public static final String infoScale = "infoScale";
 	public static final String loadSolOutput = "loadSolOutput";
 	public static final String myExec = "myExec";
@@ -22,7 +23,7 @@ public class Parameters {
 	public static final String noAntialiasing = "noAntialiasing";
 	public static final String noOutput = "noOutput";
 	public static final String noSummary = "noSummary";
-	public static final String noVis = "novis";
+	public static final String noVis = "noVis";
 	public static final String paintInfo = "paintInfo";
 	public static final String printRuntime = "printRuntime";
 	public static final String saveAll = "saveAll";

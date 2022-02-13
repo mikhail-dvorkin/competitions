@@ -279,6 +279,7 @@ public class MarathonController {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+		Evaluator._project = c.getPackage().getName();
 		Constructor<?> constructor = ct;
 		double errorScore = es;
 		boolean isMaximize = im;

@@ -1,5 +1,7 @@
 package marathons.utils.topcoderMy;
 
+import marathons.utils.Evaluator;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -25,7 +27,7 @@ public abstract class MarathonAnimatedVis extends MarathonVis {
 	}
 
 	protected final boolean hasDelay() {
-		return delay > 0;
+		return delay > 0 && !Evaluator._visOnlyFile;
 	}
 
 	protected final int getDelay() {

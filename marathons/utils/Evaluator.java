@@ -31,9 +31,11 @@ public class Evaluator implements Callable<Void> {
 	public static ArrayList<String> _outcomeLabels;
 
 	public static long _seed;
-	public static boolean _vis;
+	public static boolean _visScreen;
+	public static boolean _visOnlyFile;
 	public static boolean _verbose;
 	public static boolean _useMyScore;
+	public static String _project;
 	private final ArrayList<String> allTroubles = new ArrayList<>();
 
 	public Evaluator(Callable<Void> visualizer) {
@@ -119,16 +121,16 @@ public class Evaluator implements Callable<Void> {
 	public Void call() {
 		requireEnablesAssertions();
 		if (visualize > 0 && !text()) {
-			_vis = true;
+			_visScreen = true;
 			_verbose = visualizeVerbose;
-			for (int t = 0; t < visualize && _vis; t++) {
+			for (int t = 0; t < visualize && _visScreen; t++) {
 				_seed = visualizeFrom + t;
 				callVisualizer();
 			}
 			System.out.println();
 		}
 		if (evaluate > 0) {
-			_vis = false;
+			_visScreen = false;
 			_verbose = evaluateVerbose;
 			double sumScores = 0;
 			double sumScores2 = 0;
