@@ -473,7 +473,7 @@ public class HardestMazeTester extends MarathonVis implements Callable<Void> {
 			for (int c = 0; c < R; c++) {
 				addInfo(colors[c], 0, true);
 			}
-			update(true);
+			if (!Evaluator._visOnlyFile) update();
 		}
 	}
 
