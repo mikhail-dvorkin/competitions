@@ -7,7 +7,7 @@ public class ChickenRun {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
 			new ChickenRunTester(); //TESTING
 //			null; //SUBMISSION
-	public static final String EVALUATOR_PARAMETERS = "-seed 1 -myExec";
+	public static final String EVALUATOR_PARAMETERS = "-seed 1 -myExec -fileVis";
 	private static final long TIME_LIMIT = 9850;
 
 	private void makeMove(char[][] grid) {
