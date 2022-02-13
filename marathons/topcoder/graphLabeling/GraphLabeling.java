@@ -370,8 +370,8 @@ public class GraphLabeling {
 		System.out.flush();
 	}
 
-	public static final String[] rulersStr = new String[]{
-			// GENERATED
-			// https://pastebin.com/9fhwvJAe
-	};
+	/**
+	 * GENERATED, saved at https://pastebin.com/9fhwvJAe
+	 */
+	public static final String[] rulersStr = null;
 }
