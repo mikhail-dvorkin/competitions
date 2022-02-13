@@ -186,13 +186,7 @@ public class GraphLabelingTester extends MarathonTester implements Callable<Void
 				}
 			}
 		}
-		new DotGraphPrinter("pic" + seed + "~.dot", "test" + seed).printAndClose(graph);
-		PrintWriter sh = DotGraphPrinter.printWriter("pics~.sh");
-		String format = "png";
-		sh.println("sfdp -x -Goverlap=scale -O -T" + format + " pic*~.dot");
-		Pictures.write("pic" + seed + "~.dot." + format);
-		Pictures.br();
-		sh.close();
+		Pictures.write(graph, "sfdp -x -Goverlap=scale");
 	}
 
 	public static void mainRenamed(String[] args) {
