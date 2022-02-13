@@ -7,7 +7,7 @@ public class StopTheElves {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
 			new StopTheElvesTester(); //TESTING
 //			null; //SUBMISSION
-	public static final String EVALUATOR_PARAMETERS = "-seed 1,3 -pause -myExec -noVis";
+	public static final String EVALUATOR_PARAMETERS = "-seed 1,3 -myExec -fileVis #-noVis";
 	public static final int TIME_LIMIT = 10000 - 150;
 	int n, c, money, turn = -1;
 	char[][] grid;
