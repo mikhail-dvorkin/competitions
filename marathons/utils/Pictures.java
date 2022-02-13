@@ -1,14 +1,24 @@
 package marathons.utils;
 
+import marathons.utils.dot.DotGraph;
+import marathons.utils.dot.DotGraphPrinter;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
 public class Pictures {
 	static boolean mode = false;
 	static File picsFile = new File("pics~.html");
+	static String format = "png";
 	private static PrintWriter html;
+	public static int width = 1000, height = 800, infoFontWidth = 12, infoFontHeight = 12;
+	static Map<Long, Integer> seedFrame = new HashMap<>();
 
 	public static void init() {
 		try {
@@ -22,32 +32,60 @@ public class Pictures {
 		}
 	}
 
-	public static void write(BufferedImage image) {
-		write(image, Evaluator._seed, Evaluator.settings().getProperty("width", ""));
+	public static File picsDir() {
+		File dir = new File("img_" + Evaluator._project + "~");
+		dir.mkdirs();
+		return dir;
 	}
 
-	public static void write(String fileName) {
-		write(fileName, Evaluator._seed, Evaluator.settings().getProperty("width", ""));
+	public static File newFrameFile(String fileExtension) {
+		int frame = seedFrame.getOrDefault(Evaluator._seed, 0);
+		seedFrame.put(Evaluator._seed, frame + 1);
+		String fileName = "pic" + String.format("%03d", Evaluator._seed) + "_" + String.format("%05d", frame) + "~." + fileExtension;
+		return new File(picsDir(), fileName);
 	}
 
-	public static void write(BufferedImage image, long seed, String width) {
-		init();
-		String format = "png";
-		String fileName = seed + "~." + format;
+	public static void write(Consumer<Graphics> painter) {
+		BufferedImage image = new BufferedImage(Pictures.width, Pictures.height, BufferedImage.TYPE_INT_RGB);
+		painter.accept(image.getGraphics());
+		write(image);
+	}
+
+	public static void write(DotGraph graph, String advisedDotProgram) {
 		try {
-			ImageIO.write(image, format, new File(fileName));
+			File dotFile = newFrameFile("dot");
+			PrintWriter dotFileWriter = new PrintWriter(dotFile);
+			new DotGraphPrinter(dotFileWriter, dotFile.getName().replaceAll("\\W", "")).printAndClose(graph);
+			PrintWriter sh = DotGraphPrinter.printWriter("pics~.sh");
+			sh.println("cd " + picsDir());
+			sh.println(advisedDotProgram + " -O -T" + format + " *.dot");
+			sh.close();
+			writeHtmlAbout(new File(dotFile.getParent(), dotFile.getName() + "." + format));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+//		Pictures.write("pic" + Evaluator._seed + "~.dot." + format);
+//		Pictures.br();
+	}
+
+	public static void write(BufferedImage image) {
+		init();
+		File file = newFrameFile(format);
+		try {
+			ImageIO.write(image, format, file);
 		} catch (IOException e) {
 			throw new RuntimeException();
 		}
-		write(fileName, seed, width);
+		writeHtmlAbout(file);
 	}
 
-	public static void write(String fileName, long seed, String width) {
+	public static void writeHtmlAbout(File file) {
 		init();
-		String[] fileNameSplit = fileName.split("\\.");
+		String width = Evaluator.settings().getProperty("width", "");
+		String[] fileNameSplit = file.getName().split("\\.");
 		String format = fileNameSplit[fileNameSplit.length - 1];
-		html.println("<nobr>" + String.format("%03d", seed));
-		html.println("<img src=\"" + fileName + "\"");
+		html.println("<nobr>" + String.format("%03d", Evaluator._seed));
+		html.println("<img src=\"" + file.getPath() + "\"");
 		if (!width.isEmpty()) {
 			html.println("width=\"" + width + "\"");
 		}
