@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * Updates:
+ * 2022/01/01 - Add "noReplay"/"nr" option.
  * 2021/09/13 - Fix "ns" assignment to "noSummary".
  */
 public class Parameters {
@@ -18,6 +19,7 @@ public class Parameters {
 	public static final String loadSolOutput = "loadSolOutput";
 	public static final String noAntialiasing = "noAntialiasing";
 	public static final String noOutput = "noOutput";
+	public static final String noReplay = "noReplay";
 	public static final String noSummary = "noSummary";
 	public static final String noVis = "novis";
 	public static final String paintInfo = "paintInfo";
@@ -49,6 +51,7 @@ public class Parameters {
 		equivalentParams.put("lo", loadSolOutput);
 		equivalentParams.put("na", noAntialiasing);
 		equivalentParams.put("no", noOutput);
+		equivalentParams.put("nr", noReplay);
 		equivalentParams.put("ns", noSummary);
 		equivalentParams.put("nv", noVis);
 		equivalentParams.put("pi", paintInfo);

@@ -48,7 +48,8 @@ import javax.swing.SwingUtilities;
  * i.e. only a single (final) state is shown.
  * <p>
  * Updates:
- * 2020/11/19 - Handle -windowPos and -screen parameters.
+ * 2021/09/13 - Small change in the way the frame is created (waiting, instead of doing
+ * it in the background).
  * 2021/02/05 - Move mouse click events to another (not AWT) thread, to avoid painting/
  * delay issues after an user action.
  * - Override paint() instead of paintComponent().
@@ -59,8 +60,7 @@ import javax.swing.SwingUtilities;
  * info panel (right side of visualizer). The panel is not displayed if
  * infoScale is 0 (which may be useful if the user wants to see only the
  * main content, possibly together with -saveVis parameter).
- * 2021/09/13 - Small change in the way the frame is created (waiting, instead of doing
- * it in the background).
+ * 2020/11/19 - Handle -windowPos and -screen parameters.
  */
 public abstract class MarathonVis extends MarathonTester {
 	protected final Object updateLock = new Object();
@@ -72,11 +72,11 @@ public abstract class MarathonVis extends MarathonTester {
 	private final Map<Object, Boolean> infoChecked = new HashMap<Object, Boolean>();
 	private final Map<Object, Rectangle2D> infoRects = new HashMap<Object, Rectangle2D>();
 	private final List<Object> infoSequence = new ArrayList<Object>();
-	private int border, infoFontWidth, infoFontHeight, infoColumns, infoLines;
+	protected int border, infoFontWidth, infoFontHeight, infoColumns, infoLines;
 	private double size = -1;
 	private Rectangle2D contentRect = new Rectangle2D.Double(0, 0, 100, 100);
 	private Rectangle2D contentScreen = new Rectangle2D.Double();
-	private static final double lineSpacing = 1.25;
+	protected static final double lineSpacing = 1.25;
 	private RenderingHints hints;
 	private long paintTime;
 	private int paintCnt;
@@ -99,7 +99,7 @@ public abstract class MarathonVis extends MarathonTester {
 		if (parameters.isDefined(Parameters.size)) size = parameters.getIntValue(Parameters.size);
 	}
 
-	protected final void setInfoMaxDimension(int infoColumns, int infoLines) {
+	protected void setInfoMaxDimension(int infoColumns, int infoLines) {
 		if (!vis) return;
 		this.infoColumns = infoColumns;
 		this.infoLines = infoLines;
@@ -148,12 +148,13 @@ public abstract class MarathonVis extends MarathonTester {
 					private static final long serialVersionUID = -1008231133177413855L;
 
 					public void paint(Graphics g) {
-						paintVis(g, getWidth(), getHeight());
+						paintVis(g, getWidth(), getHeight(), false);
 					}
 				};
 
 				panel.addMouseListener(new MouseAdapter() {
 					public void mousePressed(MouseEvent e) {
+						if (e.isConsumed()) return;
 						if (contentScreen != null && contentScreen.contains(e.getPoint())) {
 							if (contentScreen.getWidth() > 0 && contentScreen.getHeight() > 0) {
 								double x = (e.getX() - contentScreen.getX()) / contentScreen.getWidth() * contentRect.getWidth() + contentRect.getX();
@@ -163,24 +164,11 @@ public abstract class MarathonVis extends MarathonTester {
 										contentClicked(x, y, e.getButton(), e.getClickCount());
 									}
 								}.start();
+								e.consume();
 							}
 							return;
 						}
-						for (Object key : infoRects.keySet()) {
-							Rectangle2D rc = infoRects.get(key);
-							if (rc != null && rc.contains(e.getPoint())) {
-								Boolean checked = infoChecked.get(key);
-								if (checked != null) {
-									infoChecked.put(key, !checked);
-									new Thread() {
-										public void run() {
-											checkChanged(key, !checked);
-										}
-									}.start();
-								}
-								break;
-							}
-						}
+						handleMousePressed(e);
 					}
 				});
 
@@ -212,7 +200,7 @@ public abstract class MarathonVis extends MarathonTester {
 								infoFontHeight = (int) Math.ceil(rc.getHeight());
 							}
 
-							border = resolution / 7;
+							border = resolution / 8;
 							showAndAdjustWindowBounds();
 						}
 					});
@@ -221,7 +209,38 @@ public abstract class MarathonVis extends MarathonTester {
 			}
 		}
 		if (parameters.isDefined(Parameters.saveVis)) saveVis();
-		panel.repaint();
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				public void run() {
+					panel.paintImmediately(0, 0, panel.getWidth(), panel.getHeight());
+				}
+			});
+		} catch (Exception e) {
+		}
+	}
+
+	protected void handleMousePressed(MouseEvent e) {
+		if (e.isConsumed()) return;
+		for (Object key : infoRects.keySet()) {
+			Rectangle2D rc = infoRects.get(key);
+			if (rc != null && rc.contains(e.getPoint())) {
+				Boolean checked = infoChecked.get(key);
+				if (checked != null) {
+					infoChecked.put(key, !checked);
+					new Thread() {
+						public void run() {
+							checkChanged(key, !checked);
+						}
+					}.start();
+					e.consume();
+				}
+				break;
+			}
+		}
+	}
+
+	protected Map<Object, Object> getInfoMapCopy() {
+		return new HashMap<Object, Object>(infoMap);
 	}
 
 	private void saveVis() {
@@ -233,7 +252,7 @@ public abstract class MarathonVis extends MarathonTester {
 			if (!folder.exists()) folder.mkdirs();
 			BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_BGR);
 			Graphics2D g = img.createGraphics();
-			paintVis(g, w, h);
+			paintVis(g, w, h, true);
 			g.dispose();
 			try {
 				synchronized (updateLock) {
@@ -376,12 +395,10 @@ public abstract class MarathonVis extends MarathonTester {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	protected void checkChanged(Object key, boolean newValue) {
 		panel.repaint();
 	}
 
-	@SuppressWarnings("unused")
 	protected void contentClicked(double x, double y, int mouseButton, int clickCount) {
 	}
 
@@ -435,22 +452,21 @@ public abstract class MarathonVis extends MarathonTester {
 		return contentRect;
 	}
 
-	private void paintVis(Graphics g, int w, int h) {
+	private void paintVis(Graphics g, int w, int h, boolean isSave) {
 		long t = System.currentTimeMillis();
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(new Color(230, 230, 232));
 		g2.fillRect(0, 0, w, h);
 		g2.setRenderingHints(hints);
-
 		synchronized (updateLock) {
-			if (infoColumns > 0 && infoFontWidth > 0) paintInfo(g2, w);
-			paintCenter(g2, infoFontWidth == 0 ? w : w - infoFontWidth * infoColumns - border, h);
+			if (infoColumns > 0 && infoFontWidth > 0) paintInfo(g2, w, isSave);
+			paintCenter(g2, infoFontWidth == 0 ? w : w - infoFontWidth * infoColumns - border, h, isSave);
 			paintTime += System.currentTimeMillis() - t;
 			paintCnt++;
 		}
 	}
 
-	private void paintCenter(Graphics2D g, int w, int h) {
+	private void paintCenter(Graphics2D g, int w, int h, boolean isSave) {
 		int pw = w - 2 * border;
 		int ph = h - 2 * border;
 		if (pw <= 0 || ph <= 0) return;
@@ -470,11 +486,19 @@ public abstract class MarathonVis extends MarathonTester {
 		AffineTransform ct = g.getTransform();
 		contentScreen.setRect(px, py, pw, ph);
 		g.setTransform(nt);
-		paintContent(g);
+		paintContent(g, isSave);
 		g.setTransform(ct);
 	}
 
-	private void paintInfo(Graphics2D g, int w) {
+	protected void paintContent(Graphics2D g, boolean isSave) {
+		paintContent(g);
+	}
+
+	protected int paintInfo(Graphics2D g, int w, boolean isSave) {
+		return paintInfo(g, w, infoMap);
+	}
+
+	protected int paintInfo(Graphics2D g, int w, Map<Object, Object> map) {
 		int x = w - infoFontWidth * infoColumns - border;
 		int y = border;
 		int maxKey = 0;
@@ -488,7 +512,7 @@ public abstract class MarathonVis extends MarathonTester {
 				} else {
 					s = key.toString();
 				}
-				boolean hasValue = infoMap.get(key) != null;
+				boolean hasValue = map.get(key) != null;
 				if (hasValue) s += ": ";
 				if (infoChecked.get(key) != null) s += "##";
 				Rectangle2D rect = metrics.getStringBounds(s, g);
@@ -503,7 +527,7 @@ public abstract class MarathonVis extends MarathonTester {
 		g.setColor(Color.black);
 		for (Object key : infoSequence) {
 			if (key != null) {
-				Object value = infoMap.get(key);
+				Object value = map.get(key);
 				g.setFont(infoFontBold);
 				int xc = 0;
 				if (value == null) {
@@ -522,6 +546,7 @@ public abstract class MarathonVis extends MarathonTester {
 			}
 			y += lineHeight;
 		}
+		return y;
 	}
 
 	private int drawColor(Graphics2D g, Color color, int x, int y) {

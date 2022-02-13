@@ -17,7 +17,11 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Base class for Topcoder Marathon testers. Should be extended directly for
- * problems with no visualization. Updated: 2020/09/28
+ * problems with no visualization.
+ * <p>
+ * Updates:
+ * 2022/01/14 - Fix: timeout control was adding a noticeable overhead to
+ * startTime() and stopTime() methods.
  */
 public abstract class MarathonTester {
 	protected Parameters parameters;
@@ -98,7 +102,6 @@ public abstract class MarathonTester {
 				System.out.println("ERROR startTime() was called again, before endTime() closed the first one.");
 				System.exit(-1);
 			}
-			lastStart = System.nanoTime();
 			if (timeLimit > 0) {
 				lastTimeoutThread = new Thread() {
 					public void run() {
@@ -121,11 +124,14 @@ public abstract class MarathonTester {
 				};
 				lastTimeoutThread.start();
 			}
+			lastStart = System.nanoTime();
 		}
 	}
 
 	protected final void stopTime() {
 		synchronized (timeLock) {
+			if (lastStart > 0) elapsedTime += System.nanoTime() - lastStart;
+			lastStart = 0;
 			try {
 				if (lastTimeoutThread != null && lastTimeoutThread.isAlive()) {
 					lastTimeoutThread.interrupt();
@@ -133,8 +139,6 @@ public abstract class MarathonTester {
 				}
 			} catch (Exception e) {
 			}
-			if (lastStart > 0) elapsedTime += System.nanoTime() - lastStart;
-			lastStart = 0;
 		}
 	}
 
