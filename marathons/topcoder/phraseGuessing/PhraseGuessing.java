@@ -74,7 +74,7 @@ public class PhraseGuessing {
 		String fileName = "words_alpha_filtered.txt";
 		BufferedReader file = new BufferedReader(new FileReader(fileName));
 
-		List<String> WordList = new ArrayList<String>();
+		List<String> WordList = new ArrayList<>();
 
 		file.readLine();    //skip the header
 		while (true) {
@@ -93,13 +93,13 @@ public class PhraseGuessing {
 		int[] primes = {113, 131, 197, 199, 311, 337, 373, 719, 733, 919};
 
 		for (int i = 1, guesses = 1; guesses <= 20; i++) {
-			String guess = "";
+			StringBuilder sb = new StringBuilder();
 			for (int n = 0; n < N; n++) {
 				int id = (i * primes[n]) % WordList.size();
-				guess += WordList.get(id);
-				if (n < N - 1) guess += " ";
+				sb.append(WordList.get(id));
+				if (n < N - 1) sb.append(" ");
 			}
-
+			String guess = sb.toString();
 
 			//we found a valid guess
 			if (guess.length() == P) {
