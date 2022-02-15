@@ -65,11 +65,12 @@ public class PhraseGuessingTester extends MarathonTester {
 		shuffle(id, WordList.size());
 
 		//generate phrase
-		Phrase = "";
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < N; i++) {
-			Phrase += WordList.get(id[i]);
-			if (i < N - 1) Phrase += " ";
+			sb.append(WordList.get(id[i]));
+			if (i < N - 1) sb.append(" ");
 		}
+		Phrase = sb.toString();
 		P = Phrase.length();
 
 
@@ -88,8 +89,8 @@ public class PhraseGuessingTester extends MarathonTester {
 		String file = "words_alpha_filtered.txt";
 		BufferedReader in = new BufferedReader(new FileReader(file));
 
-		WordList = new ArrayList<String>();
-		WordSet = new HashSet<String>();
+		WordList = new ArrayList<>();
+		WordSet = new HashSet<>();
 
 		in.readLine();    //skip the header
 
@@ -238,9 +239,9 @@ public class PhraseGuessingTester extends MarathonTester {
 
 
 	public static String makeSpace(int n) {
-		String out = "";
-		for (int i = 0; i < n; i++) out += " ";
-		return out;
+		StringBuilder out = new StringBuilder();
+		for (int i = 0; i < n; i++) out.append(" ");
+		return out.toString();
 	}
 
 
