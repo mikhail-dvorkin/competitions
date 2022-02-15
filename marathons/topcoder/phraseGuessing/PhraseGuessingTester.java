@@ -2,10 +2,11 @@ package marathons.topcoder.phraseGuessing;
 
 import java.util.*;
 import java.io.*;
+import java.util.concurrent.Callable;
 
 import marathons.utils.topcoderMy.*;
 
-public class PhraseGuessingTester extends MarathonTester {
+public class PhraseGuessingTester extends MarathonTester implements Callable<Void>, KnowsJavaSolution {
 	//Ranges
 	private static final int minN = 2, maxN = 10;
 	private static final double minC = 0.05, maxC = 0.8;
@@ -244,8 +245,18 @@ public class PhraseGuessingTester extends MarathonTester {
 		return out.toString();
 	}
 
-
-	public static void main(String[] args) {
+	public static void mainOriginal(String[] args) {
 		new MarathonController().run(args);
+	}
+
+	@Override
+	public Void call() throws Exception {
+		mainOriginal(PhraseGuessing.EVALUATOR_PARAMETERS.split(" "));
+		return null;
+	}
+
+	@Override
+	public void runSolution(BufferedReader in, BufferedWriter out) throws Exception {
+		PhraseGuessing.run(in, out);
 	}
 }
