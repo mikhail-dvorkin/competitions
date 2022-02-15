@@ -7,21 +7,45 @@ public class PhraseGuessing {
 	private static final java.util.concurrent.Callable<Void> EVALUATOR =
 			new PhraseGuessingTester(); //TESTING
 //			null; //SUBMISSION
-	public static final String EVALUATOR_PARAMETERS = "-seed 1,3 -myExec";
+	public static final String EVALUATOR_PARAMETERS = "-seed 1,3 -myExec #-debug";
 	public static String DICTIONARY_FILE_NAME = "words_alpha_filtered.txt";
+	public static String TERMINATE = "-1";
 	public static String resourcePrefix = "";
 	public static final int TIME_LIMIT = 10000 - 150;
 
-	private void solve() {
+	int n, p, move, t = 1;
+	double c;
+	List<String> wordList;
+
+	public String makeMove() {
+		if (move == 20) {
+			return TERMINATE;
+		}
+		int[] primes = {113, 131, 197, 199, 311, 337, 373, 719, 733, 919};
+		for (;; t++) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < n; i++) {
+				int id = (t * primes[i]) % wordList.size();
+				sb.append(wordList.get(id));
+				if (i < n - 1) sb.append(" ");
+			}
+			String guess = sb.toString();
+			if (guess.length() == p) {
+				t++;
+				return guess;
+			}
+		}
 	}
 
-	public int solve(int input) {
-		try {
-			solve();
-		} catch (TimeOutException ignored) {
-		}
-		_myScore = input;
-		return 0;
+	private void consumeResult(String result, int elapsedTime) {
+		move++;
+	}
+
+	public PhraseGuessing(int n, int p, double c, List<String> wordList) {
+		this.n = n;
+		this.p = p;
+		this.c = c;
+		this.wordList = wordList;
 	}
 
 	private static void log(String s) {
@@ -64,7 +88,6 @@ public class PhraseGuessing {
 	private final Random rnd = new Random(566);
 
 	public static void main(String[] args) throws Exception {
-		//noinspection ConstantConditions
 		if (EVALUATOR != null) {
 			EVALUATOR.call();
 			return;
@@ -89,35 +112,21 @@ public class PhraseGuessing {
 		int N = Integer.parseInt(in.readLine());
 		int P = Integer.parseInt(in.readLine());
 		double C = Double.parseDouble(in.readLine());
+		PhraseGuessing phraseGuessing = new PhraseGuessing(N, P, C, WordList);
 
-
-		int[] primes = {113, 131, 197, 199, 311, 337, 373, 719, 733, 919};
-
-		for (int i = 1, guesses = 1; guesses <= 20; i++) {
-			StringBuilder sb = new StringBuilder();
-			for (int n = 0; n < N; n++) {
-				int id = (i * primes[n]) % WordList.size();
-				sb.append(WordList.get(id));
-				if (n < N - 1) sb.append(" ");
+		for (;;) {
+			String guess = phraseGuessing.makeMove();
+			out.write(guess);
+			out.newLine();
+			out.flush();
+			if (TERMINATE.equals(guess)) {
+				break;
 			}
-			String guess = sb.toString();
 
-			//we found a valid guess
-			if (guess.length() == P) {
-				guesses++;
-				out.write(guess);
-				out.newLine();
-				out.flush();
-
-				//read elapsed time and result
-				int elapsedTime = Integer.parseInt(in.readLine());
-				String result = in.readLine();
-			}
+			//read elapsed time and result
+			int elapsedTime = Integer.parseInt(in.readLine());
+			String result = in.readLine();
+			phraseGuessing.consumeResult(result, elapsedTime);
 		}
-
-		//terminate
-		out.write("-1");
-		out.newLine();
-		out.flush();
 	}
 }
