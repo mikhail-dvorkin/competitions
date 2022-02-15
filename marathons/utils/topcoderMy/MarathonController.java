@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
@@ -21,9 +22,9 @@ import marathons.utils.Pictures;
  * Main entry point of the Marathon tester. It handles parameter and calls the solution.
  * <p>
  * Updates:
- * 2020/12/28 - Handle a list of seeds, like -sd {1,9,72,909}.
  * 2021/02/04 - Allow easy repetition of a single seed, a range or a list,
  * using suffix "*N", like -sd 1*5 or -sd 1,50*5 or -sd {1,9,72,99}*5.
+ * 2020/12/28 - Handle a list of seeds, like -sd {1,9,72,909}.
  */
 public class MarathonController {
 	private final Object statsLock = new Object();
