@@ -7,6 +7,17 @@ diff -urN topcoderTheir/ErrorReader.java topcoderMy/ErrorReader.java
  
  import java.io.BufferedWriter;
  import java.io.InputStream;
+diff -urN topcoderTheir/KnowsJavaSolution.java topcoderMy/KnowsJavaSolution.java
+--- topcoderTheir/KnowsJavaSolution.java
++++ topcoderMy/KnowsJavaSolution.java
+@@ -0,0 +1,7 @@
++package marathons.utils.topcoderMy;
++
++import java.io.*;
++
++public interface KnowsJavaSolution {
++	void runSolution(BufferedReader in, BufferedWriter out) throws Exception;
++}
 diff -urN topcoderTheir/MarathonAnimatedVis.java topcoderMy/MarathonAnimatedVis.java
 --- topcoderTheir/MarathonAnimatedVis.java
 +++ topcoderMy/MarathonAnimatedVis.java
@@ -138,7 +149,16 @@ diff -urN topcoderTheir/MarathonTester.java topcoderMy/MarathonTester.java
  
  import java.io.BufferedReader;
  import java.io.BufferedWriter;
-@@ -24,6 +26,9 @@
+@@ -7,6 +9,8 @@
+ import java.io.FileWriter;
+ import java.io.InputStreamReader;
+ import java.io.OutputStreamWriter;
++import java.io.PipedReader;
++import java.io.PipedWriter;
+ import java.io.PrintWriter;
+ import java.io.StringWriter;
+ import java.security.NoSuchAlgorithmException;
+@@ -24,6 +28,9 @@
   * startTime() and stopTime() methods.
   */
  public abstract class MarathonTester {
@@ -148,7 +168,7 @@ diff -urN topcoderTheir/MarathonTester.java topcoderMy/MarathonTester.java
  	protected Parameters parameters;
  	protected boolean debug;
  	protected long seed;
-@@ -57,6 +62,7 @@
+@@ -57,6 +64,7 @@
  
  	public void setSeed(long seed) {
  		this.seed = seed;
@@ -156,7 +176,7 @@ diff -urN topcoderTheir/MarathonTester.java topcoderMy/MarathonTester.java
  		try {
  			rnd = SecureRandom.getInstance("SHA1PRNG");
  			rnd.setSeed(seed);
-@@ -158,7 +164,7 @@
+@@ -158,7 +166,7 @@
  				}
  			}
  			end();
@@ -165,7 +185,7 @@ diff -urN topcoderTheir/MarathonTester.java topcoderMy/MarathonTester.java
  			stopTime();
  			if (!timeout && !ending) {
  				String msg = "";
-@@ -254,13 +260,13 @@
+@@ -254,13 +262,13 @@
  	}
  
  	protected final double fatalError() {
@@ -181,6 +201,33 @@ diff -urN topcoderTheir/MarathonTester.java topcoderMy/MarathonTester.java
  		executionErrors.append(msg).append("\n");
  		return getErrorScore();
  	}
+@@ -285,6 +293,26 @@
+ 			if (!folder.exists()) folder.mkdirs();
+ 			solErrorWriter = new BufferedWriter(new FileWriter(new File(folder, seed + ".err")));
+ 		}
++		if (parameters.isDefined(Parameters.myExec) && this instanceof KnowsJavaSolution) {
++			PipedReader solutionInputReader = new PipedReader();
++			PipedWriter solutionInputWriter = new PipedWriter();
++			solutionInputWriter.connect(solutionInputReader);
++			PipedReader solutionOutputReader = new PipedReader();
++			PipedWriter solutionOutputWriter = new PipedWriter();
++			solutionOutputWriter.connect(solutionOutputReader);
++			Thread thread = new Thread(() -> {
++				try {
++					((KnowsJavaSolution) MarathonTester.this).runSolution(
++							new BufferedReader(solutionInputReader),
++							new BufferedWriter(solutionOutputWriter));
++				} catch (Exception e) {
++					throw new RuntimeException(e);
++				}
++			});
++			solInputWriters.add(new BufferedWriter(solutionInputWriter));
++			solOutputReader = new BufferedReader(solutionOutputReader);
++			thread.start();
++		} else
+ 		if (parameters.isDefined(Parameters.exec)) {
+ 			String cmd = parameters.getString(Parameters.exec);
+ 			if (cmd != null) {
 diff -urN topcoderTheir/MarathonTestResult.java topcoderMy/MarathonTestResult.java
 --- topcoderTheir/MarathonTestResult.java
 +++ topcoderMy/MarathonTestResult.java

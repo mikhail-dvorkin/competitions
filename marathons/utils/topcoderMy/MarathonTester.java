@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PipedReader;
+import java.io.PipedWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.NoSuchAlgorithmException;
@@ -291,6 +293,26 @@ public abstract class MarathonTester {
 			if (!folder.exists()) folder.mkdirs();
 			solErrorWriter = new BufferedWriter(new FileWriter(new File(folder, seed + ".err")));
 		}
+		if (parameters.isDefined(Parameters.myExec) && this instanceof KnowsJavaSolution) {
+			PipedReader solutionInputReader = new PipedReader();
+			PipedWriter solutionInputWriter = new PipedWriter();
+			solutionInputWriter.connect(solutionInputReader);
+			PipedReader solutionOutputReader = new PipedReader();
+			PipedWriter solutionOutputWriter = new PipedWriter();
+			solutionOutputWriter.connect(solutionOutputReader);
+			Thread thread = new Thread(() -> {
+				try {
+					((KnowsJavaSolution) MarathonTester.this).runSolution(
+							new BufferedReader(solutionInputReader),
+							new BufferedWriter(solutionOutputWriter));
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			});
+			solInputWriters.add(new BufferedWriter(solutionInputWriter));
+			solOutputReader = new BufferedReader(solutionOutputReader);
+			thread.start();
+		} else
 		if (parameters.isDefined(Parameters.exec)) {
 			String cmd = parameters.getString(Parameters.exec);
 			if (cmd != null) {
