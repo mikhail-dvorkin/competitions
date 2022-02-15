@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.util.concurrent.Callable;
 
+import marathons.utils.ResourcesKt;
 import marathons.utils.topcoderMy.*;
 
 public class PhraseGuessingTester extends MarathonTester implements Callable<Void>, KnowsJavaSolution {
@@ -87,8 +88,8 @@ public class PhraseGuessingTester extends MarathonTester implements Callable<Voi
 
 
 	protected void loadWords() throws Exception {
-		String file = "words_alpha_filtered.txt";
-		BufferedReader in = new BufferedReader(new FileReader(file));
+		prepareResources();
+		BufferedReader in = new BufferedReader(new FileReader(PhraseGuessing.resourcePrefix + PhraseGuessing.DICTIONARY_FILE_NAME));
 
 		WordList = new ArrayList<>();
 		WordSet = new HashSet<>();
@@ -255,8 +256,13 @@ public class PhraseGuessingTester extends MarathonTester implements Callable<Voi
 		return null;
 	}
 
+	void prepareResources() {
+		PhraseGuessing.resourcePrefix = ResourcesKt.resourcePrefix();
+	}
+
 	@Override
 	public void runSolution(BufferedReader in, BufferedWriter out) throws Exception {
+		prepareResources();
 		PhraseGuessing.run(in, out);
 	}
 }

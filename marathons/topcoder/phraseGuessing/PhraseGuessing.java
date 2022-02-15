@@ -8,6 +8,8 @@ public class PhraseGuessing {
 			new PhraseGuessingTester(); //TESTING
 //			null; //SUBMISSION
 	public static final String EVALUATOR_PARAMETERS = "-seed 1,3 -myExec";
+	public static String DICTIONARY_FILE_NAME = "words_alpha_filtered.txt";
+	public static String resourcePrefix = "";
 	public static final int TIME_LIMIT = 10000 - 150;
 
 	private void solve() {
@@ -71,8 +73,7 @@ public class PhraseGuessing {
 	}
 
 	public static void run(BufferedReader in, BufferedWriter out) throws Exception {
-		String fileName = "words_alpha_filtered.txt";
-		BufferedReader file = new BufferedReader(new FileReader(fileName));
+		BufferedReader file = new BufferedReader(new FileReader(resourcePrefix + DICTIONARY_FILE_NAME));
 
 		List<String> WordList = new ArrayList<>();
 
