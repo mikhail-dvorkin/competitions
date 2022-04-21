@@ -13,9 +13,10 @@ public class PhraseGuessing {
 	public static String resourcePrefix = "";
 	public static final int TIME_LIMIT = 10000 - 150;
 
-	int n, p, move, t = 1;
-	double c;
+	int n, length, move, t = 1;
+	double corruption;
 	List<String> wordList;
+	String lastGuess;
 
 	public String makeMove() {
 		if (move == 20) {
@@ -30,7 +31,7 @@ public class PhraseGuessing {
 				if (i < n - 1) sb.append(" ");
 			}
 			String guess = sb.toString();
-			if (guess.length() == p) {
+			if (guess.length() == length) {
 				t++;
 				return guess;
 			}
@@ -43,9 +44,10 @@ public class PhraseGuessing {
 
 	public PhraseGuessing(int n, int p, double c, List<String> wordList) {
 		this.n = n;
-		this.p = p;
-		this.c = c;
+		this.length = p;
+		this.corruption = c;
 		this.wordList = wordList;
+		log("n = " + n + "\tL = " + p + "\tc = " + Math.round(c * 100) + "\t");
 	}
 
 	private static void log(String s) {
@@ -115,11 +117,11 @@ public class PhraseGuessing {
 		PhraseGuessing phraseGuessing = new PhraseGuessing(N, P, C, WordList);
 
 		for (;;) {
-			String guess = phraseGuessing.makeMove();
-			out.write(guess);
+			phraseGuessing.lastGuess = phraseGuessing.makeMove();
+			out.write(phraseGuessing.lastGuess);
 			out.newLine();
 			out.flush();
-			if (TERMINATE.equals(guess)) {
+			if (TERMINATE.equals(phraseGuessing.lastGuess)) {
 				break;
 			}
 

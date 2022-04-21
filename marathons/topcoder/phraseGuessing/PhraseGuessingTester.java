@@ -81,7 +81,7 @@ public class PhraseGuessingTester extends MarathonTester implements Callable<Voi
 			System.out.println("Characters, P = " + P);
 			System.out.println("Corruption rate, C = " + C);
 			System.out.println();
-			System.out.println("Secret phrase: " + Phrase);
+			System.out.println("Secret phrase:    " + Phrase);
 			System.out.println();
 		}
 	}
@@ -142,7 +142,10 @@ public class PhraseGuessingTester extends MarathonTester implements Callable<Voi
 
 			if (guess.equals("-1")) break;
 
-			if (debug) System.out.println("Guess " + guesses + ":" + makeSpace(10) + guess);
+			if (debug) {
+				System.out.println();
+				System.out.println("Guess " + guesses + ":" + makeSpace(10) + guess);
+			}
 
 			//You guessed the phrase!
 			if (guess.equals(Phrase)) {
@@ -227,7 +230,6 @@ public class PhraseGuessingTester extends MarathonTester implements Callable<Voi
 				System.out.println("True result " + guesses + ":" + makeSpace(4) + trueResult);
 				System.out.println("Corrupt result " + guesses + ": " + corruptResult);
 				System.out.println("Potential score " + score);
-				System.out.println();
 			}
 
 			//output elapsed time and result
