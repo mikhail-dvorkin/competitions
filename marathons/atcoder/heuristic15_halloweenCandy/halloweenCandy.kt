@@ -5,7 +5,7 @@ import kotlin.random.Random
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
-const val SUBMIT = true
+val SUBMIT = System.getProperty("sun.java.command", "").contains("MainKt")
 const val COLORS = 3
 val DY = intArrayOf(1, 0, -1, 0)
 val DX = intArrayOf(0, 1, 0, -1)
