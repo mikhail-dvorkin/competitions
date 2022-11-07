@@ -4,6 +4,8 @@
 .out
 input.txt
 output.txt
+input/
+output/
 
 # Compiled class file
 *.class
