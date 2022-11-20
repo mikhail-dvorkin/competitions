@@ -8,6 +8,7 @@ val EVALUATOR: Callable<Void?>
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null
+val VERBOSE = !SUBMIT
 const val TIME_LIMIT = 10000 - 150
 
 fun solve(input: Int): Int {
@@ -37,6 +38,10 @@ fun solve(`in`: BufferedReader, out: BufferedWriter) {
 	out.write(solve(n))
 	out.close()
 }
+
+private fun IntProgression.asProgression() = this
+private fun Int.asProgression() = this..this
+private inline fun debug(msg: () -> Any) { if (VERBOSE) println(msg()) }
 
 fun main() {
 	@Suppress("UNNECESSARY_SAFE_CALL")
