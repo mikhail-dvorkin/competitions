@@ -11,7 +11,7 @@ val SUBMIT = EVALUATOR == null
 val VERBOSE = !SUBMIT
 const val TIME_LIMIT = 10000 - 150
 
-fun solve(input: Int): Int {
+fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 	val timeStart = System.currentTimeMillis()
 	// TODO timeLimit *= Template._localTimeCoefficient
 	fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
@@ -27,16 +27,18 @@ fun solve(input: Int): Int {
 
 class TimeOutException : RuntimeException()
 
-fun solve(`in`: BufferedReader, out: BufferedWriter) {
+fun solve(`in`: BufferedReader, out: BufferedWriter): List<Any>? {
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
 	fun readStrings() = readLn().split(" ")
 	fun readInts() = readStrings().map { it.toInt() }
+	val toVisualize = if (SUBMIT) null else mutableListOf<Any>()
 
 	val n = readInt()
 	readInts()
-	out.write(solve(n))
+	out.write(solve(n, toVisualize))
 	out.close()
+	return toVisualize
 }
 
 private fun IntProgression.asProgression() = this

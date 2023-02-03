@@ -1,5 +1,6 @@
 package marathons.utils;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,9 +34,11 @@ public class Evaluator implements Callable<Void> {
 	public static long _seed;
 	public static boolean _visScreen;
 	public static boolean _visOnlyFile;
+	public static boolean _visRunTheir = true;
 	public static boolean _verbose;
 	public static boolean _useMyScore;
 	public static String _project;
+	public static File _inFile, _outFile, _imageFile;
 	private final ArrayList<String> allTroubles = new ArrayList<>();
 
 	public Evaluator(Callable<Void> visualizer) {
