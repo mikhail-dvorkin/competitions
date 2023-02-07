@@ -10,14 +10,12 @@ val EVALUATOR: Callable<Void?>
 val SUBMIT = EVALUATOR == null
 val VERBOSE = !SUBMIT
 const val TIME_LIMIT = 10000 - 150
+var timeStart = 0L
+// TODO timeLimit *= Template._localTimeCoefficient
+fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
+fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= threshold) throw TimeOutException() }
 
 fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
-	val timeStart = System.currentTimeMillis()
-	// TODO timeLimit *= Template._localTimeCoefficient
-	fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
-	fun checkTimeLimit(threshold: Double) { if (timePassed() >= threshold) throw TimeOutException() }
-	fun checkTimeLimit() = checkTimeLimit(1.0)
-
 	try {
 		checkTimeLimit()
 	} catch (_: TimeOutException) {
@@ -28,6 +26,7 @@ fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 class TimeOutException : RuntimeException()
 
 fun solve(`in`: BufferedReader, out: BufferedWriter): List<Any>? {
+	timeStart = System.currentTimeMillis()
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
 	fun readStrings() = readLn().split(" ")
@@ -41,8 +40,6 @@ fun solve(`in`: BufferedReader, out: BufferedWriter): List<Any>? {
 	return toVisualize
 }
 
-private fun IntProgression.asProgression() = this
-private fun Int.asProgression() = this..this
 private inline fun debug(msg: () -> Any) { if (VERBOSE) println(msg()) }
 
 fun main() {
