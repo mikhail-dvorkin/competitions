@@ -1,19 +1,14 @@
 package atcoder.arc154
 
 fun main() {
-	readLn()
-	val a = readLn()
-	val b = readLn()
-	if (a.toCharArray().sorted() != b.toCharArray().sorted()) return println(-1)
+	val (_, a, b) = List(3) { readLn()  }
+	if (a.sorted() != b.sorted()) return println(-1)
 	var i = a.lastIndex
-	var j = b.lastIndex
-	while (j >= 0) {
-		if (a[i] == b[j]) {
-			i--
-		}
-		j--
-	}
+	for (c in b.reversed()) if (a[i] == c) i--
 	println(i + 1)
 }
+
+private fun CharSequence.toCharArray() = CharArray(this.length) { this[it] }
+private fun CharSequence.sorted() = toCharArray().apply { sort() }.concatToString()
 
 private fun readLn() = readLine()!!

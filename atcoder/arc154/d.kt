@@ -6,44 +6,41 @@ fun main() {
 	val n = readInt()
 	val random = Random(566)
 	val shuffle = (0 until n).shuffled(random)
+	val memo = mutableMapOf<Triple<Int, Int, Int>, Boolean>()
 	// p[i] + p[j] > p[k]
 	fun ask(i: Int, j: Int, k: Int): Boolean {
-		println("? ${shuffle[i] + 1} ${shuffle[j] + 1} ${shuffle[k] + 1}")
-		return readLn()[0] == 'Y'
+		if (i > j) return ask(j, i, k)
+		return memo.getOrPut(Triple(i, j, k)) {
+			println("? ${shuffle[i] + 1} ${shuffle[j] + 1} ${shuffle[k] + 1}")
+			readLn()[0] == 'Y'
+		}
 	}
+
 	var one = 0
-	for (i in 1 until n) {
-		if (!ask(i, i, one)) {
-			// 2p[i] <= p[one]
-			one = i
-		}
-	}
-	val a = ((0 until n) - one).toIntArray()
-	val temp = IntArray(n)
+	// 2p[i] <= p[one]
+	for (i in 1 until n) if (!ask(i, i, one)) one = i
+
+	val a = IntArray(n) { it }
+	a[0] = one; a[one] = 0
+	val mergeSortTemp = IntArray(n)
 	fun sort(from: Int, to: Int) {
-		if (to - from < 2) return
+		val partSize = to - from
+		if (partSize <= 1) return
 		val mid = (from + to) / 2
-		sort(from, mid)
-		sort(mid, to)
-		var i = from
-		var j = mid
-		var k = 0
-		while (i < mid || j < to) {
-			if (i < mid && (j == to || !ask(a[i], one, a[j]) /*a[i] < a[j]*/)) {
-				temp[k++] = a[i++]
-			} else {
-				temp[k++] = a[j++]
-			}
-		}
-		for (k in from until to) a[k] = temp[k - from]
+		sort(from, mid); sort(mid, to)
+		var i = from; var j = mid
+		for (k in 0 until partSize) mergeSortTemp[k] = a[
+			if (i < mid && (j == to || !ask(a[i], one, a[j]))) i++ else j++
+		]
+		System.arraycopy(mergeSortTemp, 0, a, from, partSize)
 	}
-	sort(0, a.size)
+	sort(1, n)
+
 	val ans = IntArray(n)
-	ans[shuffle[one]] = 1
 	for (i in a.indices) {
-		ans[shuffle[a[i]]] = i + 2
+		ans[shuffle[a[i]]] = i + 1
 	}
-	print("! ${ans.joinToString(" ")}")
+	println("! ${ans.joinToString(" ")}")
 }
 
 private fun readLn() = readLine()!!
