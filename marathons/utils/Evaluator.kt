@@ -29,6 +29,7 @@ class Evaluator(
 	private fun callVisualizer() {
 		_outcomeMyScore = Double.NaN
 		_outcomeTroubles = ArrayList()
+		_outcomeLabels = ArrayList()
 		try {
 			visualizer.call()
 		} catch (e: Exception) {
@@ -37,7 +38,7 @@ class Evaluator(
 		if (java.lang.Double.isNaN(_outcomeMyScore)) {
 			allTroubles.add(_seed.toString() + "\tDid not finish correctly: MyScore = NaN")
 		} else {
-			for (s in _outcomeTroubles!!) {
+			for (s in _outcomeTroubles) {
 				allTroubles.add(_seed.toString() + "\t" + s)
 			}
 		}
@@ -110,8 +111,8 @@ class Evaluator(
 		var _outcomeTime: Long = 0
 		var _outcomeScore = 0.0
 		var _outcomeMyScore = 0.0
-		var _outcomeTroubles: ArrayList<String>? = null
-		var _outcomeLabels: ArrayList<String>? = null
+		var _outcomeTroubles: ArrayList<String> = ArrayList()
+		var _outcomeLabels: ArrayList<String> = ArrayList()
 		@JvmField
 		var _seed: Long = 0
 		@JvmField
@@ -162,12 +163,6 @@ class Evaluator(
 		}
 
 		@JvmStatic
-		fun requireEnablesAssertions() {
-			var assertOn = 0
-			assert(1.also { assertOn = it } > 0)
-			if (assertOn == 0) {
-				throw AssertionError("Asserts must be on.")
-			}
-		}
+		fun requireEnablesAssertions() = JavaUtils.requireEnablesAssertions()
 	}
 }

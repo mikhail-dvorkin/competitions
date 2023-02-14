@@ -16,17 +16,17 @@ fun runAndVisualizeTheir(solution: ((BufferedReader, BufferedWriter) -> List<Any
 	Evaluator._imageFile = File("$toolsDir/img", imageFileName)
 	val hardcodedImageFileName = "out.svg"
 	val hardcodedImageFile = File(toolsDir, hardcodedImageFileName)
-	Evaluator._outFile.parentFile.mkdirs()
+	Evaluator._outFile!!.parentFile.mkdirs()
 	Evaluator._outcomeTime = -System.currentTimeMillis()
-	val toVisualize = solution.invoke(Evaluator._inFile.bufferedReader(), Evaluator._outFile.bufferedWriter())
+	val toVisualize = solution.invoke(Evaluator._inFile!!.bufferedReader(), Evaluator._outFile!!.bufferedWriter())
 	Evaluator._outcomeTime += System.currentTimeMillis()
 	if (Evaluator._visRunTheir) {
 		val command = "cargo run --release --bin vis in/$paddedName.txt out/$paddedName.out"
-		Evaluator._imageFile.parentFile.mkdirs()
+		Evaluator._imageFile!!.parentFile.mkdirs()
 		val (output, error) = exec(command, toolsDir)
 		val score = output.toInt()
 		hardcodedImageFile.renameTo(Evaluator._imageFile)
-		Pictures.write(Evaluator._imageFile.path)
+		Pictures.write(Evaluator._imageFile!!.path)
 		Evaluator._outcomeScore = score.toDouble()
 		Evaluator._outcomeMyScore = Evaluator._outcomeScore
 		if (score == 0) {

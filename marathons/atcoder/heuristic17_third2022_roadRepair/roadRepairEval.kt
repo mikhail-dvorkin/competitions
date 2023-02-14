@@ -10,8 +10,8 @@ fun run() {
 	//val toVisualize =
 	runAndVisualizeTheir(::solve)
 
-	val (graph, days, maxRepairedPerDay) = read(Evaluator._inFile.bufferedReader())
-	val answer = Evaluator._outFile.bufferedReader().readLine()!!.split(" ").map { it.toInt() - 1 }.toIntArray()
+	val (graph, days, maxRepairedPerDay) = read(Evaluator._inFile!!.bufferedReader())
+	val answer = Evaluator._outFile!!.bufferedReader().readLine()!!.split(" ").map { it.toInt() - 1 }.toIntArray()
 
 	require(answer.size == graph.m)
 	require(answer.all { it in 0 until days })
@@ -24,6 +24,6 @@ fun run() {
 	Evaluator._outcomeMyScore = (frustrationSum.toDouble() / (days * graph.frustrationZero) - 1) * 1000
 }
 
-class RoadRepairEval : Callable<Void> {
+class RoadRepairEval : Callable<Void?> {
 	override fun call() = run().let { null }
 }
