@@ -3,6 +3,8 @@ package marathons.utils
 import java.io.*
 import java.util.*
 import java.util.concurrent.Callable
+import kotlin.math.*
+import kotlin.system.exitProcess
 
 /**
  * Visualizer must:
@@ -13,6 +15,7 @@ import java.util.concurrent.Callable
  * - after each run return all _outcomeFields
  * - on own errors add them to _outcomeTroubles
  */
+@Suppress("ObjectPropertyName")
 class Evaluator(
 	private val evaluate: Int, private val evaluateFrom: Long, private val evaluateVerbose: Boolean,
 	private val visualize: Int, private val visualizeFrom: Long, private val visualizeVerbose: Boolean,
@@ -36,7 +39,7 @@ class Evaluator(
 			throw RuntimeException(e)
 		}
 		if (java.lang.Double.isNaN(_outcomeMyScore)) {
-			allTroubles.add(_seed.toString() + "\tDid not finish correctly: MyScore = NaN")
+			allTroubles.add("$_seed\tDid not finish correctly: MyScore = NaN")
 		} else {
 			for (s in _outcomeTroubles) {
 				allTroubles.add(_seed.toString() + "\t" + s)
@@ -70,7 +73,7 @@ class Evaluator(
 				_seed = evaluateFrom + t
 				_outcomeScore = Double.NaN
 				_outcomeMyScore = _outcomeScore
-				print("#" + _seed + ":\t")
+				print("#$_seed:\t")
 				callVisualizer()
 				val score = if (_useMyScore) _outcomeMyScore else _outcomeScore
 				println(score)
@@ -83,14 +86,14 @@ class Evaluator(
 				totalT += _outcomeTime
 			}
 			val mean = sumScores / tests
-			val std = Math.sqrt(sumScores2 / tests - mean * mean)
+			val std = sqrt(sumScores2 / tests - mean * mean)
 			val scoreName = if (_useMyScore) "MyScore" else "Score"
 			val sb = StringBuilder()
 			sb.append("=========================== ").append(scoreName).append(" = ").append(round(mean, 2))
 			sb.append("\n+-").append(round(100 * std / mean, 2)).append("%")
 			sb.append("\n======== AverageTime: ").append(timeToString(1.0 * totalT / tests))
 			sb.append("\n======== MaxTime: ").append(timeToString(maxT.toDouble())).append(" on test #").append(maxTest)
-			if (!allTroubles.isEmpty()) {
+			if (allTroubles.isNotEmpty()) {
 				sb.append("\n\n== == == == == == == ==  TROUBLES!")
 				for (s in allTroubles) {
 					sb.append("\n").append(s)
@@ -103,8 +106,7 @@ class Evaluator(
 			}
 		}
 		Pictures.remind()
-		System.exit(0)
-		return null
+		exitProcess(0)
 	}
 
 	companion object {
@@ -150,16 +152,16 @@ class Evaluator(
 		}
 
 		fun timeToString(time: Double): String {
-			return (Math.round(time) / 1000.0).toString() + "s (server " + Math.round(time / localTimeCoefficient()) / 1000.0 + "s)"
+			return (time.roundToInt() / 1000.0).toString() + "s (server " + (time / localTimeCoefficient()).roundToInt() / 1000.0 + "s)"
 		}
 
 		@JvmStatic
 		fun round(v: Double, precision: Int): String {
-			if (Math.abs(v) >= 1e100) {
+			if (abs(v) >= 1e100) {
 				return if (v > 0) "INF" else "-INF"
 			}
-			val ten = Math.round(Math.pow(10.0, precision.toDouble())).toDouble()
-			return "" + Math.round(v * ten) / ten
+			val ten = 10.0.pow(precision.toDouble()).roundToLong().toDouble()
+			return "" + (v * ten).roundToLong() / ten
 		}
 
 		@JvmStatic
