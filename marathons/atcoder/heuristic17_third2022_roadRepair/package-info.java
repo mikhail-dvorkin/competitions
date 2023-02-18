@@ -5,4 +5,4 @@
  *
  * Road Repair
  */
-package marathons.atcoder.heuristic17_third2022_roadRepair;
+package marathons.atcoder.ahc17_third2022_roadRepair;

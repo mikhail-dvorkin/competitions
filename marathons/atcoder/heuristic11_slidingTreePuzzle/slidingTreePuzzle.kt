@@ -1,4 +1,4 @@
-package marathons.atcoder.heuristic11_slidingTreePuzzle
+package marathons.atcoder.ahc11_slidingTreePuzzle
 
 import java.util.*
 import kotlin.math.*

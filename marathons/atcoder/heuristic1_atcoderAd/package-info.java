@@ -232,4 +232,4 @@
  * 2188 9146 2406 9255
  * 3671 5909 4313 6208
  */
-package marathons.atcoder.heuristic1_atcoderAd;
+package marathons.atcoder.ahc1_atcoderAd;

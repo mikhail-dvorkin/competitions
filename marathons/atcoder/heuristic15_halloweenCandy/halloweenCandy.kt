@@ -1,4 +1,4 @@
-package marathons.atcoder.heuristic15_halloweenCandy
+package marathons.atcoder.ahc15_halloweenCandy
 
 import kotlin.math.*
 import kotlin.random.Random

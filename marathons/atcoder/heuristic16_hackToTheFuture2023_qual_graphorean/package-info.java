@@ -3,4 +3,4 @@
  *
  * HACK TO THE FUTURE 2023 qual (AtCoder Heuristic Contest 016)
  */
-package marathons.atcoder.heuristic16_hackToTheFuture2023_qual_graphorean;
+package marathons.atcoder.ahc16_hackToTheFuture2023_qual_graphorean;

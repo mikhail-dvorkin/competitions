@@ -1,4 +1,4 @@
-package marathons.atcoder.heuristic1_atcoderAd
+package marathons.atcoder.ahc1_atcoderAd
 
 import java.io.*
 import java.util.concurrent.Callable

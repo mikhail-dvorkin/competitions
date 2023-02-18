@@ -221,4 +221,4 @@
  *     return 0;
  * }
  */
-package marathons.atcoder.heuristic3_shortestPathQueries;
+package marathons.atcoder.ahc3_shortestPathQueries;

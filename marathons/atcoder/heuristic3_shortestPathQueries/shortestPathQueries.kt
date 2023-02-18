@@ -1,4 +1,4 @@
-package marathons.atcoder.heuristic3_shortestPathQueries
+package marathons.atcoder.ahc3_shortestPathQueries
 
 import kotlin.random.Random
 

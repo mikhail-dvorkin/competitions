@@ -1,4 +1,4 @@
-package marathons.atcoder.heuristic16_hackToTheFuture2023_qual_graphorean
+package marathons.atcoder.ahc16_hackToTheFuture2023_qual_graphorean
 
 import kotlin.math.*
 import kotlin.random.Random
