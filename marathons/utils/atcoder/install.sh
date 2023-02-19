@@ -16,6 +16,8 @@ for ((i=0; i < $NUM_TESTS; i++))
 do
     echo $i>> seeds.txt
 done
+cargo update
+cargo build
 cargo run --release --bin gen < seeds.txt
 cargo run --release --bin gen seeds.txt
 cargo run --release --bin vis example.in example.out
