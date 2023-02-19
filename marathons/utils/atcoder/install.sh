@@ -21,4 +21,8 @@ cargo build
 cargo run --release --bin gen < seeds.txt
 cargo run --release --bin gen seeds.txt
 cargo run --release --bin vis example.in example.out
-cd ..
+
+mkdir windows
+cd windows
+curl $URL_DIR/${ARCHIVE/.zip/_windows.zip} -o tools_win.zip
+unzip tools_win.zip
