@@ -11,11 +11,13 @@ mv $ARCHIVE tools~.zip
 unzip tools~.zip
 mv tools tools~
 cd tools~
-rm seeds.txt
-for ((i=0; i < $NUM_TESTS; i++))
-do
-    echo $i>> seeds.txt
-done
+if [ -n "$NUM_TESTS" ]; then
+	rm seeds.txt
+	for ((i=0; i < $NUM_TESTS; i++))
+	do
+	    echo $i>> seeds.txt
+	done
+fi
 cargo update
 cargo build
 cargo run --release --bin gen < seeds.txt
