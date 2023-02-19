@@ -4,7 +4,7 @@ URL_DIR=$1
 ARCHIVE=$2
 NUM_TESTS=$3
 
-wget $URL_DIR/$ARCHIVE
+curl $URL_DIR/$ARCHIVE -o $ARCHIVE
 rm tools~.zip
 rm -rf tools~
 mv $ARCHIVE tools~.zip
