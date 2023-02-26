@@ -19,7 +19,12 @@ fun runAndVisualizeTheir(solution: ((BufferedReader, BufferedWriter) -> List<Any
 	val hardcodedImageFile = File(toolsDir, hardcodedImageFileName)
 	Evaluator._outFile!!.parentFile.mkdirs()
 	Evaluator._outcomeTime = -System.currentTimeMillis()
-	val toVisualize = solution.invoke(Evaluator._inFile!!.bufferedReader(), Evaluator._outFile!!.bufferedWriter())
+	var toVisualize: List<Any>? = null
+	try {
+		toVisualize = solution.invoke(Evaluator._inFile!!.bufferedReader(), Evaluator._outFile!!.bufferedWriter())
+	} catch (e: Exception) {
+		Evaluator._outcomeTroubles.add(e.localizedMessage)
+	}
 	Evaluator._outcomeTime += System.currentTimeMillis()
 	if (Evaluator._visRunTheir) {
 		val command = "cargo run --release --bin vis in/$paddedName.txt out/$paddedName.out"
