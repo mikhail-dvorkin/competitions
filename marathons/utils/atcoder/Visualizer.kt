@@ -5,9 +5,10 @@ import java.io.*
 import java.util.concurrent.Callable
 
 fun runAndVisualizeTheir(solution: ((BufferedReader, BufferedWriter) -> List<Any>?)): List<Any>? {
+	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
 	val seed = Evaluator._seed
 	val paddedName = seed.toString().padStart(4, '0')
-	val toolsDir = solution.javaClass.packageName.replace(".", "/") + "/tools~"
+	val toolsDir = Evaluator._project!!.replace(".", "/") + "/tools~"
 	val inFileName = "$paddedName.txt"
 	Evaluator._inFile = File("$toolsDir/in", inFileName)
 	val outFileName = "$paddedName.out"
@@ -47,6 +48,7 @@ fun exec(command: String, dir: String): Pair<String, String> {
 
 class Visualizer(val solution: ((BufferedReader, BufferedWriter) -> Unit)) : Callable<Void?> {
 	override fun call(): Void? {
+		if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
 		runAndVisualizeTheir { bufferedReader, bufferedWriter ->
 			solution(bufferedReader, bufferedWriter)
 			null
