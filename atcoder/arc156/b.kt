@@ -1,39 +1,22 @@
 package atcoder.arc156
 
 fun main() {
-	val (_, k) = readInts()
-	val a = readInts().sorted()
-
-	val fact = ModularArray(a.size + k) { 1.toModularUnsafe() }
-	for (i in 2 until fact.data.size) {
-		fact[i] = fact[i - 1] * i.toModularUnsafe()
-	}
-	fun cnk(n: Int, m: Int): Modular {
-		return fact[n] / fact[m] / fact[n - m]
-	}
-
-	fun take(n: Int, m: Int): Modular {
-		return cnk(n + m - 1, n)
-	}
-
-	val aSet = a.toSet()
-	val f = (0..a.size).first { it !in aSet }
-	var ans = 0.toModularUnsafe()
-	if (f > 0) ans += take(k, f)
-	var amust = 0
-	for (x in f..f + k + a.size) {
-		if (x in aSet) {
-			ans += take(k - amust - 1, x + 1)
-			continue
-		}
-		amust += 1
-		ans += take(k - amust, x + 1)
-		if (amust == k) break
+	var (_, k) = readInts()
+	val a = readInts().toSet()
+	val f = (0..a.size).first { it !in a }
+	var ans = if (f > 0) take(k, f) else 0.toModularUnsafe()
+	for (x in f..Int.MAX_VALUE) {
+		ans += take(k - 1, x + 1)
+		if (x !in a && --k == 0) break
 	}
 	println(ans)
 }
 
-//typealias Modular = Double; fun Number.toModular() = toDouble(); fun Number.toModularUnsafe() = toDouble(); typealias ModularArray = DoubleArray
+private fun take(n: Int, m: Int) = cnk(n + m - 1, n)
+
+//typealias Modular = Double; fun Number.toModular() = toDouble(); fun Number.toModularUnsafe() = toDouble()
+//typealias ModularArray = DoubleArray; val ModularArray.data; get() = this
+@Suppress("NOTHING_TO_INLINE")
 private class Modular(val x: Int) {
 	companion object {
 		const val M = 998244353; val MOD_BIG_INTEGER = M.toBigInteger()
@@ -55,6 +38,13 @@ private class ModularArray(val data: IntArray) {
 	operator fun set(index: Int, value: Modular) { data[index] = value.x }
 }
 private inline fun ModularArray(n: Int, init: (Int) -> Modular) = ModularArray(IntArray(n) { init(it).x })
+
+private val factorials = mutableListOf(1.toModularUnsafe())
+private fun factorial(n: Int): Modular {
+	while (n >= factorials.size) factorials.add(factorials.last() * factorials.size.toModularUnsafe())
+	return factorials[n]
+}
+private fun cnk(n: Int, k: Int) = factorial(n) / factorial(k) / factorial(n - k)
 
 private fun readLn() = readLine()!!
 private fun readStrings() = readLn().split(" ")
