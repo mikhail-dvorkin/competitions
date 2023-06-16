@@ -2,12 +2,16 @@
 
 URL_DIR=$1
 ARCHIVE=$2
+ARCHIVE_WINDOWS=${ARCHIVE/.zip/_windows.zip}
 NUM_TESTS=$3
 
-curl $URL_DIR/$ARCHIVE -o $ARCHIVE
-rm tools~.zip
+if [ ! -f "tools~.zip" ]; then
+	curl $URL_DIR/$ARCHIVE -o tools~.zip
+fi
+if [ ! -f "tools_windows~.zip" ]; then
+	curl $URL_DIR/$ARCHIVE_WINDOWS -o tools_windows~.zip
+fi
 rm -rf tools~
-mv $ARCHIVE tools~.zip
 unzip tools~.zip
 mv tools tools~
 cd tools~
@@ -26,5 +30,4 @@ cargo run --release --bin vis example.in example.out
 
 mkdir windows
 cd windows
-curl $URL_DIR/${ARCHIVE/.zip/_windows.zip} -o tools_win.zip
-unzip tools_win.zip
+unzip ../../tools_windows~.zip
