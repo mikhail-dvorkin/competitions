@@ -3,7 +3,7 @@ package marathons.utils.topcoderMy;
 import java.io.BufferedWriter;
 import java.io.InputStream;
 
-class ErrorReader extends Thread {
+public class ErrorReader extends Thread {
 	private final InputStream errorStream;
 	private final BufferedWriter errorWriter;
 	private final StringBuilder sb = new StringBuilder();
