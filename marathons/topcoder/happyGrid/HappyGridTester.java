@@ -1,14 +1,21 @@
 package marathons.topcoder.happyGrid;
 
+import marathons.utils.Evaluator;
+import marathons.utils.Pictures;
 import marathons.utils.topcoderMy.MarathonAnimatedVis;
 import marathons.utils.topcoderMy.MarathonController;
+import marathons.utils.topcoderMy.Parameters;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
+import java.util.concurrent.Callable;
 
-public class HappyGridTester extends MarathonAnimatedVis {
+public class HappyGridTester extends MarathonAnimatedVis implements Callable<Void> {
 	//parameter ranges
 	private static final int minN = 8, maxN = 30;     // grid size range
 	private static final int minC = 2, maxC = 6;      // number of colours range
@@ -19,7 +26,7 @@ public class HappyGridTester extends MarathonAnimatedVis {
 	private static final int Wall = 0;
 	//Graphics
 	Color[] colors = {Color.blue, Color.red, Color.green, Color.magenta, Color.orange, Color.cyan};
-	Stack<SaveUpdate> updates = new Stack<SaveUpdate>();
+	Stack<SaveUpdate> updates = new Stack<>();
 	//Inputs
 	private int N;            // grid size
 	private int C;            // number of colours
@@ -36,10 +43,25 @@ public class HappyGridTester extends MarathonAnimatedVis {
 	private int selectedC = -1;
 	private int selectedR2 = -1;
 	private int selectedC2 = -1;
+	private StringBuilder log = new StringBuilder();
+	private HashMap<String, String> logMap = new HashMap<>();
 	private double score;
 
-	public static void main(String[] args) {
+	public static void mainRenamed(String[] args) {
 		new MarathonController().run(args);
+	}
+
+	@Override
+	public Void call() {
+		Evaluator._useMyScore = false;
+		mainRenamed(HappyGrid.EVALUATOR_PARAMETERS.split(" "));
+		return null;
+	}
+
+	@Override
+	public int hashCode() {
+		call();
+		return super.hashCode();
 	}
 
 	protected void generate() {
@@ -75,7 +97,7 @@ public class HappyGridTester extends MarathonAnimatedVis {
 
 		//generate grid
 		int count = 0;
-		while (true) {
+		do {
 			count++;
 			for (int r = 0; r < N; r++)
 				for (int c = 0; c < N; c++)
@@ -84,8 +106,7 @@ public class HappyGridTester extends MarathonAnimatedVis {
 					else
 						grid[r][c] = randomInt(1, C);
 
-			if (isGridGood()) break;
-		}
+		} while (!isGridGood());
 
 		numMoves = 0;
 		numComponents = 0;
@@ -140,11 +161,19 @@ public class HappyGridTester extends MarathonAnimatedVis {
 
 	protected double runAuto() throws Exception {
 		double score = callSolution();
+		updateMyScore();
+		if (lastSavedImage != null) Pictures.write(lastSavedImage);
 		if (score < 0) {
 			if (!isReadActive()) return getErrorScore();
 			return fatalError();
 		}
 		return score;
+	}
+
+	private void updateMyScore() {
+		int need = N * N / K;
+		if (logMap.containsKey("Need ")) need = Integer.parseInt(logMap.get("Need "));
+		myScore = score / (need * P) * 1000;
 	}
 
 	protected void timeout() {
@@ -153,28 +182,45 @@ public class HappyGridTester extends MarathonAnimatedVis {
 	}
 
 	private double callSolution() throws Exception {
-		writeLine(String.valueOf(N));
-		writeLine(String.valueOf(C));
-		writeLine(String.valueOf(K));
-		writeLine(String.valueOf(P));
-		for (int r = 0; r < N; r++)
-			for (int c = 0; c < N; c++)
-				writeLine(String.valueOf(grid[r][c]));
+		if (!parameters.isDefined(Parameters.myExec)) {
+			writeLine(String.valueOf(N));
+			writeLine(String.valueOf(C));
+			writeLine(String.valueOf(K));
+			writeLine(String.valueOf(P));
+			for (int r = 0; r < N; r++)
+				for (int c = 0; c < N; c++)
+					writeLine(String.valueOf(grid[r][c]));
 
-		flush();
-		if (!isReadActive()) return -1;
+			flush();
+			if (!isReadActive()) return -1;
+		}
 
 		updateState();
 
+		log = new StringBuilder();
 		try {
 			//read solution output
+			int n;
+			String[] moves;
 			startTime();
-			int n = Integer.parseInt(readLine());
-			if (n < 0 || n > 2 * N * N * N)
-				return fatalError("Number of moves must between 0 and " + (2 * N * N * N) + " inclusive");
+			if (parameters.isDefined(Parameters.myExec)) {
+				int[][] gridCopy = new int[N][];
+				for (int i = 0; i < N; i++) {
+					gridCopy[i] = grid[i].clone();
+				}
+				HappyGrid instance = new HappyGrid();
+				moves = instance.solve(N, C, K, P, gridCopy);
+				n = moves.length;
+				log = instance.log;
+				logMap = instance.logMap;
+			} else {
+				n = Integer.parseInt(readLine());
+				if (n < 0 || n > 2 * N * N * N)
+					return fatalError("Number of moves must between 0 and " + (2 * N * N * N) + " inclusive");
 
-			String[] moves = new String[n];
-			for (int i = 0; i < n; i++) moves[i] = readLine();
+				moves = new String[n];
+				for (int i = 0; i < n; i++) moves[i] = readLine();
+			}
 			stopTime();
 
 			for (numMoves = 1; numMoves <= n; numMoves++) {
@@ -212,9 +258,10 @@ public class HappyGridTester extends MarathonAnimatedVis {
 			}
 			if (parameters.isDefined("noanimate")) updateState();
 		} catch (Exception e) {
-			if (debug) System.out.println(e);
+			e.printStackTrace();
 			return fatalError("Cannot parse your output");
 		}
+		System.out.println(log);
 
 		return score;
 	}
@@ -230,7 +277,7 @@ public class HappyGridTester extends MarathonAnimatedVis {
 					findComponents(oneColour, r, c, id, grid[r][c]);
 				}
 
-		for (int i = 0; i < counts.length; i++) counts[i] = 0;
+		Arrays.fill(counts, 0);
 		for (int r = 0; r < N; r++)
 			for (int c = 0; c < N; c++)
 				counts[components[r][c]]++;
@@ -254,17 +301,23 @@ public class HappyGridTester extends MarathonAnimatedVis {
 		findComponents(oneColour, r, c - 1, id, colour);
 	}
 
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	protected boolean inGrid(int r, int c) {
 		return r >= 0 && r < N && c >= 0 && c < N;
 	}
 
 	protected void updateState() {
 		if (hasVis()) {
+			updateMyScore();
 			synchronized (updateLock) {
 				addInfo("Moves", numMoves);
 				addInfo("Components", numComponents);
 				addInfo("Time", getRunTime());
 				addInfo("Score", score);
+				addInfo("MyScore", shorten(myScore));
+				for (Map.Entry<String, String> entry : logMap.entrySet()) {
+					addInfo(entry.getKey(), entry.getValue());
+				}
 			}
 			updateDelay();
 		}
@@ -418,7 +471,7 @@ public class HappyGridTester extends MarathonAnimatedVis {
 		}
 	}
 
-	class SaveUpdate {
+	static class SaveUpdate {
 		public int r1, c1, r2, c2;
 
 		SaveUpdate(int R1, int C1, int R2, int C2) {
