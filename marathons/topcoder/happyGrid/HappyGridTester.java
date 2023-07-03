@@ -43,7 +43,6 @@ public class HappyGridTester extends MarathonAnimatedVis implements Callable<Voi
 	private int selectedC = -1;
 	private int selectedR2 = -1;
 	private int selectedC2 = -1;
-	private StringBuilder log = new StringBuilder();
 	private HashMap<String, String> logMap = new HashMap<>();
 	private double score;
 
@@ -197,7 +196,7 @@ public class HappyGridTester extends MarathonAnimatedVis implements Callable<Voi
 
 		updateState();
 
-		log = new StringBuilder();
+		StringBuilder log = new StringBuilder();
 		try {
 			//read solution output
 			int n;
