@@ -123,6 +123,7 @@ class Evaluator(
 		var _visOnlyFile = false
 		var _visRunTheir = true
 		var _verbose = false
+		@JvmField
 		var _useMyScore = false
 		@JvmField
 		var _project: String? = null
