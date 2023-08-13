@@ -44,5 +44,6 @@ private inline fun debug(msg: () -> Any) { if (VERBOSE) println(msg()) }
 
 fun main() {
 	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
-	EVALUATOR?.call().let { 0 } ?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
+	EVALUATOR?.apply { call() }
+		?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
 }
