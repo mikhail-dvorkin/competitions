@@ -43,6 +43,6 @@ fun solve(`in`: BufferedReader, out: BufferedWriter): List<Any>? {
 private inline fun debug(msg: () -> Any) { if (VERBOSE) println(msg()) }
 
 fun main() {
-	@Suppress("UNNECESSARY_SAFE_CALL")
-	EVALUATOR?.call() ?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
+	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
+	EVALUATOR?.call().let { 0 } ?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
 }
