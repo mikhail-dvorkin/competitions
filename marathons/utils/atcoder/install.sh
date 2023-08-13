@@ -15,6 +15,8 @@ rm -rf tools~
 unzip tools~.zip
 mv tools tools~
 cd tools~
+mkdir out
+mkdir img
 if [ -n "$NUM_TESTS" ]; then
 	rm seeds.txt
 	for ((i=0; i < $NUM_TESTS; i++))
@@ -31,3 +33,5 @@ cargo run --release --bin vis example.in example.out
 mkdir windows
 cd windows
 unzip ../../tools_windows~.zip
+mv tools_windows/* .
+rm -r tools_windows
