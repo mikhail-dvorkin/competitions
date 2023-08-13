@@ -274,6 +274,17 @@ diff -urN topcoderTheir/MarathonVis.java topcoderMy/MarathonVis.java
  	private double size = -1;
  	private Rectangle2D contentRect = new Rectangle2D.Double(0, 0, 100, 100);
  	private Rectangle2D contentScreen = new Rectangle2D.Double();
+@@ -80,8 +84,8 @@
+ 	private RenderingHints hints;
+ 	private long paintTime;
+ 	private int paintCnt;
+-	private int saveVisSeq;
+-	private BufferedImage lastSavedImage;
++	public int saveVisSeq;
++	public BufferedImage lastSavedImage;
+ 
+ 	protected abstract void paintContent(Graphics2D g);
+ 
 @@ -92,21 +96,22 @@
  
  	public void setParameters(Parameters parameters) {

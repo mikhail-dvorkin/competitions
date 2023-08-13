@@ -84,8 +84,8 @@ public abstract class MarathonVis extends MarathonTester {
 	private RenderingHints hints;
 	private long paintTime;
 	private int paintCnt;
-	private int saveVisSeq;
-	private BufferedImage lastSavedImage;
+	public int saveVisSeq;
+	public BufferedImage lastSavedImage;
 
 	protected abstract void paintContent(Graphics2D g);
 
