@@ -2,7 +2,6 @@ package codeforces.round783
 
 import java.util.*
 
-
 fun main() {
 	val n = readInt()
 	val a = readInts()
