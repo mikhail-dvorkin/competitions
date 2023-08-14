@@ -1,7 +1,7 @@
 *~*
 *novcs*
-.in
-.out
+*.in
+*.out
 input.txt
 output.txt
 input/
