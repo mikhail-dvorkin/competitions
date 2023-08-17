@@ -180,7 +180,7 @@ data class Desired(val x: Int, val y: Int, val area: Int)
 
 private infix fun Double.isNot(other: Double) = abs(this - other) > 1e-9
 
-fun solve(`in`: BufferedReader, out: BufferedWriter) {
+fun solve(`in`: BufferedReader, out: Writer) {
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
 	fun readStrings() = readLn().split(" ")
@@ -188,7 +188,7 @@ fun solve(`in`: BufferedReader, out: BufferedWriter) {
 
 	val desired = List(readInt()) { val (x, y, area) = readInts(); Desired(x, y, area) }
 	val ans = solve(desired)
-	ans.forEach { out.write(it.joinToString(" ")); out.newLine() }
+	ans.forEach { out.write(it.joinToString(" ")); out.write(System.lineSeparator()) }
 	out.close()
 }
 

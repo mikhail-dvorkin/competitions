@@ -25,7 +25,7 @@ fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 
 class TimeOutException : RuntimeException()
 
-fun solve(`in`: BufferedReader, out: BufferedWriter): List<Any>? {
+fun solve(`in`: BufferedReader, out: Writer): List<Any>? {
 	timeStart = System.currentTimeMillis()
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
@@ -45,5 +45,5 @@ private inline fun debug(msg: () -> Any) { if (VERBOSE) println(msg()) }
 fun main() {
 	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
 	EVALUATOR?.apply { call() }
-		?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
+		?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter() /* PrintWriter(System.out, true) */)
 }

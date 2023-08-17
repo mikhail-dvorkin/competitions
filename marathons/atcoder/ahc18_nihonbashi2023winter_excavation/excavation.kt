@@ -10,11 +10,9 @@ val EVALUATOR: Callable<Void?>
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null
-var timeStart = 0L
 class TimeOutException : RuntimeException()
 
-fun solve(`in`: BufferedReader, out: BufferedWriter): List<Any>? {
-	timeStart = System.currentTimeMillis()
+fun solve(`in`: BufferedReader, out: PrintWriter): List<Any>? {
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
 	fun readStrings() = readLn().split(" ")
@@ -30,7 +28,7 @@ fun solve(`in`: BufferedReader, out: BufferedWriter): List<Any>? {
 	val force = stamina + 64
 	fun dig(y: Int, x: Int) {
 		if (crushed[y][x]) return
-		out.write("$y $x $force\n"); out.flush()
+		out.println("$y $x $force")
 		val result = readInt()
 		if (result == 0) return dig(y, x)
 		crushed[y][x] = true
@@ -181,6 +179,7 @@ val DX = intArrayOf(1, 0, -1, 0)
 val DY = intArrayOf(0, 1, 0, -1)
 
 fun main() {
-	@Suppress("UNNECESSARY_SAFE_CALL")
-	EVALUATOR?.call() ?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
+	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
+	EVALUATOR?.apply { call() }
+		?: solve(System.`in`.bufferedReader(), PrintWriter(System.out, true))
 }

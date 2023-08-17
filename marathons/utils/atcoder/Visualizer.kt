@@ -4,7 +4,10 @@ import marathons.utils.*
 import java.io.*
 import java.util.concurrent.Callable
 
-fun runAndVisualizeTheir(solution: ((BufferedReader, BufferedWriter) -> List<Any>?)): List<Any>? {
+fun runAndVisualizeTheir(
+	isInteractive: Boolean = false,
+	solution: ((BufferedReader, Writer) -> List<Any>?)
+): List<Any>? {
 	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
 	val seed = Evaluator._seed
 	val paddedName = seed.toString().padStart(4, '0')
@@ -51,13 +54,10 @@ fun exec(command: String, dir: String): Pair<String, String> {
 	return Pair(output, error)
 }
 
-class Visualizer(val solution: ((BufferedReader, BufferedWriter) -> Unit)) : Callable<Void?> {
+class Visualizer(val solution: ((BufferedReader, Writer) -> Unit)) : Callable<Void?> {
 	override fun call(): Void? {
 		if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
-		runAndVisualizeTheir { bufferedReader, bufferedWriter ->
-			solution(bufferedReader, bufferedWriter)
-			null
-		}
+		runAndVisualizeTheir { reader, writer -> solution(reader, writer).let { null } }
 		return null
 	}
 }
