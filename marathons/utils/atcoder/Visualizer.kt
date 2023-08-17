@@ -41,7 +41,7 @@ fun runAndVisualizeTheir(
 	}
 	Evaluator._outcomeTime += System.currentTimeMillis()
 
-	if (Evaluator._visRunTheir) {
+	if (Evaluator._visFile && !Evaluator._visDoNotRunTheir) {
 		Evaluator._imageFile!!.parentFile.mkdirs()
 		val command = "cargo run --release --bin vis in/$inFileName out/$outFileName"
 		val commandWindows = "cmd /c vis.exe ../in/$inFileName ../out/$outFileName"

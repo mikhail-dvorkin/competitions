@@ -5,7 +5,7 @@ import marathons.utils.atcoder.runAndVisualizeTheir
 import java.util.concurrent.Callable
 
 fun run() {
-	Evaluator._visRunTheir = false
+	Evaluator._visDoNotRunTheir = true
 	Evaluator._useMyScore = true
 	//val toVisualize =
 	runAndVisualizeTheir(::solve)

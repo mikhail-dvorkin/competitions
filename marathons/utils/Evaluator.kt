@@ -119,9 +119,13 @@ class Evaluator(
 		var _seed: Long = 0
 		@JvmField
 		var _visScreen = false
+		var _visFile = false
+		/**
+		 * Run as if "on screen" visualizer but just save content to file
+		 */
 		@JvmField
 		var _visOnlyFile = false
-		var _visRunTheir = true
+		var _visDoNotRunTheir = false
 		var _verbose = false
 		@JvmField
 		var _useMyScore = false
