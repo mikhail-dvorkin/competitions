@@ -21,36 +21,79 @@ fun runAndVisualizeTheir(
 	val hardcodedImageFileName = "out.svg"
 	val hardcodedImageFile = File(toolsDir, hardcodedImageFileName)
 	Evaluator._outFile!!.parentFile.mkdirs()
-	Evaluator._outcomeTime = -System.currentTimeMillis()
 	var toVisualize: List<Any>? = null
+	val theirLabels = mutableListOf<String>()
+
+	Evaluator._outcomeTime = -System.currentTimeMillis()
 	try {
-		toVisualize = solution.invoke(Evaluator._inFile!!.bufferedReader(), Evaluator._outFile!!.bufferedWriter())
+		if (isInteractive) {
+			val command = "cargo run --release --bin vis in/$inFileName out/$outFileName"
+			val commandWindows = "cmd /c tester.exe java -jar ../../solution~.jar < ../in/$inFileName > ../out/$outFileName"
+			val (output, error) = execAnyPlatform(command, commandWindows, toolsDir)
+			theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
+			toVisualize = listOf()
+		} else {
+			toVisualize = solution.invoke(Evaluator._inFile!!.bufferedReader(), Evaluator._outFile!!.bufferedWriter())
+		}
 	} catch (e: Exception) {
+		e.printStackTrace()
 		Evaluator._outcomeTroubles.add(e.localizedMessage)
 	}
 	Evaluator._outcomeTime += System.currentTimeMillis()
+
 	if (Evaluator._visRunTheir) {
-		val command = "cargo run --release --bin vis in/$paddedName.txt out/$paddedName.out"
 		Evaluator._imageFile!!.parentFile.mkdirs()
-		val (output, error) = exec(command, toolsDir)
-		val score = output.toInt()
+		val command = "cargo run --release --bin vis in/$inFileName out/$outFileName"
+		val commandWindows = "cmd /c vis.exe ../in/$inFileName ../out/$outFileName"
+		val (output, error) = execAnyPlatform(command, commandWindows, toolsDir)
+		theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
+		output.toIntOrNull()?.also { theirLabels.add("score=$it") }
 		hardcodedImageFile.renameTo(Evaluator._imageFile)
 		Pictures.write(Evaluator._imageFile!!.path)
-		Evaluator._outcomeScore = score.toDouble()
-		Evaluator._outcomeMyScore = Evaluator._outcomeScore
-		if (score == 0) {
-			print("\t Score = 0 !!!")
-			Evaluator._outcomeTroubles.add(error)
+	}
+
+	if (isInteractive || Evaluator._visRunTheir) {
+		val map = mutableMapOf<String, String>()
+		for (s in theirLabels) {
+			if ("=" !in s) continue
+			val (key, value) = s.split("=", ignoreCase = true, limit = 2)
+			map[key.lowercase().trim().replace(Regex("\\s+"), "_")] = value.trim()
+		}
+		val score = map["score"] ?: map["total_cost"]
+		if (score != null) {
+			Evaluator._outcomeScore = score.toDouble()
+			Evaluator._outcomeMyScore = Evaluator._outcomeScore
+		} else {
+			print("\t No score found in $theirLabels")
+			Evaluator._outcomeTroubles.addAll(theirLabels)
 		}
 	}
 	return toVisualize
 }
 
+fun runAndVisualizeTheir(solution: ((BufferedReader, Writer) -> List<Any>?)): List<Any>? {
+	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
+	return runAndVisualizeTheir(false, solution)
+}
+
+fun runAndVisualizeTheirInteractive(solution: ((BufferedReader, PrintWriter) -> List<Any>?)): List<Any>? {
+	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
+	return runAndVisualizeTheir(isInteractive = true) { reader, writer ->
+		val printWriter = writer as PrintWriter
+		solution.invoke(reader, printWriter)
+	}
+}
+
+val isWindows = System.getProperty("os.name").lowercase().startsWith("windows")
+
+private fun execAnyPlatform(command: String, commandWindows: String, toolsDir: String) =
+	if (!isWindows) exec(command, toolsDir) else exec(commandWindows, "$toolsDir/windows")
+
 fun exec(command: String, dir: String): Pair<String, String> {
 	val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
 	val process = processBuilder.start()
-	val output = process.inputStream.reader().readText().trim()
-	val error = process.errorStream.reader().readLines().joinToString(" ")
+	val output = process.inputStream.reader().readText()
+	val error = process.errorStream.reader().readText()
 	return Pair(output, error)
 }
 
