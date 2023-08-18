@@ -1,14 +1,13 @@
 package marathons.atcoder.ahc17_third2022_roadRepair
 
 import marathons.utils.Evaluator
-import marathons.utils.atcoder.runAndVisualizeTheir
+import marathons.utils.atcoder.atcoderVisualizer
 import java.util.concurrent.Callable
 
 fun run() {
 	Evaluator._visNone = true
 	Evaluator._useMyScore = true
-	//val toVisualize =
-	runAndVisualizeTheir(::solveIO)
+	atcoderVisualizer(::solveIO).call()
 
 	val (graph, days, maxRepairedPerDay) = read(Evaluator._inFile!!.bufferedReader())
 	val answer = Evaluator._outFile!!.bufferedReader().readLine()!!.split(" ").map { it.toInt() - 1 }.toIntArray()

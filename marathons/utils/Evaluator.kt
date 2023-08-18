@@ -31,8 +31,9 @@ class Evaluator(
 
 	private fun callVisualizer() {
 		_outcomeMyScore = Double.NaN
-		_outcomeTroubles = ArrayList()
-		_outcomeLabels = ArrayList()
+		_outcomeTroubles.clear()
+		_outcomeLabels.clear()
+		_outcomeArtifacts.clear()
 		try {
 			visualizer.call()
 		} catch (e: Exception) {
@@ -113,8 +114,9 @@ class Evaluator(
 		var _outcomeTime: Long = 0
 		var _outcomeScore = 0.0
 		var _outcomeMyScore = 0.0
-		var _outcomeTroubles: ArrayList<String> = ArrayList()
-		var _outcomeLabels: ArrayList<String> = ArrayList()
+		val _outcomeTroubles = mutableListOf<String>()
+		val _outcomeLabels = mutableListOf<String>()
+		var _outcomeArtifacts = mutableListOf<Any>()
 		@JvmField
 		var _seed: Long = 0
 		@JvmField
