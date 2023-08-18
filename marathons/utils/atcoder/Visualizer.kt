@@ -33,7 +33,9 @@ fun runAndVisualizeTheir(
 			theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
 			toVisualize = listOf()
 		} else {
-			toVisualize = solution.invoke(Evaluator._inFile!!.bufferedReader(), Evaluator._outFile!!.bufferedWriter())
+			val out = Evaluator._outFile!!.printWriter()
+			toVisualize = solution(Evaluator._inFile!!.bufferedReader(), out)
+			out.close()
 		}
 	} catch (e: Exception) {
 		e.printStackTrace()
