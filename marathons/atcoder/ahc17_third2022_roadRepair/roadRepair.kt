@@ -356,6 +356,7 @@ fun simulatedAnnealing(itemStart: Annealable?, settings: Settings, r: Random): A
 private fun <T> List<T>.toPair() = get(0) to get(1)
 
 fun main() {
-	@Suppress("UNNECESSARY_SAFE_CALL")
-	EVALUATOR?.call() ?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
+	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
+	EVALUATOR?.apply { call() }
+		?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
 }
