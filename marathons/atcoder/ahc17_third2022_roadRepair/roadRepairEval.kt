@@ -8,7 +8,7 @@ fun run() {
 	Evaluator._visNone = true
 	Evaluator._useMyScore = true
 	//val toVisualize =
-	runAndVisualizeTheir(false, ::solve)
+	runAndVisualizeTheir(::solveIO)
 
 	val (graph, days, maxRepairedPerDay) = read(Evaluator._inFile!!.bufferedReader())
 	val answer = Evaluator._outFile!!.bufferedReader().readLine()!!.split(" ").map { it.toInt() - 1 }.toIntArray()

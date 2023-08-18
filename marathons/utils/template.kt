@@ -3,8 +3,9 @@ package marathons.utils //TESTING
 import java.io.*
 import java.util.concurrent.Callable
 
+const val IS_INTERACTIVE = false
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(marathons.utils.atcoder.atCoderVisualizer(false, ::solve)) //TESTING
+		= marathons.utils.Evaluator(marathons.utils.atcoder.atcoderVisualizer(::solveIO, IS_INTERACTIVE)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null
@@ -25,7 +26,7 @@ fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 
 class TimeOutException : RuntimeException()
 
-fun solve(`in`: BufferedReader, out: Writer): List<Any>? {
+fun solveIO(`in`: BufferedReader, out: Writer): List<Any>? {
 	timeStart = System.currentTimeMillis()
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
@@ -45,5 +46,5 @@ private inline fun debug(msg: () -> Any) { if (VERBOSE) println(msg()) }
 fun main() {
 	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
 	EVALUATOR?.apply { call() }
-		?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter() /* PrintWriter(System.out, true) */)
+		?: solveIO(System.`in`.bufferedReader(), PrintWriter(System.out, IS_INTERACTIVE))
 }

@@ -6,7 +6,7 @@ import kotlin.math.*
 import kotlin.random.Random
 
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(10, 1, false, marathons.utils.atcoder.atCoderVisualizer(false, ::solve)) //TESTING
+		= marathons.utils.Evaluator(10, 1, false, marathons.utils.atcoder.atcoderVisualizer(::solveIO)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null
@@ -180,7 +180,7 @@ data class Desired(val x: Int, val y: Int, val area: Int)
 
 private infix fun Double.isNot(other: Double) = abs(this - other) > 1e-9
 
-fun solve(`in`: BufferedReader, out: Writer): List<Any>? {
+fun solveIO(`in`: BufferedReader, out: Writer): List<Any>? {
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
 	fun readStrings() = readLn().split(" ")
@@ -196,6 +196,7 @@ fun solve(`in`: BufferedReader, out: Writer): List<Any>? {
 class TimeOutException : RuntimeException()
 
 fun main() {
-	@Suppress("UNNECESSARY_SAFE_CALL")
-	EVALUATOR?.call() ?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
+	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
+	EVALUATOR?.apply { call() }
+		?: solveIO(System.`in`.bufferedReader(), System.out.bufferedWriter())
 }

@@ -5,8 +5,8 @@ import java.io.*
 import java.util.concurrent.Callable
 
 fun runAndVisualizeTheir(
-	isInteractive: Boolean = false,
-	solution: ((BufferedReader, PrintWriter) -> List<Any>?)
+	solution: ((BufferedReader, PrintWriter) -> List<Any>?),
+	isInteractive: Boolean = false
 ): List<Any>? {
 	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
 	val seed = Evaluator._seed

@@ -162,7 +162,7 @@ fun read(`in`: BufferedReader): Triple<Graph, Int, Int> {
 	return Triple(graph, days, maxRepairedPerDay)
 }
 
-fun solve(`in`: BufferedReader, out: Writer): List<Any>? {
+fun solveIO(`in`: BufferedReader, out: Writer): List<Any>? {
 	timeStart = System.currentTimeMillis()
 	val toVisualize = if (SUBMIT) null else mutableListOf<Any>()
 	val (graph, days, maxRepairedPerDay) = read(`in`)
@@ -358,5 +358,5 @@ private fun <T> List<T>.toPair() = get(0) to get(1)
 fun main() {
 	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
 	EVALUATOR?.apply { call() }
-		?: solve(System.`in`.bufferedReader(), System.out.bufferedWriter())
+		?: solveIO(System.`in`.bufferedReader(), System.out.bufferedWriter())
 }

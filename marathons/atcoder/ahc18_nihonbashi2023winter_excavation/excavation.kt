@@ -6,13 +6,13 @@ import kotlin.math.abs
 import kotlin.random.Random
 
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(marathons.utils.atcoder.atCoderVisualizer(true, ::solve)) //TESTING
+		= marathons.utils.Evaluator(marathons.utils.atcoder.atcoderVisualizer(::solveIO, true)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null
 class TimeOutException : RuntimeException()
 
-fun solve(`in`: BufferedReader, out: PrintWriter): List<Any>? {
+fun solveIO(`in`: BufferedReader, out: PrintWriter): List<Any>? {
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
 	fun readStrings() = readLn().split(" ")
@@ -181,5 +181,5 @@ val DY = intArrayOf(0, 1, 0, -1)
 fun main() {
 	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
 	EVALUATOR?.apply { call() }
-		?: solve(System.`in`.bufferedReader(), PrintWriter(System.out, true))
+		?: solveIO(System.`in`.bufferedReader(), PrintWriter(System.out, true))
 }
