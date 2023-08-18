@@ -6,7 +6,7 @@ import java.util.concurrent.Callable
 
 fun runAndVisualizeTheir(
 	isInteractive: Boolean = false,
-	solution: ((BufferedReader, Writer) -> List<Any>?)
+	solution: ((BufferedReader, PrintWriter) -> List<Any>?)
 ): List<Any>? {
 	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
 	val seed = Evaluator._seed
@@ -41,7 +41,7 @@ fun runAndVisualizeTheir(
 	}
 	Evaluator._outcomeTime += System.currentTimeMillis()
 
-	if (Evaluator._visFile && !Evaluator._visDoNotRunTheir) {
+	if (!Evaluator._visNone) {
 		Evaluator._imageFile!!.parentFile.mkdirs()
 		val command = "cargo run --release --bin vis in/$inFileName out/$outFileName"
 		val commandWindows = "cmd /c vis.exe ../in/$inFileName ../out/$outFileName"
@@ -71,17 +71,9 @@ fun runAndVisualizeTheir(
 	return toVisualize
 }
 
-fun runAndVisualizeTheir(solution: ((BufferedReader, Writer) -> List<Any>?)): List<Any>? {
+fun atCoderVisualizer(isInteractive: Boolean, solution: ((BufferedReader, PrintWriter) -> List<Any>?)) : Callable<Void?> {
 	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
-	return runAndVisualizeTheir(false, solution)
-}
-
-fun runAndVisualizeTheirInteractive(solution: ((BufferedReader, PrintWriter) -> List<Any>?)): List<Any>? {
-	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
-	return runAndVisualizeTheir(isInteractive = true) { reader, writer ->
-		val printWriter = writer as PrintWriter
-		solution.invoke(reader, printWriter)
-	}
+	return Callable<Void?> { runAndVisualizeTheir(isInteractive, solution); null }
 }
 
 val isWindows = System.getProperty("os.name").lowercase().startsWith("windows")
@@ -95,12 +87,4 @@ fun exec(command: String, dir: String): Pair<String, String> {
 	val output = process.inputStream.reader().readText()
 	val error = process.errorStream.reader().readText()
 	return Pair(output, error)
-}
-
-class Visualizer(val solution: ((BufferedReader, Writer) -> Unit)) : Callable<Void?> {
-	override fun call(): Void? {
-		if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
-		runAndVisualizeTheir { reader, writer -> solution(reader, writer).let { null } }
-		return null
-	}
 }

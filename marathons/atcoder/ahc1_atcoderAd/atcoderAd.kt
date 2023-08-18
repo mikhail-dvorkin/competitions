@@ -6,7 +6,7 @@ import kotlin.math.*
 import kotlin.random.Random
 
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(10, 1, false, marathons.utils.atcoder.Visualizer(::solve)) //TESTING
+		= marathons.utils.Evaluator(10, 1, false, marathons.utils.atcoder.atCoderVisualizer(false, ::solve)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null
@@ -180,7 +180,7 @@ data class Desired(val x: Int, val y: Int, val area: Int)
 
 private infix fun Double.isNot(other: Double) = abs(this - other) > 1e-9
 
-fun solve(`in`: BufferedReader, out: Writer) {
+fun solve(`in`: BufferedReader, out: Writer): List<Any>? {
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
 	fun readStrings() = readLn().split(" ")
@@ -190,6 +190,7 @@ fun solve(`in`: BufferedReader, out: Writer) {
 	val ans = solve(desired)
 	ans.forEach { out.write(it.joinToString(" ")); out.write(System.lineSeparator()) }
 	out.close()
+	return null
 }
 
 class TimeOutException : RuntimeException()

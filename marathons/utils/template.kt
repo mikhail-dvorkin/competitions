@@ -4,7 +4,7 @@ import java.io.*
 import java.util.concurrent.Callable
 
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(marathons.utils.atcoder.Visualizer(::solve)) //TESTING
+		= marathons.utils.Evaluator(marathons.utils.atcoder.atCoderVisualizer(false, ::solve)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null

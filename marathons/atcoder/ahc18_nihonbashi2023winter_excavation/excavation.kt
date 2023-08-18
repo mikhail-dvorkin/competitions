@@ -1,4 +1,4 @@
-package marathons.atcoder.ahc18_nihonbashi2023winter_excavation
+package marathons.atcoder.ahc18_nihonbashi2023winter_excavation //TESTING
 
 import java.io.*
 import java.util.concurrent.Callable
@@ -6,7 +6,7 @@ import kotlin.math.abs
 import kotlin.random.Random
 
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(marathons.utils.atcoder.Visualizer(::solve)) //TESTING
+		= marathons.utils.Evaluator(marathons.utils.atcoder.atCoderVisualizer(true, ::solve)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null

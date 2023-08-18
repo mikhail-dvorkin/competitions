@@ -5,10 +5,10 @@ import marathons.utils.atcoder.runAndVisualizeTheir
 import java.util.concurrent.Callable
 
 fun run() {
-	Evaluator._visDoNotRunTheir = true
+	Evaluator._visNone = true
 	Evaluator._useMyScore = true
 	//val toVisualize =
-	runAndVisualizeTheir(::solve)
+	runAndVisualizeTheir(false, ::solve)
 
 	val (graph, days, maxRepairedPerDay) = read(Evaluator._inFile!!.bufferedReader())
 	val answer = Evaluator._outFile!!.bufferedReader().readLine()!!.split(" ").map { it.toInt() - 1 }.toIntArray()
