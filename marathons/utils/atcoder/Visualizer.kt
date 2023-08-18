@@ -77,9 +77,12 @@ fun runAndVisualizeTheir(
 	return toVisualize
 }
 
-fun atCoderVisualizer(isInteractive: Boolean, solution: ((BufferedReader, PrintWriter) -> List<Any>?)) : Callable<Void?> {
+fun atcoderVisualizer(
+	solution: ((BufferedReader, PrintWriter) -> List<Any>?),
+	isInteractive: Boolean = false,
+) : Callable<Void?> {
 	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
-	return Callable<Void?> { runAndVisualizeTheir(isInteractive, solution); null }
+	return Callable<Void?> { runAndVisualizeTheir(solution, isInteractive); null }
 }
 
 val isWindows = System.getProperty("os.name").lowercase().startsWith("windows")
