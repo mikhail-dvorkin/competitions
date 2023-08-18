@@ -54,21 +54,25 @@ fun runAndVisualizeTheir(
 		Pictures.write(Evaluator._imageFile!!.path)
 	}
 
-	if (isInteractive || Evaluator._visRunTheir) {
-		val map = mutableMapOf<String, String>()
-		for (s in theirLabels) {
-			if ("=" !in s) continue
-			val (key, value) = s.split("=", ignoreCase = true, limit = 2)
-			map[key.lowercase().trim().replace(Regex("\\s+"), "_")] = value.trim()
+	val theirLabelsMap = mutableMapOf<String, String>()
+	for (s in theirLabels) {
+		if ("=" !in s) {
+			Evaluator._outcomeLabels.add(s)
+			continue
 		}
-		val score = map["score"] ?: map["total_cost"]
-		if (score != null) {
-			Evaluator._outcomeScore = score.toDouble()
-			Evaluator._outcomeMyScore = Evaluator._outcomeScore
-		} else {
-			print("\t No score found in $theirLabels")
-			Evaluator._outcomeTroubles.addAll(theirLabels)
-		}
+		val (key, value) = s.split("=", ignoreCase = true, limit = 2)
+		val keyCleaned = key.lowercase().trim().replace(Regex("\\s+"), "_")
+		val valueCleaned = value.trim()
+		theirLabelsMap[keyCleaned] = valueCleaned
+		Evaluator._outcomeLabels.add("$keyCleaned=$valueCleaned")
+	}
+	val score = theirLabelsMap["score"] ?: theirLabelsMap["total_cost"]
+	if (score != null) {
+		Evaluator._outcomeScore = score.toDouble()
+		Evaluator._outcomeMyScore = Evaluator._outcomeScore
+	} else if (theirLabels.isNotEmpty()) {
+		print("\t No score found in $theirLabels")
+		Evaluator._outcomeTroubles.addAll(theirLabels)
 	}
 	return toVisualize
 }
