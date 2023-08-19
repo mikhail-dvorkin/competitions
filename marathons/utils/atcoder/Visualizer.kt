@@ -11,10 +11,8 @@ private fun runAndVisualizeTheir(
 	val seed = Evaluator._seed
 	val paddedName = seed.toString().padStart(4, '0')
 	val toolsDir = Evaluator._project!!.replace(".", "/") + "/tools~"
-	val inFileName = "$paddedName.txt"
-	Evaluator._inFile = File("$toolsDir/in", inFileName)
-	val outFileName = "$paddedName.out"
-	Evaluator._outFile = File("$toolsDir/out", outFileName)
+	Evaluator._inFile = File("$toolsDir/in", "$paddedName.txt")
+	Evaluator._outFile = File("$toolsDir/out", "$paddedName.out")
 	Evaluator._outFile!!.parentFile.mkdirs()
 	var artifacts: List<Any>? = null
 	val theirLabels = mutableListOf<String>()
@@ -22,17 +20,14 @@ private fun runAndVisualizeTheir(
 	Evaluator._outcomeTime = -System.currentTimeMillis()
 	try {
 		if (isInteractive) {
+			fun execTester(command: String) =
+				exec("${rustExe("tester")} $command < ${Evaluator._inFile!!.absolutePath} > ${Evaluator._outFile!!.absolutePath}", toolsDir)
 			val (output, error) = if (Evaluator._interactWithPreBuiltJar) {
-				val command = "${rustExe("tester")} java -jar ../solution~.jar < in/$inFileName > out/$outFileName"
-				exec(command, toolsDir)
+				execTester("java -jar ../solution~.jar")
 			} else {
-				fun server(pipeName: String): Pair<String, String> {
-					val command = "${rustExe("tester")} ${redirectorCommand(pipeName)} < in/$inFileName > out/$outFileName"
-					return exec(command, toolsDir)
-				}
-				val result = runViaRedirector(::server, solution)
-				artifacts = result.second
-				result.first
+				fun server(pipeName: String) = execTester(redirectorCommand(pipeName))
+				runViaRedirector(::server, solution)
+					.also { artifacts = it.second }.first
 			}
 			theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
 		} else {
@@ -54,7 +49,7 @@ private fun runAndVisualizeTheir(
 		}
 		possibleImageFiles.forEach { it.delete() }
 
-		val command = "${rustExe("vis")} in/$inFileName out/$outFileName"
+		val command = "${rustExe("vis")} ${Evaluator._inFile!!.absolutePath} ${Evaluator._outFile!!.absolutePath}"
 		val (output, error) = exec(command, toolsDir)
 		theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
 		output.toIntOrNull()?.also { theirLabels.add("score=$it") }
