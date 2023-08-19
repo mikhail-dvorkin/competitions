@@ -12,7 +12,7 @@ fun resourcePrefix() = "res/" + Evaluator._project + "/"
 fun extensionOfFile(f: File) = f.extension
 
 fun redirectorCommand(pipeName: String): String {
-	return "java -cp %TMP%\\redirector.jar RedirectorKt $pipeName"
+	return "java -cp %TMP%\\$pipeName.jar RedirectorKt $pipeName"
 }
 
 fun getPipePrefix() = if (isWindows) "\\\\.\\pipe\\" else "/tmp/"
@@ -24,15 +24,19 @@ fun <T> runViaRedirector(server: (String) -> T, solution: (BufferedReader, Print
 	print(pipeName + "\t")
 	var artifacts: List<Any>? = null
 	val t = thread {
-		Thread.sleep(2000)
 		val input = runUntilNoExceptions { File(getPipePrefix() + "$pipeName.in").bufferedReader() }
 		val output = runUntilNoExceptions { PrintWriter(File(getPipePrefix() + "$pipeName.out").writer(), true) }
 		artifacts = solution(input, output)
 		input.close()
 		output.close()
 	}
+	val redirectorJar = File(tempDir, "redirector.jar")
+	require(redirectorJar.exists())
+	val tempJar = File(tempDir, "$pipeName.jar")
+	redirectorJar.copyTo(tempJar)
 	val serverOutput = server(pipeName)
 	t.join()
+	tempJar.delete()
 	return serverOutput to artifacts
 }
 
@@ -41,8 +45,7 @@ fun <T> runUntilNoExceptions(block: () -> T): T {
 		try {
 			return block()
 		} catch (e: Exception) {
-			e.printStackTrace()
-			exitProcess(1)
+			Thread.sleep(10)
 		}
 	}
 }
@@ -69,6 +72,7 @@ fun File.changeHtmlToSvg(): File {
 }
 
 val isWindows = System.getProperty("os.name").lowercase().startsWith("windows")
+val tempDir = File(System.getProperty("java.io.tmpdir"))
 
 fun exec(command: String, dir: String): Pair<String, String> {
 	val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
