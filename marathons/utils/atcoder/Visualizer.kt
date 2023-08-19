@@ -26,8 +26,10 @@ private fun runAndVisualizeTheir(
 				val command = "${rustExe("tester")} java -jar ../solution~.jar < in/$inFileName > out/$outFileName"
 				exec(command, toolsDir)
 			} else {
-				val command = "${rustExe("tester")} " + redirectorCommand + " < in/$inFileName > out/$outFileName"
-				fun server() = exec(command, toolsDir)
+				fun server(pipeName: String): Pair<String, String> {
+					val command = "${rustExe("tester")} ${redirectorCommand(pipeName)} < in/$inFileName > out/$outFileName"
+					return exec(command, toolsDir)
+				}
 				val result = runViaRedirector(::server, solution)
 				artifacts = result.second
 				result.first

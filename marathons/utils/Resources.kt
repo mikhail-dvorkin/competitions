@@ -2,37 +2,49 @@ package marathons.utils
 
 import java.io.*
 import kotlin.concurrent.thread
+import kotlin.random.Random
+import kotlin.random.nextULong
 import kotlin.reflect.*
+import kotlin.system.exitProcess
 
 fun resourcePrefix() = "res/" + Evaluator._project + "/"
 
 fun extensionOfFile(f: File) = f.extension
 
-val redirectorCommand = "java -cp %TMP%\\redirector.jar RedirectorKt"
+fun redirectorCommand(pipeName: String): String {
+	return "java -cp %TMP%\\redirector.jar RedirectorKt $pipeName"
+}
 
 fun getPipePrefix() = if (isWindows) "\\\\.\\pipe\\" else "/tmp/"
 
-fun <T> runViaRedirector(server: KFunction0<T>, solution: (BufferedReader, PrintWriter) -> List<Any>?): Pair<T, List<Any>?> {
-	val fileName = "redirector"
+val randomForPipeNames = Random(System.currentTimeMillis())
+
+fun <T> runViaRedirector(server: (String) -> T, solution: (BufferedReader, PrintWriter) -> List<Any>?): Pair<T, List<Any>?> {
+	val pipeName = "r" + randomForPipeNames.nextULong()
+	print(pipeName + "\t")
 	var artifacts: List<Any>? = null
 	val t = thread {
-		Thread.sleep(1000)
-		var input: BufferedReader
-		while (true) {
-			try {
-				input = File(getPipePrefix() + "$fileName.in").bufferedReader()
-				break
-			} catch (_: Exception) {
-			}
-		}
-		val output = PrintWriter(File(getPipePrefix() + "$fileName.out").writer(), true)
+		Thread.sleep(2000)
+		val input = runUntilNoExceptions { File(getPipePrefix() + "$pipeName.in").bufferedReader() }
+		val output = runUntilNoExceptions { PrintWriter(File(getPipePrefix() + "$pipeName.out").writer(), true) }
 		artifacts = solution(input, output)
 		input.close()
 		output.close()
 	}
-	val serverOutput = server()
+	val serverOutput = server(pipeName)
 	t.join()
 	return serverOutput to artifacts
+}
+
+fun <T> runUntilNoExceptions(block: () -> T): T {
+	while (true) {
+		try {
+			return block()
+		} catch (e: Exception) {
+			e.printStackTrace()
+			exitProcess(1)
+		}
+	}
 }
 
 fun File.changeHtmlToSvg(): File {
