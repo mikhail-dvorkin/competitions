@@ -85,6 +85,8 @@ public class Pictures {
 
 	public static void writeByRenaming(File existingFile) {
 		File newFile = Pictures.newFrameFile(ResourcesKt.extensionOfFile(existingFile));
+		assert !newFile.getAbsolutePath().equals(existingFile.getAbsolutePath());
+		newFile.delete();
 		boolean result = existingFile.renameTo(newFile);
 		if (!result) {
 			throw new RuntimeException(new IOException("No " + existingFile));
