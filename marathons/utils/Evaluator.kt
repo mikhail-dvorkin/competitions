@@ -135,6 +135,7 @@ class Evaluator(
 		var _inFile: File? = null
 		var _outFile: File? = null
 		var _imageFile: File? = null
+		var _interactWithPreBuiltJar = false
 		@JvmStatic
 		fun settings(): Properties {
 			try {

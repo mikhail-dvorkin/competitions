@@ -22,10 +22,17 @@ private fun runAndVisualizeTheir(
 	Evaluator._outcomeTime = -System.currentTimeMillis()
 	try {
 		if (isInteractive) {
-			val command = "${rustExe("tester")} java -jar ../solution~.jar < in/$inFileName > out/$outFileName"
-			val (output, error) = exec(command, toolsDir)
+			val (output, error) = if (Evaluator._interactWithPreBuiltJar) {
+				val command = "${rustExe("tester")} java -jar ../solution~.jar < in/$inFileName > out/$outFileName"
+				exec(command, toolsDir)
+			} else {
+				val command = "${rustExe("tester")} " + redirectorCommand + " < in/$inFileName > out/$outFileName"
+				fun server() = exec(command, toolsDir)
+				val result = runViaRedirector(::server, solution)
+				artifacts = result.second
+				result.first
+			}
 			theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
-			artifacts = listOf()
 		} else {
 			val out = Evaluator._outFile!!.printWriter()
 			artifacts = solution(Evaluator._inFile!!.bufferedReader(), out)
