@@ -16,10 +16,6 @@ private fun runAndVisualizeTheir(
 	Evaluator._inFile = File("$toolsDir/in", inFileName)
 	val outFileName = "$paddedName.out"
 	Evaluator._outFile = File("$toolsDir/out", outFileName)
-	val imageFileName = "$paddedName.svg"
-	Evaluator._imageFile = File("$toolsDir/img", imageFileName)
-	val hardcodedImageFileName = "out.svg"
-	val hardcodedImageFile = File(toolsDir, hardcodedImageFileName)
 	Evaluator._outFile!!.parentFile.mkdirs()
 	var artifacts: List<Any>? = null
 	val theirLabels = mutableListOf<String>()
@@ -45,14 +41,29 @@ private fun runAndVisualizeTheir(
 	Evaluator._outcomeArtifacts.addAll(artifacts ?: emptyList())
 
 	if (!Evaluator._visNone) {
-		Evaluator._imageFile!!.parentFile.mkdirs()
-		val command = "cargo run --release --bin vis in/$inFileName out/$outFileName"
-		val commandWindows = "cmd /c vis.exe ../in/$inFileName ../out/$outFileName"
-		val (output, error) = execAnyPlatform(command, commandWindows, toolsDir)
+		val possibleImageFiles = mutableListOf<File>()
+		for (name in listOf("out", "vis")) for (ext in listOf("png", "svg", "html")) {
+			possibleImageFiles.add(File(toolsDir, "$name.$ext"))
+		}
+		possibleImageFiles.forEach { it.delete() }
+
+		val command = "${rustExe("vis")} in/$inFileName out/$outFileName"
+		val (output, error) = exec(command, toolsDir)
 		theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
 		output.toIntOrNull()?.also { theirLabels.add("score=$it") }
-		hardcodedImageFile.renameTo(Evaluator._imageFile)
-		Pictures.write(Evaluator._imageFile!!.path)
+
+		val imageFiles = (possibleImageFiles.filter { it.exists() })
+		if (imageFiles.size == 1) {
+			val imageFile = imageFiles[0]
+//			Evaluator._imageFile = File("$toolsDir/img", "$paddedName.svg")
+//			Evaluator._imageFile!!.parentFile.mkdirs()
+//			val hardcodedImageFile = File(toolsDir, "out.svg")
+//			hardcodedImageFile.renameTo(Evaluator._imageFile)
+//			Pictures.write(Evaluator._imageFile!!.path)
+			Pictures.writeByRenaming(imageFile)
+		} else {
+			Evaluator._outcomeTroubles.add("${imageFiles.size} image files found")
+		}
 	}
 
 	val theirLabelsMap = mutableMapOf<String, String>()
