@@ -8,7 +8,6 @@ private fun runAndVisualizeTheir(
 	solution: ((BufferedReader, PrintWriter) -> List<Any>?),
 	isInteractive: Boolean = false
 ) {
-	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
 	val seed = Evaluator._seed
 	val paddedName = seed.toString().padStart(4, '0')
 	val toolsDir = Evaluator._project!!.replace(".", "/") + "/tools~"
@@ -23,9 +22,8 @@ private fun runAndVisualizeTheir(
 	Evaluator._outcomeTime = -System.currentTimeMillis()
 	try {
 		if (isInteractive) {
-			val command = "cargo run --release --bin vis in/$inFileName out/$outFileName"
-			val commandWindows = "cmd /c tester.exe java -jar ../../solution~.jar < ../in/$inFileName > ../out/$outFileName"
-			val (output, error) = execAnyPlatform(command, commandWindows, toolsDir)
+			val command = "${rustExe("tester")} java -jar ../solution~.jar < in/$inFileName > out/$outFileName"
+			val (output, error) = exec(command, toolsDir)
 			theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
 			artifacts = listOf()
 		} else {
@@ -98,8 +96,10 @@ fun atcoderVisualizer(
 
 val isWindows = System.getProperty("os.name").lowercase().startsWith("windows")
 
-private fun execAnyPlatform(command: String, commandWindows: String, toolsDir: String) =
-	if (!isWindows) exec(command, toolsDir) else exec(commandWindows, "$toolsDir/windows")
+fun rustExe(programName: String) = if (isWindows)
+	"cmd /c windows\\$programName.exe"
+else
+	"cargo run --release --bin $programName"
 
 fun exec(command: String, dir: String): Pair<String, String> {
 	val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
