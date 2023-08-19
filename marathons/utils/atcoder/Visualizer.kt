@@ -50,15 +50,9 @@ private fun runAndVisualizeTheir(
 		theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
 		output.toIntOrNull()?.also { theirLabels.add("score=$it") }
 
-		val imageFiles = (possibleImageFiles.filter { it.exists() })
+		val imageFiles = possibleImageFiles.filter { it.exists() }
 		if (imageFiles.size == 1) {
-			val imageFile = imageFiles[0]
-//			Evaluator._imageFile = File("$toolsDir/img", "$paddedName.svg")
-//			Evaluator._imageFile!!.parentFile.mkdirs()
-//			val hardcodedImageFile = File(toolsDir, "out.svg")
-//			hardcodedImageFile.renameTo(Evaluator._imageFile)
-//			Pictures.write(Evaluator._imageFile!!.path)
-			Pictures.writeByRenaming(imageFile)
+			Pictures.writeByRenaming(imageFiles[0])
 		} else {
 			Evaluator._outcomeTroubles.add("${imageFiles.size} image files found")
 		}
