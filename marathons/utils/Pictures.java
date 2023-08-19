@@ -95,8 +95,6 @@ public class Pictures {
 	public static void writeHtmlAbout(File file) {
 		init();
 		String width = Evaluator.settings().getProperty("width", "");
-		String[] fileNameSplit = file.getName().split("\\.");
-		String format = fileNameSplit[fileNameSplit.length - 1];
 		html.println("<nobr>" + String.format("%03d", Evaluator._seed));
 		html.println("<img src=\"" + file.getPath() + "\"");
 		if (!width.isEmpty()) {
