@@ -52,9 +52,10 @@ private fun runAndVisualizeTheir(
 
 		val imageFiles = possibleImageFiles.filter { it.exists() }
 		if (imageFiles.size == 1) {
-			Pictures.writeByRenaming(imageFiles[0])
+			val imageFile = imageFiles[0].changeHtmlToSvg()
+			Pictures.writeByRenaming(imageFile)
 		} else {
-			Evaluator._outcomeTroubles.add("${imageFiles.size} image files found")
+			Evaluator._outcomeTroubles.add("${imageFiles.size} image files found: " + imageFiles)
 		}
 	}
 
