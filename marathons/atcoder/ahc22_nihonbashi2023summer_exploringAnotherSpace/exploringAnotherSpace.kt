@@ -28,7 +28,7 @@ fun solve(judge: Judge): List<Any>? {
 fun strategyVV(judge: Judge) {
 	val random = Random(566)
 	val (m, noise, wormholes) = judge.getParameters()
-	debug { "M=$m\tNoise=$noise\tW=${wormholes.size}\t" }
+	info { "M=$m\tNoise=$noise\tW=${wormholes.size}" }
 
 	fun shiftMin(dz: Int) = (dz mod m).let { listOf(it, it - m) }.minBy { abs(it) }
 
@@ -204,9 +204,9 @@ fun strategyVV(judge: Judge) {
 		}
 		if (satisfied) break
 	}
-//	debug { "MES=${if (measurementCount == MAX_MEASUREMENTS) "999" else (measurementCount * 1.0 / wormholes.size).roundToInt()}\t" }
-	debug { "p1=$p1\tp2=$p2\t" }
-	debug { "\$T=$scoreTemp\t\$M=$scoreMeasure\t" }
+//	info { "MES=${if (measurementCount == MAX_MEASUREMENTS) "999" else (measurementCount * 1.0 / wormholes.size).roundToInt()}" }
+	info { "p1=$p1\tp2=$p2" }
+	info { "\$T=$scoreTemp\t\$M=$scoreMeasure" }
 
 	log?.println(assignment.contentToString())
 	if (VERBOSE) for (i in wormholes.indices) {
@@ -340,7 +340,8 @@ fun hungarian(matrix: List<DoubleArray>): IntArray {
 	return ans
 }
 
-private inline fun debug(msg: () -> Any) { if (VERBOSE) print(msg()) }
+private inline fun log(msg: () -> Any) { log?.println(msg()) }
+private inline fun info(msg: () -> Any) { if (VERBOSE) msg().also { print("$it\t"); log { it } } }
 
 fun solveIO(`in`: BufferedReader, out: PrintWriter) = solve(IOJudge(`in`, out))
 

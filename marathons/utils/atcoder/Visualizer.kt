@@ -9,11 +9,12 @@ private fun runAndVisualizeTheir(
 	isInteractive: Boolean = false
 ) {
 	val seed = Evaluator._seed
-	val paddedName = seed.toString().padStart(4, '0')
+	val paddedAtcoderName = seed.toString().padStart(4, '0')
 	val toolsDir = Evaluator._project!!.replace(".", "/") + "/tools~"
-	Evaluator._inFile = File("$toolsDir/in", "$paddedName.txt")
-	Evaluator._outFile = File("$toolsDir/out", "$paddedName.out")
+	Evaluator._inFile = File("$toolsDir/in", "$paddedAtcoderName.txt")
+	Evaluator._outFile = File(Evaluator._outFolder, "${Evaluator._seed_padded}.out")
 	Evaluator._outFile!!.parentFile.mkdirs()
+	Evaluator._outFile!!.deleteForSure()
 	var artifacts: List<Any>? = null
 	val theirLabels = mutableListOf<String>()
 

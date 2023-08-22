@@ -23,29 +23,36 @@ class Evaluator(
 ) : Callable<Void?> {
 	private val allTroubles = ArrayList<String>()
 
-	constructor(visualizer: Callable<Void?>) : this(10, 1, false, 0, 1, true, visualizer)
+	constructor(visualizer: Callable<Void?>) : this(10, 0, false, 0, 0, true, visualizer)
 	constructor(
 		evaluate: Int, evaluateFrom: Long, evaluateVerbose: Boolean,
 		visualizer: Callable<Void?>
-	) : this(evaluate, evaluateFrom, evaluateVerbose, 0, 1, true, visualizer)
+	) : this(evaluate, evaluateFrom, evaluateVerbose, 0, 0, true, visualizer)
 
 	private fun callVisualizer() {
 		_outcomeMyScore = Double.NaN
 		_outcomeTroubles.clear()
 		_outcomeLabels.clear()
 		_outcomeArtifacts.clear()
+		val logFile = File("current~.log")
+		logFile.deleteForSure()
 		try {
 			visualizer.call()
 		} catch (e: Exception) {
 			throw RuntimeException(e)
 		}
 		if (java.lang.Double.isNaN(_outcomeMyScore)) {
-			allTroubles.add("$_seed\tDid not finish correctly: MyScore = NaN")
-		} else {
-			for (s in _outcomeTroubles) {
-				allTroubles.add(_seed.toString() + "\t" + s)
-			}
+			_outcomeTroubles.add("$_seed\tDid not finish correctly: MyScore = NaN")
 		}
+		for (s in _outcomeTroubles) {
+			allTroubles.add(_seed.toString() + "\t" + s)
+		}
+		val appendWriter = PrintWriter(FileWriter(logFile, true));
+		for (obj in (_outcomeLabels + _outcomeArtifacts)) {
+			appendWriter.println(obj.toString().trim())
+		}
+		appendWriter.close()
+		logFile.renameTo(File(_outFolder, "$_seed_padded.log"))
 	}
 
 	override fun call(): Void? {
@@ -74,8 +81,9 @@ class Evaluator(
 				_seed = evaluateFrom + t
 				_outcomeScore = Double.NaN
 				_outcomeMyScore = _outcomeScore
-				print("#$_seed:\t")
+				print("#$_seed".padStart(3) + ": ")
 				callVisualizer()
+				for (s in (_outcomeLabels)) print(s.toString() + "\t")
 				val score = if (_useMyScore) _outcomeMyScore else _outcomeScore
 				println(score)
 				sumScores += score
@@ -90,8 +98,8 @@ class Evaluator(
 			val std = sqrt(sumScores2 / tests - mean * mean)
 			val scoreName = if (_useMyScore) "MyScore" else "Score"
 			val sb = StringBuilder()
-			sb.append("=========================== ").append(scoreName).append(" = ").append(round(mean, 2))
-			sb.append("\n+-").append(round(100 * std / mean, 2)).append("%")
+			sb.append("(±").append(round(100 * std / mean, 2)).append("%)")
+			sb.append("=========================== ").append(scoreName).append(" = ").append(if (mean > 1e5) mean.roundToLong() else round(mean, 2))
 			sb.append("\n======== AverageTime: ").append(timeToString(1.0 * totalT / tests))
 			sb.append("\n======== MaxTime: ").append(timeToString(maxT.toDouble())).append(" on test #").append(maxTest)
 			if (allTroubles.isNotEmpty()) {
@@ -119,6 +127,9 @@ class Evaluator(
 		var _outcomeArtifacts = mutableListOf<Any>()
 		@JvmField
 		var _seed: Long = 0
+		val _seed_padded: String
+			get() = _seed.toString().padStart(3, '0')
+
 		@JvmField
 		var _visScreen = false
 		/**
@@ -134,6 +145,8 @@ class Evaluator(
 		var _project: String? = null
 		var _inFile: File? = null
 		var _outFile: File? = null
+		var _outFolder = File("out~").apply { mkdirs() }
+//		var _log: PrintWriter? = null
 		var _imageFile: File? = null
 		var _interactWithPreBuiltJar = false
 		@JvmStatic

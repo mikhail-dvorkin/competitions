@@ -40,7 +40,7 @@ public class Pictures {
 
 	public static String picName(String fileExtension, int frame) {
 		String frameLabel = frame == -1 ? "" : "_" + String.format("%05d", frame);
-		return "pic" + String.format("%03d", Evaluator._seed) + frameLabel + "." + fileExtension;
+		return "pic" + Evaluator.Companion.get_seed_padded() + frameLabel + "." + fileExtension;
 	}
 
 	public static File newFrameFile(String fileExtension) {
