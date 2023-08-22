@@ -4,8 +4,6 @@ import java.io.*
 import kotlin.concurrent.thread
 import kotlin.random.Random
 import kotlin.random.nextULong
-import kotlin.reflect.*
-import kotlin.system.exitProcess
 
 fun resourcePrefix() = "res/" + Evaluator._project + "/"
 
@@ -21,7 +19,6 @@ val randomForPipeNames = Random(System.currentTimeMillis())
 
 fun <T> runViaRedirector(server: (String) -> T, solution: (BufferedReader, PrintWriter) -> List<Any>?): Pair<T, List<Any>?> {
 	val pipeName = "r" + randomForPipeNames.nextULong()
-	print(pipeName + "\t")
 	var artifacts: List<Any>? = null
 	val t = thread {
 		val input = runUntilNoExceptions { File(getPipePrefix() + "$pipeName.in").bufferedReader() }
@@ -40,12 +37,14 @@ fun <T> runViaRedirector(server: (String) -> T, solution: (BufferedReader, Print
 	return serverOutput to artifacts
 }
 
+fun File.deleteForSure() = delete().also { require(!exists()) { "$this not deleted" } }
+
 fun <T> runUntilNoExceptions(block: () -> T): T {
 	while (true) {
 		try {
 			return block()
 		} catch (e: Exception) {
-			Thread.sleep(10)
+			Thread.sleep(100)
 		}
 	}
 }
