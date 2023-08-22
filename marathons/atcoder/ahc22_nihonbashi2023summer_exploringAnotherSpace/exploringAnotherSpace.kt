@@ -6,7 +6,6 @@ import java.util.concurrent.Callable
 import javax.annotation.processing.Generated
 import kotlin.math.*
 import kotlin.random.Random
-import kotlin.random.asJavaRandom
 
 private val EVALUATOR: Callable<Void?>
 //		= ExploringAnotherSpaceEval() //TESTING
@@ -27,7 +26,7 @@ fun solve(judge: Judge): List<Any>? {
 }
 
 fun strategyVV(judge: Judge) {
-	val random = Random(566).asJavaRandom()
+	val random = Random(566)
 	val (m, noise, wormholes) = judge.getParameters()
 	debug { "M=$m\tNoise=$noise\tW=${wormholes.size}\t" }
 
@@ -186,7 +185,6 @@ fun strategyVV(judge: Judge) {
 			e[id][j] +=	(-ln(p)).coerceAtMost(1e9)
 		}
 	}
-
 
 	for (i in wormholes.indices) measure(i, 0, 0)
 	var assignment = IntArray(wormholes.size) { it }
