@@ -48,8 +48,8 @@ fun strategyVV(judge: Judge) {
 	val pStripeGradient = 2
 
 	val confidence = ln(wormholes.size.toDouble()) - pUncofdifence
-	val level1 = p1 / 10.0
-	val level2 = p2 / 10.0
+	val level1 = p1
+	val level2 = p2
 
 	val temperature = List(m) { i -> IntArray(m) { j ->
 		fun f(x: Double): Double {
