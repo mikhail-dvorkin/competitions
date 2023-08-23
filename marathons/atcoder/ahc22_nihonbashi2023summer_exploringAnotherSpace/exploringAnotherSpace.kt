@@ -25,6 +25,12 @@ fun solve(judge: Judge): List<Any>? {
 	return null
 }
 
+var pUnconfidence = 1
+var pStripe = 3
+var pStripeGradient = 2
+var pLevel1 = 0.5
+var pLevel2 = 0.5
+
 fun strategyVV(judge: Judge) {
 	val random = Random(566)
 	val (m, noise, wormholes) = judge.getParameters()
@@ -42,14 +48,10 @@ fun strategyVV(judge: Judge) {
 //	val level2 = (0.2 + noise * 2.0 / MAX_TEMP).coerceIn(0.0, 1.0)
 
 	val case = (((noise * 1.0).roundToInt())).toString() + "_" + (m - 10) / 14
-	val (p1, p2) = generated(case).toList().map { it / 10.0 }
-	val pUncofdifence = 1
-	val pStripe = 3
-	val pStripeGradient = 2
-
-	val confidence = ln(wormholes.size.toDouble()) - pUncofdifence
-	val level1 = p1
-	val level2 = p2
+	val optimized = optimized(case).toList().map { it / 10.0 }
+	pLevel1 = optimized[0]
+	pLevel2 = optimized[1]
+	val confidence = ln(wormholes.size.toDouble()) - pUnconfidence
 
 	val temperature = List(m) { i -> IntArray(m) { j ->
 		fun f(x: Double): Double {
@@ -60,12 +62,12 @@ fun strategyVV(judge: Judge) {
 		}
 		val y = i * 1.0 / m
 		val x = j * 1.0 / m
-		(((2 * f(y) + f(x) - 1.5) / 3 * level1 + 0.5) * MAX_TEMP).roundToInt()
+		(((2 * f(y) + f(x) - 1.5) / 3 * pLevel1 + 0.5) * MAX_TEMP).roundToInt()
 	} }
 	run {
 		val k = (temperature.indices.firstOrNull { temperature[it][it] > MAX_TEMP / 2 } ?: (3 * m / 8)) - 1
 		val special = mutableSetOf(k to k)
-		fun t(level: Double) = ((0.5 + (level - 0.5) * level2) * MAX_TEMP).roundToInt()
+		fun t(level: Double) = ((0.5 + (level - 0.5) * pLevel2) * MAX_TEMP).roundToInt()
 		fun setSpecial(y: Int, x: Int, level: Double) {
 			temperature[y][x] = t(level)
 			special.add(y to x)
@@ -205,7 +207,7 @@ fun strategyVV(judge: Judge) {
 		if (satisfied) break
 	}
 //	info { "MES=${if (measurementCount == MAX_MEASUREMENTS) "999" else (measurementCount * 1.0 / wormholes.size).roundToInt()}" }
-	info { "p1=$p1\tp2=$p2" }
+	info { "p1=$pLevel1\tp2=$pLevel2" }
 	info { "\$T=$scoreTemp\t\$M=$scoreMeasure" }
 
 	log?.println(assignment.contentToString())
@@ -393,7 +395,7 @@ inline fun <T> Iterable<T>.sumOf(selector: (T) -> Int): Int {
 }
 
 @Generated //// GENERATED ////
-fun generated(case: String) = when (case) {
+fun optimized(case: String) = when (case) {
 	"100_0" -> 3 to 4
 	"100_1" -> 5 to 3
 	"100_2" -> 4 to 5
