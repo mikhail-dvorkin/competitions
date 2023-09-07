@@ -34,4 +34,6 @@ mkdir windows
 cd windows
 unzip ../../tools_windows~.zip
 mv tools_windows/* .
+mv tools/* .
 rm -r tools_windows
+rm -r tools
