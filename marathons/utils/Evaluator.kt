@@ -23,7 +23,8 @@ class Evaluator(
 ) : Callable<Void?> {
 	private val allTroubles = ArrayList<String>()
 
-	constructor(visualizer: Callable<Void?>) : this(10, 0, false, 0, 0, true, visualizer)
+	constructor(visualizer: Callable<Void?>) : this(0 until 10, visualizer)
+	constructor(evaluate: IntRange, visualizer: Callable<Void?>) : this(evaluate.last - evaluate.first + 1, evaluate.first.toLong(), false, 0, 0, true, visualizer)
 	constructor(
 		evaluate: Int, evaluateFrom: Long, evaluateVerbose: Boolean,
 		visualizer: Callable<Void?>
