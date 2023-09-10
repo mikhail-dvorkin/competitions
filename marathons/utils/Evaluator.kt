@@ -99,7 +99,7 @@ class Evaluator(
 			val std = sqrt(sumScores2 / tests - mean * mean)
 			val scoreName = if (_useMyScore) "MyScore" else "Score"
 			val sb = StringBuilder()
-			sb.append("(±").append(round(100 * std / mean, 2)).append("%)")
+			sb.append("(±").append(round(100 * std / (mean + 1e-30), 2)).append("%)")
 			sb.append("=========================== ").append(scoreName).append(" = ").append(if (mean > 1e5) mean.roundToLong() else round(mean, 2))
 			sb.append("\n======== AverageTime: ").append(timeToString(1.0 * totalT / tests))
 			sb.append("\n======== MaxTime: ").append(timeToString(maxT.toDouble())).append(" on test #").append(maxTest)
