@@ -354,45 +354,7 @@ fun main() {
 }
 
 private fun <T> List<T>.toPair() = get(0) to get(1)
-
-//// KOTLIN 1.3 ////
-infix fun Int.mod(other: Int): Int {
-	val r = this % other
-	return r + (other and (((r xor other) and (r or -r)) shr 31))
-}
-inline fun <T, R : Comparable<R>> Iterable<T>.minBy(selector: (T) -> R): T {
-	val iterator = iterator()
-	if (!iterator.hasNext()) throw NoSuchElementException()
-	var minElem = iterator.next()
-	if (!iterator.hasNext()) return minElem
-	var minValue = selector(minElem)
-	do {
-		val e = iterator.next()
-		val v = selector(e)
-		if (minValue > v) {
-			minElem = e
-			minValue = v
-		}
-	} while (iterator.hasNext())
-	return minElem
-}
-fun Iterable<Double>.minOrNull(): Double? {
-	val iterator = iterator()
-	if (!iterator.hasNext()) return null
-	var min = iterator.next()
-	while (iterator.hasNext()) {
-		val e = iterator.next()
-		min = minOf(min, e)
-	}
-	return min
-}
-inline fun <T> Iterable<T>.sumOf(selector: (T) -> Int): Int {
-	var sum = 0
-	for (element in this) {
-		sum += selector(element)
-	}
-	return sum
-}
+infix fun Int.mod(other: Int) = (this % other).let { it + (other and (((it xor other) and (it or -it)) shr 31)) }
 
 @Generated //// GENERATED ////
 fun optimized(case: String) = when (case) {
