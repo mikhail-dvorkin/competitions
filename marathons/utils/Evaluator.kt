@@ -53,7 +53,7 @@ class Evaluator(
 			appendWriter.println(obj.toString().trim())
 		}
 		appendWriter.close()
-		logFile.renameTo(File(_outFolder, "$_seed_padded.log"))
+		logFile.renameTo(File(_outFolder, "$_seed_padded.log").apply { delete() })
 	}
 
 	override fun call(): Void? {
