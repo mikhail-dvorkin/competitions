@@ -5,3 +5,5 @@
 * Greedily donate cells from group of size S to group of size <= S - 2
 * Use DP to make use of groups, from largest to smallest
 * Optimize corridor: fill in crops that fit perfectly, then fill in anything that fits at all
+
+[Pics, video, and logs](https://disk.yandex.ru/d/xtIM24LxqGAIEQ).
