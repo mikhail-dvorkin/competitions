@@ -1,3 +1,10 @@
+/**
+ * https://atcoder.jp/contests/ahc023/tasks/asprocon10_a
+ *
+ * AtCoder Heuristic Contest 23, 10th Asprova Programming Contest
+ *
+ * Crops on Grid
+ */
 package marathons.atcoder.ahc23_asprova10_cropsOnGrid;
 /*
 775552  → 38897750 — 85th
