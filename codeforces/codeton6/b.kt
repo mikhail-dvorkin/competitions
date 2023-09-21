@@ -5,7 +5,7 @@ private fun solve() {
     val (a, b) = List(2) { readInts() }
     val aXor = a.reduce(Int::xor)
     val bOr = b.reduce(Int::or)
-    val aXor2 = if (a.size % 2 == 0) (aXor and (bOr.inv())) else (aXor or bOr)
+    val aXor2 = if (a.size % 2 == 0) (aXor and bOr.inv()) else (aXor or bOr)
     println(listOf(aXor, aXor2).sorted().joinToString(" "))
 }
 

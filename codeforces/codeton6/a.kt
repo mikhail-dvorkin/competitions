@@ -2,10 +2,8 @@ package codeforces.codeton6
 
 private fun solve() {
     val (n, k, x) = readInts()
-    val a = (0 until k).toMutableList()
-    while (a.size < n) a.add(x.takeIf { it != k} ?: (x - 1))
-    if (a.max() > x || a.size > n) return println(-1)
-    println(a.sum())
+    if (k - 1 > x || k > n) return println(-1)
+    println(k * (k - 1) / 2 + (n - k) * (if (x != k) x else x - 1))
 }
 
 fun main() = repeat(readInt()) { solve() }
