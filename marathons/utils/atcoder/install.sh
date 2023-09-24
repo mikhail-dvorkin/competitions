@@ -33,7 +33,6 @@ cargo run --release --bin vis example.in example.out
 mkdir windows
 cd windows
 unzip ../../tools_windows~.zip
-mv tools_windows/* .
-mv tools/* .
+mv tools*/* .
 rm -r tools_windows
 rm -r tools
