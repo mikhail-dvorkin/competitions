@@ -90,7 +90,7 @@ private fun solve(): Long {
 	}
 //	println(dist.contentToString())
 
-	val memo = Array<Pair<Int, Int>?>(n.countSignificantBits() * n) { null }
+	val memo = MutableList<Pair<Int, Int>?>(n.countSignificantBits() * n) { null }
 	fun ancestorUp(v: Int, levels: Int): Pair<Int, Int> {
 		if (levels == 0) return v to dist[v]
 		if (levels == 1) return parent[v] to minOf(dist[v], dist[parent[v]])
@@ -101,12 +101,11 @@ private fun solve(): Long {
 			return w to minOf(minU, minW)
 		}
 		val code = (levels.countTrailingZeroBits() - 1) * n + v
-		val know = memo[code]
-		if (know != null) return know
-		val (u, minU) = ancestorUp(v, two / 2)
-		val (w, minW) = ancestorUp(u, two / 2)
-		memo[code] = w to minOf(minU, minW)
-		return memo[code]!!
+		return memo.computeIfNull(code) {
+			val (u, minU) = ancestorUp(v, two / 2)
+			val (w, minW) = ancestorUp(u, two / 2)
+			w to minOf(minU, minW)
+		}
 	}
 	fun ancestor(v: Int, level: Int): Pair<Int, Int> {
 		require(level in 0..depth[v])
@@ -143,6 +142,7 @@ private fun IntRange.binarySearch(predicate: (Int) -> Boolean): Int {
 	return high // first true
 }
 private fun Int.countSignificantBits() = Int.SIZE_BITS - Integer.numberOfLeadingZeros(this)
+private inline fun <E> MutableList<E?>.computeIfNull(key: Int, defaultValue: () -> E) = get(key)?.also { return it } ?: defaultValue().also { set(key, it) }
 
 fun main() {
 	System.setIn(java.io.File("input.txt").inputStream())
