@@ -3,7 +3,7 @@ package facebook.y2023.qual
 private fun solve(): Int {
 	readInt()
 	val a = readInts().sorted()
-	if (a.size == 1) return a[0]
+	if (a.size == 1) return 1
 	val inf = Int.MAX_VALUE
 	val ans = listOf(a[0] + a.last(), a[0] + a[a.size - 2], a[1] + a.last()).minOf { sum ->
 		val pool = a.groupBy {it}.mapValues { it.value.size }.toMutableMap()

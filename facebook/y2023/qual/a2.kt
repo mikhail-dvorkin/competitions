@@ -2,7 +2,7 @@ package facebook.y2023.qual
 
 private fun solve(): Long {
 	val (a, b, c) = readLongs()
-	return listOf(0, 1, c / a).maxOf { s ->
+	return listOf(0, 1, 2, c / a).maxOf { s ->
 		if (s * a > c) return@maxOf 0
 		val d = (c - s * a) / b
 		minOf(s + 2 * d, 2 * (s + d) - 1)
