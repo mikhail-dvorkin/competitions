@@ -112,23 +112,6 @@ fun research(n: Int, m: Int, times: Int = 100) {
 	}
 }
 
-public inline fun <T, R : Comparable<R>> Iterable<T>.minBy(selector: (T) -> R): T {
-	val iterator = iterator()
-	if (!iterator.hasNext()) throw NoSuchElementException()
-	var minElem = iterator.next()
-	if (!iterator.hasNext()) return minElem
-	var minValue = selector(minElem)
-	do {
-		val e = iterator.next()
-		val v = selector(e)
-		if (minValue > v) {
-			minElem = e
-			minValue = v
-		}
-	} while (iterator.hasNext())
-	return minElem
-}
-
 private fun readLn() = readLine()!!
 private fun readInt() = readLn().toInt()
 private fun readStrings() = readLn().split(" ")
