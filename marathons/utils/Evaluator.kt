@@ -186,6 +186,6 @@ class Evaluator(
 		}
 
 		@JvmStatic
-		fun requireEnablesAssertions() = JavaUtils.requireEnablesAssertions()
+		fun requireEnablesAssertions() = JavaUtils.requireEnabledAssertions()
 	}
 }
