@@ -57,7 +57,7 @@ class Evaluator(
 	}
 
 	override fun call(): Void? {
-		requireEnablesAssertions()
+		requireEnabledAssertions()
 		if (visualize > 0 && !text()) {
 			_visScreen = true
 			_verbose = visualizeVerbose
@@ -186,6 +186,6 @@ class Evaluator(
 		}
 
 		@JvmStatic
-		fun requireEnablesAssertions() = JavaUtils.requireEnabledAssertions()
+		fun requireEnabledAssertions() = JavaUtils.requireEnabledAssertions()
 	}
 }
