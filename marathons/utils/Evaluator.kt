@@ -57,7 +57,6 @@ class Evaluator(
 	}
 
 	override fun call(): Void? {
-		requireEnabledAssertions()
 		if (visualize > 0 && !text()) {
 			_visScreen = true
 			_verbose = visualizeVerbose
