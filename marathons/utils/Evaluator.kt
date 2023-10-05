@@ -25,6 +25,7 @@ class Evaluator(
 
 	constructor(visualizer: Callable<Void?>) : this(0 until 10, visualizer)
 	constructor(evaluate: IntRange, visualizer: Callable<Void?>) : this(evaluate.last - evaluate.first + 1, evaluate.first.toLong(), false, 0, 0, true, visualizer)
+	constructor(evaluateSingle: Int, visualizer: Callable<Void?>) : this(evaluateSingle..evaluateSingle, visualizer)
 	constructor(
 		evaluate: Int, evaluateFrom: Long, evaluateVerbose: Boolean,
 		visualizer: Callable<Void?>
