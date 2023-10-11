@@ -1,45 +1,30 @@
 package facebook.y2023.round1
 
-const val S = 41
-
-private fun precalc(): List<List<MutableMap<Int, Int>>> {
-	val dp = List(S + 1) { List(it + 1) { mutableMapOf<Int, Int>() } }
-	dp[0][0][1] = -1
-	for (sum in 0 until S) {
+private fun precalc(s: Int = 41): List<MutableMap<Int, Sequence<Int>>> {
+	val dp = List(s + 1) { List(it + 1) { mutableMapOf<Int, Sequence<Int>>() } }
+	dp[0][0][1] = emptySequence()
+	for (sum in 0 until s) {
 		for (count in 0..sum) {
-			for (key in dp[sum][count].keys) {
-				for (x in 1..S - sum) {
-					dp[sum + x][count + 1][key * x] = x
+			for (entry in dp[sum][count]) {
+				for (x in 1..s - sum) {
+					dp[sum + x][count + 1][entry.key * x] = sequenceOf(x) + entry.value
 				}
 			}
 		}
 	}
-	return dp
+	return dp[s]
 }
 
-val precalc = precalc()
+private val precalc = precalc()
 
 private fun solve(): List<Int> {
 	val p = readInt()
-	for (count in 1..S) {
-		if (p in precalc[S][count]) {
-			val list = mutableListOf<Int>()
-			var pp = p
-			var ss = S
-			for (c in count downTo 1) {
-				val x = precalc[ss][c][pp]!!
-				list.add(x)
-				ss -= x
-				pp /= x
-			}
-			return listOf(list.size) + list
-		}
-	}
-	return listOf(-1)
+	val map = precalc.firstOrNull { p in it }
+		?: return listOf(-1)
+	return map[p]!!.toList().let { listOf(it.size) + it }
 }
 
 fun main() {
-	precalc()
 	System.setIn(java.io.File("input.txt").inputStream())
 	System.setOut(java.io.PrintStream("output.txt"))
 	repeat(readInt()) { println("Case #${it + 1}: ${solve().joinToString(" ")}") }

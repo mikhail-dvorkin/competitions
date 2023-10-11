@@ -10,22 +10,13 @@ private fun solve(): Int {
 	}
 	val state = BooleanArray(n + 1) { it >= 1 && s[it - 1] == '1' }
 	fun toggle(x: Int) {
-		var y = x
-		while (y <= n) {
-			state[y] = !state[y]
-			y += x
-		}
+		for (y in x..n step x) state[y] = !state[y]
 	}
 	for (x in 1..n) if (pressed[x]) toggle(x)
 	var ans = 0
-	for (x in 1..n) {
-		if (!state[x]) continue
-		ans++
-		toggle(x)
-	}
+	for (x in 1..n) if (state[x]) toggle(x).also { ans++ }
 	return ans
 }
-
 
 fun main() {
 	System.setIn(java.io.File("input.txt").inputStream())
