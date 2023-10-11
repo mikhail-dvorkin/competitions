@@ -2,8 +2,8 @@
 *novcs*
 *.in
 *.out
-input.txt
-output.txt
+*input*.txt
+*output*.txt
 input/
 output/
 
