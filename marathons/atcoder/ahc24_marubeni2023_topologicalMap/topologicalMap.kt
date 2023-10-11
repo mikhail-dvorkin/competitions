@@ -23,7 +23,7 @@ fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= threshold) thr
 
 fun solve(f: List<IntArray>, m: Int, toVisualize: MutableList<Any>?): List<IntArray> {
 	val pSearchSpace = 4
-	val pOutsideThreshold = 4
+	val pOutsideThreshold = 3 // TODO 16?, use borders better
 	val n = f.size
 	if (VERBOSE) log = PrintWriter(File("current~.log").writer(), true)
 
@@ -124,7 +124,7 @@ fun solve(f: List<IntArray>, m: Int, toVisualize: MutableList<Any>?): List<IntAr
 	fun selectOrder(): MutableList<Int> {
 		val order = mutableListOf(pointInit)
 		val orderSet = order.toMutableSet()
-		val friendStat = IntArray(4) // TESTING
+		val friendStat = IntArray(5) // TESTING
 		while (true) {
 			val v = queuePoints
 				.filter { it !in orderSet }
@@ -139,6 +139,7 @@ fun solve(f: List<IntArray>, m: Int, toVisualize: MutableList<Any>?): List<IntAr
 		return order
 	}
 	val order = selectOrder()
+//	val order = queuePoints
 
 	fun hex(v: Int) = if (v < 0) v.toString() else order.indexOf(v).also {
 		require(it != -1)
@@ -254,6 +255,10 @@ fun solve(f: List<IntArray>, m: Int, toVisualize: MutableList<Any>?): List<IntAr
 		if (count1++ >= pOutsideThreshold) return
 		for (d in 0 until 4) {
 			val yy = y + DY[d]; val xx = x + DX[d]
+			if (yy !in 0..n || xx !in 0..n) {
+				count1 = pOutsideThreshold
+				return
+			}
 			if (a[yy][xx] != -1 && a[yy][xx] != allow1) {
 				toSee1.remove(a[yy][xx])
 				toSee1.remove(-10 - a[yy][xx])
@@ -263,8 +268,7 @@ fun solve(f: List<IntArray>, m: Int, toVisualize: MutableList<Any>?): List<IntAr
 			dfs1(yy, xx)
 		}
 	}
-	fun canLockHere(y: Int, x: Int): Boolean {
-		val v = -10 - a[y][x]
+	fun canLockHere(y: Int, x: Int, v: Int): Boolean {
 		toSee1.clear()
 		toSee1.addAll(pointNei[v].filter { it != -1 })
 		allow1 = -10 - v
@@ -292,10 +296,11 @@ fun solve(f: List<IntArray>, m: Int, toVisualize: MutableList<Any>?): List<IntAr
 					if (u == -1 || u in aTo[yv][xv]) continue
 					var count = 0
 					for (d in 0 until 4) {
-						if (okDir(yv, xv, d, u)) {
-							newOkDir = newOkDir.setBit(4 * i + d)
-							count++
-						}
+						if (!okDir(yv, xv, d, u)) continue
+						val y = yv + DY[d]; val x = xv + DX[d]
+						if (ay[u] == -1 && !canLockHere(y, x, u)) continue
+						newOkDir = newOkDir.setBit(4 * i + d)
+						count++
 					}
 					if (count == 0) return false
 					if (count > 1) continue
@@ -314,43 +319,6 @@ fun solve(f: List<IntArray>, m: Int, toVisualize: MutableList<Any>?): List<IntAr
 				}
 			}
 		} while (changed)
-
-		for (v in order) {
-			val yv = ay[v]; val xv = ax[v]
-			if (yv == -1) break
-			for (d1 in 0 until 4) {
-				val y = yv + DY[d1]; val x = xv + DX[d1]
-				if (a[y][x] > -10) continue
-				val u = -10 - a[y][x]
-				if (ay[u] != -1) continue
-				/*
-				val toPut = pointNei[u].filter { it != -1 }.toMutableSet()
-				var empty = 0
-				for (d in 0 until 4) {
-					val yy = y + DY[d]; val xx = x + DX[d]
-					val an = a[yy][xx]
-					if (an == -1) {
-						empty++
-					} else if (an >= 0) {
-						toPut.remove(an)
-					} else if (an <= -10) {
-						toPut.remove(-10 - an)
-					}
-				}
-				if (empty == 0) {
-					if (toPut.isNotEmpty()) {
-//						log { "Found impossible ${hex(u)}" }
-//						log { showTable { show(a[it.first][it.second], true).padEnd(13, ' ') } }
-						return false
-					}
-				} else {
-				}
-				*/
-				if (!canLockHere(y, x)) {
-					return false
-				}
-			}
-		}
 		return true
 	}
 
@@ -413,6 +381,7 @@ fun solve(f: List<IntArray>, m: Int, toVisualize: MutableList<Any>?): List<IntAr
 		}
 		fun present(u: Int) = u != -1 && ay[u] != -1
 		val us = pointNei[v].filter { present(it) }.toMutableList()
+		require(us.isNotEmpty())
 		val (yRange_, xRange_) = listOf(ay, ax)
 			.map { az -> us.map { az[it] }.let { it.min() - pSearchSpace .. it.max() + pSearchSpace } }
 		yRange = yRange_; xRange = xRange_
