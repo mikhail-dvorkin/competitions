@@ -3,21 +3,21 @@ package marathons.utils //TESTING
 import java.io.*
 import java.util.concurrent.Callable
 
-const val IS_INTERACTIVE = false
-val EVALUATOR: Callable<Void?>
+private const val IS_INTERACTIVE = false
+private val EVALUATOR: Callable<Void?>
 		= marathons.utils.Evaluator(marathons.utils.atcoder.atcoderVisualizer(::solveIO, IS_INTERACTIVE)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
-val SUBMIT = EVALUATOR == null
-val VERBOSE = !SUBMIT
+private val SUBMIT = EVALUATOR == null
+private val VERBOSE = !SUBMIT
 private var log: PrintWriter? = null
-const val TIME_LIMIT = 10000 - 150
-var timeStart = 0L
+private const val TIME_LIMIT = 10000 - 150
+private var timeStart = 0L
 // TODO timeLimit *= Template._localTimeCoefficient
-fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
-fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= threshold) throw TimeOutException() }
+private fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
+private fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= threshold) throw TimeOutException() }
 
-fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
+private fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 	if (VERBOSE) log = PrintWriter(File("current~.log").writer(), true)
 	try {
 		checkTimeLimit()
@@ -27,9 +27,9 @@ fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 	return input
 }
 
-class TimeOutException : RuntimeException()
+private class TimeOutException : RuntimeException()
 
-fun solveIO(`in`: BufferedReader, out: PrintWriter): List<Any>? {
+private fun solveIO(`in`: BufferedReader, out: PrintWriter): List<Any>? {
 	timeStart = System.currentTimeMillis()
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
