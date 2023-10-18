@@ -19,6 +19,7 @@ private fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= thresh
 
 private fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 	if (VERBOSE) log = PrintWriter(File("current~.log").writer(), true)
+	timeStart = System.currentTimeMillis()
 	try {
 		checkTimeLimit()
 	} catch (_: TimeOutException) {
@@ -30,7 +31,6 @@ private fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 private class TimeOutException : RuntimeException()
 
 private fun solveIO(`in`: BufferedReader, out: PrintWriter): List<Any>? {
-	timeStart = System.currentTimeMillis()
 	fun readLn() = `in`.readLine()!!
 	fun readInt() = readLn().toInt()
 	fun readStrings() = readLn().split(" ")
