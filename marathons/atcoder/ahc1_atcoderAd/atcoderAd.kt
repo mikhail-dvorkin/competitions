@@ -6,7 +6,7 @@ import kotlin.math.*
 import kotlin.random.Random
 
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(10, 1, false, marathons.utils.atcoder.atcoderVisualizer(::solveIO)) //TESTING
+		= marathons.utils.Evaluator(10, 1, false, marathons.utils.atcoder.atcoderVisualizerCallable(::solveIO)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null

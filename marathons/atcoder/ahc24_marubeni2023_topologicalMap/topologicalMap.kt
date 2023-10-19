@@ -9,7 +9,7 @@ import kotlin.math.hypot
 import kotlin.math.roundToInt
 
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(marathons.utils.atcoder.atcoderVisualizer(::solveIO)) //TESTING
+		= marathons.utils.Evaluator(marathons.utils.atcoder.atcoderVisualizerCallable(::solveIO)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null

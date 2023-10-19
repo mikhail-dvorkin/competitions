@@ -86,12 +86,20 @@ private fun runAndVisualizeTheir(
 	}
 }
 
-fun atcoderVisualizer(
+fun atcoderVisualizerCallable(
 	solution: ((BufferedReader, PrintWriter) -> List<Any>?),
 	isInteractive: Boolean = false,
 ) : Callable<Void?> {
 	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
 	return Callable<Void?> { runAndVisualizeTheir(solution, isInteractive); null }
+}
+
+fun atcoderVisualizer(
+	solution: ((BufferedReader, PrintWriter) -> List<Any>?),
+	isInteractive: Boolean = false,
+) : (() -> Unit) {
+	if (Evaluator._project == null) Evaluator._project = solution.javaClass.packageName
+	return { runAndVisualizeTheir(solution, isInteractive) }
 }
 
 fun rustExe(programName: String) = if (isWindows)

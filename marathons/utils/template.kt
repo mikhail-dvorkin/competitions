@@ -4,8 +4,9 @@ import java.io.*
 import java.util.concurrent.Callable
 
 private const val IS_INTERACTIVE = false
-private val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(marathons.utils.atcoder.atcoderVisualizer(::solveIO, IS_INTERACTIVE)) //TESTING
+private val TO_EVAL = (0 until 10)
+private val EVALUATOR: () -> Unit
+		= { marathons.utils.evaluate(marathons.utils.atcoder.atcoderVisualizer(::solveIO, IS_INTERACTIVE), TO_EVAL) } //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 private val SUBMIT = EVALUATOR == null
@@ -49,6 +50,6 @@ private inline fun info(msg: () -> Any) { if (VERBOSE) msg().also { print("$it\t
 
 fun main() {
 	@Suppress("USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
-	EVALUATOR?.apply { call() }
+	EVALUATOR?.invoke()
 		?: solveIO(System.`in`.bufferedReader(), PrintWriter(System.out, IS_INTERACTIVE))
 }

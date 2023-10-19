@@ -9,7 +9,7 @@ import kotlin.reflect.KFunction0
 import kotlin.system.measureTimeMillis
 
 val EVALUATOR: Callable<Void?>
-		= marathons.utils.Evaluator(0 until 100, marathons.utils.atcoder.atcoderVisualizer(::solveIO)) //TESTING
+		= marathons.utils.Evaluator(0 until 100, marathons.utils.atcoder.atcoderVisualizerCallable(::solveIO)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null

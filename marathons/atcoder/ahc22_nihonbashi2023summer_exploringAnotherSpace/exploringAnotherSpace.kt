@@ -9,7 +9,7 @@ import kotlin.random.Random
 
 private val EVALUATOR: Callable<Void?>
 //		= ExploringAnotherSpaceEval() //TESTING
-		= marathons.utils.Evaluator(marathons.utils.atcoder.atcoderVisualizer(::solveIO, true)) //TESTING
+		= marathons.utils.Evaluator(marathons.utils.atcoder.atcoderVisualizerCallable(::solveIO, true)) //TESTING
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 private val SUBMIT = EVALUATOR == null
