@@ -28,7 +28,7 @@ fun <T> runViaRedirector(server: (String) -> T, solution: (BufferedReader, Print
 		output.close()
 	}
 	val redirectorJar = File(tempDir, "redirector.jar")
-	require(redirectorJar.exists())
+	require(redirectorJar.exists()) { "Compile redirector and put in into $tempDir" }
 	val tempJar = File(tempDir, "$pipeName.jar")
 	redirectorJar.copyTo(tempJar)
 	val serverOutput = server(pipeName)
