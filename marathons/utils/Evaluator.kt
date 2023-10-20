@@ -100,6 +100,7 @@ class Evaluator(
 
 		@JvmStatic
 		fun round(v: Double, precision: Int): String {
+			if (v.isNaN()) return "NaN"
 			if (abs(v) >= 1e100) {
 				return if (v > 0) "INF" else "-INF"
 			}
