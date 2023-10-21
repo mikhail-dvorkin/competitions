@@ -12,7 +12,7 @@ private val EVALUATOR: () -> Unit
 private val SUBMIT = EVALUATOR == null
 private val VERBOSE = !SUBMIT
 private var log: PrintWriter? = null
-private const val TIME_LIMIT = 10000 - 150
+private val TIME_LIMIT = 10000.also { TODO() } - 150
 private var timeStart = 0L
 // TODO timeLimit *= Template._localTimeCoefficient
 private fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
