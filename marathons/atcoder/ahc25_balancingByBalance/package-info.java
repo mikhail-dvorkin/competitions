@@ -27,6 +27,4 @@ package marathons.atcoder.ahc25_balancingByBalance;
 //1922928   @1000
 802751  pWantedGroup = 0.8 * sqrt(n)                    → 156500206 — 172nd→168th
 //1919262   @1000
-
-greedyUsage	0.5686896501565399
  */
