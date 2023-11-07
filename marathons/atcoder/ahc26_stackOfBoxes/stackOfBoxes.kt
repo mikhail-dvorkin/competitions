@@ -46,25 +46,48 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 	fun move(x: Int, index: Int) {
 		val whereX = where[x]
 		require(whereX != index)
+		val aWhereX = a[whereX]
+		val aIndex = a[index]
 		val whereIndexX = whereIndex[x]
-		score += a[whereX].size - whereIndexX + 1
-		for (j in whereIndexX until a[whereX].size) {
-			val y = a[whereX][j]
+		score += aWhereX.size - whereIndexX + 1
+		for (j in whereIndexX until aWhereX.size) {
+			val y = aWhereX[j]
 			where[y] = index
-			whereIndex[y] = a[index].size
-			a[index].add(y)
+			whereIndex[y] = aIndex.size
+			aIndex.add(y)
 		}
-		for (j in whereIndexX until a[whereX].size) {
-			a[whereX].removeLast()
+		for (j in whereIndexX until aWhereX.size) {
+			aWhereX.removeLast()
 		}
 		instructions.add(x to index)
+	}
+
+	val suffixMax = IntArray(n)
+	fun moveClever(x: Int, index: Int) {
+		val whereX = where[x]
+		val whereIndexX = whereIndex[x]
+		val aWhereX = a[whereX]
+		var max = 0
+		for (j in whereIndexX until aWhereX.size) {
+			max = maxOf(max, aWhereX[j])
+			suffixMax[j] = max
+		}
+		var min = n
+		for (j in aWhereX.size - 1 downTo whereIndexX + 1) {
+			min = minOf(min, aWhereX[j])
+			if (min > suffixMax[j - 1]) {
+				move(aWhereX[j], index)
+				min = n
+			}
+		}
+		move(x, index)
 	}
 
 	fun moveAbove(x: Int, index: Int) {
 		val whereX = where[x]
 		require(whereX != index)
 		val y = a[whereX].getOrNull(whereIndex[x] + 1) ?: return
-		move(y, index)
+		moveClever(y, index)
 	}
 
 	fun carryOut(x: Int) {
@@ -137,7 +160,7 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 		prepare("${garbageAtLeast.lastOrNull() ?: 0},$pGarbageCount,$p1,$p2")
 		val garbageIndex = (0 until m).shuffled(random).take(garbageAtLeast.size)
 		for (i in garbageIndex) {
-			move(a[i][0], furthest(0, garbageIndex))
+			moveClever(a[i][0], furthest(0, garbageIndex))
 		}
 		for (x in 0 until n) {
 			val whereX = where[x]
@@ -168,7 +191,7 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 						return send()
 					}
 				}
-				move(groupBottom, groupTo)
+				moveClever(groupBottom, groupTo)
 			}
 			fun to(y: Int): Int {
 				if (x >= p1) return furthestMarker
