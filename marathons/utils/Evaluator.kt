@@ -90,6 +90,11 @@ class Evaluator(
 			return settings().getProperty("localTimeCoefficient").toDouble()
 		}
 
+		fun <T> localTimeCoefficient(clazz: Class<T>): Double {
+			//use clazz.packageName
+			return localTimeCoefficient();
+		}
+
 		fun text(): Boolean {
 			return settings().getProperty("text", "" + false) == "" + true
 		}
