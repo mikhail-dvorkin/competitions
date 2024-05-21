@@ -1,7 +1,5 @@
 package gcj.y2020.round2
 
-import kotlin.test.assertEquals
-
 private fun solveDumb(aIn: Long, bIn: Long): String {
 	var a = aIn; var b = bIn
 	var i = 1L
@@ -18,5 +16,5 @@ private fun solveDumb(aIn: Long, bIn: Long): String {
 
 fun main() {
 	val max = 5000L
-	for (a in 1..max) for (b in 1..max) assertEquals(solveDumb(a, b), solvePancakes(a, b), "$a $b")
+	for (a in 1..max) for (b in 1..max) require(solveDumb(a, b) == solvePancakes(a, b)) { "$a $b" }
 }
