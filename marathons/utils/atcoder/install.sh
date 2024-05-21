@@ -3,6 +3,8 @@
 URL_DIR=$1
 ARCHIVE=$2
 ARCHIVE_WINDOWS=${ARCHIVE/.zip/_windows.zip}
+ARCHIVE_WINDOWS=${ARCHIVE_WINDOWS/_v2_windows.zip/_windows_v2.zip}
+ARCHIVE_WINDOWS=${ARCHIVE_WINDOWS/_v3_windows.zip/_windows_v3.zip}
 NUM_TESTS=$3
 
 if [ ! -f "tools~.zip" ]; then
