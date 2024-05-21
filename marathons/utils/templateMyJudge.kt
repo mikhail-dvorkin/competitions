@@ -11,18 +11,14 @@ private fun solve(judge: Judge): List<Any>? {
 
 private fun solveIO(`in`: BufferedReader, out: PrintWriter) = solve(JudgeIO(`in`, out))
 
-private interface Judge {
+interface Judge {
 	fun getSomething(x: Long): Int
+	fun canRevealSecrets() = false
 }
 
 private class JudgeIO(val `in`: BufferedReader, val out: PrintWriter) : Judge {
-	fun readln() = `in`.readLine()!!
-	fun readInt() = readln().toInt()
-	fun readStrings() = readln().split(" ")
-	fun readInts() = readStrings().map { it.toInt() }
-
 	override fun getSomething(x: Long): Int {
 		out.println(x)
-		return readInt()
+		return `in`.readInt()
 	}
 }

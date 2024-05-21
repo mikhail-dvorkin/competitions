@@ -23,7 +23,11 @@ fun <T> runViaRedirector(server: (String) -> T, solution: (BufferedReader, Print
 	val t = thread {
 		val input = runUntilNoExceptions { File(getPipePrefix() + "$pipeName.in").bufferedReader() }
 		val output = runUntilNoExceptions { PrintWriter(File(getPipePrefix() + "$pipeName.out").writer(), true) }
-		artifacts = solution(input, output)
+		try {
+			artifacts = solution(input, output)
+		} catch (e: Exception) {
+			Evaluator.noteException(e)
+		}
 		input.close()
 		output.close()
 	}

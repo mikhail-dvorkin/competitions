@@ -31,8 +31,7 @@ class Evaluator(
 
 	override fun call(): Void? {
 		val evaluateRange: Iterable<Number> = evaluateFrom until evaluateFrom + evaluate
-		val processor = object : Processor() {
-		}
+		val processor = null
 		val visualizeOnScreenRange: Iterable<Number> = visualizeFrom until visualizeFrom + visualize
 		evaluate({ visualizer.call() }, evaluateRange, processor, visualizeOnScreenRange)
 		return null
@@ -44,6 +43,7 @@ class Evaluator(
 		var _outcomeMyScore = 0.0
 		val _outcomeTroubles = mutableListOf<String>()
 		val _allTroubles = mutableListOf<String>()
+		val _originalErrorStream = System.err
 		val _outcomeLabels = mutableListOf<String>()
 		var _outcomeArtifacts = mutableListOf<Any>()
 		@JvmField
@@ -59,9 +59,6 @@ class Evaluator(
 		@JvmField
 		var _visOnlyFile = false
 		var _visNone = false
-		var _verbose = false
-		var _verboseOnScreen = true
-		var _verboseEval = false
 		@JvmField
 		var _useMyScore = false
 		@JvmField
@@ -72,6 +69,7 @@ class Evaluator(
 //		var _log: PrintWriter? = null
 		var _imageFile: File? = null
 		var _interactWithPreBuiltJar = false
+		var _interactor: (() -> List<Any>?)? = null
 		@JvmStatic
 		fun settings(): Properties {
 			try {
@@ -83,6 +81,19 @@ class Evaluator(
 			} catch (e: IOException) {
 				throw RuntimeException(e)
 			}
+		}
+
+		fun projectFolder() = _project!!.replace(".", "/")
+
+		fun setOutFile() {
+			_outFile = File(_outFolder, "$_seed_padded.out")
+			_outFile!!.parentFile.mkdirs()
+			_outFile!!.deleteForSure()
+		}
+
+		fun noteException(e: Exception) {
+			e.printStackTrace(_originalErrorStream)
+			_outcomeTroubles.add(e.localizedMessage)
 		}
 
 		@JvmStatic
@@ -118,30 +129,34 @@ class Evaluator(
 	}
 }
 
-abstract class Processor {
+interface Processor {
 	fun preprocess() {}
-	fun preprocessTest() {}
+//	fun preprocessTest() {}
 	fun postprocessTest() {}
 	fun postprocess() {}
 }
 
 private fun callVisualizerAndProcessor(visualizer: () -> Unit, processor: Processor?) {
+	Evaluator._outcomeScore = Double.NaN
 	Evaluator._outcomeMyScore = Double.NaN
 	Evaluator._outcomeTroubles.clear()
 	Evaluator._outcomeLabels.clear()
 	Evaluator._outcomeArtifacts.clear()
 	val logFile = File("current~.log")
 	logFile.deleteForSure()
+	val logStream = PrintStream(logFile)
+	System.setErr(logStream)
 
 	try {
-		processor?.preprocessTest()
+//		processor?.preprocessTest()
 		visualizer()
 		processor?.postprocessTest()
+		statNoteArtifacts()
 	} catch (e: Exception) {
-		e.printStackTrace()
-		Evaluator._outcomeTroubles.add(e.localizedMessage)
+		Evaluator.noteException(e)
 	}
 
+	logStream.close()
 	if (java.lang.Double.isNaN(Evaluator._outcomeMyScore)) {
 		Evaluator._outcomeTroubles.add("${Evaluator._seed}\tDid not finish correctly: MyScore = NaN")
 	}
@@ -162,9 +177,9 @@ fun evaluate(
 	processor: Processor? = null,
 	visualizeOnScreenRange: Iterable<Number> = IntRange.EMPTY,
 ) {
+	statClear()
 	processor?.preprocess()
 	Evaluator._visScreen = true
-	Evaluator._verbose = Evaluator._verboseOnScreen
 	for (seed in visualizeOnScreenRange) {
 		if (Evaluator.text() || !Evaluator._visScreen) break
 		Evaluator._seed = seed.toLong()
@@ -172,13 +187,6 @@ fun evaluate(
 	}
 
 	Evaluator._visScreen = false
-	Evaluator._verbose = Evaluator._verboseEval
-	var sumScores = 0.0
-	var sumScores2 = 0.0
-	var totalT: Long = 0
-	var maxT: Long = 0
-	var maxTest: Long = 0
-	var tests = 0
 	for (seed in evaluateRange) {
 		Evaluator._seed = seed.toLong()
 		Evaluator._outcomeScore = Double.NaN
@@ -188,39 +196,14 @@ fun evaluate(
 		for (s in (Evaluator._outcomeLabels)) print("$s\t")
 		val score = if (Evaluator._useMyScore) Evaluator._outcomeMyScore else Evaluator._outcomeScore
 		println(score)
-		sumScores += score
-		sumScores2 += score * score
-		if (Evaluator._outcomeTime > maxT) {
-			maxT = Evaluator._outcomeTime
-			maxTest = Evaluator._seed
-		}
-		totalT += Evaluator._outcomeTime
-		tests++
+		statNoteOutcomes(score)
 	}
-	if (tests > 0) {
-		val mean = sumScores / tests
-		val std = sqrt(sumScores2 / tests - mean * mean)
-		val scoreName = if (Evaluator._useMyScore) "MyScore" else "Score"
-		val sb = StringBuilder()
-		sb.append("(±").append(Evaluator.round(100 * std / mean, 2)).append("%)")
-		sb.append("=========================== ").append(scoreName).append(" = ").append(if (mean > 1e5) mean.roundToLong() else Evaluator.round(
-			mean,
-			2
-		)
-		)
-		sb.append("\n======== AverageTime: ").append(Evaluator.timeToString(1.0 * totalT / tests))
-		sb.append("\n======== MaxTime: ").append(Evaluator.timeToString(maxT.toDouble())).append(" on test #").append(maxTest)
-		if (Evaluator._allTroubles.isNotEmpty()) {
-			sb.append("\n\n== == == == == == == ==  TROUBLES!")
-			for (s in Evaluator._allTroubles) {
-				sb.append("\n").append(s)
-			}
-			System.err.println("TROUBLES!")
-		}
-		println(sb)
-		if (Pictures.mode) Pictures.write(sb)
-	}
-	Pictures.remind()
+	val sb = StringBuilder()
 	processor?.postprocess()
+	statPublish(sb)
+	println(sb)
+	if (Pictures.mode) Pictures.write(sb)
+	Pictures.remind()
+	if (Evaluator._allTroubles.isNotEmpty()) System.err.println("TROUBLES!")
 	if (Evaluator._exitAfter) exitProcess(0)
 }

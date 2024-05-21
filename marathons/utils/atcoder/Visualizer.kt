@@ -10,11 +10,9 @@ private fun runAndVisualizeTheir(
 ) {
 	val seed = Evaluator._seed
 	val paddedAtcoderName = seed.toString().padStart(4, '0')
-	val toolsDir = Evaluator._project!!.replace(".", "/") + "/tools~"
+	val toolsDir = Evaluator.projectFolder() + "/tools~"
 	Evaluator._inFile = File("$toolsDir/in", "$paddedAtcoderName.txt")
-	Evaluator._outFile = File(Evaluator._outFolder, "${Evaluator._seed_padded}.out")
-	Evaluator._outFile!!.parentFile.mkdirs()
-	Evaluator._outFile!!.deleteForSure()
+	Evaluator.setOutFile()
 	var artifacts: List<Any>? = null
 	val theirLabels = mutableListOf<String>()
 
@@ -23,7 +21,10 @@ private fun runAndVisualizeTheir(
 		if (isInteractive) {
 			fun execTester(command: String) =
 				exec("${rustExe("tester")} $command < ${Evaluator._inFile!!.absolutePath} > ${Evaluator._outFile!!.absolutePath}", toolsDir)
-			val (output, error) = if (Evaluator._interactWithPreBuiltJar) {
+			val (output, error) = if (Evaluator._interactor != null) {
+				artifacts = Evaluator._interactor!!()
+				"" to ""
+			} else if (Evaluator._interactWithPreBuiltJar) {
 				execTester("java -jar ../solution~.jar")
 			} else {
 				fun server(pipeName: String) = execTester(redirectorCommand(pipeName))
@@ -37,8 +38,7 @@ private fun runAndVisualizeTheir(
 			out.close()
 		}
 	} catch (e: Exception) {
-		e.printStackTrace()
-		Evaluator._outcomeTroubles.add(e.localizedMessage)
+		Evaluator.noteException(e)
 	}
 	Evaluator._outcomeTime += System.currentTimeMillis()
 	Evaluator._outcomeArtifacts.addAll(artifacts ?: emptyList())
@@ -73,17 +73,24 @@ private fun runAndVisualizeTheir(
 		val (key, value) = s.split("=", ignoreCase = true, limit = 2)
 		val keyCleaned = key.lowercase().trim().replace(Regex("\\s+"), "_")
 		val valueCleaned = value.trim()
+		if (keyCleaned in theirLabelsMap) {
+			require(theirLabelsMap[keyCleaned] == valueCleaned)
+			continue
+		}
 		theirLabelsMap[keyCleaned] = valueCleaned
-		Evaluator._outcomeLabels.add("$keyCleaned=$valueCleaned")
 	}
-	val score = theirLabelsMap["score"] ?: theirLabelsMap["total_cost"]
+	val scoreKeys = listOf("score", "total_cost")
+	val score = scoreKeys.mapNotNull { theirLabelsMap[it] }.singleOrNull()
 	if (score != null) {
 		Evaluator._outcomeScore = score.toDouble()
 		Evaluator._outcomeMyScore = Evaluator._outcomeScore
+		for (key in scoreKeys) theirLabelsMap.remove(key)
+		if (Evaluator._outcomeScore in setOf(0.0, -1.0))
+			Evaluator._outcomeTroubles.add("Score ${Evaluator._outcomeScore}, $theirLabels")
 	} else if (theirLabels.isNotEmpty()) {
-		print("\t No score found in $theirLabels")
-		Evaluator._outcomeTroubles.addAll(theirLabels)
+		Evaluator._outcomeTroubles.add("No score found in $theirLabels")
 	}
+	theirLabelsMap.forEach { Evaluator._outcomeLabels.add("${it.key}=${it.value}") }
 }
 
 fun atcoderVisualizerCallable(
