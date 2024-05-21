@@ -28,6 +28,7 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 	var score = 0
 	val instructions = mutableListOf<Pair<Int, Int>>()
 	var modeCode = ""
+	var pCutBlock = true
 
 	fun prepare(modeCodeParam: String) {
 		modeCode = modeCodeParam
@@ -63,19 +64,25 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 	}
 
 	val suffixMax = IntArray(n)
+	val suffixMin = IntArray(n)
 	fun moveClever(x: Int, index: Int) {
 		val whereX = where[x]
 		val whereIndexX = whereIndex[x]
 		val aWhereX = a[whereX]
 		var max = 0
+		var min = n
 		for (j in whereIndexX until aWhereX.size) {
 			max = maxOf(max, aWhereX[j])
+			min = minOf(min, aWhereX[j])
 			suffixMax[j] = max
+			suffixMin[j] = min
 		}
-		var min = n
+		min = n
 		for (j in aWhereX.size - 1 downTo whereIndexX + 1) {
 			min = minOf(min, aWhereX[j])
-			if (min > suffixMax[j - 1]) {
+			if (min > suffixMax[j - 1]
+				|| pCutBlock && aWhereX[j - 1] == suffixMin[j - 1] && min > aWhereX[j - 1]
+				) {
 				move(aWhereX[j], index)
 				min = n
 			}
@@ -111,7 +118,7 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 			bestScore = score
 			answer = instructions.toList()
 			bestModeCode = modeCode
-//			info { "$modeCode Score:=$score" }
+			info { "$modeCode Score:=$score" }
 		} else {
 //			info { "Score?=$score" }
 		}
@@ -145,6 +152,7 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 	}
 
 	fun solveWithSavingForLater() {
+		pCutBlock = random.nextBoolean()
 		val pGarbageCount = 1 + random.nextInt(2)
 		val pLow = n / 3 + random.nextInt(n / 4)
 //		val pMiddleShuffle = n / 40
@@ -157,7 +165,8 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 			if (garbageAtLeast.isEmpty()) it else minOf(it, garbageAtLeast.last() - 1)
 		}
 		val p2 = n / 4 + random.nextInt(n / 4)
-		prepare("${garbageAtLeast.lastOrNull() ?: 0},$pGarbageCount,$p1,$p2")
+		prepare("${garbageAtLeast.lastOrNull() ?: 0},$pGarbageCount,$p1,$p2,$pCutBlock")
+
 		val garbageIndex = (0 until m).shuffled(random).take(garbageAtLeast.size)
 		for (i in garbageIndex) {
 			moveClever(a[i][0], furthest(0, garbageIndex))
@@ -226,7 +235,7 @@ private fun solve(input: List<List<Int>>): List<Pair<Int, Int>> {
 		}
 	} catch (_: TimeOutException) {
 	}
-	info { "$bestModeCode Score=$score" }
+	info { "$bestModeCode Score=$bestScore" }
 	return answer
 }
 
