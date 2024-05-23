@@ -12,6 +12,10 @@ private fun runAndVisualizeTheir(
 	val paddedAtcoderName = seed.toString().padStart(4, '0')
 	val toolsDir = Evaluator.projectFolder() + "/tools~"
 	Evaluator._inFile = File("$toolsDir/in", "$paddedAtcoderName.txt")
+	if (!Evaluator._inFile!!.exists()) {
+		File(toolsDir, "freshSeeds.txt").writeText((0..2 * Evaluator._seed.toInt() + 1).joinToString("\n") + "\n")
+		exec("${rustExe("gen")} freshSeeds.txt", toolsDir)
+	}
 	Evaluator.setOutFile()
 	var artifacts: List<Any>? = null
 	val theirLabels = mutableListOf<String>()
