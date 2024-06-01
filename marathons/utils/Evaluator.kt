@@ -156,19 +156,26 @@ private fun callVisualizerAndProcessor(visualizer: () -> Unit, processor: Proces
 		Evaluator.noteException(e)
 	}
 
+	if (Evaluator._outcomeTroubles.isNotEmpty()) logStream.println("\nTroubles: ${Evaluator._outcomeTroubles}")
+	logStream.println("\nScore: ${Evaluator._outcomeScore}\nMyScore: ${Evaluator._outcomeMyScore}")
 	logStream.close()
+	val logFileRenamed = File(Evaluator._outFolder, "${Evaluator._seed_padded}.log")
+	if (!Evaluator._useMyScore) {
+		require(java.lang.Double.isNaN(Evaluator._outcomeMyScore) || Evaluator._outcomeMyScore == Evaluator._outcomeScore)
+		Evaluator._outcomeMyScore = Evaluator._outcomeScore
+	}
 	if (java.lang.Double.isNaN(Evaluator._outcomeMyScore)) {
 		Evaluator._outcomeTroubles.add("${Evaluator._seed}\tDid not finish correctly: MyScore = NaN")
 	}
 	for (s in Evaluator._outcomeTroubles) {
-		Evaluator._allTroubles.add(Evaluator._seed.toString() + "\t" + s)
+		Evaluator._allTroubles.add(Evaluator._seed.toString() + "\t" + s + "\t\t" + linkToFile(Evaluator._outFile!!) + "\t" + linkToFile(logFileRenamed))
 	}
 	val appendWriter = PrintWriter(FileWriter(logFile, true));
 	for (obj in (Evaluator._outcomeLabels + Evaluator._outcomeArtifacts)) {
 		appendWriter.println(obj.toString().trim())
 	}
 	appendWriter.close()
-	logFile.renameTo(File(Evaluator._outFolder, "${Evaluator._seed_padded}.log").apply { delete() })
+	logFile.renameTo(logFileRenamed.apply { delete() })
 }
 
 fun evaluate(
