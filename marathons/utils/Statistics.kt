@@ -9,6 +9,7 @@ private val statTimed = mutableMapOf<Int, Long>()
 private var tests = 0
 private var sumScores = 0.0
 private var sumScores2 = 0.0
+private var scoreRange = mutableListOf<Pair<Double, Long>>()
 private var totalTime = 0L
 private var maxTime = 0L
 private var maxTimeTest = -1L
@@ -19,6 +20,7 @@ fun statClear() {
 	tests = 0
 	sumScores = 0.0
 	sumScores2 = 0.0
+	scoreRange.clear()
 	totalTime = 0L
 	maxTime = 0L
 	maxTimeTest = -1L
@@ -32,7 +34,7 @@ fun statPublish(sb: StringBuilder) {
 		val mean = sumScores / tests
 		val std = sqrt(sumScores2 / tests - mean * mean)
 		val scoreName = if (Evaluator._useMyScore) "MyScore" else "Score"
-		sb.append("(±").append(Evaluator.round(100 * std / mean, 2)).append("%)")
+		sb.append("(${scoreRange.joinToString("…")}, ±").append(Evaluator.round(100 * std / mean, 2)).append("%)")
 		sb.append("=========================== ").append(scoreName).append(" = ")
 		sb.append(if (mean > 1e5) mean.roundToLong() else Evaluator.round(mean, 2))
 		if (statTimed.isNotEmpty()) {
@@ -76,6 +78,12 @@ fun statNoteOutcomes(score: Double) {
 	tests++
 	sumScores += score
 	sumScores2 += score * score
+	if (scoreRange.isEmpty()) {
+		repeat(2) { scoreRange.add(score to Evaluator._seed) }
+	} else {
+		if (score < scoreRange[0].first) scoreRange[0] = score to Evaluator._seed
+		if (score > scoreRange[1].first) scoreRange[1] = score to Evaluator._seed
+	}
 	if (Evaluator._outcomeTime > maxTime) {
 		maxTime = Evaluator._outcomeTime
 		maxTimeTest = Evaluator._seed
