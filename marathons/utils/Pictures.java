@@ -124,7 +124,7 @@ public class Pictures {
 
 	public static void remind() {
 		if (mode) {
-			System.out.println("file://" + picsFile.getAbsolutePath());
+			System.out.println(ResourcesKt.linkToFile(picsFile));
 		}
 	}
 }

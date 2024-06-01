@@ -1,11 +1,15 @@
 package marathons.utils
 
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.PrintWriter
 import kotlin.concurrent.thread
 import kotlin.random.Random
 import kotlin.random.nextULong
 
 fun resourcePrefix() = "res/" + Evaluator._project + "/"
+
+fun linkToFile(f: File) = "file://${f.absolutePath}"
 
 fun extensionOfFile(f: File) = f.extension
 
