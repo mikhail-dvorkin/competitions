@@ -7,7 +7,7 @@ fun main() {
 	val inThreeConveyTwo = false; val voteForOne = true
 	val bits = 31; val taintedCount = 15; val verbose = true
 	val stats = mutableMapOf<Int, Int>()
-	val iters = 100_000
+	val iters = 1_000_000
 	for (seed in 0 until iters) {
 		val r = Random(seed)
 		var totalLost = 0
@@ -98,23 +98,56 @@ fun main() {
 	val averageScore = stats.entries.sumOf { it.key.toLong() * it.value } * 1.0 / iters
 	println("Stats: ${stats.toSortedMap()}, average: $averageScore")
 
-	var badCount = 0
-	val p = cnk(30, 15) * 1.0 / (1L shl 32)
+	var badLeftCount = 0
+	var badRightCount = 0
+	var badHelperCount = 0
+	val p = cnk(30, 15) * 1.0 / (1L shl 31)
 	println(p)
+	val bitsForHelper = 2
+	val helperStats = mutableMapOf<Int, Int>()
+	val helperStatsWithPos = mutableMapOf<Int, Int>()
 	for (seed in 0 until iters) {
 		val r = Random(seed)
 		val tainted = BooleanArray(bits) { it < taintedCount }.also { it.shuffle(r) }
-		var bad = false
+		var badLeft = false
 		for (i in tainted.indices) {
 			if (!tainted[i]) break
-			if (r.nextDouble() < p) {
-				bad = true
+			if (r.nextDouble() < p / (1 shl i)) {
+				badLeft = true
 				break
 			}
 		}
-		if (bad) badCount++
+		var badRight = false
+		val main = tainted.indexOfFirst { !it }
+		for (i in main + 1 until tainted.size) {
+			if (r.nextDouble() < p / (1 shl i)) {
+				badRight = true
+				break
+			}
+		}
+		var candidates = 1
+		var mainPosition = -1
+		for (i in tainted.indices) {
+			if (i == main) {
+				mainPosition = candidates - 1
+				continue
+			}
+			if (i <= 15 && r.nextDouble() < cnk(30 - i, 15) * 1.0 / (1L shl (31 - bitsForHelper))) {
+				candidates++
+			}
+		}
+		helperStats[candidates] = helperStats.getOrDefault(candidates, 0) + 1
+		val candidatesAndPosition = candidates * 10 + mainPosition
+		helperStatsWithPos[candidatesAndPosition] = helperStatsWithPos.getOrDefault(candidatesAndPosition, 0) + 1
+		if (badLeft) badLeftCount++
+		if (badRight) badRightCount++
+		if (mainPosition >= (1 shl bitsForHelper)) badHelperCount++
 	}
-	println(66 + badCount / iters.toDouble())
+	println(66 + badLeftCount / iters.toDouble())
+	println(66 + badRightCount / iters.toDouble())
+	println(helperStats.toSortedMap())
+	println(helperStatsWithPos.toSortedMap())
+	println(66 + badHelperCount / iters.toDouble())
 }
 
 fun factorial(n: Int): BigInteger = if (n == 0) BigInteger.ONE else factorial(n - 1) * n.toBigInteger()
