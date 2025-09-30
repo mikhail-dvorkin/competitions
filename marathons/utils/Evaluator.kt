@@ -156,9 +156,8 @@ private fun callVisualizerAndProcessor(visualizer: () -> Unit, processor: Proces
 		Evaluator.noteException(e)
 	}
 
-	if (Evaluator._outcomeTroubles.isNotEmpty()) logStream.println("\nTroubles: ${Evaluator._outcomeTroubles}")
-	logStream.println("\nScore: ${Evaluator._outcomeScore}\nMyScore: ${Evaluator._outcomeMyScore}")
 	logStream.close()
+	System.setErr(Evaluator._originalErrorStream)
 	val logFileRenamed = File(Evaluator._outFolder, "${Evaluator._seed_padded}.log")
 	if (!Evaluator._useMyScore) {
 		require(java.lang.Double.isNaN(Evaluator._outcomeMyScore) || Evaluator._outcomeMyScore == Evaluator._outcomeScore)
@@ -174,6 +173,8 @@ private fun callVisualizerAndProcessor(visualizer: () -> Unit, processor: Proces
 	for (obj in (Evaluator._outcomeLabels + Evaluator._outcomeArtifacts)) {
 		appendWriter.println(obj.toString().trim())
 	}
+	if (Evaluator._outcomeTroubles.isNotEmpty()) appendWriter.println("\nTroubles: ${Evaluator._outcomeTroubles}")
+	appendWriter.println("\nScore: ${Evaluator._outcomeScore}\nMyScore: ${Evaluator._outcomeMyScore}")
 	appendWriter.close()
 	logFile.renameTo(logFileRenamed.apply { delete() })
 }
@@ -211,6 +212,6 @@ fun evaluate(
 	println(sb)
 	if (Pictures.mode) Pictures.write(sb)
 	Pictures.remind()
-	if (Evaluator._allTroubles.isNotEmpty()) System.err.println("TROUBLES!")
+	if (Evaluator._allTroubles.isNotEmpty()) Evaluator._originalErrorStream.println("TROUBLES!")
 	if (Evaluator._exitAfter) exitProcess(0)
 }
