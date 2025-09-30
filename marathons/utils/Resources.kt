@@ -7,18 +7,14 @@ import kotlin.concurrent.thread
 import kotlin.random.Random
 import kotlin.random.nextULong
 
+val isWindows = System.getProperty("os.name").lowercase().startsWith("windows")
+val tempDir = File(System.getProperty("java.io.tmpdir"))
+val tempDirString = if (isWindows) "%TMP%\\" else "/tmp/"
 fun resourcePrefix() = "res/" + Evaluator._project + "/"
-
 fun linkToFile(f: File) = "file://${f.absolutePath}"
-
 fun extensionOfFile(f: File) = f.extension
-
-fun redirectorCommand(pipeName: String): String {
-	return "java -cp %TMP%\\$pipeName.jar RedirectorKt $pipeName"
-}
-
+fun redirectorCommand(pipeName: String) = "java -cp $tempDirString$pipeName.jar RedirectorKt $pipeName"
 fun getPipePrefix() = if (isWindows) "\\\\.\\pipe\\" else "/tmp/"
-
 val randomForPipeNames = Random(System.currentTimeMillis())
 
 fun <T> runViaRedirector(server: (String) -> T, solution: (BufferedReader, PrintWriter) -> List<Any>?): Pair<T, List<Any>?> {
@@ -36,7 +32,10 @@ fun <T> runViaRedirector(server: (String) -> T, solution: (BufferedReader, Print
 		output.close()
 	}
 	val redirectorJar = File(tempDir, "redirector.jar")
-	require(redirectorJar.exists()) { "Compile redirector and put in into $tempDir" }
+	require(redirectorJar.exists()) { "Compile redirector and put in into $tempDir\n" +
+			"cd pipesKt\n" +
+			"./gradlew build\n" +
+			"cp build/libs/visualizer-1.0.0-all.jar /tmp/redirector.jar" }
 	val tempJar = File(tempDir, "$pipeName.jar")
 	redirectorJar.copyTo(tempJar)
 	val serverOutput = server(pipeName)
@@ -78,11 +77,17 @@ fun File.changeHtmlToSvg(): File {
 	return newFile
 }
 
-val isWindows = System.getProperty("os.name").lowercase().startsWith("windows")
-val tempDir = File(System.getProperty("java.io.tmpdir"))
-
 fun exec(command: String, dir: String): Pair<String, String> {
-	val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
+//	System.err.println("Running\n$command")
+	val viaSh = true
+	val processBuilder = if (!isWindows && viaSh) {
+		val sh = File(dir, "temp.sh")
+		sh.writeText("#!/bin/bash\n$command")
+		sh.setExecutable(true)
+		ProcessBuilder("./${sh.name}").directory(File(dir))
+	} else {
+		ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
+	}
 	val process = processBuilder.start()
 	val output = process.inputStream.reader().readText()
 	val error = process.errorStream.reader().readText()
