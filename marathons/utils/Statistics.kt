@@ -27,10 +27,10 @@ fun statClear() {
 }
 
 fun statPublish(sb: StringBuilder) {
-	stat.forEach { (key, list) ->
-		sb.append("$key\t${list.average()}\n")
-	}
 	if (tests > 0) {
+		stat.forEach { (key, list) ->
+			sb.append("$key\t${list.sum() / tests}\n")
+		}
 		val mean = sumScores / tests
 		val std = sqrt(sumScores2 / tests - mean * mean)
 		val scoreName = if (Evaluator._useMyScore) "MyScore" else "Score"
@@ -57,8 +57,15 @@ fun statPublish(sb: StringBuilder) {
 
 fun statNoteArtifacts() {
 	for (obj in Evaluator._outcomeArtifacts) {
+		if (obj == "FAIL") {
+			Evaluator._outcomeTroubles.add(obj.toString())
+			stat.getOrPut(obj.toString()) { mutableListOf() }.add(1.0)
+			continue
+		}
 		try {
 			@Suppress("UNCHECKED_CAST") val pair = obj as Pair<String, Double>
+			require(pair.first is String)
+			require(pair.second is Double)
 			stat.getOrPut(pair.first) { mutableListOf() }.add(pair.second)
 		} catch (_: Exception) {
 		}
