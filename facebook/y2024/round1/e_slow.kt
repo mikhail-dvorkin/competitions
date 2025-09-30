@@ -1,6 +1,6 @@
 package facebook.y2024.round1
 
-private fun solve(): Modular {
+private fun solve(): ModularE {
 	val n = readInt()
 	val s = List(n) { readln() }
 	val p1 = 1.toModularUnsafe()
@@ -49,16 +49,16 @@ private fun solve(): Modular {
 
 @JvmInline
 @Suppress("NOTHING_TO_INLINE")
-private value class Modular(val x: Int) {
+private value class ModularE(val x: Int) {
 	companion object {
 		const val M = 998_244_353; val MOD_BIG_INTEGER = M.toBigInteger()
 	}
-	inline operator fun plus(that: Modular) = Modular((x + that.x).let { if (it >= M) it - M else it })
-	inline operator fun minus(that: Modular) = Modular((x - that.x).let { if (it < 0) it + M else it })
-	inline operator fun times(that: Modular) = Modular((x.toLong() * that.x % M).toInt())
-	inline operator fun div(that: Modular) = times(that.inverse())
-	inline fun inverse() = Modular(x.toBigInteger().modInverse(MOD_BIG_INTEGER).toInt())
-	fun pow(p: Int): Modular {
+	inline operator fun plus(that: ModularE) = ModularE((x + that.x).let { if (it >= M) it - M else it })
+	inline operator fun minus(that: ModularE) = ModularE((x - that.x).let { if (it < 0) it + M else it })
+	inline operator fun times(that: ModularE) = ModularE((x.toLong() * that.x % M).toInt())
+	inline operator fun div(that: ModularE) = times(that.inverse())
+	inline fun inverse() = ModularE(x.toBigInteger().modInverse(MOD_BIG_INTEGER).toInt())
+	fun pow(p: Int): ModularE {
 		if (p == 0) return 1.toModularUnsafe()
 		if (p == 1) return this
 		if (p % 2 != 0) return this.times(this.pow(p - 1))
@@ -67,22 +67,22 @@ private value class Modular(val x: Int) {
 	}
 	override fun toString() = x.toString()
 }
-private fun Int.toModularUnsafe() = Modular(this)
-private fun Int.toModular() = Modular(if (this >= 0) { if (this < Modular.M) this else this % Modular.M } else { Modular.M - 1 - inv() % Modular.M })
-private fun Long.toModular() = Modular((if (this >= 0) { if (this < Modular.M) this else this % Modular.M } else { Modular.M - 1 - inv() % Modular.M }).toInt())
-private fun java.math.BigInteger.toModular() = Modular(mod(Modular.MOD_BIG_INTEGER).toInt())
-private fun String.toModular() = Modular(fold(0L) { acc, c -> (c - '0' + 10 * acc) % Modular.M }.toInt())
+private fun Int.toModularUnsafe() = ModularE(this)
+private fun Int.toModular() = ModularE(if (this >= 0) { if (this < ModularE.M) this else this % ModularE.M } else { ModularE.M - 1 - inv() % ModularE.M })
+private fun Long.toModular() = ModularE((if (this >= 0) { if (this < ModularE.M) this else this % ModularE.M } else { ModularE.M - 1 - inv() % ModularE.M }).toInt())
+private fun java.math.BigInteger.toModular() = ModularE(mod(ModularE.MOD_BIG_INTEGER).toInt())
+private fun String.toModular() = ModularE(fold(0L) { acc, c -> (c - '0' + 10 * acc) % ModularE.M }.toInt())
 
 @JvmInline
-private value class ModularArray(val data: IntArray) {
+private value class ModularArrayE(val data: IntArray) {
 	operator fun get(index: Int) = data[index].toModularUnsafe()
-	operator fun set(index: Int, value: Modular) { data[index] = value.x }
+	operator fun set(index: Int, value: ModularE) { data[index] = value.x }
 	fun sum() =	data.sumOf { it.toLong() }.toModular()
 }
-private inline fun ModularArray(n: Int, init: (Int) -> Modular) = ModularArray(IntArray(n) { init(it).x })
+private inline fun ModularArray(n: Int, init: (Int) -> ModularE) = ModularArrayE(IntArray(n) { init(it).x })
 
 private val factorials = mutableListOf(1.toModularUnsafe())
-private fun factorial(n: Int): Modular {
+private fun factorial(n: Int): ModularE {
 	while (n >= factorials.size) factorials.add(factorials.last() * factorials.size.toModularUnsafe())
 	return factorials[n]
 }
