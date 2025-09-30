@@ -35,7 +35,7 @@ private fun runAndVisualizeTheir(
 				runViaRedirector(::server, solution)
 					.also { artifacts = it.second }.first
 			}
-			theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
+			theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n").filter { it.isNotEmpty() }.map { it.trim() })
 		} else {
 			val out = Evaluator._outFile!!.printWriter()
 			artifacts = solution(Evaluator._inFile!!.bufferedReader(), out)
@@ -56,7 +56,7 @@ private fun runAndVisualizeTheir(
 
 		val command = "${rustExe("vis")} ${Evaluator._inFile!!.absolutePath} ${Evaluator._outFile!!.absolutePath}"
 		val (output, error) = exec(command, toolsDir)
-		theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n"))
+		theirLabels.addAll((output.trim() + "\n" + error.trim()).trim().split("\n").filter { it.isNotEmpty() }.map { it.trim() })
 		output.toIntOrNull()?.also { theirLabels.add("score=$it") }
 
 		val imageFiles = possibleImageFiles.filter { it.exists() }
@@ -116,4 +116,5 @@ fun atcoderVisualizer(
 fun rustExe(programName: String) = if (isWindows)
 	"cmd /c windows\\$programName.exe"
 else
-	"cargo run --release --bin $programName"
+	"env RUSTFLAGS=-Awarnings cargo run -q --release --bin $programName"
+//	"cargo run --release --bin $programName"
