@@ -17,7 +17,7 @@ private val VERBOSE = !SUBMIT
 private var log: PrintWriter? = null
 val troubles = mutableListOf<String>()
 @Suppress("ComplexRedundantLet")
-private val TIME_LIMIT = 3_000 - 250
+private val TIME_LIMIT = (3_000 - 250)
 	.let { it * marathons.utils.Evaluator.localTimeCoefficient((::solve).javaClass) } // TESTING
 private var timeStart = 0L
 private fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT

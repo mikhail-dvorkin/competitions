@@ -14,7 +14,9 @@ private val EVALUATOR: (() -> Unit)
 private val SUBMIT = EVALUATOR == null
 val VERBOSE = !SUBMIT
 private val artifacts: MutableList<Any>? = if (VERBOSE) mutableListOf() else null
-private const val TIME_LIMIT = 1_000 - 150
+@Suppress("ComplexRedundantLet")
+private val TIME_LIMIT = (1_000 - 150)
+	.let { it * marathons.utils.Evaluator.localTimeCoefficient((::solve).javaClass) } // TESTING
 private var timeStart = 0L
 private fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
 private fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= threshold) throw TimeOutException() }

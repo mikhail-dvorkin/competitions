@@ -10,9 +10,10 @@ private val EVALUATOR: (() -> Unit)
 @Suppress("SENSELESS_COMPARISON")
 private val SUBMIT = EVALUATOR == null
 val VERBOSE = !SUBMIT
-private const val TIME_LIMIT = 2_000 - 120
+@Suppress("ComplexRedundantLet")
+private val TIME_LIMIT = (2_000 - 120)
+	.let { it * marathons.utils.Evaluator.localTimeCoefficient((::solve).javaClass) } // TESTING
 private var timeStart = 0L
-// TODO timeLimit *= Template._localTimeCoefficient
 private fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
 private fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= threshold) throw TimeOutException() }
 

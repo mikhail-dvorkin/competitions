@@ -11,9 +11,10 @@ val EVALUATOR: Callable<Void?>
 //		?= null //SUBMISSION
 @Suppress("SENSELESS_COMPARISON")
 val SUBMIT = EVALUATOR == null
-const val TIME_LIMIT = 6000 - 200
+@Suppress("ComplexRedundantLet")
+val TIME_LIMIT = (6000 - 200)
+	.let { it * marathons.utils.Evaluator.localTimeCoefficient((::solve).javaClass) } // TESTING
 var timeStart: Long = 0
-// TODO timeLimit *= Template._localTimeCoefficient
 fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
 
 /**

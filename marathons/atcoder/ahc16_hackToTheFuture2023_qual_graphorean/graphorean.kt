@@ -8,7 +8,9 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
 val submit = System.getProperty("sun.java.command", "").contains("MainKt")
-const val TIME_LIMIT = 5000 - 250
+@Suppress("ComplexRedundantLet")
+val TIME_LIMIT = (5000 - 250)
+	.let { it * marathons.utils.Evaluator.localTimeCoefficient((::solve).javaClass) } // TESTING
 const val max_n = 100
 const val max_m = 100
 const val min_n = 4

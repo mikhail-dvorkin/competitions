@@ -15,9 +15,10 @@ val EVALUATOR: Callable<Void?>
 val SUBMIT = EVALUATOR == null
 val VERBOSE = !SUBMIT
 private var log: PrintWriter? = null
-const val TIME_LIMIT = 2000 - 150
-var timeStart = 0L
-// TODO timeLimit *= Template._localTimeCoefficient
+@Suppress("ComplexRedundantLet")
+private val TIME_LIMIT = (2000 - 150)
+	.let { it * marathons.utils.Evaluator.localTimeCoefficient((::solve).javaClass) } // TESTING
+private var timeStart = 0L
 fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
 fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= threshold) throw TimeOutException() }
 
