@@ -17,7 +17,7 @@ public class Pictures {
 	static File picsFile = new File("pics~.html");
 	static String format = "png";
 	private static PrintWriter html;
-	public static int width = 1000, height = 800, infoFontWidth = 12, infoFontHeight = 12;
+	public static final int width = 1000, height = 800, infoFontWidth = 12, infoFontHeight = 12;
 	static Map<Long, Integer> seedFrame = new HashMap<>();
 
 	public static void init() {
