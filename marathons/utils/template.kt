@@ -12,11 +12,12 @@ private val SUBMIT = EVALUATOR == null
 private val VERBOSE = !SUBMIT
 private var log: PrintWriter? = null
 @Suppress("ComplexRedundantLet")
-private val TIME_LIMIT = 2_000.also { TODO() } - 150
+private val TIME_LIMIT = (2_000.also { TODO() } - 150)
 	.let { it * marathons.utils.Evaluator.localTimeCoefficient((::solve).javaClass) } // TESTING
 private var timeStart = 0L
 private fun timePassed() = (System.currentTimeMillis() - timeStart) * 1.0 / TIME_LIMIT
 private fun checkTimeLimit(threshold: Double = 1.0) { if (timePassed() >= threshold) throw TimeOutException() }
+private class TimeOutException : RuntimeException()
 
 private fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 	if (VERBOSE) log = PrintWriter(File("current~.log").writer(), true)
@@ -29,13 +30,6 @@ private fun solve(input: Int, toVisualize: MutableList<Any>?): Int {
 	return input
 }
 
-private class TimeOutException : RuntimeException()
-
-fun BufferedReader.readln() = readLine()!!
-fun BufferedReader.readStrings() = readln().split(" ")
-fun BufferedReader.readInt() = readln().toInt()
-fun BufferedReader.readInts() = readStrings().map { it.toInt() }
-
 private fun solveIO(`in`: BufferedReader, out: PrintWriter): List<Any>? {
 	val toVisualize = if (SUBMIT) null else mutableListOf<Any>()
 	val n = `in`.readInt()
@@ -44,6 +38,11 @@ private fun solveIO(`in`: BufferedReader, out: PrintWriter): List<Any>? {
 	out.close()
 	return toVisualize
 }
+
+fun BufferedReader.readln() = readLine()!!
+fun BufferedReader.readStrings() = readln().split(" ")
+fun BufferedReader.readInt() = readln().toInt()
+fun BufferedReader.readInts() = readStrings().map { it.toInt() }
 
 private inline fun log(msg: () -> Any?) { log?.println(msg()) }
 private inline fun info(msg: () -> Any?) { if (VERBOSE) msg().also { print("$it\t"); log { it } } }
