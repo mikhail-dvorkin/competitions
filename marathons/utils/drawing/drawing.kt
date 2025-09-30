@@ -7,7 +7,7 @@ import java.awt.Color
  * Can change.
  * Blue is too similar to black.
  */
-fun colorDiscrete(x: Int) = when(x) {
+fun colorDiscrete(x: Int): Color = when(x) {
 	0 -> Color.BLACK
 	1 -> Color.RED
 	2 -> Color.GREEN
