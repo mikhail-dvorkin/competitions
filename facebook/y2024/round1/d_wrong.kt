@@ -70,12 +70,12 @@ private fun java.math.BigInteger.toModular() = ModularD(mod(ModularD.MOD_BIG_INT
 private fun String.toModular() = ModularD(fold(0L) { acc, c -> (c - '0' + 10 * acc) % ModularD.M }.toInt())
 
 @JvmInline
-private value class ModularArray(val data: IntArray) {
+private value class ModularArrayD(val data: IntArray) {
 	operator fun get(index: Int) = data[index].toModularUnsafe()
 	operator fun set(index: Int, value: ModularD) { data[index] = value.x }
 	fun sum() =	data.sumOf { it.toLong() }.toModular()
 }
-private inline fun ModularArray(n: Int, init: (Int) -> ModularD) = ModularArray(IntArray(n) { init(it).x })
+private inline fun ModularArray(n: Int, init: (Int) -> ModularD) = ModularArrayD(IntArray(n) { init(it).x })
 
 private val factorials = mutableListOf(1.toModularUnsafe())
 private fun factorial(n: Int): ModularD {

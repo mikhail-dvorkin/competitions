@@ -7,7 +7,7 @@ import java.util.*
 import kotlin.math.abs
 import kotlin.random.Random
 
-private val TO_EVAL = (0 until 10).let { listOf(3) }
+private val TO_EVAL = (0 until 10)//.let { listOf(3) }
 private val EVALUATOR: (() -> Unit)
 		= { marathons.utils.evaluate(marathons.utils.atcoder.atcoderVisualizer(::solveIO), TO_EVAL) } //TESTING
 //		?= null //SUBMISSION
