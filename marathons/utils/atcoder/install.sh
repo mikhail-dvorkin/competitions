@@ -27,7 +27,7 @@ if [ -n "$NUM_TESTS" ]; then
 	done
 fi
 cargo update
-cargo build
+cargo build --release
 cargo run --release --bin gen < seeds.txt
 cargo run --release --bin gen seeds.txt
 cargo run --release --bin vis example.in example.out
