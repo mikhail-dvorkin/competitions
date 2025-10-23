@@ -1,6 +1,6 @@
 package codeforces.round1028
 
-private fun solve() {
+private fun solve(): Double {
 	val (n, m, p100) = readInts()
 	val h = readInts().sorted().map { it - 1 }
 	val p = p100 / 100.0
@@ -11,10 +11,15 @@ private fun solve() {
 		dpEven[0][0][k] = 1.0
 	}
 	for (i in 0..h[0]) {
-		val ip = maxOf(i - 1, 0)
-		if (i > 0) for (k in 1..m) {
-			dpEven[i][0][k] = p * dpEven[ip][0][k - 1] + q * maxOf(dpEven[i][0][k - 1], dpEven[i - 1][n - 1][k - 1])
+		if (i > 0) {
+			val d1 = dpEven[i][0]
+			val d2 = dpEven[i - 1][0]
+			val d3 = dpEven[i - 1][n - 1]
+			for (k in 1..m) {
+				d1[k] = p * d2[k - 1] + q * maxOf(d1[k - 1], d3[k - 1])
+			}
 		}
+		val ip = maxOf(i - 1, 0)
 		for (j in 1 until n) {
 			val d1 = dpEven[i][j]
 			val d2 = dpEven[ip][j]
@@ -26,10 +31,7 @@ private fun solve() {
 	}
 
 	val extras = h.sumOf { it - h[0] }
-	if (extras > m) {
-		println(0.0)
-		return
-	}
+	if (extras > m) return 0.0
 
 	val dp = List(m + 1) { DoubleArray(extras + 1) }
 	for (k in 0..m) {
@@ -47,12 +49,11 @@ private fun solve() {
 			dpk[i] = p * dpk1[i] + q * dpk1[i - 1]
 		}
 	}
-	println(dp[m][extras])
+	return dp[m][extras]
 }
 
-fun main() = repeat(readInt()) { solve() }
+fun main() = repeat(readInt()) { println(solve()) }
 
-private fun readLn() = readLine()!!
-private fun readInt() = readLn().toInt()
-private fun readStrings() = readLn().split(" ")
+private fun readInt() = readln().toInt()
+private fun readStrings() = readln().split(" ")
 private fun readInts() = readStrings().map { it.toInt() }
