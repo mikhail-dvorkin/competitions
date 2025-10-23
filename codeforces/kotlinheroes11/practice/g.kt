@@ -20,7 +20,7 @@ private fun solve() {
 			toCheck.add(prev[x])
 			toCheck.add(next[x])
 		}
-		toCheck = toCheck.toSet().minus(die.toSet()).minus(0).minus(a.lastIndex).toMutableList()
+		toCheck = toCheck.toSet().minus(die.toSet().plus(0).plus(a.lastIndex)).toMutableList()
 		out.append("${die.size} ")
 	}
 	out.appendLine()
