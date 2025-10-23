@@ -86,7 +86,13 @@ fun exec(command: String, dir: String): Pair<String, String> {
 		sh.setExecutable(true)
 		ProcessBuilder("./${sh.name}").directory(File(dir))
 	} else {
-		ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
+		// WIP
+		val sh = File(dir, "temp2.sh")
+		Evaluator._originalErrorStream.println(command)
+		sh.writeText("#!/bin/bash\ngnome-terminal -- bash -c \"echo 123 ; read -p \\\"press enter\\\" ; exec bash\"")
+		sh.setExecutable(true)
+		ProcessBuilder("./${sh.name}").directory(File(dir))
+//		ProcessBuilder(*command.split(" ").toTypedArray()).directory(File(dir))
 	}
 	val process = processBuilder.start()
 	val output = process.inputStream.reader().readText()
