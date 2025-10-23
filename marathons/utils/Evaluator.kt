@@ -72,15 +72,12 @@ class Evaluator(
 		var _interactor: (() -> List<Any>?)? = null
 		@JvmStatic
 		fun settings(): Properties {
+			val settings = Properties()
 			try {
-				FileReader("settings~.cfg").use { reader ->
-					val settings = Properties()
-					settings.load(reader)
-					return settings
-				}
-			} catch (e: IOException) {
-				throw RuntimeException(e)
+				FileReader("settings~.cfg").use { settings.load(it) }
+			} catch (_: IOException) {
 			}
+			return settings
 		}
 
 		fun projectFolder() = _project!!.replace(".", "/")
@@ -98,7 +95,7 @@ class Evaluator(
 
 		@JvmStatic
 		fun localTimeCoefficient(): Double {
-			return settings().getProperty("localTimeCoefficient").toDouble()
+			return settings().getProperty("localTimeCoefficient", "1").toDouble()
 		}
 
 		fun <T> localTimeCoefficient(clazz: Class<T>): Double {
