@@ -34,20 +34,20 @@ private fun solve(n: Int, k: Int): String {
 		}
 	}
 
-val parts = mutableListOf<List<Int>>()
-while (alive.isNotEmpty()) {
-	val vInit = alive.minBy { nei[it].size }
-	val comp = mutableListOf(vInit)
-	remove(vInit)
-	while (comp.size < k) {
-		val candidates = comp.flatMap { nei[it] }.toSet().intersect(alive)
-		if (candidates.isEmpty()) break
-		val v = candidates.minBy { nei[it].size * n + it / n + it % n }
-		comp.add(v)
-		remove(v)
+	val parts = mutableListOf<List<Int>>()
+	while (alive.isNotEmpty()) {
+		val vInit = alive.minBy { nei[it].size }
+		val comp = mutableListOf(vInit)
+		remove(vInit)
+		while (comp.size < k) {
+			val candidates = comp.flatMap { nei[it] }.toSet().intersect(alive)
+			if (candidates.isEmpty()) break
+			val v = candidates.minBy { nei[it].size * n + it / n + it % n }
+			comp.add(v)
+			remove(v)
+		}
+		parts.add(comp)
 	}
-	parts.add(comp)
-}
 	if (partsTheory != parts.size) {
 		System.err.println("$n $k $partsTheory to ${parts.size}")
 	}
