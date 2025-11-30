@@ -26,7 +26,7 @@ private fun solve(n: Int, k: Int): String {
 			nei[v].add(u)
 		}
 	}
-	val nei2 = nei.map { it.toList() }
+	val neiCopy = nei.map { it.toList() }
 	fun remove(v: Int) {
 		alive.remove(v)
 		for (u in nei[v]) {
@@ -51,6 +51,7 @@ private fun solve(n: Int, k: Int): String {
 	if (partsTheory != parts.size) {
 		System.err.println("$n $k $partsTheory to ${parts.size}")
 	}
+
 	val where = IntArray(n * n) { -1 }
 	for (i in parts.indices) {
 		for (v in parts[i]) where[v] = i
@@ -58,11 +59,12 @@ private fun solve(n: Int, k: Int): String {
 	val color = IntArray(parts.size) { -1 }
 	for (i in parts.indices) {
 		val neiColors = mutableSetOf<Int>()
-		for (v in parts[i]) for (u in nei2[v]) {
+		for (v in parts[i]) for (u in neiCopy[v]) {
 			neiColors.add(color[where[u]])
 		}
 		color[i] = (0 until 26).first { it !in neiColors }
 	}
+
 	val sb = StringBuilder()
 	sb.append(parts.size)
 	for (y in n - 1 downTo 0) {
@@ -77,14 +79,11 @@ private fun solve(n: Int, k: Int): String {
 val DX = intArrayOf(1, 0, -1, 0)
 val DY = intArrayOf(0, 1, 0, -1)
 
+private infix fun Int.ceilDiv(other: Int) = (this + other - 1) / other
+
 private data class InputA(val n: Int, val k: Int)
 
-private fun solve(input: InputA): String {
-	val (n, k) = input
-	return solve(n, k)
-}
-
-private infix fun Int.ceilDiv(other: Int) = (this + other - 1) / other
+private fun solve(input: InputA) = solve(input.n, input.k)
 
 private fun read(): InputA {
 	val (n, k) = readInts()
