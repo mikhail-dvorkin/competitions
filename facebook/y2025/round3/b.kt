@@ -4,7 +4,6 @@ import java.io.File
 import java.io.PrintWriter
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
-import kotlin.math.min
 import kotlin.system.exitProcess
 
 private data class InputB(val a: List<Int>, val b: List<Int>)
@@ -14,20 +13,16 @@ private fun solve(input: InputB): Long {
 	val a = aIn.map { it.toLong() }
 	val n = a.size
 	val aPref = a.scan(0, Long::plus)
-	val temp = IntArray(n + 1)
 	val dp = List(n + 1) { i -> LongArray(i + 1) { aPref[i] } }
-	dp[0][0] = 0
 	for (i in 0 until n) {
-		for (len in b[i]..i) {
-			dp[i + 1][len] = dp[i][len]
-		}
-		temp.fill(0)
+		val temp = IntArray(i + 1)
 		for (j in 0..i) {
 			val pos = i + b[j] - j - 1
 			if (pos >= 0) temp[pos] = maxOf(temp[pos], b[j])
 		}
 		var need = 0
 		for (len in i downTo 0) {
+			if (len >= b[i]) dp[i + 1][len] = dp[i][len]
 			dp[i + 1][len] = minOf(dp[i + 1][len], dp[i + 1][len + 1])
 			need = maxOf(need, temp[len])
 //			for (j in i + 1 - len..i) if (len <= i + b[j] - j - 1) need = maxOf(need, b[j])
@@ -63,7 +58,7 @@ fun main() {
 		}
 	}
 	try {
-		val nThreadsActual = min(nThreads, tests)
+		val nThreadsActual = minOf(nThreads, tests)
 		if (nThreadsActual > 1) {
 			val executor = Executors.newFixedThreadPool(nThreadsActual)
 			val outputs = callables.map { executor.submit(it) }.map { it.get() }

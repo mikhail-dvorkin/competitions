@@ -4,7 +4,6 @@ import java.io.File
 import java.io.PrintWriter
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
-import kotlin.math.min
 import kotlin.system.exitProcess
 
 private fun solve(n: Int, k: Int): String {
@@ -118,7 +117,7 @@ fun main() {
 		}
 	}
 	try {
-		val nThreadsActual = min(nThreads, tests)
+		val nThreadsActual = minOf(nThreads, tests)
 		if (nThreadsActual > 1) {
 			val executor = Executors.newFixedThreadPool(nThreadsActual)
 			val outputs = callables.map { executor.submit(it) }.map { it.get() }
